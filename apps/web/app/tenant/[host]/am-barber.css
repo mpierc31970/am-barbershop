@@ -83,8 +83,8 @@
 
 /* ---- Front-page hero: the logo alone, centred on the first screen ----
  * Scoped to the hero (the first section with an h1 and a hero image). The h1 stays in the
- * markup for screen readers and search, visually hidden. Behind the logo: a faint cluster of five
- * connected octagon tube lights (the shop's ceiling; one inline SVG, upper left) and the logo's own
+ * markup for screen readers and search, visually hidden. Behind the logo: a faint cross of five
+ * connected octagon tube lights (the shop's ceiling; one inline SVG, centred) and the logo's own
  * neon spilling onto the wall, red behind the A, blue behind the M, tinting the lines near it. */
 [data-site="am-barber"]
   main
@@ -101,12 +101,13 @@
   > section:first-child:has(h1):has(.order-first img)::before {
   content: "";
   position: absolute;
-  top: clamp(8px, 3vw, 40px);
-  left: 1%;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
   z-index: -2;
-  width: min(46vw, 460px);
-  aspect-ratio: 306 / 209;
-  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20306%20209%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23c8c8d0%22%20stroke-width%3D%222%22%20vector-effect%3D%22non-scaling-stroke%22%3E%3Cpolygon%20points%3D%2236.3%2C8.0%2076.3%2C8.0%20104.6%2C36.3%20104.6%2C76.3%2076.3%2C104.6%2036.3%2C104.6%208.0%2C76.3%208.0%2C36.3%22%2F%3E%3Cpolygon%20points%3D%22132.9%2C8.0%20172.9%2C8.0%20201.1%2C36.3%20201.1%2C76.3%20172.9%2C104.6%20132.9%2C104.6%20104.6%2C76.3%20104.6%2C36.3%22%2F%3E%3Cpolygon%20points%3D%2236.3%2C104.6%2076.3%2C104.6%20104.6%2C132.9%20104.6%2C172.9%2076.3%2C201.1%2036.3%2C201.1%208.0%2C172.9%208.0%2C132.9%22%2F%3E%3Cpolygon%20points%3D%22132.9%2C104.6%20172.9%2C104.6%20201.1%2C132.9%20201.1%2C172.9%20172.9%2C201.1%20132.9%2C201.1%20104.6%2C172.9%20104.6%2C132.9%22%2F%3E%3Cpolygon%20points%3D%22229.4%2C104.6%20269.4%2C104.6%20297.7%2C132.9%20297.7%2C172.9%20269.4%2C201.1%20229.4%2C201.1%20201.1%2C172.9%20201.1%2C132.9%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")
+  width: min(96vw, 860px);
+  aspect-ratio: 1;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20306%20306%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23c8c8d0%22%20stroke-width%3D%222%22%20vector-effect%3D%22non-scaling-stroke%22%3E%3Cpolygon%20points%3D%22132.9%2C8.0%20172.9%2C8.0%20201.1%2C36.3%20201.1%2C76.3%20172.9%2C104.6%20132.9%2C104.6%20104.6%2C76.3%20104.6%2C36.3%22%2F%3E%3Cpolygon%20points%3D%2236.3%2C104.6%2076.3%2C104.6%20104.6%2C132.9%20104.6%2C172.9%2076.3%2C201.1%2036.3%2C201.1%208.0%2C172.9%208.0%2C132.9%22%2F%3E%3Cpolygon%20points%3D%22132.9%2C104.6%20172.9%2C104.6%20201.1%2C132.9%20201.1%2C172.9%20172.9%2C201.1%20132.9%2C201.1%20104.6%2C172.9%20104.6%2C132.9%22%2F%3E%3Cpolygon%20points%3D%22229.4%2C104.6%20269.4%2C104.6%20297.7%2C132.9%20297.7%2C172.9%20269.4%2C201.1%20229.4%2C201.1%20201.1%2C172.9%20201.1%2C132.9%22%2F%3E%3Cpolygon%20points%3D%22132.9%2C201.1%20172.9%2C201.1%20201.1%2C229.4%20201.1%2C269.4%20172.9%2C297.7%20132.9%2C297.7%20104.6%2C269.4%20104.6%2C229.4%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")
     center / contain no-repeat;
   opacity: 0.2;
   pointer-events: none;
