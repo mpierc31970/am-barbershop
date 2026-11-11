@@ -1,0 +1,13 @@
+/*
+ * CDS identity tokens (12-06 choice 4; 12-UI-SPEC "CDS identity tokens" lines 148-162;
+ * COMM-05, D83). Exactly three, separate from the tenant theme (--site-*) and the hub
+ * (--hub-*). Imported by apps/web/app/globals.css and exposed there as --color-cds-*.
+ * Used only inside [data-cds-identity]; identity, never action (no CDS-violet buttons,
+ * badges, focus rings or tab underlines). UI-SPEC values: mark #4A2C6B, tint #F3EFF7,
+ * border #DCD2E6 (prettier lowercases the declarations below).
+ */
+:root {
+  --cds-mark: #4a2c6b;
+  --cds-tint: #f3eff7;
+  --cds-border: #dcd2e6;
+}

@@ -1,0 +1,21 @@
+{
+  "name": "@cds/addon-testimonials",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./server": "./server.ts",
+    "./site": "./site/index.ts",
+    "./admin": "./admin/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@cds/core": "*",
+    "@cds/db": "*",
+    "@cds/ui": "*",
+    "lucide-react": "1.48.0",
+    "react": "^19.3.0"
+  }
+}

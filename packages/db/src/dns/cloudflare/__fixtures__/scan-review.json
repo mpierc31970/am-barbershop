@@ -1,0 +1,31 @@
+{
+  "success": true,
+  "errors": [],
+  "messages": [],
+  "result": [
+    {
+      "id": "scan0000000000000000000000000001",
+      "name": "rivera-bakery.example",
+      "type": "A",
+      "content": "192.0.2.10",
+      "proxied": false,
+      "ttl": 3600
+    },
+    {
+      "id": "scan0000000000000000000000000002",
+      "name": "mail.rivera-bakery.example",
+      "type": "CNAME",
+      "content": "ghs.google.example",
+      "proxied": false,
+      "ttl": 3600
+    },
+    {
+      "id": "scan0000000000000000000000000003",
+      "name": "rivera-bakery.example",
+      "type": "TXT",
+      "content": "\"google-site-verification=abc123\"",
+      "proxied": false,
+      "ttl": 3600
+    }
+  ]
+}

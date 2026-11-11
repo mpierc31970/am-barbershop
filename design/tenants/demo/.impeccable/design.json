@@ -1,0 +1,250 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-27T00:00:00Z",
+  "title": "Design System: Almanac",
+  "extensions": {
+    "colorMeta": {
+      "almanac-paper": {
+        "role": "neutral",
+        "displayName": "Almanac Paper",
+        "canonical": "oklch(96.0% 0.014 78.3)",
+        "tonalRamp": [
+          "#0e0a05",
+          "#28231d",
+          "#443f38",
+          "#625d55",
+          "#857f77",
+          "#a9a49b",
+          "#cfcac1",
+          "#f4eee5"
+        ]
+      },
+      "folded-linen": {
+        "role": "neutral",
+        "displayName": "Folded Linen",
+        "canonical": "oklch(91.9% 0.024 79.7)",
+        "tonalRamp": [
+          "#100a02",
+          "#2a2317",
+          "#473f32",
+          "#655c4f",
+          "#887f70",
+          "#ada394",
+          "#d3c9b9",
+          "#f7eddd"
+        ]
+      },
+      "printers-umber": {
+        "role": "neutral",
+        "displayName": "Printer's Umber",
+        "canonical": "oklch(25.6% 0.018 55.5)",
+        "tonalRamp": [
+          "#110905",
+          "#2b221c",
+          "#473d37",
+          "#665b54",
+          "#897e76",
+          "#aea29a",
+          "#d4c8c0",
+          "#f8ece3"
+        ]
+      },
+      "faded-umber": {
+        "role": "neutral",
+        "displayName": "Faded Umber",
+        "canonical": "oklch(47.9% 0.030 63.2)",
+        "tonalRamp": [
+          "#140801",
+          "#2f2114",
+          "#4b3c2f",
+          "#6a5a4c",
+          "#8e7d6e",
+          "#b3a192",
+          "#d9c7b7",
+          "#feebda"
+        ]
+      },
+      "oxide-red": {
+        "role": "primary",
+        "displayName": "Oxide Red",
+        "canonical": "oklch(48.0% 0.133 35.6)",
+        "tonalRamp": [
+          "#1c0200",
+          "#460c00",
+          "#741b00",
+          "#9a3b22",
+          "#c25f45",
+          "#eb8469",
+          "#ffb6a2",
+          "#ffe9e3"
+        ]
+      },
+      "cream-label": {
+        "role": "neutral",
+        "displayName": "Cream Label",
+        "canonical": "oklch(98.2% 0.013 71.3)",
+        "tonalRamp": [
+          "#0f0a06",
+          "#28231d",
+          "#443f38",
+          "#625d56",
+          "#857f78",
+          "#aaa39c",
+          "#d0c9c2",
+          "#f4ede5"
+        ]
+      },
+      "field-olive": {
+        "role": "tertiary",
+        "displayName": "Field Olive",
+        "canonical": "oklch(47.8% 0.084 121.0)",
+        "tonalRamp": [
+          "#090d00",
+          "#202800",
+          "#394607",
+          "#57652b",
+          "#79884d",
+          "#9dad71",
+          "#c2d396",
+          "#e6f8b9"
+        ]
+      },
+      "deckle": {
+        "role": "neutral",
+        "displayName": "Deckle",
+        "canonical": "oklch(84.5% 0.034 79.2)",
+        "tonalRamp": [
+          "#120900",
+          "#2d2210",
+          "#493e2b",
+          "#685c48",
+          "#8b7e6a",
+          "#b0a38d",
+          "#d7c9b3",
+          "#fbecd6"
+        ]
+      }
+    },
+    "roles": {
+      "surface": "almanac-paper",
+      "surface-raised": "folded-linen",
+      "text": "printers-umber",
+      "text-muted": "faded-umber",
+      "primary": "oxide-red",
+      "primary-contrast": "cream-label",
+      "accent": "field-olive",
+      "border": "deckle"
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The hero heading only."
+      },
+      "heading": {
+        "displayName": "Headline",
+        "purpose": "Section headings (h2)."
+      },
+      "subhead": {
+        "displayName": "Title",
+        "purpose": "Card, step and column titles (h3)."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "All reading text, capped at 68ch."
+      }
+    },
+    "shadows": [
+      {
+        "name": "overlay",
+        "value": "0 18px 48px rgb(42 33 27 / 0.20)",
+        "purpose": "The pop-up panel, the only lifted surface."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "State changes and the pop-up entrance."
+      },
+      {
+        "name": "duration-quick",
+        "value": "160ms",
+        "purpose": "Button hover and focus."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one action on a band: Oxide Red, press-cut corners.",
+      "html": "<button class=\"ds-btn-primary\">Reserve a copy</button>",
+      "css": ".ds-btn-primary { background: #9A3B22; color: #FFF8F0; font-family: 'Source Serif 4', Georgia, serif; font-size: 18px; font-weight: 600; height: 48px; padding: 0 24px; border: none; border-radius: 2px; transition: background 160ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-btn-primary:hover { background: color-mix(in oklch, #9A3B22 88%, #2A211B); } .ds-btn-primary:focus-visible { outline: 2px solid #2A211B; outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "The quieter second action: umber outline on paper.",
+      "html": "<button class=\"ds-btn-secondary\">Read the notes</button>",
+      "css": ".ds-btn-secondary { background: transparent; color: #2A211B; font-family: 'Source Serif 4', Georgia, serif; font-size: 18px; font-weight: 600; height: 48px; padding: 0 24px; border: 1px solid #2A211B; border-radius: 2px; transition: background 160ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-btn-secondary:hover { background: #EDE3D3; } .ds-btn-secondary:focus-visible { outline: 2px solid #2A211B; outline-offset: 2px; }"
+    },
+    {
+      "name": "Hero Heading",
+      "kind": "custom",
+      "description": "Display heading with the olive accent words (the One Flourish Rule).",
+      "html": "<h1 class=\"ds-hero\">Notes for the <span class=\"ds-hero-accent\">growing season</span></h1>",
+      "css": ".ds-hero { font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: clamp(2.75rem, 5vw + 1rem, 4.5rem); line-height: 1.1; letter-spacing: -0.02em; color: #2A211B; } .ds-hero-accent { color: #56642A; }"
+    },
+    {
+      "name": "Pop-up Panel",
+      "kind": "card",
+      "description": "The only lifted surface: paper, 2px corners, the overlay shadow.",
+      "html": "<div class=\"ds-popup\"><p>Join the almanac letter.</p></div>",
+      "css": ".ds-popup { background: #F7F1E8; color: #2A211B; border-radius: 2px; padding: 32px; box-shadow: 0 18px 48px rgb(42 33 27 / 0.20); font-family: 'Source Serif 4', Georgia, serif; font-size: 18px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Almanac Page",
+    "overview": "A well-made printed almanac: warm paper, dark umber ink, oxide red kept for the things a visitor can act on, and field olive for the occasional flourish. The page persuades by reading well. Type carries the voice; colour stays restrained and never decorates for its own sake.",
+    "keyCharacteristics": [
+      "Warm paper grounds, umber ink, one red for action.",
+      "Fraunces headings over Source Serif 4 reading text.",
+      "Press-cut 2px corners on buttons and images.",
+      "Olive appears on two things only: hero accent words and countdown numerals."
+    ],
+    "rules": [
+      {
+        "name": "The One Flourish Rule",
+        "body": "Olive appears only on the hero accent words and the countdown.",
+        "section": "colors"
+      },
+      {
+        "name": "The Red Means Act Rule",
+        "body": "Oxide Red marks what a visitor can press or follow: buttons, links, the banner. Never a heading colour, never a background band.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Weights Rule",
+        "body": "Regular for reading, semibold for headings and button labels. Nothing lighter, nothing heavier.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Page Rule",
+        "body": "Bands and images sit flat on the paper. Only the pop-up panel lifts.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep Almanac Paper (#F7F1E8) as the ground for most of every page, with Folded Linen (#EDE3D3) for alternate bands.",
+      "Do use Oxide Red (#9A3B22) for buttons, links and the banner, and nothing else.",
+      "Do set every heading in Fraunces at weight 600 and every paragraph in Source Serif 4."
+    ],
+    "donts": [
+      "Don't use Field Olive anywhere but the hero accent words and countdown numerals.",
+      "Don't round corners past 2px or add shadows to bands, images or buttons.",
+      "Don't set body text in Fraunces; it is a display face."
+    ]
+  }
+}

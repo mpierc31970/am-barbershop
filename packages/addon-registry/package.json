@@ -1,0 +1,21 @@
+{
+  "name": "@cds/addon-registry",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./help": "./src/help.ts",
+    "./staff-help": "./src/generated/staff-help.ts",
+    "./server": "./src/server.ts",
+    "./site": "./src/site.ts",
+    "./admin": "./src/admin.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@cds/core": "*",
+    "@cds/db": "*",
+    "@cds/ui": "*"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "name": "@cds/core",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./content": "./src/content/index.ts",
+    "./addons": "./src/addons/index.ts",
+    "./content/presets": "./src/content/presets.ts",
+    "./content/sanitize": "./src/content/sanitize.ts",
+    "./csv": "./src/csv/index.ts",
+    "./theme": "./src/theme/index.ts",
+    "./theme/import": "./src/theme/import/index.ts",
+    "./pricing": "./src/pricing/index.ts",
+    "./payments": "./src/payments/index.ts",
+    "./onboarding": "./src/onboarding/index.ts",
+    "./intake": "./src/intake/index.ts",
+    "./legal": "./src/legal/index.ts",
+    "./legal/signer-name": "./src/legal/signer-name.ts",
+    "./marketing": "./src/marketing/index.ts",
+    "./email": "./src/email/index.ts",
+    "./forms": "./src/forms/index.ts",
+    "./seo": "./src/seo/index.ts",
+    "./templates": "./src/templates/index.ts",
+    "./today": "./src/today/index.ts",
+    "./support": "./src/support/index.ts",
+    "./staff": "./src/staff/index.ts",
+    "./health": "./src/health/index.ts",
+    "./alerts": "./src/alerts/index.ts",
+    "./analytics": "./src/analytics/index.ts",
+    "./social": "./src/social/index.ts",
+    "./dns": "./src/dns/index.ts",
+    "./qr": "./src/qr/index.ts",
+    "./training": "./training/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "sanitize-html": "2.18.1",
+    "yaml": "2.9.1"
+  },
+  "devDependencies": {
+    "@types/sanitize-html": "2.16.1"
+  }
+}

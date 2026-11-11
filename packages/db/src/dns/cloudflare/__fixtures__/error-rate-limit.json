@@ -1,0 +1,11 @@
+{
+  "success": false,
+  "errors": [
+    {
+      "code": 10000,
+      "message": "Rate limited. Please wait and consider throttling your request speed"
+    }
+  ],
+  "messages": [],
+  "result": null
+}

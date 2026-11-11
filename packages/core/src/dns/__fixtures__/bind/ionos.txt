@@ -1,0 +1,16 @@
+; IONOS zone export for shop.example (no $TTL line)
+$ORIGIN shop.example.
+@ 3600 IN SOA ns1045.ui-dns.de. hostmaster.1und1.com. 2026100100 28800 7200 604800 300
+@ 86400 IN NS ns1045.ui-dns.de.
+@ 86400 IN NS ns1102.ui-dns.com.
+@ 3600 IN A 192.0.2.88
+www 3600 IN A 192.0.2.88
+@ 3600 MX 10 mx00.ionos.com.
+@ 3600 MX 10 mx01.ionos.com.
+@ 3600 IN TXT "v=spf1 include:_spf-us.ionos.com ~all"
+s1-ionos._domainkey 3600 IN CNAME s1.dkim.ionos.com.
+_mta-sts IN TXT "v=STSv1; id=20261001"
+mta-sts 3600 IN CNAME mta-sts.ionos.com.
+_smtp._tls 3600 IN TXT "v=TLSRPTv1; rua=mailto:tls@shop.example"
+default._bimi 3600 IN TXT "v=BIMI1; l=https://shop.example/logo.svg"
+Store 3600 IN CNAME Shops.MyShopify.COM.

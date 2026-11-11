@@ -1,0 +1,14 @@
+{
+  "name": "@cds/templates",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@cds/core": "*"
+  }
+}

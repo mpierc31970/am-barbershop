@@ -1,0 +1,10 @@
+;; Domain:     rivera-bakery.example.
+;; Exported:   2026-10-02 09:30:00
+$ORIGIN rivera-bakery.example.
+@	3600	IN	SOA	ada.ns.cloudflare.com. dns.cloudflare.com. 2048123456 10000 2400 604800 3600
+rivera-bakery.example.	1	IN	NS	ada.ns.cloudflare.com.
+rivera-bakery.example.	1	IN	NS	bob.ns.cloudflare.com.
+rivera-bakery.example.	300	IN	A	198.51.100.4
+www.rivera-bakery.example.	300	IN	CNAME	rivera-bakery.example.
+rivera-bakery.example.	3600	IN	MX	1 smtp.google.example.
+rivera-bakery.example.	3600	IN	TXT	"v=spf1 include:_spf.google.example ~all"

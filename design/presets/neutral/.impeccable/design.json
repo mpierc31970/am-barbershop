@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-27T00:00:00Z",
+  "title": "Design System: Neutral",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "oklch(98.5% 0.003 84.6)",
+        "tonalRamp": [
+          "#0c0b0a",
+          "#252422",
+          "#40403e",
+          "#5e5d5c",
+          "#81807e",
+          "#a5a4a2",
+          "#cbcac8",
+          "#efeeec"
+        ]
+      },
+      "paper-raised": {
+        "role": "neutral",
+        "displayName": "Paper Raised",
+        "canonical": "oklch(95.2% 0.007 88.6)",
+        "tonalRamp": [
+          "#0c0b08",
+          "#252420",
+          "#41403c",
+          "#5f5d59",
+          "#82807c",
+          "#a6a4a0",
+          "#cccac5",
+          "#f0eee9"
+        ]
+      },
+      "ink": {
+        "role": "primary",
+        "displayName": "Ink",
+        "canonical": "oklch(22.7% 0.004 84.6)",
+        "tonalRamp": [
+          "#0c0b09",
+          "#252422",
+          "#41403d",
+          "#5f5d5b",
+          "#81807d",
+          "#a6a4a2",
+          "#cccac7",
+          "#f0eeeb"
+        ]
+      },
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "Ink Muted",
+        "canonical": "oklch(46.9% 0.011 78.2)",
+        "tonalRamp": [
+          "#0e0b06",
+          "#27231e",
+          "#433f39",
+          "#615d57",
+          "#848079",
+          "#a8a49d",
+          "#cecac3",
+          "#f2eee7"
+        ]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "White",
+        "canonical": "oklch(100.0% 0.000 0)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "rust": {
+        "role": "tertiary",
+        "displayName": "Rust",
+        "canonical": "oklch(48.2% 0.097 46.9)",
+        "tonalRamp": [
+          "#190500",
+          "#3f1600",
+          "#672c06",
+          "#894a29",
+          "#b06d4c",
+          "#d7926f",
+          "#ffb895",
+          "#ffe9df"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule",
+        "canonical": "oklch(87.1% 0.012 84.6)",
+        "tonalRamp": [
+          "#0d0b06",
+          "#27241e",
+          "#433f39",
+          "#615d56",
+          "#838078",
+          "#a8a49c",
+          "#cecac2",
+          "#f2eee6"
+        ]
+      }
+    },
+    "roles": {
+      "surface": "paper",
+      "surface-raised": "paper-raised",
+      "text": "ink",
+      "text-muted": "ink-muted",
+      "primary": "ink",
+      "primary-contrast": "white",
+      "accent": "rust",
+      "border": "rule"
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The hero heading only."
+      },
+      "heading": {
+        "displayName": "Headline",
+        "purpose": "Section headings (h2)."
+      },
+      "subhead": {
+        "displayName": "Title",
+        "purpose": "Card, step and column titles (h3)."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "All reading text, capped at 68ch."
+      }
+    },
+    "shadows": [
+      {
+        "name": "overlay",
+        "value": "0 16px 48px rgb(0 0 0 / 0.18)",
+        "purpose": "The pop-up panel, the only lifted surface."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one action on a band: ink fill, gentle corners.",
+      "html": "<button class=\"ds-btn-primary\">Get in touch</button>",
+      "css": ".ds-btn-primary { background: #1D1C1A; color: #FFFFFF; font-family: system-ui, sans-serif; font-size: 18px; font-weight: 600; height: 48px; padding: 0 24px; border: none; border-radius: 4px; } .ds-btn-primary:hover { background: color-mix(in oklch, #1D1C1A 88%, #FBFAF8); } .ds-btn-primary:focus-visible { outline: 2px solid #1D1C1A; outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "The quieter second action: an ink outline.",
+      "html": "<button class=\"ds-btn-secondary\">Learn more</button>",
+      "css": ".ds-btn-secondary { background: transparent; color: #1D1C1A; font-family: system-ui, sans-serif; font-size: 18px; font-weight: 600; height: 48px; padding: 0 24px; border: 1px solid #1D1C1A; border-radius: 4px; } .ds-btn-secondary:hover { background: #F1EFEA; } .ds-btn-secondary:focus-visible { outline: 2px solid #1D1C1A; outline-offset: 2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Plain Page",
+    "overview": "The preset every site falls back to when it has no theme of its own, or when its theme cannot be read. It is deliberately nobody's brand, including CDS's: an off-white page, near black ink, the device's own sans-serif, and a single rust accent. Its job is to be legible and to get out of the way.",
+    "keyCharacteristics": [
+      "Off-white page, near-black ink; the ink doubles as the button colour.",
+      "The system sans-serif in both roles; zero font downloads.",
+      "Gentle 4px corners on buttons and images.",
+      "One rust accent for hero accent words and countdown numerals."
+    ],
+    "rules": [
+      {
+        "name": "The No Brand Rule",
+        "body": "The preset carries no identity. Never add a logo colour, a signature font or a flourish to it; a site that wants character gets its own theme.",
+        "section": "colors"
+      }
+    ],
+    "dos": [
+      "Do keep the preset exactly in step with the platform's built-in fallback values.",
+      "Do keep every text pair at or above 4.5:1 and the accent at or above 3:1."
+    ],
+    "donts": [
+      "Don't add a web font to the preset; it must download nothing.",
+      "Don't give the preset a brand colour, logo tone or named identity."
+    ]
+  }
+}

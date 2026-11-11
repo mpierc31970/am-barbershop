@@ -1,0 +1,5 @@
+$ORIGIN bakery.example.
+$TTL 3600
+@ IN A 203.0.113.10
+$INCLUDE /etc/bind/extra-records.zone
+www IN CNAME bakery.example.

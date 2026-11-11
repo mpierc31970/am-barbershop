@@ -1,0 +1,62 @@
+; Domain: bakery.example
+; Exported (y-m-d hh:mm:ss): 2026-10-01 10:00:00
+;
+; This file is intended for use for informational and archival
+; purposes ONLY and MUST be edited before use on a production
+; DNS server.  In particular, you must:
+;   -- update the SOA record with the correct authoritative name server
+;   -- update the SOA record with the contact e-mail address information
+;   -- update the NS record(s) with the authoritative name servers for this domain.
+;
+; For further information, please consult the BIND documentation
+; located on the following website:
+;
+; http://www.isc.org/
+;
+; And RFC 1035:
+;
+; http://www.ietf.org/rfc/rfc1035.txt
+;
+; Please note that we do NOT offer technical support for any use
+; of this zone data, the BIND name server, or any other third-party
+; DNS software.
+;
+; Use at your own risk.
+; SOA Record
+$ORIGIN bakery.example.
+@	3600	 IN 	SOA	ns01.domaincontrol.com.	dns.jomax.net. (
+					2026100100
+					28800
+					7200
+					604800
+					3600
+					)
+
+; A Record
+@	600	 IN 	A	203.0.113.10
+
+; CNAME Record
+www	3600	 IN 	CNAME	@
+_domainconnect	3600	 IN 	CNAME	_domainconnect.gd.domaincontrol.com.
+autodiscover	3600	 IN 	CNAME	autodiscover.outlook.com.
+
+; MX Record
+@	3600	 IN 	MX	0	bakery-example.mail.protection.outlook.com.
+
+; TXT Record
+@	3600	 IN 	TXT	"v=spf1 include:spf.protection.outlook.com -all"
+@	3600	 IN 	TXT	"MS=ms12345678"
+_dmarc	3600	 IN 	TXT	"v=DMARC1; p=quarantine; rua=mailto:dmarc@bakery.example"
+
+; SRV Record
+_sip._tls	3600	 IN 	SRV 	100	1	443	sipdir.online.lync.com.
+_sipfederationtls._tcp	3600	 IN 	SRV 	100	1	5061	sipfed.online.lync.com.
+
+; AAAA Record
+
+; CAA Record
+@	3600	 IN 	CAA	0	issue	"letsencrypt.org"
+
+; NS Record
+@	3600	 IN 	NS	ns01.domaincontrol.com.
+@	3600	 IN 	NS	ns02.domaincontrol.com.

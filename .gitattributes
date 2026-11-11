@@ -1,0 +1,3 @@
+* text=auto eol=lf
+*.ps1 text eol=crlf
+packages/core/src/content/__fixtures__/rich-text-xss-item18.txt -text

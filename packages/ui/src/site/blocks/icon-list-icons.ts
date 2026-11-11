@@ -1,0 +1,150 @@
+// Icon list id -> lucide component map (07-21; CONT-27, CONTEXT decision 5; T-07-21-05).
+//
+// One static table shared by the site renderer and the builder IconPicker. Named imports
+// only (never a namespace import of the icon library), so a client bundle carries just
+// these 60 icons. The Record type over IconListIconId makes a missing id a compile error.
+// Unknown ids are the caller's job: fall back to ICON_LIST_COMPONENTS.check. No
+// "use client": server components render these icons directly.
+import type { IconListIconId } from "@cds/core/content";
+import {
+  Accessibility,
+  Award,
+  Baby,
+  BadgeCheck,
+  Bike,
+  BookOpen,
+  Calendar,
+  Camera,
+  Car,
+  Check,
+  CircleCheck,
+  Clock,
+  Coffee,
+  CreditCard,
+  Dog,
+  Droplet,
+  Dumbbell,
+  Flower2,
+  Gem,
+  Gift,
+  Globe,
+  GraduationCap,
+  HandHeart,
+  Handshake,
+  Heart,
+  House,
+  Leaf,
+  Lightbulb,
+  Lock,
+  Mail,
+  MapPin,
+  Moon,
+  Music,
+  Package,
+  Palette,
+  PawPrint,
+  Percent,
+  Phone,
+  Rocket,
+  Scissors,
+  ShieldCheck,
+  Smile,
+  Sparkles,
+  Star,
+  Stethoscope,
+  Store,
+  Sun,
+  Tag,
+  Target,
+  ThumbsUp,
+  Timer,
+  Trophy,
+  Truck,
+  User,
+  Users,
+  Utensils,
+  Wallet,
+  Wifi,
+  Wine,
+  Zap,
+  type LucideIcon,
+} from "lucide-react";
+
+export const ICON_LIST_COMPONENTS: Readonly<
+  Record<IconListIconId, LucideIcon>
+> = Object.freeze({
+  check: Check,
+  "circle-check": CircleCheck,
+  "badge-check": BadgeCheck,
+  star: Star,
+  heart: Heart,
+  sparkles: Sparkles,
+  award: Award,
+  trophy: Trophy,
+  "thumbs-up": ThumbsUp,
+  smile: Smile,
+  clock: Clock,
+  timer: Timer,
+  calendar: Calendar,
+  "map-pin": MapPin,
+  phone: Phone,
+  mail: Mail,
+  globe: Globe,
+  house: House,
+  store: Store,
+  truck: Truck,
+  package: Package,
+  gift: Gift,
+  tag: Tag,
+  percent: Percent,
+  "credit-card": CreditCard,
+  wallet: Wallet,
+  lock: Lock,
+  "shield-check": ShieldCheck,
+  users: Users,
+  user: User,
+  handshake: Handshake,
+  "hand-heart": HandHeart,
+  leaf: Leaf,
+  "flower-2": Flower2,
+  sun: Sun,
+  moon: Moon,
+  droplet: Droplet,
+  zap: Zap,
+  rocket: Rocket,
+  target: Target,
+  lightbulb: Lightbulb,
+  palette: Palette,
+  camera: Camera,
+  music: Music,
+  "book-open": BookOpen,
+  "graduation-cap": GraduationCap,
+  stethoscope: Stethoscope,
+  dumbbell: Dumbbell,
+  utensils: Utensils,
+  coffee: Coffee,
+  wine: Wine,
+  bike: Bike,
+  car: Car,
+  wifi: Wifi,
+  accessibility: Accessibility,
+  baby: Baby,
+  dog: Dog,
+  "paw-print": PawPrint,
+  scissors: Scissors,
+  gem: Gem,
+});
+
+/** The component for an id; unknown ids (malformed content) get Check. */
+export function iconListComponent(id: unknown): LucideIcon {
+  return typeof id === "string" &&
+    Object.prototype.hasOwnProperty.call(ICON_LIST_COMPONENTS, id)
+    ? ICON_LIST_COMPONENTS[id as IconListIconId]
+    : ICON_LIST_COMPONENTS.check;
+}
+
+/** Human label for an id: "map-pin" -> "Map pin", "flower-2" -> "Flower 2". */
+export function iconListLabel(id: string): string {
+  const words = id.replace(/-/g, " ");
+  return words.charAt(0).toUpperCase() + words.slice(1);
+}

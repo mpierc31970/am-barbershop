@@ -1,0 +1,72 @@
+# CI (TEN-03 release gate, PLAT definition of done): lint, the full test suite including
+# the db-integration project (throwaway PocketBase 0.39.11, cross-tenant isolation suite),
+# the impeccable drift detector (THEME-04, D48; pinned engine, sha256-verified) and the
+# build. GitHub sets CI=true, so a missing PB binary fails instead of skipping.
+# No secrets: every integration test boots its own PocketBase.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/cache@v6
+        with:
+          path: .pocketbase
+          key: pb-0.39.11-${{ runner.os }}-${{ hashFiles('packages/db/scripts/fetch-pocketbase.mjs') }}
+      - uses: actions/cache@v6
+        with:
+          path: .impeccable-bin
+          key: impeccable-0.1.5-${{ runner.os }}-${{ hashFiles('scripts/impeccable/fetch-engine.mjs') }}
+      - run: npm ci
+      - run: npm run db:pb:fetch
+      - run: npm run lint
+      - run: npm run design:detect
+      - run: npm test
+      - run: npm run build
+
+  # Lighthouse gate (CONT-15, 07-CONTEXT resolution h): throwaway PocketBase, the every-block
+  # tenant on blocks.localhost, next start on :3100, mobile perf >= 0.85, a11y >= 0.95,
+  # SEO >= 0.95, best practices >= 0.9. No secrets; reports stay in the run as an artifact
+  # (filesystem upload only, never temporary-public-storage). Uses the runner's Chrome.
+  lighthouse:
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/cache@v6
+        with:
+          path: .pocketbase
+          key: pb-0.39.11-${{ runner.os }}-${{ hashFiles('packages/db/scripts/fetch-pocketbase.mjs') }}
+      - run: npm ci
+      - run: npm run db:pb:fetch
+      - name: Resolve blocks.localhost to loopback
+        run: echo "127.0.0.1 blocks.localhost" | sudo tee -a /etc/hosts
+      - run: npm run build
+      - run: npm run lighthouse
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: lighthouseci
+          path: .lighthouseci
+          if-no-files-found: ignore

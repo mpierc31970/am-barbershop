@@ -1,0 +1,66 @@
+{
+  "success": true,
+  "errors": [],
+  "messages": [],
+  "result": [
+    {
+      "id": "372e67954025e0ba6aaa6d586b9e0b62",
+      "zone_id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "zone_name": "rivera-bakery.example",
+      "name": "rivera-bakery.example",
+      "type": "TXT",
+      "content": "\"v=spf1 include:_spf.google.example \" \"~all\"",
+      "proxiable": false,
+      "proxied": false,
+      "ttl": 3600
+    },
+    {
+      "id": "372e67954025e0ba6aaa6d586b9e0b63",
+      "zone_id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "zone_name": "rivera-bakery.example",
+      "name": "_sip._tcp.rivera-bakery.example",
+      "type": "SRV",
+      "content": "5 5060 sip.rivera-bakery.example",
+      "priority": 10,
+      "data": {
+        "priority": 10,
+        "weight": 5,
+        "port": 5060,
+        "target": "sip.rivera-bakery.example"
+      },
+      "proxiable": false,
+      "proxied": false,
+      "ttl": 3600
+    },
+    {
+      "id": "372e67954025e0ba6aaa6d586b9e0b64",
+      "zone_id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "zone_name": "rivera-bakery.example",
+      "name": "rivera-bakery.example",
+      "type": "CAA",
+      "content": "0 issue \"letsencrypt.org\"",
+      "data": { "flags": 0, "tag": "issue", "value": "letsencrypt.org" },
+      "proxiable": false,
+      "proxied": false,
+      "ttl": 3600
+    },
+    {
+      "id": "372e67954025e0ba6aaa6d586b9e0b65",
+      "zone_id": "023e105f4ecef8ad9ca31a8372d0c353",
+      "zone_name": "rivera-bakery.example",
+      "name": "rivera-bakery.example",
+      "type": "HTTPS",
+      "content": "1 . alpn=\"h2\"",
+      "proxiable": false,
+      "proxied": false,
+      "ttl": 3600
+    }
+  ],
+  "result_info": {
+    "page": 2,
+    "per_page": 100,
+    "count": 4,
+    "total_count": 7,
+    "total_pages": 2
+  }
+}

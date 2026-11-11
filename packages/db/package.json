@@ -1,0 +1,25 @@
+{
+  "name": "@cds/db",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@cds/core": "*",
+    "aws4fetch": "1.0.20",
+    "fflate": "0.8.3",
+    "nodemailer": "10.2.1",
+    "pocketbase": "0.28.1",
+    "sharp": "0.35.5",
+    "stripe": "23.0.0",
+    "web-push": "3.6.7"
+  },
+  "devDependencies": {
+    "@types/nodemailer": "8.0.2",
+    "@types/web-push": "3.6.4"
+  }
+}

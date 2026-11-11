@@ -1,0 +1,18 @@
+{
+  "name": "@cds/addon-builder-pro",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./server": "./server.ts",
+    "./site": "./site/index.ts",
+    "./admin": "./admin/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@cds/core": "*",
+    "react": "^19.3.0"
+  }
+}

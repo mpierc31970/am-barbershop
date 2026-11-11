@@ -1,0 +1,18 @@
+{
+  "success": true,
+  "errors": [],
+  "messages": [],
+  "result": {
+    "id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "name": "rivera-bakery.example",
+    "status": "active",
+    "paused": false,
+    "type": "full",
+    "name_servers": ["ada.ns.cloudflare.com", "bob.ns.cloudflare.com"],
+    "account": {
+      "id": "01a7362d577a6c3019a474fd6f485823",
+      "name": "CDS (fictitious)"
+    },
+    "activated_on": "2026-10-02T09:00:00.000000Z"
+  }
+}

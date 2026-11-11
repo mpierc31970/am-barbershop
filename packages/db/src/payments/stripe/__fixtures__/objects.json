@@ -1,0 +1,360 @@
+{
+  "customer": {
+    "id": "cus_test_1",
+    "object": "customer",
+    "email": "owner@example.test",
+    "name": "Test Studio",
+    "metadata": { "org": "org_test_1" }
+  },
+  "checkout_session": {
+    "id": "cs_test_1",
+    "object": "checkout.session",
+    "client_reference_id": "org_test_1",
+    "customer": "cus_test_1",
+    "metadata": { "org": "org_test_1" },
+    "mode": "subscription",
+    "status": "complete",
+    "payment_status": "paid",
+    "subscription": "sub_test_1",
+    "invoice": "in_test_1",
+    "created": 1791000000,
+    "url": "https://checkout.stripe.test/c/pay/cs_test_1"
+  },
+  "checkout_session_expired": {
+    "id": "cs_test_3",
+    "object": "checkout.session",
+    "client_reference_id": "org_test_1",
+    "customer": "cus_test_1",
+    "metadata": { "org": "org_test_1" },
+    "mode": "subscription",
+    "status": "expired",
+    "payment_status": "unpaid",
+    "subscription": null,
+    "invoice": null,
+    "created": 1791000000,
+    "url": null
+  },
+  "subscription": {
+    "id": "sub_test_1",
+    "object": "subscription",
+    "customer": "cus_test_1",
+    "metadata": { "org": "org_test_1" },
+    "status": "active",
+    "cancel_at": null,
+    "pending_update": null,
+    "created": 1791000000,
+    "items": {
+      "object": "list",
+      "has_more": false,
+      "url": "/v1/subscription_items",
+      "data": [
+        {
+          "id": "si_test_plan",
+          "object": "subscription_item",
+          "quantity": 1,
+          "current_period_end": 1793600000,
+          "metadata": {},
+          "price": {
+            "id": "price_test_plan",
+            "object": "price",
+            "unit_amount": 9900,
+            "recurring": { "interval": "month", "interval_count": 1 },
+            "metadata": { "kind": "plan", "key": "base", "path": "standard" }
+          }
+        },
+        {
+          "id": "si_test_addon",
+          "object": "subscription_item",
+          "quantity": 2,
+          "current_period_end": 1792800000,
+          "metadata": {},
+          "price": {
+            "id": "price_test_addon",
+            "object": "price",
+            "unit_amount": 1500,
+            "recurring": { "interval": "month", "interval_count": 1 },
+            "metadata": { "kind": "addon", "key": "events", "path": "standard" }
+          }
+        }
+      ]
+    }
+  },
+  "subscription_pending": {
+    "id": "sub_test_1",
+    "object": "subscription",
+    "customer": "cus_test_1",
+    "metadata": { "org": "org_test_1" },
+    "status": "active",
+    "cancel_at": null,
+    "pending_update": {
+      "expires_at": 1791082800,
+      "subscription_items": [{ "id": "si_test_new" }]
+    },
+    "items": { "object": "list", "has_more": false, "data": [] }
+  },
+  "subscription_cancel_at": {
+    "id": "sub_test_1",
+    "object": "subscription",
+    "customer": "cus_test_1",
+    "metadata": { "org": "org_test_1" },
+    "status": "active",
+    "cancel_at": 1822536000,
+    "pending_update": null,
+    "items": { "object": "list", "has_more": false, "data": [] }
+  },
+  "subscription_canceled": {
+    "id": "sub_test_1",
+    "object": "subscription",
+    "customer": "cus_test_1",
+    "metadata": { "org": "org_test_1" },
+    "status": "canceled",
+    "cancel_at": null,
+    "pending_update": null,
+    "items": { "object": "list", "has_more": false, "data": [] }
+  },
+  "invoice": {
+    "id": "in_test_1",
+    "object": "invoice",
+    "number": "CDS-0001",
+    "customer": "cus_test_1",
+    "status": "paid",
+    "total": 12900,
+    "total_taxes": [{ "amount": 900 }],
+    "post_payment_credit_notes_amount": 0,
+    "attempt_count": 1,
+    "created": 1791000000,
+    "description": "First payment",
+    "hosted_invoice_url": "https://invoice.stripe.test/i/in_test_1",
+    "invoice_pdf": "https://invoice.stripe.test/i/in_test_1/pdf",
+    "metadata": {},
+    "parent": {
+      "type": "subscription_details",
+      "subscription_details": {
+        "metadata": { "org": "org_test_1" },
+        "subscription": "sub_test_1"
+      }
+    },
+    "lines": {
+      "object": "list",
+      "has_more": false,
+      "data": [
+        {
+          "id": "il_test_1",
+          "object": "line_item",
+          "amount": 9900,
+          "description": "Standard plan",
+          "metadata": {},
+          "pricing": {
+            "type": "price_details",
+            "price_details": {
+              "price": {
+                "id": "price_test_plan",
+                "object": "price",
+                "metadata": {
+                  "kind": "plan",
+                  "key": "base",
+                  "path": "standard"
+                }
+              },
+              "product": "prod_test_plan"
+            }
+          }
+        },
+        {
+          "id": "il_test_2",
+          "object": "line_item",
+          "amount": 3000,
+          "description": "Extra",
+          "metadata": { "kind": "extra", "key": "logo" },
+          "pricing": null
+        }
+      ]
+    }
+  },
+  "invoice_open_failed": {
+    "id": "in_test_2",
+    "object": "invoice",
+    "number": "CDS-0002",
+    "customer": "cus_test_1",
+    "status": "open",
+    "total": 9900,
+    "total_taxes": null,
+    "attempt_count": 2,
+    "created": 1791000000,
+    "metadata": { "org": "org_test_1" },
+    "parent": null,
+    "lines": { "object": "list", "has_more": false, "data": [] }
+  },
+  "invoice_draft": {
+    "id": "in_test_3",
+    "object": "invoice",
+    "number": null,
+    "customer": "cus_test_1",
+    "status": "draft",
+    "total": 0,
+    "total_taxes": null,
+    "attempt_count": 0,
+    "created": 1791000000,
+    "description": "Paid service",
+    "metadata": { "org": "org_test_1", "kind": "service" },
+    "parent": null,
+    "lines": { "object": "list", "has_more": false, "data": [] }
+  },
+  "invoice_preview": {
+    "object": "invoice",
+    "customer": "cus_test_1",
+    "status": "draft",
+    "amount_due": 1750,
+    "total": 1750,
+    "total_taxes": [{ "amount": 0 }],
+    "lines": { "object": "list", "has_more": false, "data": [] }
+  },
+  "invoice_item": {
+    "id": "ii_test_1",
+    "object": "invoiceitem",
+    "customer": "cus_test_1",
+    "invoice": "in_test_3"
+  },
+  "product": {
+    "id": "prod_test_new",
+    "object": "product",
+    "name": "events (standard)",
+    "metadata": { "kind": "addon", "key": "events", "path": "standard" }
+  },
+  "price_old": {
+    "id": "price_test_old",
+    "object": "price",
+    "active": true,
+    "product": "prod_test_new",
+    "unit_amount": 1500,
+    "recurring": { "interval": "month", "interval_count": 1 },
+    "metadata": { "kind": "addon", "key": "events", "path": "standard" }
+  },
+  "price_new": {
+    "id": "price_test_new",
+    "object": "price",
+    "active": true,
+    "product": "prod_test_new",
+    "unit_amount": 1900,
+    "recurring": { "interval": "month", "interval_count": 1 },
+    "metadata": { "kind": "addon", "key": "events", "path": "standard" }
+  },
+  "price_archived": {
+    "id": "price_test_old",
+    "object": "price",
+    "active": false,
+    "product": "prod_test_new",
+    "unit_amount": 1500,
+    "recurring": { "interval": "month", "interval_count": 1 },
+    "metadata": { "kind": "addon", "key": "events", "path": "standard" }
+  },
+  "charges": {
+    "object": "list",
+    "url": "/v1/charges",
+    "has_more": false,
+    "data": [
+      {
+        "id": "ch_test_1",
+        "object": "charge",
+        "customer": "cus_test_1",
+        "amount": 12900,
+        "amount_refunded": 0,
+        "paid": true,
+        "refunded": false,
+        "status": "succeeded"
+      },
+      {
+        "id": "ch_test_2",
+        "object": "charge",
+        "customer": "cus_test_1",
+        "amount": 2500,
+        "amount_refunded": 500,
+        "paid": true,
+        "refunded": false,
+        "status": "succeeded"
+      },
+      {
+        "id": "ch_test_3",
+        "object": "charge",
+        "customer": "cus_test_1",
+        "amount": 4000,
+        "amount_refunded": 4000,
+        "paid": true,
+        "refunded": true,
+        "status": "succeeded"
+      },
+      {
+        "id": "ch_test_4",
+        "object": "charge",
+        "customer": "cus_test_1",
+        "amount": 9900,
+        "amount_refunded": 0,
+        "paid": false,
+        "refunded": false,
+        "status": "failed"
+      }
+    ]
+  },
+  "refund": {
+    "id": "re_test_1",
+    "object": "refund",
+    "amount": 12900,
+    "status": "succeeded"
+  },
+  "meter_event": {
+    "object": "billing.meter_event",
+    "event_name": "care_minutes",
+    "identifier": "usage:org_test_1:2026-10",
+    "payload": { "stripe_customer_id": "cus_test_1", "value": "30" }
+  },
+  "portal_session": {
+    "id": "bps_test_1",
+    "object": "billing_portal.session",
+    "customer": "cus_test_1",
+    "url": "https://billing.stripe.test/p/session/bps_test_1"
+  },
+  "account": {
+    "id": "acct_test_1",
+    "object": "account",
+    "charges_enabled": true,
+    "details_submitted": true,
+    "business_profile": { "name": "Test Studio" },
+    "metadata": { "org": "org_test_1" }
+  },
+  "account_restricted": {
+    "id": "acct_test_2",
+    "object": "account",
+    "charges_enabled": false,
+    "details_submitted": false,
+    "business_profile": { "name": null },
+    "settings": { "dashboard": { "display_name": "New Studio" } },
+    "metadata": { "org": "org_test_2" }
+  },
+  "account_link": {
+    "object": "account_link",
+    "created": 1791000000,
+    "expires_at": 1791000300,
+    "url": "https://connect.stripe.test/setup/s/acct_test_1/link_test_1"
+  },
+  "tenant_checkout_session": {
+    "id": "cs_test_tenant_1",
+    "object": "checkout.session",
+    "mode": "payment",
+    "status": "open",
+    "payment_status": "unpaid",
+    "url": "https://checkout.stripe.test/c/pay/cs_test_tenant_1"
+  },
+  "tenant_refund": {
+    "id": "re_test_tenant_1",
+    "object": "refund",
+    "amount": 4500,
+    "status": "succeeded"
+  },
+  "account_revoked_error": {
+    "error": {
+      "type": "invalid_request_error",
+      "code": "account_invalid",
+      "message": "The provided key does not have access to account 'acct_test_9' (or that account does not exist)."
+    }
+  }
+}

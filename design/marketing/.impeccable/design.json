@@ -1,0 +1,391 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-18T00:00:00Z",
+  "title": "Design System: CDS hub site (marketing world)",
+  "extensions": {
+    "colorMeta": {
+      "mk-card": {
+        "role": "neutral",
+        "displayName": "Card Stock",
+        "canonical": "#FFFFFF",
+        "token": "--mk-card",
+        "purpose": "Page ground, header, forms, rack blades."
+      },
+      "mk-stock": {
+        "role": "neutral",
+        "displayName": "Stock Grey",
+        "canonical": "#EEF0F4",
+        "token": "--mk-stock",
+        "purpose": "Alternate sections, calculator ground, table headers."
+      },
+      "mk-ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#15171E",
+        "token": "--mk-ink",
+        "purpose": "Text, the action colour, closing band and footer."
+      },
+      "mk-ink-muted": {
+        "role": "neutral",
+        "displayName": "Ink Muted",
+        "canonical": "#4A4F5C",
+        "token": "--mk-ink-muted",
+        "purpose": "Secondary text on card and stock."
+      },
+      "mk-ink-soft": {
+        "role": "neutral",
+        "displayName": "Ink Soft",
+        "canonical": "#9AA0AE",
+        "token": "--mk-ink-soft",
+        "purpose": "Muted text on the ink field only."
+      },
+      "mk-rule": {
+        "role": "neutral",
+        "displayName": "Rule",
+        "canonical": "#C9CDD6",
+        "token": "--mk-rule",
+        "purpose": "Hairlines."
+      },
+      "mk-rule-strong": {
+        "role": "neutral",
+        "displayName": "Rule Strong",
+        "canonical": "#7D8392",
+        "token": "--mk-rule-strong",
+        "purpose": "3:1 control borders and the resting rivet."
+      },
+      "mk-cobalt": {
+        "role": "primary",
+        "displayName": "Cobalt",
+        "canonical": "#2A3FD1",
+        "token": "--mk-cobalt",
+        "purpose": "Standard path, and only that."
+      },
+      "mk-cobalt-tint": {
+        "role": "primary",
+        "displayName": "Cobalt Tint",
+        "canonical": "#E4E8FB",
+        "token": "--mk-cobalt-tint",
+        "purpose": "Standard tint."
+      },
+      "mk-cobalt-deep": {
+        "role": "primary",
+        "displayName": "Cobalt Deep",
+        "canonical": "#1C2C9E",
+        "token": "--mk-cobalt-deep",
+        "purpose": "Standard ramp, deep step."
+      },
+      "mk-berry": {
+        "role": "secondary",
+        "displayName": "Berry",
+        "canonical": "#A3165F",
+        "token": "--mk-berry",
+        "purpose": "Studio path, and only that."
+      },
+      "mk-berry-tint": {
+        "role": "secondary",
+        "displayName": "Berry Tint",
+        "canonical": "#F8E3EE",
+        "token": "--mk-berry-tint",
+        "purpose": "Studio tint."
+      },
+      "mk-berry-deep": {
+        "role": "secondary",
+        "displayName": "Berry Deep",
+        "canonical": "#7A0F47",
+        "token": "--mk-berry-deep",
+        "purpose": "Studio ramp, deep step."
+      },
+      "mk-leaf": {
+        "role": "tertiary",
+        "displayName": "Leaf",
+        "canonical": "#2F7D32",
+        "token": "--mk-leaf",
+        "purpose": "Money that stays with the owner."
+      },
+      "mk-leaf-tint": {
+        "role": "tertiary",
+        "displayName": "Leaf Tint",
+        "canonical": "#E3F1E3",
+        "token": "--mk-leaf-tint",
+        "purpose": "With CDS panel."
+      },
+      "mk-tangerine": {
+        "role": "tertiary",
+        "displayName": "Tangerine",
+        "canonical": "#F26A1B",
+        "token": "--mk-tangerine",
+        "purpose": "What a platform keeps."
+      },
+      "mk-tangerine-tint": {
+        "role": "tertiary",
+        "displayName": "Tangerine Tint",
+        "canonical": "#FDE7DA",
+        "token": "--mk-tangerine-tint",
+        "purpose": "Elsewhere panel."
+      },
+      "mk-marigold": {
+        "role": "tertiary",
+        "displayName": "Marigold",
+        "canonical": "#F5B300",
+        "token": "--mk-marigold",
+        "purpose": "Fine print band; add-on ring #1."
+      },
+      "mk-violet": {
+        "role": "tertiary",
+        "displayName": "Violet",
+        "canonical": "#6B3FC4",
+        "token": "--mk-violet",
+        "purpose": "Add-on ring #2."
+      },
+      "mk-violet-tint": {
+        "role": "tertiary",
+        "displayName": "Violet Tint",
+        "canonical": "#EFEAFA",
+        "token": "--mk-violet-tint",
+        "purpose": "Muted text on violet."
+      },
+      "mk-teal": {
+        "role": "tertiary",
+        "displayName": "Teal",
+        "canonical": "#00796E",
+        "token": "--mk-teal",
+        "purpose": "Add-on ring #3."
+      },
+      "mk-rose": {
+        "role": "tertiary",
+        "displayName": "Rose",
+        "canonical": "#F59AB8",
+        "token": "--mk-rose",
+        "purpose": "Add-on ring #4."
+      },
+      "mk-sky": {
+        "role": "tertiary",
+        "displayName": "Sky",
+        "canonical": "#38A3DC",
+        "token": "--mk-sky",
+        "purpose": "Add-on ring #5."
+      },
+      "mk-danger": {
+        "role": "error",
+        "displayName": "Danger",
+        "canonical": "#B3261E",
+        "token": "--mk-danger",
+        "purpose": "Form errors only."
+      },
+      "mk-danger-tint": {
+        "role": "error",
+        "displayName": "Danger Tint",
+        "canonical": "#FCE8E6",
+        "token": "--mk-danger-tint",
+        "purpose": "Form error ground."
+      }
+    },
+    "roles": {
+      "surface": "mk-card",
+      "surface-raised": "mk-stock",
+      "text": "mk-ink",
+      "text-muted": "mk-ink-muted",
+      "primary": "mk-ink",
+      "primary-contrast": "mk-card",
+      "accent": "mk-marigold",
+      "border": "mk-rule",
+      "focus": "mk-ink",
+      "error": "mk-danger"
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "fontFamily": "Anybody",
+        "fontSize": "clamp(48px, 6vw + 16px, 96px)",
+        "fontWeight": 700,
+        "lineHeight": 0.95,
+        "letterSpacing": "-0.02em",
+        "purpose": "One H1 per page, at billboard scale."
+      },
+      "heading": {
+        "displayName": "Heading",
+        "fontFamily": "Anybody",
+        "fontSize": "clamp(28px, 1.6vw + 22px, 40px)",
+        "fontWeight": 700,
+        "lineHeight": 1.1,
+        "purpose": "H2s, path names, pitch line, plan prices, rack blade names."
+      },
+      "body": {
+        "displayName": "Body",
+        "fontFamily": "Hanken Grotesk",
+        "fontSize": "18px",
+        "fontWeight": 400,
+        "lineHeight": 1.55,
+        "purpose": "Reading text and form labels, capped at 68ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "fontFamily": "Hanken Grotesk",
+        "fontSize": "14px",
+        "fontWeight": 400,
+        "lineHeight": 1.4,
+        "purpose": "Footnotes, sources, badges; numbers and price runs in Anybody 75% 700."
+      },
+      "figures": {
+        "displayName": "Figures (.mk-figures)",
+        "fontFamily": "Anybody",
+        "fontStretch": "75%",
+        "fontVariantNumeric": "tabular-nums",
+        "purpose": "Every price, total, date and percentage."
+      },
+      "wordmark": {
+        "displayName": "Wordmark lockup",
+        "fontFamily": "Anybody",
+        "fontSize": "24px",
+        "fontWeight": 700,
+        "fontStretch": "125%",
+        "purpose": "CDS in Wordmark only (logo exemption)."
+      }
+    },
+    "shadows": [
+      {
+        "name": "rest",
+        "token": "--mk-shadow-rest",
+        "value": "0 1px 2px rgb(21 23 30 / 0.12), 0 2px 6px rgb(21 23 30 / 0.08)",
+        "purpose": "A blade at rest on the deck."
+      },
+      {
+        "name": "lift",
+        "token": "--mk-shadow-lift",
+        "value": "0 4px 8px rgb(21 23 30 / 0.12), 0 16px 32px rgb(21 23 30 / 0.18)",
+        "purpose": "A blade lifted off the deck."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "token": "--mk-ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Every lift, spread and slide."
+      },
+      {
+        "name": "duration-fast",
+        "token": "--mk-dur-fast",
+        "value": "160ms",
+        "purpose": "Hover, press, row lift."
+      },
+      {
+        "name": "duration-lift",
+        "token": "--mk-dur-lift",
+        "value": "320ms",
+        "purpose": "The blade lift; menu slide in."
+      },
+      {
+        "name": "duration-spread",
+        "token": "--mk-dur-spread",
+        "value": "480ms",
+        "purpose": "Neighbour blades spreading."
+      }
+    ],
+    "spacing": {
+      "1": "4px",
+      "2": "8px",
+      "4": "16px",
+      "6": "24px",
+      "8": "32px",
+      "12": "48px",
+      "16": "64px"
+    },
+    "radii": {
+      "blade": "16px",
+      "round": "9999px"
+    },
+    "fieldScopes": {
+      "light": ["card", "stock", "marigold", "rose", "sky", "tangerine"],
+      "dark": ["cobalt", "berry", "violet", "leaf", "teal", "ink"],
+      "note": "data-mk-field re-points --mk-fg, --mk-muted, --mk-focus, --mk-action-bg, --mk-action-fg. Light fields: ink text and ink button; dark fields: white text and white button."
+    },
+    "rasters": {
+      "provenance": "code-rendered",
+      "items": [
+        "11 Open Graph images (1200x630) rendered at build by next/og from apps/web/lib/og-image.tsx"
+      ]
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ink pill (white on dark chips), 44px md or 52px lg; the field's action pair.",
+      "source": "packages/ui/src/marketing/MkButton.tsx"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "1px field-fg border pill.",
+      "source": "packages/ui/src/marketing/MkButton.tsx"
+    },
+    {
+      "name": "Blade",
+      "kind": "card",
+      "refersTo": "blade",
+      "description": "Swatch blade: chip, number, name, tagline, price run; fan, row or upright.",
+      "source": "packages/ui/src/marketing/Blade.tsx"
+    },
+    {
+      "name": "Blade Deck",
+      "kind": "list",
+      "description": "Fanned deck on desktop fine pointers with the CSS lift; closed-deck rows elsewhere.",
+      "source": "packages/ui/src/marketing/BladeDeck.tsx"
+    },
+    {
+      "name": "Chip Field",
+      "kind": "region",
+      "description": "A full-bleed chip ground bound to one meaning.",
+      "source": "packages/ui/src/marketing/ChipField.tsx"
+    },
+    {
+      "name": "Price Run",
+      "kind": "text",
+      "description": "Path · price lines in tabular Anybody.",
+      "source": "packages/ui/src/marketing/PriceRun.tsx"
+    },
+    {
+      "name": "Comparison Table",
+      "kind": "table",
+      "description": "Tangerine elsewhere vs leaf with CDS; footnotes on the marigold band.",
+      "source": "packages/ui/src/marketing/ComparisonTable.tsx"
+    },
+    {
+      "name": "Cost Calculator",
+      "kind": "form",
+      "description": "Client island with a no-JS static table.",
+      "source": "packages/ui/src/marketing/CostCalculator.tsx"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Colour Fan Deck",
+    "overview": "Paths and add-ons are colour blades on one rivet, each carrying its own name and live catalog price, so choosing a website reads like choosing a colour. White card stock and cool grey carry the page; saturated chip fields own whole regions under a closed colour code; ink is the action colour; an ink footer is the deck's back cover.",
+    "keyCharacteristics": [
+      "Closed colour code: cobalt Standard, berry Studio, leaf money kept, tangerine money taken, marigold fine print, violet/teal/rose/sky add-on ring.",
+      "Anybody across its width axis over Hanken Grotesk; tabular figures in condensed Anybody.",
+      "16px blades with a 12px rivet ring; one lift shadow.",
+      "Fine print printed loud on a marigold band."
+    ],
+    "rules": [
+      {
+        "name": "The closed code rule",
+        "body": "A chip never decorates a region that lacks its meaning. Red only marks form errors."
+      },
+      {
+        "name": "The descent rule",
+        "body": "Pages move card, path field, stock, marigold band, ink cover."
+      },
+      {
+        "name": "The label grid",
+        "body": "Every blade shows chip, number, name, tagline, price run, in that order."
+      },
+      {
+        "name": "Motion follows input",
+        "body": "Only the lift, the spread, the row press and the menu slide move; nothing on scroll or load."
+      }
+    ]
+  }
+}

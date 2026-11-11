@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "**/*.test.tsx"
+        ],
+        "createdAt": "2026-09-27T19:59:21.319Z",
+        "reason": "Claude: test fixtures assert markup, never shipped"
+      },
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "**/*.test.ts"
+        ],
+        "createdAt": "2026-09-27T19:59:21.343Z",
+        "reason": "Claude: test fixtures assert markup, never shipped"
+      }
+    ]
+  }
+}

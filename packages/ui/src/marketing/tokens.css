@@ -1,0 +1,260 @@
+/*
+ * Marketing (hub site) tokens (15-02; HUB-05, D104; 15-UI-SPEC "Color", "Spacing Scale",
+ * "Motion contract"). The hub site's own visual system: never the owner-hub, tenant-site or CDS-identity tokens
+ * (tests/marketing-boundary.test.ts). Every value is declared on [data-mk] only, never
+ * the document root, so nothing outside the (marketing) layout root (<div data-mk>) can resolve one.
+ * Imported by apps/web/app/globals.css and mapped there through @theme inline to mk-*
+ * utilities (bg-mk-cobalt, font-mk-display, rounded-mk-blade, shadow-mk-lift ...).
+ * tests/tokens-contrast.test.ts parses the hex values below and the field scopes, and
+ * asserts every UI-SPEC text pair (>= 4.5:1) and non-text pair (>= 3:1).
+ * This is the only marketing file allowed hex / rgb() literals.
+ */
+
+[data-mk] {
+  /* Grounds and ink */
+  --mk-card: #ffffff;
+  --mk-stock: #eef0f4;
+  --mk-ink: #15171e;
+  --mk-ink-muted: #4a4f5c;
+  --mk-ink-soft: #9aa0ae;
+  --mk-rule: #c9cdd6;
+  --mk-rule-strong: #7d8392;
+
+  /* Paths (closed colour code: cobalt = Standard, berry = Studio) */
+  --mk-cobalt: #2a3fd1;
+  --mk-cobalt-tint: #e4e8fb;
+  --mk-cobalt-deep: #1c2c9e;
+  --mk-berry: #a3165f;
+  --mk-berry-tint: #f8e3ee;
+  --mk-berry-deep: #7a0f47;
+
+  /* Money: leaf = stays with the owner, tangerine = what a platform keeps */
+  --mk-leaf: #2f7d32;
+  --mk-leaf-tint: #e3f1e3;
+  --mk-tangerine: #f26a1b;
+  --mk-tangerine-tint: #fde7da;
+
+  /* Fine print band + add-on ring (marigold #1, violet #2, teal #3, rose #4, sky #5) */
+  --mk-marigold: #f5b300;
+  --mk-violet: #6b3fc4;
+  --mk-violet-tint: #efeafa;
+  --mk-teal: #00796e;
+  --mk-rose: #f59ab8;
+  --mk-sky: #38a3dc;
+
+  /* Form errors only */
+  --mk-danger: #b3261e;
+  --mk-danger-tint: #fce8e6;
+
+  /* Field scope defaults (= card); [data-mk-field] below overrides them */
+  --mk-field-bg: var(--mk-card);
+  --mk-fg: var(--mk-ink);
+  --mk-muted: var(--mk-ink-muted);
+  --mk-focus: var(--mk-ink);
+  --mk-action-bg: var(--mk-ink);
+  --mk-action-fg: var(--mk-card);
+
+  /* Spacing (multiples of 4; the scale stops at 64px) */
+  --mk-space-1: 4px;
+  --mk-space-2: 8px;
+  --mk-space-4: 16px;
+  --mk-space-6: 24px;
+  --mk-space-8: 32px;
+  --mk-space-12: 48px;
+  --mk-space-16: 64px;
+
+  /* Radius */
+  --mk-radius-blade: 16px;
+  --mk-radius-round: 9999px;
+
+  /* Shadows: a blade at rest on the deck, and lifted off it */
+  --mk-shadow-rest:
+    0 1px 2px rgb(21 23 30 / 0.12), 0 2px 6px rgb(21 23 30 / 0.08);
+  --mk-shadow-lift:
+    0 4px 8px rgb(21 23 30 / 0.12), 0 16px 32px rgb(21 23 30 / 0.18);
+
+  /* Motion (only transform, opacity, box-shadow and width animate) */
+  --mk-dur-fast: 160ms;
+  --mk-dur-lift: 320ms;
+  --mk-dur-spread: 480ms;
+  --mk-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Browser surfaces */
+  color: var(--mk-fg);
+  caret-color: var(--mk-ink);
+  accent-color: var(--mk-ink);
+  scrollbar-color: var(--mk-rule-strong) transparent;
+}
+
+/*
+ * Field scopes (ChipField sets data-mk-field). Each sets its ground and the foreground,
+ * muted, focus ring and primary-button pair that read on it (UI-SPEC field-scope table).
+ */
+[data-mk] [data-mk-field],
+[data-mk][data-mk-field] {
+  background-color: var(--mk-field-bg);
+  color: var(--mk-fg);
+}
+
+[data-mk-field="card"] {
+  --mk-field-bg: var(--mk-card);
+  --mk-fg: var(--mk-ink);
+  --mk-muted: var(--mk-ink-muted);
+  --mk-focus: var(--mk-ink);
+  --mk-action-bg: var(--mk-ink);
+  --mk-action-fg: var(--mk-card);
+}
+
+[data-mk-field="stock"] {
+  --mk-field-bg: var(--mk-stock);
+  --mk-fg: var(--mk-ink);
+  --mk-muted: var(--mk-ink-muted);
+  --mk-focus: var(--mk-ink);
+  --mk-action-bg: var(--mk-ink);
+  --mk-action-fg: var(--mk-card);
+}
+
+[data-mk-field="cobalt"] {
+  --mk-field-bg: var(--mk-cobalt);
+  --mk-fg: var(--mk-card);
+  --mk-muted: var(--mk-cobalt-tint);
+  --mk-focus: var(--mk-card);
+  --mk-action-bg: var(--mk-card);
+  --mk-action-fg: var(--mk-ink);
+}
+
+[data-mk-field="berry"] {
+  --mk-field-bg: var(--mk-berry);
+  --mk-fg: var(--mk-card);
+  --mk-muted: var(--mk-berry-tint);
+  --mk-focus: var(--mk-card);
+  --mk-action-bg: var(--mk-card);
+  --mk-action-fg: var(--mk-ink);
+}
+
+[data-mk-field="violet"] {
+  --mk-field-bg: var(--mk-violet);
+  --mk-fg: var(--mk-card);
+  --mk-muted: var(--mk-violet-tint);
+  --mk-focus: var(--mk-card);
+  --mk-action-bg: var(--mk-card);
+  --mk-action-fg: var(--mk-ink);
+}
+
+[data-mk-field="leaf"] {
+  --mk-field-bg: var(--mk-leaf);
+  --mk-fg: var(--mk-card);
+  --mk-muted: var(--mk-card);
+  --mk-focus: var(--mk-card);
+  --mk-action-bg: var(--mk-card);
+  --mk-action-fg: var(--mk-ink);
+}
+
+[data-mk-field="teal"] {
+  --mk-field-bg: var(--mk-teal);
+  --mk-fg: var(--mk-card);
+  --mk-muted: var(--mk-card);
+  --mk-focus: var(--mk-card);
+  --mk-action-bg: var(--mk-card);
+  --mk-action-fg: var(--mk-ink);
+}
+
+[data-mk-field="marigold"] {
+  --mk-field-bg: var(--mk-marigold);
+  --mk-fg: var(--mk-ink);
+  --mk-muted: var(--mk-ink);
+  --mk-focus: var(--mk-ink);
+  --mk-action-bg: var(--mk-ink);
+  --mk-action-fg: var(--mk-card);
+}
+
+[data-mk-field="rose"] {
+  --mk-field-bg: var(--mk-rose);
+  --mk-fg: var(--mk-ink);
+  --mk-muted: var(--mk-ink);
+  --mk-focus: var(--mk-ink);
+  --mk-action-bg: var(--mk-ink);
+  --mk-action-fg: var(--mk-card);
+}
+
+[data-mk-field="sky"] {
+  --mk-field-bg: var(--mk-sky);
+  --mk-fg: var(--mk-ink);
+  --mk-muted: var(--mk-ink);
+  --mk-focus: var(--mk-ink);
+  --mk-action-bg: var(--mk-ink);
+  --mk-action-fg: var(--mk-card);
+}
+
+[data-mk-field="tangerine"] {
+  --mk-field-bg: var(--mk-tangerine);
+  --mk-fg: var(--mk-ink);
+  --mk-muted: var(--mk-ink);
+  --mk-focus: var(--mk-ink);
+  --mk-action-bg: var(--mk-ink);
+  --mk-action-fg: var(--mk-card);
+}
+
+[data-mk-field="ink"] {
+  --mk-field-bg: var(--mk-ink);
+  --mk-fg: var(--mk-card);
+  --mk-muted: var(--mk-ink-soft);
+  --mk-focus: var(--mk-card);
+  --mk-action-bg: var(--mk-card);
+  --mk-action-fg: var(--mk-ink);
+}
+
+/*
+ * Element defaults live in the base cascade layer (15-26 finish fix). Unlayered, they beat
+ * every Tailwind utility whatever the specificity, so `a { color: inherit }` turned the ink
+ * buttons' white label ink-on-ink and `no-underline` never applied.
+ */
+@layer base {
+  /* Selection: marigold ground, ink text (the one place marigold marks interaction) */
+  [data-mk] ::selection,
+  [data-mk]::selection {
+    background-color: var(--mk-marigold);
+    color: var(--mk-ink);
+  }
+
+  /* Body links: ink (or the field's fg), underlined; thickness 1px -> 2px on hover */
+  :where([data-mk]) a {
+    color: inherit;
+    text-decoration-line: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+  :where([data-mk]) a:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  /* Focus is never removed: 3px ring in the field's focus colour, 3px offset */
+  [data-mk] :focus-visible,
+  [data-mk]:focus-visible {
+    outline: 3px solid var(--mk-focus);
+    outline-offset: 3px;
+  }
+}
+
+/* Tabular figures are set in Anybody, never Hanken (no tnum; P15-P10, RESEARCH Pitfall 5) */
+[data-mk] .mk-figures {
+  font-family: var(--font-mk-display), Arial, sans-serif;
+  font-variant-numeric: tabular-nums;
+  font-stretch: 75%;
+}
+
+/* Reduced motion: lift, spread and menu apply instantly */
+@media (prefers-reduced-motion: reduce) {
+  [data-mk] {
+    --mk-dur-fast: 0ms;
+    --mk-dur-lift: 0ms;
+    --mk-dur-spread: 0ms;
+  }
+}
+
+/* Forced colours: blades keep a 1px CanvasText border; chip meaning is also in words */
+@media (forced-colors: active) {
+  [data-mk] [data-mk-blade] {
+    border: 1px solid CanvasText;
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "success": true,
+  "errors": [],
+  "messages": [],
+  "result": {
+    "id": "023e105f4ecef8ad9ca31a8372d0c353",
+    "name": "rivera-bakery.example",
+    "status": "initializing",
+    "paused": false,
+    "type": "full",
+    "development_mode": 0,
+    "name_servers": ["ada.ns.cloudflare.com", "bob.ns.cloudflare.com"],
+    "original_name_servers": ["ns1.oldhost.example", "ns2.oldhost.example"],
+    "original_registrar": "example registrar",
+    "original_dnshost": null,
+    "account": {
+      "id": "01a7362d577a6c3019a474fd6f485823",
+      "name": "CDS (fictitious)"
+    },
+    "created_on": "2026-10-01T05:20:00.12345Z",
+    "modified_on": "2026-10-01T05:20:00.12345Z",
+    "activated_on": null
+  }
+}

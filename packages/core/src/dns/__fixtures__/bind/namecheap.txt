@@ -1,0 +1,21 @@
+$TTL 1800
+@	IN	SOA	dns1.registrar-servers.com. hostmaster.registrar-servers.com. (
+	1696154400 ; serial
+	43200 ; refresh
+	3600 ; retry
+	604800 ; expire
+	3601 ; minimum TTL
+)
+@	1800	IN	NS	dns1.registrar-servers.com.
+@	1800	IN	NS	dns2.registrar-servers.com.
+@	1799	IN	A	198.51.100.20
+www	1799	IN	CNAME	salon.example.
+@	1799	IN	MX	10 mx1.privateemail.com.
+@	1799	IN	MX	10 mx2.privateemail.com.
+mail	1799	IN	CNAME	privateemail.com.
+@	1799	IN	TXT	"v=spf1 include:spf.privateemail.com ~all"
+default._domainkey	1799	IN	TXT	"v=DKIM1;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsalonKEY"
+@	1799	IN	TXT	"google-site-verification=Abc_DEF-123"
+	1799	IN	TXT	"facebook-domain-verification=xyz789"
+_autodiscover._tcp	1799	IN	SRV	0 0 443 privateemail.com.
+blog	IN	CNAME	salon-blog.example.net.

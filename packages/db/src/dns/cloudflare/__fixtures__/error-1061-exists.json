@@ -1,0 +1,8 @@
+{
+  "success": false,
+  "errors": [
+    { "code": 1061, "message": "rivera-bakery.example already exists" }
+  ],
+  "messages": [],
+  "result": null
+}

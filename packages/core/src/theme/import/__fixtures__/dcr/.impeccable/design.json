@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-27T00:00:00Z",
+  "title": "Design System: Harbor Ivory (test fixture)",
+  "extensions": {
+    "colorMeta": {
+      "teal": { "role": "primary", "displayName": "Rich Teal" },
+      "rose": { "role": "secondary", "displayName": "Dusty Rose" },
+      "bronze-ink": { "role": "accent", "displayName": "Bronze Ink" },
+      "paper": { "role": "neutral", "displayName": "Paper" },
+      "paper-raised": { "role": "neutral", "displayName": "Paper Raised" },
+      "line": { "role": "neutral", "displayName": "Line" },
+      "ink-soft": { "role": "neutral", "displayName": "Ink Soft" },
+      "ink": { "role": "neutral", "displayName": "Ink" }
+    },
+    "roles": {
+      "surface": "paper",
+      "surface-raised": "paper-raised",
+      "text": "ink",
+      "text-muted": "ink-soft",
+      "primary": "brand",
+      "primary-contrast": "white",
+      "accent": "bronze-ink",
+      "border": "line"
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page-opening headlines."
+      },
+      "heading": { "displayName": "Heading", "purpose": "Section headings." },
+      "subhead": {
+        "displayName": "Subhead",
+        "purpose": "Card and step titles."
+      },
+      "body": { "displayName": "Body", "purpose": "All reading and UI." }
+    },
+    "shadows": [
+      {
+        "name": "raised",
+        "value": "0 1px 2px rgb(18 49 47 / 0.05), 0 2px 8px rgb(18 49 47 / 0.06)",
+        "purpose": "Cards lifted slightly off the paper."
+      },
+      {
+        "name": "lifted",
+        "value": "0 2px 4px rgb(18 49 47 / 0.06), 0 12px 28px -8px rgb(18 49 47 / 0.14)",
+        "purpose": "Menus and dialogs."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-deep",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The only curve."
+      },
+      {
+        "name": "duration-quick",
+        "value": "160ms",
+        "purpose": "Control state change."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The booking action.",
+      "html": "<button class=\"ds-btn-primary\">Book a session</button>",
+      "css": ".ds-btn-primary { background: #17656A; color: #fff; border-radius: 6px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Warm ivory practice (test fixture)",
+    "rules": [
+      {
+        "name": "Fields, not text",
+        "body": "Board colours are fields.",
+        "section": "colors"
+      }
+    ]
+  }
+}

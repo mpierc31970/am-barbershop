@@ -1,0 +1,250 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-27T00:00:00Z",
+  "title": "Design System: Tidewater",
+  "extensions": {
+    "colorMeta": {
+      "sea-mist": {
+        "role": "neutral",
+        "displayName": "Sea Mist",
+        "canonical": "oklch(97.1% 0.004 236.5)",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#222426",
+          "#3e4042",
+          "#5b5e60",
+          "#7e8182",
+          "#a2a5a7",
+          "#c8cbcd",
+          "#eceff1"
+        ]
+      },
+      "tide-pool": {
+        "role": "neutral",
+        "displayName": "Tide Pool",
+        "canonical": "oklch(93.2% 0.012 231.7)",
+        "tonalRamp": [
+          "#070c0f",
+          "#1e2529",
+          "#3a4145",
+          "#575f63",
+          "#7a8286",
+          "#9ea6ab",
+          "#c3ccd1",
+          "#e7f0f5"
+        ]
+      },
+      "deep-channel": {
+        "role": "neutral",
+        "displayName": "Deep Channel",
+        "canonical": "oklch(22.3% 0.026 237.8)",
+        "tonalRamp": [
+          "#020d15",
+          "#18262f",
+          "#33424c",
+          "#50606b",
+          "#72838e",
+          "#96a7b3",
+          "#bbcdda",
+          "#dff2fe"
+        ]
+      },
+      "slate-current": {
+        "role": "neutral",
+        "displayName": "Slate Current",
+        "canonical": "oklch(45.6% 0.031 234.7)",
+        "tonalRamp": [
+          "#000d16",
+          "#142731",
+          "#2f434e",
+          "#4d616d",
+          "#6f8491",
+          "#92a8b6",
+          "#b8cedc",
+          "#ddf2ff"
+        ]
+      },
+      "harbour-cobalt": {
+        "role": "primary",
+        "displayName": "Harbour Cobalt",
+        "canonical": "oklch(45.1% 0.219 266.4)",
+        "tonalRamp": [
+          "#010035",
+          "#070077",
+          "#111fb0",
+          "#2549d6",
+          "#4471ff",
+          "#7ba0ff",
+          "#b3caff",
+          "#e7efff"
+        ]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "White",
+        "canonical": "oklch(100.0% 0.000 0)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "signal-coral": {
+        "role": "tertiary",
+        "displayName": "Signal Coral",
+        "canonical": "oklch(68.4% 0.172 33.7)",
+        "tonalRamp": [
+          "#1d0200",
+          "#470900",
+          "#761600",
+          "#a92503",
+          "#d24f33",
+          "#fd7658",
+          "#ffb6a5",
+          "#ffe9e4"
+        ]
+      },
+      "breakwater": {
+        "role": "neutral",
+        "displayName": "Breakwater",
+        "canonical": "oklch(85.2% 0.019 232.6)",
+        "tonalRamp": [
+          "#040d12",
+          "#1b262c",
+          "#364248",
+          "#536067",
+          "#76828a",
+          "#99a7af",
+          "#bfcdd5",
+          "#e3f1f9"
+        ]
+      }
+    },
+    "roles": {
+      "surface": "sea-mist",
+      "surface-raised": "tide-pool",
+      "text": "deep-channel",
+      "text-muted": "slate-current",
+      "primary": "harbour-cobalt",
+      "primary-contrast": "white",
+      "accent": "signal-coral",
+      "border": "breakwater"
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The hero heading only."
+      },
+      "heading": {
+        "displayName": "Headline",
+        "purpose": "Section headings (h2)."
+      },
+      "subhead": {
+        "displayName": "Title",
+        "purpose": "Card, step and column titles (h3)."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "All reading text, capped at 68ch."
+      }
+    },
+    "shadows": [
+      {
+        "name": "overlay",
+        "value": "0 20px 56px rgb(15 29 38 / 0.22)",
+        "purpose": "The pop-up panel, the only lifted surface."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "State changes and the pop-up entrance."
+      },
+      {
+        "name": "duration-quick",
+        "value": "160ms",
+        "purpose": "Button hover and focus."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one action on a band: a cobalt pill.",
+      "html": "<button class=\"ds-btn-primary\">Plan your visit</button>",
+      "css": ".ds-btn-primary { background: #1F3FCC; color: #FFFFFF; font-family: 'Public Sans', system-ui, sans-serif; font-size: 18px; font-weight: 600; height: 48px; padding: 0 28px; border: none; border-radius: 999px; transition: background 160ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-btn-primary:hover { background: color-mix(in oklch, #1F3FCC 88%, #0F1D26); } .ds-btn-primary:focus-visible { outline: 2px solid #0F1D26; outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "The quieter second action: a deep-channel outline pill.",
+      "html": "<button class=\"ds-btn-secondary\">See the timetable</button>",
+      "css": ".ds-btn-secondary { background: transparent; color: #0F1D26; font-family: 'Public Sans', system-ui, sans-serif; font-size: 18px; font-weight: 600; height: 48px; padding: 0 28px; border: 1px solid #0F1D26; border-radius: 999px; transition: background 160ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-btn-secondary:hover { background: #E1EAEF; } .ds-btn-secondary:focus-visible { outline: 2px solid #0F1D26; outline-offset: 2px; }"
+    },
+    {
+      "name": "Hero Heading",
+      "kind": "custom",
+      "description": "Large display heading with the coral accent words (the Flare Rule). Shows the authored coral; the site uses the solved value.",
+      "html": "<h1 class=\"ds-hero\">Out on the <span class=\"ds-hero-accent\">morning tide</span></h1>",
+      "css": ".ds-hero { font-family: 'Archivo', system-ui, sans-serif; font-weight: 600; font-size: clamp(2.5rem, 6vw + 0.5rem, 5rem); line-height: 1.1; letter-spacing: -0.02em; color: #0F1D26; } .ds-hero-accent { color: #F06A4D; }"
+    },
+    {
+      "name": "Pop-up Panel",
+      "kind": "card",
+      "description": "The only lifted surface: sea mist, 12px corners, the overlay shadow.",
+      "html": "<div class=\"ds-popup\"><p>Get the tide table by email.</p></div>",
+      "css": ".ds-popup { background: #F3F6F8; color: #0F1D26; border-radius: 12px; padding: 32px; box-shadow: 0 20px 56px rgb(15 29 38 / 0.22); font-family: 'Public Sans', system-ui, sans-serif; font-size: 18px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Harbour Signal",
+    "overview": "A harbour on a clear morning: cool, washed daylight surfaces, deep channel-blue ink, one confident cobalt for anything a visitor can act on, and a flash of signal coral where the page wants to be noticed. Bold and civic rather than soft; clarity is the personality.",
+    "keyCharacteristics": [
+      "Cool daylight grounds, deep channel ink, one cobalt for action.",
+      "Archivo headings over Public Sans reading text, with a large display size.",
+      "Pill buttons, 12px image corners.",
+      "Coral appears on two things only: hero accent words and countdown numerals."
+    ],
+    "rules": [
+      {
+        "name": "The Harbour Signal Rule",
+        "body": "Cobalt is the only colour that means \"go\". Buttons, links and the banner use it; nothing else does.",
+        "section": "colors"
+      },
+      {
+        "name": "The Flare Rule",
+        "body": "Coral appears only on the hero accent words and the countdown numerals, always at display size.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Weights Rule",
+        "body": "Regular for reading, semibold for headings and button labels.",
+        "section": "typography"
+      },
+      {
+        "name": "The Calm Water Rule",
+        "body": "Bands, images and buttons sit flat. Only the pop-up panel lifts.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep Sea Mist (#F3F6F8) as the ground for most of every page, with Tide Pool (#E1EAEF) for alternate bands.",
+      "Do use Harbour Cobalt (#1F3FCC) for buttons, links and the banner.",
+      "Do set headings in Archivo at weight 600 and reading text in Public Sans."
+    ],
+    "donts": [
+      "Don't use Signal Coral for body text, links, buttons or backgrounds.",
+      "Don't square off the buttons; the pill is part of the signal.",
+      "Don't add shadows to bands, images or buttons."
+    ]
+  }
+}

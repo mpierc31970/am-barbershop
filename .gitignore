@@ -1,0 +1,65 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# builds
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# environment
+.env
+.env*.local
+!.env.example
+
+# pocketbase runtime data (migrations are tracked; data is not)
+pb_data/
+*.db
+*.db-shm
+*.db-wal
+
+# editors / OS
+.vs/
+.vscode/*
+!.vscode/launch.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# test / coverage
+coverage/
+.nyc_output/
+
+# misc
+.turbo/
+.vercel/
+
+# base (basemode) — ignore everything generated; keep only the portable config.
+# Inverted so future runtime files are covered without another edit.
+.base/*
+!.base/base.toml
+!.base/domains.toml
+scripts/runner/logs/
+cds-website.slnx
+
+# local tooling caches
+.pocketbase/
+.storage/
+.storage-public/
+.base-ast/
+.base-ast-cache/
+.impeccable-bin/
+.impeccable/config.local.json
+
+# Lighthouse CI reports (npm run lighthouse; filesystem upload only, 07-33)
+.lighthouseci/

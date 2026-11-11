@@ -1,0 +1,15 @@
+node_modules
+**/node_modules
+**/.next
+.git
+.pocketbase
+.env
+.env*
+.planning
+scripts/runner/logs
+.base
+.base-ast
+.base-ast-cache
+.vs
+coverage
+**/*.tsbuildinfo
