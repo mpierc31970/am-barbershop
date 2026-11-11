@@ -19,7 +19,7 @@ copied once on 2026-11-10 and owned here from now on. CDS changes are **not** sy
 - Sign-ins (`npm run am:roles`, passwords in `.env.local` `AM_*`): website admin
   matthew@metaphysicalevents.com = staff super_admin (`/staff/sign-in`, password + emailed
   code), not a shop member; shop owner Miguel = pierce1970+BarberOwner@gmail.com (`/sign-in`), owns the
-  shop and his own Employee seat; barbers barber1-4@example.com (renter seats, own seat only).
+  shop and his own Employee seat; barbers pierce1970+barber1-4@gmail.com (`AM_BARBER_EMAIL`) (renter seats, own seat only).
   Public contact email (site, privacy, form notifications) is the owner's, pierce1970+BarberOwner@gmail.com;
   matthew@ is only the admin sign-in and technical contact.
 

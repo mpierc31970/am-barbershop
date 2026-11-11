@@ -3,7 +3,7 @@
 //     password + emailed code). Staff are never shop members, so its shop membership goes.
 //   - Shop owner: AM_OWNER_EMAIL owns the shop (/sign-in: password or emailed code):
 //     profile, pages, site content, barbers.
-//   - Barbers: each other seat signs in as barber<N>@AM_BARBER_DOMAIN (default example.com), a
+//   - Barbers: each other seat signs in as AM_BARBER_EMAIL with {n} = N (default barber{n}@example.com), a
 //     renter/staff member who sees only their own seat.
 //
 //   npm run am:roles
@@ -103,10 +103,11 @@ async function main(): Promise<void> {
 
   // Barbers. The owner's own seat (AM_OWNER_SEAT, e.g. Miguel) belongs to the shop owner's
   // account and is an Employee seat (no chair rent). Every other seat, in the owner's order,
-  // signs in as barber<N>@<AM_BARBER_DOMAIN> with a renter/staff membership (the seat's kind)
+  // signs in as AM_BARBER_EMAIL (barber{n}@example.com) with a renter/staff membership (the seat's kind)
   // and the Studio Booking grant; the seat links itself on first sign-in (email match,
   // studio/shared ownSeat). Leftover barber<N> accounts are removed.
-  const domain = process.env.AM_BARBER_DOMAIN?.trim() || "example.com";
+  const pattern = process.env.AM_BARBER_EMAIL?.trim() || "barber{n}@example.com";
+  const barberEmail = (k: number) => pattern.replace("{n}", String(k)).toLowerCase();
   const ownerSeat = process.env.AM_OWNER_SEAT?.trim().toLowerCase() || "";
   const barberPassword = env("AM_BARBER_PASSWORD");
   const seats = await withSuperuser((pb) =>
@@ -129,7 +130,7 @@ async function main(): Promise<void> {
       continue;
     }
     n += 1;
-    const email = `barber${n}@${domain}`.toLowerCase();
+    const email = barberEmail(n);
     const kind = seat.kind === "staff" ? "staff" : "renter";
     const userId = await withSuperuser(async (pb) => {
       const found = (
@@ -167,7 +168,7 @@ async function main(): Promise<void> {
 
   // barber<N> accounts past the last seat leave the shop and are deleted.
   for (let k = n + 1; k <= n + 20; k++) {
-    const email = `barber${k}@${domain}`;
+    const email = barberEmail(k);
     const user = await withSuperuser(
       async (pb) =>
         (
