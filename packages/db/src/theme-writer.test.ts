@@ -114,6 +114,7 @@ describe("organizations.design has exactly one writer (WR-01)", () => {
       (f) => f.rel !== "src/theme.ts" && /\bqueueDesignWrite\s*\(/.test(f.src),
     ).map((f) => f.rel);
     expect(callers.sort()).toEqual([
+      "scripts/seed-am-barber.ts",
       "src/demo/seed.ts",
       "src/dev-seed.ts",
       "src/export.ts",

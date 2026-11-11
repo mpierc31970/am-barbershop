@@ -147,6 +147,8 @@ describe("authored theme files (design/)", () => {
     const DEV_SEED = new Set([
       "packages/db/scripts/seed-dev-tenant.ts",
       "packages/db/scripts/lighthouse.ts",
+      // A&M fork: the one-site seed loads its theme the same way.
+      "packages/db/scripts/seed-am-barber.ts",
     ]);
     const skip = (rel: string) =>
       /(^|\/)(node_modules|\.next|__fixtures__)$/.test(rel) ||

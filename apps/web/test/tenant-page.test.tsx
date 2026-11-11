@@ -554,7 +554,7 @@ describe("tenant layout (CONT-11, 03-UI-SPEC site rendering contract)", () => {
     );
     expect(db.readPublicDesign).toHaveBeenCalledWith(SITE);
     expect(out).toMatch(
-      /^<div data-site="" data-theme="3f9a1c2e"[^>]*><style>/,
+      /^<div data-site="am-barber" data-theme="3f9a1c2e"[^>]*><style>/,
     );
     expect(out).toContain('[data-site][data-theme="3f9a1c2e"]{');
     expect(out).toContain("--site-primary:#0f4c5c");
