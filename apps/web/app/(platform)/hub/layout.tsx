@@ -41,6 +41,8 @@ import {
   getIntakeSnapshot,
   getBusinessProfile,
   getOrgStage,
+  getSeat,
+  mySeatId,
   offboardingView,
   readCheckoutState,
   readDeclinedNotice,
@@ -347,6 +349,22 @@ export default async function HubLayout({ children }: { children: ReactNode }) {
     ),
   }).filter((e) => isHubHref(e.href));
   const businessName = session.org.name || "Your site";
+  // A&M fork: a barber seat's sidebar link opens their own public profile, not the site.
+  let profileUrl: string | null = null;
+  if (host && (ctx.role === "renter" || ctx.role === "staff")) {
+    try {
+      const seatId = await mySeatId(ctx);
+      const seat = seatId ? await getSeat(ctx, seatId) : null;
+      if (seat?.isPublished && seat.slug) {
+        profileUrl = `https://${host}/barbers/${seat.slug}`;
+      }
+    } catch (err) {
+      console.error(
+        "[hub] seat lookup failed",
+        err instanceof Error ? err.name : typeof err,
+      );
+    }
+  }
   const orgs = (session.orgs ?? []).map((o) => ({
     id: o.id,
     name: o.name || "Your site",
@@ -357,7 +375,8 @@ export default async function HubLayout({ children }: { children: ReactNode }) {
       <HubShell
         // P4 adds a logo from organization.design; until then the name stands in (UI-SPEC).
         businessName={businessName}
-        siteUrl={host ? `https://${host}` : null}
+        siteUrl={profileUrl ?? (host ? `https://${host}` : null)}
+        siteLabel={profileUrl ? "Visit profile" : undefined}
         email={session.email}
         nav={nav.items}
         pinned={nav.pinned}

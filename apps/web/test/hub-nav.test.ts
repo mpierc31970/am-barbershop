@@ -275,7 +275,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
       registry,
     });
     expect(nav.items).toEqual([TODAY, WEBSITE]);
-    expect(nav.pinned).toEqual([HELP, SUPPORT]);
+    expect(nav.pinned).toEqual([HELP]);
     const off = composeHubNav({
       role: "staff",
       grants: ["fixture-quote"],

@@ -252,6 +252,9 @@ export function composeHubNav(input: {
   const readsContent = can(subject, "content", "read");
   const readsBusiness = can(subject, "business", "read");
   const readable = (slug: string) => can(subject, `addon:${slug}`, "read");
+  // A&M fork: barber seats (renter, staff) see only their own setup: Today, My profile
+  // (Studio Booking opens their own seat), Help. No Marketing, no CDS Support.
+  const seatOnly = role === "renter" || role === "staff";
 
   const items: HubNavItem[] = [];
   if (inSetup(input.stage) && readsBusiness) {
@@ -285,13 +288,18 @@ export function composeHubNav(input: {
     if (!readable(m.slug)) continue;
     items.push(
       withBadge(
-        { href: addonHref(m), label: m.nav.label, iconKey: m.nav.icon },
+        {
+          href: addonHref(m),
+          label:
+            seatOnly && m.slug === "studio-booking"
+              ? "My profile"
+              : m.nav.label,
+          iconKey: m.nav.icon,
+        },
         sectionBadge([`addon:${m.slug}`], needsYou),
       ),
     );
   }
-  // A&M fork: barber seats (renter, staff) see only their own setup, so no Marketing.
-  const seatOnly = role === "renter" || role === "staff";
   if ((can(subject, "contacts", "read") && !seatOnly) || readsContent) {
     const parts = [
       "marketing",
@@ -307,6 +315,7 @@ export function composeHubNav(input: {
   }
   const pinned: HubNavItem[] = [];
   if (can(subject, "addons", "read")) pinned.push({ ...GET_ADDONS });
-  pinned.push({ ...HELP_NAV }, { ...SUPPORT_NAV });
+  pinned.push({ ...HELP_NAV });
+  if (!seatOnly) pinned.push({ ...SUPPORT_NAV });
   return { items, pinned };
 }

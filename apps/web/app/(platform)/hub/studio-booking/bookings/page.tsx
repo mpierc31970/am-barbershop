@@ -7,10 +7,12 @@ import type { Metadata } from "next";
 import { bookingStatusAction } from "../../../../actions/studio";
 import { requireHubSession } from "../../../../../lib/session";
 import {
+  dayLabel,
   duration,
   money,
   readStudioNote,
   STUDIO_BASE,
+  time12,
 } from "../../../../../lib/studio";
 import { GuardedLink } from "../../GuardedLink";
 import { StudioTabs } from "../StudioTabs";
@@ -28,20 +30,6 @@ const STATUS_LABEL: Record<BookingView["status"], string> = {
   no_show: "No-show",
   cancelled: "Cancelled",
 };
-
-function dayLabel(date: string): string {
-  return new Intl.DateTimeFormat("en-US", {
-    timeZone: "UTC",
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-  }).format(new Date(`${date}T12:00:00Z`));
-}
-
-function time12(t: string): string {
-  const h = Number(t.slice(0, 2));
-  return `${h % 12 === 0 ? 12 : h % 12}:${t.slice(3, 5)} ${h < 12 ? "am" : "pm"}`;
-}
 
 function StatusButton({
   b,

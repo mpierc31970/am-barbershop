@@ -358,10 +358,14 @@ export function buildHelpIndex(
   };
 
   const on = new Set(active);
+  // A&M fork: a barber seat (renter, staff) gets only the profile help (Studio Booking).
+  const seatOnly = ctx.role === "renter" || ctx.role === "staff";
   for (const m of registry.list()) {
     if (!on.has(m.slug) || !can(ctx, `addon:${m.slug}`, "read")) continue;
+    if (seatOnly && m.slug !== "studio-booking") continue;
     for (const t of m.training) push(entryFor(t, "addons"));
   }
+  if (seatOnly) return addons.sort(byTitle);
   const core: readonly { id: string; title: string; howTo: string }[] = [
     ...CORE_TRAINING.filter((t: TrainingEntry) => !HELP_HIDDEN.has(t.id)),
     ...HELP_EXTRAS,

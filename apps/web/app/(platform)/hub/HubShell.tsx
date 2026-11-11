@@ -157,6 +157,8 @@ export interface HubShellProps {
   businessName: string;
   /** https://<primary host>, or null when the site has no host yet. */
   siteUrl: string | null;
+  /** The sidebar link's words (A&M fork: a barber gets "Visit profile"); default "View site". */
+  siteLabel?: string;
   email: string;
   /** Server-composed sidebar items (nav.ts). */
   nav: readonly HubNavItem[];
@@ -269,10 +271,14 @@ function NavRow({
 function Sidebar({
   businessName,
   siteUrl,
+  siteLabel,
   nav,
   pinned,
   onNavigate,
-}: Pick<HubShellProps, "businessName" | "siteUrl" | "nav" | "pinned"> & {
+}: Pick<
+  HubShellProps,
+  "businessName" | "siteUrl" | "siteLabel" | "nav" | "pinned"
+> & {
   onNavigate?: () => void;
 }) {
   const pathname = usePathname() ?? "";
@@ -291,7 +297,7 @@ function Sidebar({
             className={buttonClasses("secondary", "sm")}
           >
             <ExternalLink aria-hidden size={16} strokeWidth={2} />
-            <span>{SHELL_COPY.viewSite}</span>
+            <span>{siteLabel ?? SHELL_COPY.viewSite}</span>
             <span className="sr-only">(opens in a new tab)</span>
           </a>
         ) : null}
@@ -455,6 +461,7 @@ function ShellTopBar({
 export function HubShell({
   businessName,
   siteUrl,
+  siteLabel,
   email,
   nav,
   pinned,
@@ -511,7 +518,7 @@ export function HubShell({
       </NavGuardProvider>
     );
   }
-  const sidebar = { businessName, siteUrl, nav, pinned };
+  const sidebar = { businessName, siteUrl, siteLabel, nav, pinned };
   const shellOrgs: readonly ShellOrg[] =
     orgs && orgs.length > 0
       ? orgs

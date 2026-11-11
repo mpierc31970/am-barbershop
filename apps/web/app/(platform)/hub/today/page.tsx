@@ -61,6 +61,7 @@ import {
 } from "./today-data";
 import { YoureLivePanel } from "./YoureLivePanel";
 import { TourSlot } from "../tour-slot";
+import { BarberToday } from "./BarberToday";
 
 export const metadata: Metadata = { title: "Today" };
 
@@ -280,6 +281,10 @@ async function PhoneAlertsSection({ ctx }: { ctx: OrgContext }) {
 
 export default async function TodayPage() {
   const { ctx, org } = await requireHubSession();
+  // A&M fork: a barber seat gets their own Today (upcoming appointments only).
+  if (ctx.role === "renter" || ctx.role === "staff") {
+    return <BarberToday ctx={ctx} />;
+  }
   const now = new Date();
   const note = pinnedNoteForFromCds(ctx).catch((err: unknown) => {
     console.error(

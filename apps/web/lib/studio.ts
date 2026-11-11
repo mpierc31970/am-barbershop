@@ -43,3 +43,19 @@ export function priceField(cents: number): string {
   const d = cents / 100;
   return Number.isInteger(d) ? String(d) : d.toFixed(2);
 }
+
+/** "Friday, November 13" for a shop-local YYYY-MM-DD. */
+export function dayLabel(date: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone: "UTC",
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  }).format(new Date(`${date}T12:00:00Z`));
+}
+
+/** "2:30 pm" for a shop-local HH:MM. */
+export function time12(t: string): string {
+  const h = Number(t.slice(0, 2));
+  return `${h % 12 === 0 ? 12 : h % 12}:${t.slice(3, 5)} ${h < 12 ? "am" : "pm"}`;
+}

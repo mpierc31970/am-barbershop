@@ -412,10 +412,11 @@ describe("/hub/today", () => {
     expect(ny.getNeedsYou).not.toHaveBeenCalled();
   });
 
-  it("Staff member: no stage block", async () => {
+  it("Staff member (A&M barber seat): their own Today, appointments only, no stage block", async () => {
     useRole("staff");
     const root = await render();
-    expect(root.textContent).toContain("Being built");
+    expect(root.textContent).toContain("Your upcoming appointments");
+    expect(root.textContent).not.toContain("Being built");
     expect(root.querySelector("[data-build-tracker]")).toBeNull();
   });
 
