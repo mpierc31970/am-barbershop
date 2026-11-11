@@ -334,13 +334,9 @@ export type ProfileMenuLink = { href: string; label: string };
 /**
  * A&M fork: the profile menu lists only the person's own things. With their own seat (a
  * barber, or the owner's Employee seat): My page, My Social, Services & Pricing, Hours, My
- * bookings, My Rent (chair renters only: the owner's Rent screen is every chair's) and
- * Alerts. No seat: just Alerts (the default "Your profile and alerts" link stays).
+ * bookings, My Rent and Alerts. No seat: just Alerts (the default "Your profile and alerts" link stays).
  */
-export function profileMenuLinks(
-  seatId: string | null,
-  role: OrgRole,
-): ProfileMenuLink[] {
+export function profileMenuLinks(seatId: string | null): ProfileMenuLink[] {
   const alerts = { href: ALERTS_NAV.href, label: ALERTS_NAV.label };
   if (!seatId) return [alerts];
   const base = "/hub/studio-booking";
@@ -353,7 +349,7 @@ export function profileMenuLinks(
     { href: `${seat}#hours`, label: "Hours" },
     { href: `${base}/bookings${q}`, label: "My bookings" },
   ];
-  if (role === "renter") links.push({ href: `${base}/rent`, label: "My Rent" });
+  links.push({ href: `${base}/rent`, label: "My Rent" });
   links.push(alerts);
   return links;
 }

@@ -395,7 +395,7 @@ export default async function HubLayout({ children }: { children: ReactNode }) {
           name: session.email,
           email: "",
           roleLine: `${roleLabel(ctx.role)} at ${businessName}`,
-          links: profileMenuLinks(ownSeatId, ctx.role),
+          links: profileMenuLinks(ownSeatId),
           ...(ownSeatId ? { photoSeatId: ownSeatId } : {}),
         }}
         alerts={alerts}

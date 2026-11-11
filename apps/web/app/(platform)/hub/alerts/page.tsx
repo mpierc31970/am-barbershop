@@ -1,11 +1,13 @@
 // /hub/alerts (A&M fork): the first screen after sign-in, for everyone. The person's own
 // alerts (the bell's rows), newest first. A booking alert acts in place: Email, Call or Text
 // the client, and Approve / Decline while the booking is a request (bookingStatusAction,
-// which comes back here). Other alerts link to where they happened.
+// which comes back here). Other alerts link to where they happened. Opening the screen
+// marks the person's alerts read (markAllRead: org + actor only).
 import { DEFAULT_TIME_ZONE } from "@cds/core/today";
 import {
   listBell,
   listBookings,
+  markAllRead,
   statsTimeZone,
   type BellAlert,
   type BookingView,
@@ -106,6 +108,14 @@ export default async function AlertsPage() {
     readStudioNote(),
   ]);
   const byId = new Map(bookings.map((b) => [b.id, b]));
+  // Seen here = read: the bell count clears (rows above keep their "New" for this view).
+  if (!failed && rows.some((a) => !a.read)) {
+    await markAllRead(ctx).catch((err: unknown) =>
+      console.error(
+        `[alerts] mark read failed ${err instanceof Error ? err.name : typeof err}`,
+      ),
+    );
+  }
 
   return (
     <div className="flex w-full max-w-[720px] flex-col gap-6 font-hub text-hub-ink">

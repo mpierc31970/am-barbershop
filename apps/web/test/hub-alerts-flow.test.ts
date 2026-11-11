@@ -86,8 +86,8 @@ describe("alertActions", () => {
 });
 
 describe("profileMenuLinks", () => {
-  it("a chair renter: only their own items, Rent included", () => {
-    expect(profileMenuLinks(SEAT, "renter").map((l) => l.label)).toEqual([
+  it("a barber: only their own items", () => {
+    expect(profileMenuLinks(SEAT).map((l) => l.label)).toEqual([
       "My page",
       "My Social",
       "Services & Pricing",
@@ -96,26 +96,20 @@ describe("profileMenuLinks", () => {
       "My Rent",
       "Alerts",
     ]);
-    const hrefs = profileMenuLinks(SEAT, "renter").map((l) => l.href);
+    const hrefs = profileMenuLinks(SEAT).map((l) => l.href);
     expect(hrefs).toContain(`/hub/studio-booking/seats/${SEAT}#hours`);
     expect(hrefs).toContain(`/hub/studio-booking/bookings?seat=${SEAT}`);
   });
 
-  it("the owner with their own seat: their own items, no shop-wide Rent", () => {
-    const labels = profileMenuLinks(SEAT, "owner").map((l) => l.label);
-    expect(labels).not.toContain("My Rent");
-    expect(labels).toContain("My page");
-    for (const l of profileMenuLinks(SEAT, "owner")) {
-      expect(
-        l.href.startsWith("/hub/studio-booking/seats/") ||
-          l.href.includes(`seat=${SEAT}`) ||
-          l.href === "/hub/alerts",
-      ).toBe(true);
-    }
+  it("the owner with their own seat: the same items, Rent included", () => {
+    expect(profileMenuLinks(SEAT)).toContainEqual({
+      href: "/hub/studio-booking/rent",
+      label: "My Rent",
+    });
   });
 
   it("no seat: just Alerts", () => {
-    expect(profileMenuLinks(null, "admin")).toEqual([
+    expect(profileMenuLinks(null)).toEqual([
       { href: "/hub/alerts", label: "Alerts" },
     ]);
   });
