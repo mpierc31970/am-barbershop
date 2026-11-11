@@ -223,8 +223,8 @@
 }
 
 /* ---- Photo rows (the service rows): photo fills its half, cut to the hexagon frame ----
- * Any columns block whose column holds just one image: the image covers the whole column,
- * cropped to a plain regular hexagon (no border), and the text beside it centres on it. Stacks on phones
+ * Any columns block whose column holds just one image: the image fills a fixed-size,
+ * plain regular hexagon (no border), and the text beside it centres on it. Stacks on phones
  * (photo first) with the platform grid. */
 [data-site="am-barber"] main .grid:has(> [data-column] > img:only-child) {
   align-items: center;
@@ -232,11 +232,12 @@
 }
 [data-site="am-barber"] main [data-column] > img.rounded-site-media:only-child {
   /* Own polygon: --am-hex-wide resolves --am-cut on the site root, not here. */
-  clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
-  width: 100%;
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  /* A regular pointy-top hexagon like the hero's: width:height = sqrt(3):2, fixed size. */
+  width: min(100%, 360px);
   max-width: none;
-  /* A regular hexagon, points left and right. */
-  aspect-ratio: 1.1547;
+  aspect-ratio: 0.866;
+  margin-inline: auto;
   object-fit: cover;
   object-position: center;
 }
