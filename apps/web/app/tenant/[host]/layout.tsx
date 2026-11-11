@@ -341,7 +341,7 @@ export default async function TenantLayout({ children, params }: Props) {
           reportHref={chrome.reportHref}
           policyLinks={chrome.policyLinks}
           cookieChoices={needs.needed ? <CookieChoicesLink /> : null}
-          ownerSignInHref="https://admin.barber.needtobeedgy.com/sign-in"
+          ownerSignInHref={AM_OWNER_SIGN_IN}
         />
         {needs.needed ? (
           <ConsentController
