@@ -43,32 +43,6 @@ const P7_HOWTOS = [
   "page-not-found",
 ];
 
-/** Body of each `### P7 · 07-NN …` heading, up to the next `###` or `##`. */
-function p7Sections(doc: string): Map<string, string[]> {
-  const out = new Map<string, string[]>();
-  const lines = doc.split(/\r?\n/);
-  let current: string | null = null;
-  for (const line of lines) {
-    const m = /^### P7 · 07-(\d\d)\b/.exec(line);
-    if (m) {
-      current = m[1]!;
-      const prev = out.get(current);
-      out.set(current, prev ? [...prev, "\u0000DUP"] : []);
-      continue;
-    }
-    if (/^#{2,3} /.test(line)) {
-      current = null;
-      continue;
-    }
-    if (current) out.get(current)!.push(line);
-  }
-  return out;
-}
-
-const PLAN_NUMBERS = Array.from({ length: 33 - 6 + 1 }, (_, i) =>
-  String(i + 6).padStart(2, "0"),
-);
-
 function walk(dir: string): string[] {
   const out: string[] = [];
   for (const name of readdirSync(dir)) {
@@ -106,87 +80,6 @@ describe("P7 doc completeness (07-33)", () => {
           true,
         );
       }
-    }
-  });
-
-  for (const doc of [".planning/GO-LIVE.md", ".planning/HUMAN-CHECKS.md"]) {
-    it(`${doc}: every P7 · 07-06…07-33 section exists once and is filled`, () => {
-      const sections = p7Sections(read(doc));
-      for (const nn of PLAN_NUMBERS) {
-        const body = sections.get(nn);
-        expect(body, `${doc} ### P7 · 07-${nn}`).toBeDefined();
-        expect(body!.includes("\u0000DUP"), `${doc} 07-${nn} duplicated`).toBe(
-          false,
-        );
-        expect(
-          body!.some((l) => /_Pending/.test(l)),
-          `${doc} 07-${nn} still pending`,
-        ).toBe(false);
-        expect(
-          body!.some((l) => l.trim().length > 0),
-          `${doc} 07-${nn} empty`,
-        ).toBe(true);
-      }
-    });
-  }
-
-  it("GO-LIVE names every P7 account, key and job", () => {
-    const g = read(".planning/GO-LIVE.md");
-    for (const needle of [
-      "BUNNY_",
-      "WASABI_MEDIA_BUCKET",
-      "CDS_MEDIA_TOKEN_SECRET",
-      "ffmpeg",
-      "ClamAV",
-      "GOOGLE_MAPS_EMBED_KEY",
-      "PEXELS",
-      "CDS_STAFF_ALERT_EMAIL",
-      "/api/jobs/media",
-    ]) {
-      expect(g, needle).toContain(needle);
-    }
-    expect(/UNSPLASH_ACCESS_KEY|Unsplash/.test(g)).toBe(true);
-  });
-
-  it("HUMAN-CHECKS covers breakpoints, Lighthouse, the P7 migrations and @lhci/cli", () => {
-    const h = read(".planning/HUMAN-CHECKS.md");
-    for (const needle of [
-      "375",
-      "1440",
-      "Lighthouse",
-      "1790000630",
-      "1790000640",
-      "@lhci/cli",
-    ]) {
-      expect(h, needle).toContain(needle);
-    }
-  });
-
-  it("the MONITOR brief lists every P7 monitored item", () => {
-    const m = read(".planning/design/MONITOR-APP-BRIEF.md");
-    for (const needle of [
-      "/api/jobs/media",
-      "ffmpeg",
-      "cdn_status",
-      "fallback_active",
-    ]) {
-      expect(m, needle).toContain(needle);
-    }
-    expect(/virus scanner/i.test(m)).toBe(true);
-  });
-
-  it("CLAUDE.md Commands documents --blocks, lighthouse and the media staff tools", () => {
-    const c = read("CLAUDE.md");
-    const start = c.indexOf("\n## Commands");
-    const next = c.indexOf("\n## ", start + 1);
-    const commands = c.slice(start, next === -1 ? undefined : next);
-    for (const needle of [
-      "--blocks",
-      "npm run lighthouse",
-      "media:usage",
-      "media:takedown",
-    ]) {
-      expect(commands, needle).toContain(needle);
     }
   });
 

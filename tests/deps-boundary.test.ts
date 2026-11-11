@@ -111,7 +111,7 @@ describe("dependency boundary (Invariant 1, PLAT-06 / D5)", () => {
       });
     }
     expect(offenders).toEqual([]);
-  });
+  }, 30_000); // reads every source file in apps/ and packages/
 
   // PAY-09 / CONTEXT A1 (T-10-02-01): no checkout code calls Stripe except through the
   // gateway interface. Only @cds/db depends on the SDK, and only payments/stripe/ names it.

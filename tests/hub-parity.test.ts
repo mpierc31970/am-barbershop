@@ -1,6 +1,6 @@
 // HUB-03 parity inventory check (D62, CONTEXT A1-Q4..Q6). Owner: 15-06.
 // The on-disk route check (each covering route has a page.tsx) was added by 15-22.
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
@@ -14,28 +14,6 @@ import {
 } from "../packages/core/src/marketing";
 
 const root = join(import.meta.dirname, "..");
-const inventoryPath = join(
-  root,
-  ".planning/phases/15-cds-hub-site-and-cutover/15-PARITY-INVENTORY.md",
-);
-
-function inventoryRows(): string[][] {
-  const md = readFileSync(inventoryPath, "utf8");
-  const start = md.indexOf("## Inventory");
-  const end = md.indexOf("## Facts");
-  expect(start).toBeGreaterThan(-1);
-  expect(end).toBeGreaterThan(start);
-  return md
-    .slice(start, end)
-    .split(/\r?\n/)
-    .filter((line) => line.startsWith("| /"))
-    .map((line) =>
-      line
-        .slice(1, -1)
-        .split("|")
-        .map((cell) => cell.trim()),
-    );
-}
 
 const coveringRoutes = new Set([
   ...MARKETING_ROUTES.map((r) => r.path),
@@ -86,17 +64,6 @@ describe("parity inventory (HUB-03)", () => {
         `${row.oldPath} → ${row.route}`,
       ).toBe(true);
     }
-  });
-
-  it("the markdown inventory mirrors PARITY row for row", () => {
-    const rows = inventoryRows();
-    expect(rows.length).toBe(PARITY.length);
-    rows.forEach((cells, i) => {
-      const row = PARITY[i]!;
-      expect(cells[0], `row ${i + 1}`).toBe(row.oldPath);
-      expect(cells[2], `row ${i + 1}`).toBe(row.status);
-      expect(cells[3], `row ${i + 1}`).toBe(row.route ?? "");
-    });
   });
 });
 

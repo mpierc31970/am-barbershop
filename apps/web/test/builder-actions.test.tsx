@@ -536,5 +536,5 @@ describe("hub shell framing", () => {
     expect(contentMode("/hub/website/pages/p1")).toBe("builder");
     expect(contentMode("/hub/website/pages/p1/preview")).toBe("bare");
     expect(contentMode("/hub/website/pages/p1/other")).toBe("standard");
-  });
+  }, 30_000); // cold import of the hub shell under the full parallel run
 });

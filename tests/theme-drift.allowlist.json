@@ -3,5 +3,10 @@
     "file": "apps/web/app/tenant/[host]/am-barber.css",
     "pattern": "--am-",
     "reason": "A&M fork: the site's neon tubes, deep button red and black/white, declared once as --am-* custom properties and used through var()"
+  },
+  {
+    "file": "packages/ui/src/site/client/LocationMap.tsx",
+    "pattern": "maplibregl.Marker({ color: \"#e0242b\" })",
+    "reason": "A&M fork: MapLibre's Marker takes a literal colour string, not a CSS var(); the A&M red pin"
   }
 ]

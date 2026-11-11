@@ -606,11 +606,15 @@ describe("WR-01 app-layer sign-in rate limit", () => {
 });
 
 describe("TEN-15 OTP stand-in hook", () => {
-  it("logs the code only when CDS_OTP_STANDIN=1 and never sends mail", () => {
+  it("logs the code only when CDS_OTP_STANDIN=1 and sends mail only when CDS_OTP_SEND=1", () => {
     const src = readFileSync(HOOK_FILE, "utf8");
     expect(src).toContain("onMailerRecordOTPSend");
     expect(src).toMatch(/\$os\.getenv\("CDS_OTP_STANDIN"\)\s*===\s*"1"/);
     expect(src).toContain("(code hidden)");
-    expect(src).not.toContain("e.next()");
+    // The only e.next() (real delivery) sits behind the CDS_OTP_SEND gate.
+    expect(src.match(/e\.next\(\)/g)).toHaveLength(1);
+    expect(src).toMatch(
+      /if\s*\(\$os\.getenv\("CDS_OTP_SEND"\)\s*===\s*"1"\)\s*e\.next\(\)/,
+    );
   });
 });

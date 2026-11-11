@@ -87,7 +87,7 @@ describe("announce:set", () => {
     );
     expect(r.status).toBe(0);
     expect(r.stdout).toContain("--clear");
-  });
+  }, 60_000); // a cold child process under the full parallel run
 
   it("rejects a 90-character title before sign-in", async () => {
     await expect(main(["--title", "x".repeat(90)])).rejects.toThrow(

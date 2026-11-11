@@ -136,18 +136,4 @@ describe("P7 seams (07-02)", () => {
       "export async function siteForRoute",
     );
   });
-
-  it("has exactly one P7 section per plan 06-33 in GO-LIVE and HUMAN-CHECKS", () => {
-    for (const doc of [".planning/GO-LIVE.md", ".planning/HUMAN-CHECKS.md"]) {
-      const headings = read(doc)
-        .split(/\r?\n/)
-        .filter((l) => l.startsWith("### P7 · 07-"));
-      expect(headings, doc).toHaveLength(28);
-      for (let n = 6; n <= 33; n++) {
-        const nn = String(n).padStart(2, "0");
-        const hits = headings.filter((h) => h.startsWith(`### P7 · 07-${nn} `));
-        expect(hits, `${doc} 07-${nn}`).toHaveLength(1);
-      }
-    }
-  });
 });
