@@ -105,15 +105,24 @@ async function main(): Promise<void> {
   const intro = have.find(
     (s) =>
       s.section_type === "text-only" &&
-      JSON.stringify(s.content).includes("Gallery"),
+      !JSON.stringify(s.content).includes("TikTok"),
   );
+  // The page title is already the h1 "Gallery"; the intro carries no second heading.
+  const introContent = intro
+    ? {
+        ...(intro.content as Record<string, unknown>),
+        ...((intro.content as { heading?: string }).heading === "Gallery"
+          ? { heading: "" }
+          : {}),
+      }
+    : null;
   const introRow = await saveSection(ctx, sections, {
     ...(intro ? { id: intro.id } : {}),
     pageId: page.id,
     section_type: "text-only",
     row_layout: "full",
-    content: intro?.content ?? {
-      heading: "Gallery",
+    content: introContent ?? {
+      heading: "",
       text: "<p>Cuts, fades, beards and the shop itself at 2505 S Carrier Pkwy, Grand Prairie.</p>",
     },
   });
