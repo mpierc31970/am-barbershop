@@ -175,19 +175,41 @@ describe("NavDisclosure island", () => {
     expect(more.getAttribute("aria-expanded")).toBe("true");
   });
 
-  it("the phone Menu toggles the in-flow panel and Esc returns focus", () => {
+  // A&M fork: the phone menu is a modal <dialog> drawer (Esc arrives as the dialog's own
+  // cancel/close, simulated here with close()).
+  it("the phone Menu opens the drawer dialog and closing returns focus", () => {
+    const proto = HTMLDialogElement.prototype as HTMLDialogElement & {
+      showModal: () => void;
+      close: () => void;
+    };
+    if (typeof proto.showModal !== "function") {
+      proto.showModal = function (this: HTMLDialogElement) {
+        this.setAttribute("open", "");
+      };
+    }
+    if (typeof proto.close !== "function") {
+      proto.close = function (this: HTMLDialogElement) {
+        this.removeAttribute("open");
+        this.dispatchEvent(new Event("close"));
+      };
+    }
     m = mount(<SiteHeader brand={BRAND} nav={NAV} layout="mobile" />);
     const menu = button(m.container, "Menu")!;
-    const panel = document.getElementById(menu.getAttribute("aria-controls")!)!;
-    expect(panel.hidden).toBe(true);
+    const panel = document.getElementById(
+      menu.getAttribute("aria-controls")!,
+    ) as HTMLDialogElement;
+    expect(panel.tagName).toBe("DIALOG");
+    expect(panel.open).toBe(false);
     click(menu);
     expect(menu.getAttribute("aria-expanded")).toBe("true");
-    expect(panel.hidden).toBe(false);
+    expect(panel.open).toBe(true);
     expect(panel.querySelector("ul ul a[href='/team']")).not.toBeNull();
     expect(panel.querySelector("button[aria-expanded]")).toBeNull();
-    key("Escape");
+    expect(document.body.style.overflow).toBe("hidden");
+    act(() => panel.close());
     expect(menu.getAttribute("aria-expanded")).toBe("false");
     expect(document.activeElement).toBe(menu);
+    expect(document.body.style.overflow).toBe("");
   });
 
   it("marks the current page", () => {

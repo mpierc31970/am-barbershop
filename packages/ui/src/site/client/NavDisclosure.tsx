@@ -9,10 +9,13 @@
 // Choice 5: current-page marking happens here on mount, from location.pathname (SSR marks
 // nothing). Choice 6: a pop-up menu button is SSR-hidden and shown only when its
 // dialog[data-cds-popup="<id>"] is on this page.
-// The phone panel opens below the header row, in the flow (pushes content; no overlay, no
-// scroll lock): 48px rows, child links indented 24px under their parent label, then the
-// utilities and the menu button full width. Motion: none (instant panels).
-import { ChevronDown, Menu, Search } from "lucide-react";
+// A&M fork: after mount the phone menu is a native modal <dialog> drawer on the right, over
+// a dimmed backdrop (useOverlay: focus trapped, body scroll locked, Esc / backdrop / Close
+// dismiss, focus back to the Menu button), so the page never shifts. Without JS it stays the
+// in-flow <details> panel. 48px rows, child links indented 24px under their parent label,
+// then the utilities and the menu button full width. The slide-in lives in the site CSS and
+// is off under reduced motion.
+import { ChevronDown, Menu, Search, X } from "lucide-react";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import type {
   ResolvedNavCta,
@@ -21,6 +24,7 @@ import type {
 } from "@cds/core/content";
 import { SiteButton } from "../SiteButton";
 import { BODY_CLASS } from "../types";
+import { useOverlay } from "./useOverlay";
 
 export type ChromeLayout = "auto" | "mobile" | "desktop";
 
@@ -143,6 +147,12 @@ export function NavDisclosure({
   const rootRef = useRef<HTMLDivElement>(null);
   const toggles = useRef(new Map<string, HTMLButtonElement | null>());
   const menuButton = useRef<HTMLButtonElement>(null);
+  const drawer = useRef<HTMLDialogElement>(null);
+  useOverlay(drawer, {
+    isOpen: menuOpen,
+    onClose: () => setMenuOpen(false),
+    returnFocusRef: menuButton,
+  });
   const cls = layoutClasses(layout);
   const popupId = cta && "popupId" in cta ? cta.popupId : null;
 
@@ -160,9 +170,6 @@ export function NavDisclosure({
         const btn = toggles.current.get(openId);
         setOpenId(null);
         btn?.focus();
-      } else if (menuOpen) {
-        setMenuOpen(false);
-        menuButton.current?.focus();
       }
     };
     const onDown = (e: PointerEvent) => {
@@ -242,11 +249,7 @@ export function NavDisclosure({
 
   const mobilePanelId = `${uid}-m`;
   const mobileList = (
-    <div
-      id={mobilePanelId}
-      className="border-t border-site-border pb-4"
-      hidden={mounted ? !menuOpen : undefined}
-    >
+    <div className="border-t border-site-border pb-4">
       <ul className="flex flex-col py-2">
         {entries.map((e) =>
           e.kind === "link" ? (
@@ -339,9 +342,27 @@ export function NavDisclosure({
       </div>
       {hasMenu ? (
         mounted ? (
-          <nav aria-label="Main" className={cls.panel}>
-            {mobileList}
-          </nav>
+          <dialog
+            ref={drawer}
+            id={mobilePanelId}
+            aria-label="Menu"
+            data-site-menu=""
+            className="fixed inset-y-0 right-0 left-auto m-0 h-dvh max-h-none w-[min(86vw,22rem)] max-w-none border-l border-site-border bg-site-surface p-0 text-site-text backdrop:bg-[var(--site-backdrop)]"
+          >
+            <div className="flex h-full flex-col overflow-y-auto px-6 py-3">
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  data-cds-popup-close=""
+                  className={MENU_TOGGLE}
+                >
+                  <X size={24} aria-hidden="true" />
+                  Close
+                </button>
+              </div>
+              <nav aria-label="Main">{mobileList}</nav>
+            </div>
+          </dialog>
         ) : (
           <details className={cls.panel}>
             <summary className={`${MENU_TOGGLE} absolute right-0 top-0 my-2.5`}>

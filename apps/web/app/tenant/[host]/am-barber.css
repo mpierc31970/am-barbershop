@@ -477,3 +477,25 @@
     opacity: 1;
   }
 }
+
+/* ---- Phone menu drawer (NavDisclosure <dialog>): slides in from the right ---- */
+[data-site="am-barber"] dialog[data-site-menu][open] {
+  animation: am-drawer-in 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* The theme's backdrop is light text at 55%: on this dark site the menu dims to black. */
+[data-site="am-barber"] dialog[data-site-menu]::backdrop {
+  background: color-mix(in srgb, var(--am-black) 70%, transparent);
+}
+@keyframes am-drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-site="am-barber"] dialog[data-site-menu][open] {
+    animation: none;
+  }
+}
