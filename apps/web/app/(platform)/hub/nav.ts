@@ -328,17 +328,21 @@ export function composeHubNav(input: {
   return { items, pinned };
 }
 
+/** The Help article on putting the hub on a phone (studio-booking training "phone-app"). */
+export const PHONE_APP_HELP_HREF = "/hub/help/phone-app";
+
 /** One link in the top-right profile menu. */
 export type ProfileMenuLink = { href: string; label: string };
 
 /**
  * A&M fork: the profile menu lists only the person's own things. With their own seat (a
  * barber, or the owner's Employee seat): My page, My Social, Services & Pricing, Hours, My
- * bookings, My Rent and Alerts. No seat: just Alerts (the default "Your profile and alerts" link stays).
+ * bookings, My Rent, Alerts and Phone app setup. No seat: just Alerts and Phone app setup.
  */
 export function profileMenuLinks(seatId: string | null): ProfileMenuLink[] {
   const alerts = { href: ALERTS_NAV.href, label: ALERTS_NAV.label };
-  if (!seatId) return [alerts];
+  const phone = { href: PHONE_APP_HELP_HREF, label: "Phone app setup" };
+  if (!seatId) return [alerts, phone];
   const base = "/hub/studio-booking";
   const seat = `${base}/seats/${seatId}`;
   const q = `?seat=${seatId}`;
@@ -350,6 +354,6 @@ export function profileMenuLinks(seatId: string | null): ProfileMenuLink[] {
     { href: `${base}/bookings${q}`, label: "My bookings" },
   ];
   links.push({ href: `${base}/rent`, label: "My Rent" });
-  links.push(alerts);
+  links.push(alerts, phone);
   return links;
 }

@@ -95,6 +95,7 @@ describe("profileMenuLinks", () => {
       "My bookings",
       "My Rent",
       "Alerts",
+      "Phone app setup",
     ]);
     const hrefs = profileMenuLinks(SEAT).map((l) => l.href);
     expect(hrefs).toContain(`/hub/studio-booking/seats/${SEAT}#hours`);
@@ -108,9 +109,10 @@ describe("profileMenuLinks", () => {
     });
   });
 
-  it("no seat: just Alerts", () => {
+  it("no seat: Alerts and Phone app setup", () => {
     expect(profileMenuLinks(null)).toEqual([
       { href: "/hub/alerts", label: "Alerts" },
+      { href: "/hub/help/phone-app", label: "Phone app setup" },
     ]);
   });
 });

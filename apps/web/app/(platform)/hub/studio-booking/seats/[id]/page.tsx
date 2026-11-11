@@ -30,6 +30,7 @@ import {
 import { requireHubSession } from "../../../../../../lib/session";
 import { readStudioNote, STUDIO_BASE } from "../../../../../../lib/studio";
 import { GuardedLink } from "../../../GuardedLink";
+import { PHONE_APP_HELP_HREF } from "../../../nav";
 import { StudioTabs } from "../../StudioTabs";
 import { ScheduleSection } from "./ScheduleSection";
 
@@ -132,6 +133,9 @@ export default async function SeatPage({ params }: Props) {
         </Badge>
       </ScreenHeader>
       {seat.canManage ? null : <StudioTabs active="barbers" manager={false} />}
+      <Link href={PHONE_APP_HELP_HREF} className="text-sm underline">
+        Set up the app on your phone
+      </Link>
       {note ? (
         <InlineAlert tone={note.tone === "success" ? "success" : "error"}>
           {note.text}

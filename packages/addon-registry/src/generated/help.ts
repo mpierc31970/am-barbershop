@@ -363,6 +363,85 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         }
       ]
     },
+    "docs/how-to/addon-studio-booking-phone-app.md": {
+      "feature": "Set up the app on your phone",
+      "route": "/hub/today",
+      "summary": "Put the hub on your phone like an app and get a buzz when a client books with you.",
+      "activate": [
+        {
+          "screen": "iPhone: Safari",
+          "action": "Open **Safari** (it must be Safari) and go to `https://barber.needtobeedgy.com/sign-in`",
+          "expected": "The A&M sign-in page opens"
+        },
+        {
+          "screen": "iPhone: Safari",
+          "action": "Sign in",
+          "expected": "Your hub opens"
+        },
+        {
+          "screen": "iPhone: Safari",
+          "action": "Tap **Share** (the square with the arrow), then **Add to Home Screen**",
+          "expected": "The add screen opens"
+        },
+        {
+          "screen": "iPhone: Add to Home Screen",
+          "action": "Keep **Open as Web App** on and tap **Add**",
+          "expected": "The A&M icon is on your Home Screen"
+        },
+        {
+          "screen": "Android: Chrome",
+          "action": "Open **Chrome** and go to `https://barber.needtobeedgy.com/sign-in`",
+          "expected": "The A&M sign-in page opens"
+        },
+        {
+          "screen": "Android: Chrome",
+          "action": "Sign in",
+          "expected": "Your hub opens"
+        },
+        {
+          "screen": "Android: Chrome",
+          "action": "Tap the **⋮** menu, then **Add to Home screen** (or **Install app**), then **Install**",
+          "expected": "The A&M icon is on your Home screen"
+        }
+      ],
+      "use": [
+        {
+          "screen": "Phone Home Screen",
+          "action": "Open the hub from the **A&M** icon (on iPhone, alerts only work from the icon) and sign in again if asked",
+          "expected": "The hub opens full screen, with no browser bar"
+        },
+        {
+          "screen": "`/hub/today` › **Get alerts on your phone**",
+          "action": "Tap **Turn on alerts**",
+          "expected": "The phone asks to allow notifications"
+        },
+        {
+          "screen": "Notification prompt",
+          "action": "Tap **Allow**",
+          "expected": "\"Alerts are on for this device.\" shows"
+        },
+        {
+          "screen": "Card not on Today",
+          "action": "Tap your profile button (top right), then **Alerts**, then **Alert settings**. Under **Phones and computers** tap **Turn on alerts on this device**, then **Allow**",
+          "expected": "\"Alerts are on for this device.\" shows and your phone is listed"
+        },
+        {
+          "screen": "No buzz on iPhone",
+          "action": "Open **Settings** › **Notifications** › **A&M Barber Studio** and turn **Allow Notifications** on",
+          "expected": "Alerts arrive"
+        },
+        {
+          "screen": "No buzz on Android",
+          "action": "Open **Settings** › **Apps** › **Chrome** (or the A&M app) › **Notifications** and turn them on",
+          "expected": "Alerts arrive"
+        },
+        {
+          "screen": "Good to know",
+          "action": "Each phone turns alerts on once. You only get alerts for your own bookings. Removing the icon turns alerts off",
+          "expected": "Nothing else to set"
+        }
+      ]
+    },
     "docs/how-to/addon-studio-booking.md": {
       "feature": "Studio Booking",
       "route": "/hub/studio-booking",

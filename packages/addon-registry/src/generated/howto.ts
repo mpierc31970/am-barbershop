@@ -108,6 +108,43 @@ export const HOWTO_STEPS: Readonly<Record<string, readonly HowToStep[]>> = Objec
         "expected": "The dialog asked \"Delete RN License?\". The row is gone and a toast reads \"Credential deleted.\" To bring it back, restore a backup from **More** → **Backups**"
       }
     ],
+    "docs/how-to/addon-studio-booking-phone-app.md": [
+      {
+        "screen": "Phone Home Screen",
+        "action": "Open the hub from the **A&M** icon (on iPhone, alerts only work from the icon) and sign in again if asked",
+        "expected": "The hub opens full screen, with no browser bar"
+      },
+      {
+        "screen": "`/hub/today` › **Get alerts on your phone**",
+        "action": "Tap **Turn on alerts**",
+        "expected": "The phone asks to allow notifications"
+      },
+      {
+        "screen": "Notification prompt",
+        "action": "Tap **Allow**",
+        "expected": "\"Alerts are on for this device.\" shows"
+      },
+      {
+        "screen": "Card not on Today",
+        "action": "Tap your profile button (top right), then **Alerts**, then **Alert settings**. Under **Phones and computers** tap **Turn on alerts on this device**, then **Allow**",
+        "expected": "\"Alerts are on for this device.\" shows and your phone is listed"
+      },
+      {
+        "screen": "No buzz on iPhone",
+        "action": "Open **Settings** › **Notifications** › **A&M Barber Studio** and turn **Allow Notifications** on",
+        "expected": "Alerts arrive"
+      },
+      {
+        "screen": "No buzz on Android",
+        "action": "Open **Settings** › **Apps** › **Chrome** (or the A&M app) › **Notifications** and turn them on",
+        "expected": "Alerts arrive"
+      },
+      {
+        "screen": "Good to know",
+        "action": "Each phone turns alerts on once. You only get alerts for your own bookings. Removing the icon turns alerts off",
+        "expected": "Nothing else to set"
+      }
+    ],
     "docs/how-to/addon-studio-booking.md": [
       {
         "screen": "`/hub/studio-booking`",

@@ -429,3 +429,18 @@ describe("P14 help (14-46; DOM-02, DOM-03, DOM-07, DOM-10, LIFE-01, ONB-10, T-14
     }
   });
 });
+
+describe("A&M phone app setup article", () => {
+  it("opens for barber seats and the owner", () => {
+    for (const role of ["renter", "staff", "owner"] as OrgRole[]) {
+      expect(
+        findHelpEntry(
+          who(role, ["studio-booking"]),
+          ["studio-booking"],
+          "phone-app",
+        )?.href,
+        role,
+      ).toBe("/hub/help/phone-app");
+    }
+  });
+});
