@@ -66,7 +66,7 @@ export const CHECKOUT_RETURN_PATH =
   "/hub/checkout/return?session={CHECKOUT_SESSION_ID}";
 export const CHECKOUT_CANCEL_PATH = "/hub/checkout?cancelled=1";
 
-export const NOT_SENT_COPY = "Send your details to CDS first.";
+export const NOT_SENT_COPY = "Send your details to Support first.";
 /** UI-SPEC HELD-CHECKOUT. */
 export const HELD_CHECKOUT_COPY =
   "We're still checking a couple of details about your business, usually within 2 business days. Checkout opens as soon as that's done, and we'll email you.";

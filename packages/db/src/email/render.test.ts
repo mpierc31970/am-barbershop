@@ -99,11 +99,11 @@ describe("subjects and preheaders (UI-SPEC Emails)", () => {
     );
     expect(a.html).toContain("Continue setup");
     const d = renderEmail("fit.declined", { orgName: "X" });
-    expect(d.subject).toBe("About your website with CDS");
+    expect(d.subject).toBe("About your website with us");
     expect(d.text).toContain(
       "We've looked at your answers and can't host this site. Reply to this email if you think we got it wrong.",
     );
-    expect(count(d.html, /<a /g)).toBe(0);
+    expect(count(d.html, /<a /g)).toBe(1); // the logo link
   });
 });
 
@@ -126,7 +126,7 @@ describe("agreement.signed (09-13, UI-SPEC Email agreement.signed)", () => {
 
   it("subject, preheader, body, list, button, proof code, footer", () => {
     const m = renderEmail("agreement.signed", signed());
-    expect(m.subject).toBe("Your signed CDS agreement");
+    expect(m.subject).toBe("Your signed agreement");
     expect(m.preheader).toBe(
       "Signed 8 Oct 2026 for Rivera Bakery. Download your copy any time.",
     );
@@ -137,7 +137,7 @@ describe("agreement.signed (09-13, UI-SPEC Email agreement.signed)", () => {
       expect(part).toContain("Download your signed copy");
       expect(part).toContain(HASH);
       expect(part.replace(/&#39;/g, "'")).toContain(
-        "You're getting this because you signed an agreement with CDS.",
+        "You're getting this because you signed an agreement with us.",
       );
       expect(part).toContain("Settings › Legal");
     }
@@ -170,13 +170,17 @@ describe("agreement.signed (09-13, UI-SPEC Email agreement.signed)", () => {
 });
 
 describe("layout contract", () => {
-  it("lang=en, 600px table, light-only, preheader, no images", () => {
+  it("lang=en, 600px table, light-only, preheader, one image: the A&M logo, linked", () => {
     for (const m of all()) {
       expect(m.html).toContain('<html lang="en">');
       expect(m.html).toMatch(/width="600"/);
       expect(m.html).toContain('content="light only"');
       expect(m.html).toContain(m.preheader.replace(/'/g, "&#39;"));
-      expect(m.html).not.toMatch(/<img/i);
+      expect(m.html.match(/<img /g)).toHaveLength(1);
+      expect(m.html).toContain(
+        '<img src="https://barber.needtobeedgy.com/am-barber/logo.png" alt="A&amp;M Barber Studio" width="160"',
+      );
+      expect(m.html).toContain('<a href="https://barber.needtobeedgy.com/"');
       expect(m.html).toContain("DRAFT: address pending");
     }
   });
@@ -450,7 +454,7 @@ describe("media.alert (CONT-19/20, D221, D278)", () => {
     expect(m.text).toContain("The CDN health check failed three times.");
     expect(m.text).toContain("Since 28 Oct");
     expect(m.html).toContain(">Open runbook</a>");
-    expect(m.html).toContain("CDS staff alert.");
+    expect(m.html).toContain("Support staff alert.");
     const noLink = renderEmail("media.alert", alert({ link: null }));
     expect(count(noLink.html, /min-height:44px/g)).toBe(0);
   });
@@ -602,9 +606,11 @@ describe("site.assembled (TMPL-04, D-UI-P8-27)", () => {
     expect(m.text).toContain(
       `npm run site:assemble -- --org ${ORG} --rerun; pages anyone has edited are left alone.`,
     );
-    expect(m.text).toContain("You're getting this because you're CDS staff.");
+    expect(m.text).toContain(
+      "You're getting this because you're support staff.",
+    );
     expect(m.html).toContain(
-      "You&#39;re getting this because you&#39;re CDS staff.",
+      "You&#39;re getting this because you&#39;re support staff.",
     );
   });
 
@@ -638,7 +644,7 @@ describe("site.assembly_failed (CONTEXT A2-Q4, D-UI-P8-28)", () => {
       "Stopped after 3 tries. The owner hasn't been told.",
     );
     expect(m.text).toContain(
-      "Rivera Bakery's site stopped assembling after 3 tries. The owner hasn't been told; their setup page still says CDS has their details.",
+      "Rivera Bakery's site stopped assembling after 3 tries. The owner hasn't been told; their setup page still says Support has their details.",
     );
     const words = htmlWords(m.html);
     for (const fact of [
@@ -654,7 +660,9 @@ describe("site.assembly_failed (CONTEXT A2-Q4, D-UI-P8-28)", () => {
       `Look up the error code in the log, fix the cause, then run npm run site:assemble -- --org ${ORG}. It picks up where it stopped and never duplicates a page.`,
     );
     expect(count(m.html, /min-height:44px/g)).toBe(0);
-    expect(m.text).toContain("You're getting this because you're CDS staff.");
+    expect(m.text).toContain(
+      "You're getting this because you're support staff.",
+    );
     expectParity(m);
   });
 
@@ -677,7 +685,7 @@ describe("site.assembly_failed (CONTEXT A2-Q4, D-UI-P8-28)", () => {
 
 describe("P10 billing emails (10-03; UI-SPEC Emails; D214, D310)", () => {
   const HUB = "https://cds.needtobeedgy.com/hub/billing";
-  const WHY = "You're getting this because you have a website with CDS.";
+  const WHY = "You're getting this because you have a website with us.";
   const receipt = (
     over: Partial<EmailData["billing.receipt"]> = {},
   ): EmailData["billing.receipt"] => ({
@@ -758,7 +766,7 @@ describe("P10 billing emails (10-03; UI-SPEC Emails; D214, D310)", () => {
 
   it("billing.receipt: subject, preheader, amounts, lines, next bill, button", () => {
     const m = renderEmail("billing.receipt", receipt());
-    expect(m.subject).toBe("Your receipt from CDS");
+    expect(m.subject).toBe("Your receipt from Support");
     expect(m.preheader).toBe("$1,539.00 paid on 8 Oct 2026.");
     expect(m.text).toContain(
       "Thanks, Ana. We received $1,539.00 (including $0.00 sales tax) for Rivera Bakery's website.",
@@ -819,7 +827,7 @@ describe("P10 billing emails (10-03; UI-SPEC Emails; D214, D310)", () => {
 
   it("billing.quote_sent with and without a deposit", () => {
     const m = allBilling()[4]!;
-    expect(m.subject).toBe("CDS sent you a quote: Booking page redesign");
+    expect(m.subject).toBe("Support sent you a quote: Booking page redesign");
     expect(m.preheader).toBe("$5,000. Valid until 7 Nov.");
     expect(m.text).toContain(
       "Here's the quote you asked for: Booking page redesign. A new booking page with your three services. Price $5,000, deposit today $2,000. No work starts until you accept it.",
@@ -852,17 +860,17 @@ describe("P10 billing emails (10-03; UI-SPEC Emails; D214, D310)", () => {
       fit: "Your business is a kind of site we don't host.",
       capacity:
         "We can't take on your build right now and didn't want to keep you waiting.",
-      scope: "What your site needs is outside what CDS builds.",
+      scope: "What your site needs is outside what Support builds.",
     } as const;
     for (const [reason, line] of Object.entries(reasons)) {
       const m = renderEmail(
         "org.declined",
         declined({ reason: reason as keyof typeof reasons }),
       );
-      expect(m.subject).toBe("About your CDS order");
+      expect(m.subject).toBe("About your order");
       expect(m.preheader).toBe("We've refunded your payment in full.");
       expect(m.text).toContain(
-        `CDS can't build this site, so we've refunded everything you paid, $1,539.00, to your card. It can take 5 to 10 business days to show. ${line}`,
+        `Support can't build this site, so we've refunded everything you paid, $1,539.00, to your card. It can take 5 to 10 business days to show. ${line}`,
       );
       expect(m.text).toContain(
         "Your preview site is offline. Your account and site details are deleted on 7 Nov 2026.",
@@ -895,7 +903,9 @@ describe("P10 billing emails (10-03; UI-SPEC Emails; D214, D310)", () => {
     expect(words).toContain("Org id org123");
     expect(words).toContain("Detail Stripe needs an ID document.");
     expect(count(m.html, /min-height:44px/g)).toBe(0);
-    expect(m.text).toContain("You're getting this because you're CDS staff.");
+    expect(m.text).toContain(
+      "You're getting this because you're support staff.",
+    );
     expectParity(m);
   });
 

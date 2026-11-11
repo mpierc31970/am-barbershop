@@ -17,7 +17,7 @@ import { useId, useState, type ReactNode } from "react";
 import type { HubLinkComponent } from "./AddonCard";
 import { Badge } from "./Badge";
 
-export const NOTHING_LEFT_COPY = "Everything's in. CDS has what it needs.";
+export const NOTHING_LEFT_COPY = "Everything's in. Support has what it needs.";
 export const OPTIONAL_VISIBLE = 5;
 
 export interface StillNeededListProps {

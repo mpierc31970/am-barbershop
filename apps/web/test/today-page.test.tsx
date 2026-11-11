@@ -305,7 +305,7 @@ describe("/hub/today", () => {
     const card = root.querySelector("[data-launch-review]")!;
     expect(card.textContent).toContain("0 of 6 done");
     expect(card.textContent).toContain(
-      "CDS will email you when your review is ready to start.",
+      "Support will email you when your review is ready to start.",
     );
     expect(card.querySelector("a")).toBeNull();
     expect(root.querySelector("[data-build-tracker]")).toBeNull();
@@ -343,7 +343,7 @@ describe("/hub/today", () => {
     });
     const root = await render();
     const card = root.querySelector("[data-launch-review]")!;
-    expect(card.textContent).toContain("CDS is giving it a final look.");
+    expect(card.textContent).toContain("Support is giving it a final look.");
     expect(root.textContent).not.toContain("Continue review");
   });
 
@@ -462,7 +462,7 @@ describe("/hub/today", () => {
 
 describe("/hub/today, second half (11-19)", () => {
   // A&M fork: no From CDS panel on Today.
-  it.skip("main column + rail: cards after Needs you; This week and From CDS in the rail", async () => {
+  it.skip("main column + rail: cards after Needs you; This week and From Support in the rail", async () => {
     const root = await render();
     const main = root.querySelector("[data-today-main]")!;
     const rail = root.querySelector("[data-today-rail]")!;
@@ -519,14 +519,14 @@ describe("/hub/today, second half (11-19)", () => {
     expect(root.querySelector("[data-this-week]")).toBeNull();
   });
 
-  it.skip("impersonating staff: From CDS has no Dismiss", async () => {
+  it.skip("impersonating staff: From Support has no Dismiss", async () => {
     useRole("impersonating");
     const root = await render();
     expect(root.querySelector("[data-from-cds]")).not.toBeNull();
     expect(root.querySelector('[aria-label="Dismiss this card"]')).toBeNull();
   });
 
-  it.skip("a pinned CDS note leads From CDS over the announcement; a failed read falls back (12-29)", async () => {
+  it.skip("a pinned Support note leads From Support over the announcement; a failed read falls back (12-29)", async () => {
     db.activeAnnouncement.mockResolvedValue({
       id: "a1",
       title: "Planned upgrade",
@@ -579,7 +579,7 @@ describe("/hub/today, Phone alerts card (11-22)", () => {
     return mounted.container;
   }
 
-  it("shows in the rail between This week and From CDS when push is configured", async () => {
+  it("shows in the rail between This week and From Support when push is configured", async () => {
     db.pushPublicKey.mockReturnValue("BPublicKey");
     const root = await renderWithToasts();
     const rail = root.querySelector("[data-today-rail]");

@@ -327,7 +327,7 @@ describe("Website shell tabs (07-03, D-UI-P7-2)", () => {
     const html = await renderWebsite("footer");
     expect(html).toMatch(/<h2[^>]*>Footer<\/h2>/);
     expect(html).toContain("<footer");
-    expect(html).toContain('aria-label="Report this site to CDS"');
+    expect(html).toContain('aria-label="Report this site to Support"');
     expect(html).toContain("Save footer");
     expect(html).toContain("© ");
     expect(html).not.toContain(SHELL_PANEL_BODY.replace("'", "&#x27;"));
@@ -636,7 +636,7 @@ describe("hub layout (T-03-42)", () => {
     // 11-14 (D83, DASH-09): the pinned "CDS Support" row is the one sidebar row that names CDS.
     expect(html).toContain("Support");
     expect(html.replaceAll("Support", "")).not.toMatch(
-      /CDS|Connections Design/,
+      /Support|Connections Design/,
     );
     // Owner: the pinned Get add-ons item (05-11, D311), not active on /hub/website.
     expect(html).toMatch(/<a[^>]*href="\/hub\/add-ons"[^>]*>.*Get add-ons/);

@@ -81,7 +81,7 @@ export type { OffboardingDeps } from "./effects";
 
 /** UI-SPEC STAY-B second line, when the DNS had already moved back. */
 export const STAY_HANDED_BACK =
-  "Your domain no longer points to CDS. Connect it again from Settings › Domain.";
+  "Your domain no longer points to us. Connect it again from Settings › Domain.";
 
 const RECORD_ID = /^[a-z0-9]{15}$/;
 const CODE_REFUSED = "That code didn't work. Ask for a new one.";
@@ -258,7 +258,7 @@ async function settleOpenMove(
   try {
     const move = await openMoveFor(sys, orgId);
     if (move)
-      await cancelMove(sys, move.id, "Leaving CDS", deps.moveDeps ?? {});
+      await cancelMove(sys, move.id, "Moving away", deps.moveDeps ?? {});
   } catch (err) {
     console.error(`[offboarding] open move not cancelled: ${errName(err)}`);
   }
@@ -330,13 +330,13 @@ export async function startOffboarding(
   const { category, note, reason } = checkInput(ctx, input);
   const facts = await orgFacts(org);
   if (!facts) throw new NotFound();
-  if (facts.demo) throw new InvalidInput("The demo site can't leave CDS.");
+  if (facts.demo) throw new InvalidInput("The demo site can't move away.");
   if (facts.closedReason !== "") {
     throw new InvalidInput("This site is already closed.");
   }
   const existing = await readOffboardingRow(org);
   if (existing?.status === "notice") {
-    throw new InvalidInput("Leaving CDS has already started.");
+    throw new InvalidInput("Moving away has already started.");
   }
   if (existing?.status === "closed") {
     throw new InvalidInput("This site is already closed.");

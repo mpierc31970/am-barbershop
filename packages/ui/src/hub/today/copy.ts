@@ -7,7 +7,7 @@ import type { BadgeTone } from "../Badge";
 export const TODAY_COPY = Object.freeze({
   /** STATUS-BUILT */
   statusBuilt:
-    "CDS is building your site. You can edit anything while we work.",
+    "Support is building your site. You can edit anything while we work.",
   /** STATUS-REVIEW */
   statusReview:
     "Your site is ready. Look it over and tell us what to change before it goes live.",
@@ -16,16 +16,16 @@ export const TODAY_COPY = Object.freeze({
   viewSite: "View site",
   newTab: "(opens in a new tab)",
   yourBuild: "Your build",
-  whatNow: "What CDS is doing now:",
+  whatNow: "What Support is doing now:",
   updated: (day: string) => `Updated ${day}`,
   nowWord: "Now",
   /** TRACK-EDIT */
   trackEdit:
-    "You can edit any page while we work. If CDS is working on a page, it says so on that page.",
+    "You can edit any page while we work. If Support is working on a page, it says so on that page.",
   reviewHeading: "Review your site before it goes live",
   reviewCount: (done: number, total: number) => `${done} of ${total} done`,
   /** REVIEW-SOON */
-  reviewSoon: "CDS will email you when your review is ready to start.",
+  reviewSoon: "Support will email you when your review is ready to start.",
   continueReview: "Continue review",
   liveHeading: (host: string) => `You're live at ${host}`,
   /** LIVE-BODY */
@@ -172,20 +172,20 @@ export const TODAY_CARDS_COPY = Object.freeze({
   done: "Done",
   close: "Close",
   impersonating:
-    "You're viewing as CDS staff, so changes to Today are turned off. Only the person can change their own Today.",
+    "You're viewing as support staff, so changes to Today are turned off. Only the person can change their own Today.",
   thisWeek: "This week",
   visitors: "Visitors",
   messages: "Messages",
   seeReport: "See your Site Report",
   /** WEEK-PRELAUNCH (CONTEXT, verbatim). */
   weekPrelaunch: "Your first numbers appear a day after launch.",
-  fromCds: "From CDS",
-  fromCdsByline: "From CDS",
+  fromCds: "From Support",
+  fromCdsByline: "From Support",
   dismiss: "Dismiss this card",
   showMeHow: "Show me how",
   seeAddon: (name: string) => `See ${name}`,
   workHeading: "Work in progress",
-  workSteps: ["Ordered", "CDS is setting it up", "Ready"] as const,
+  workSteps: ["Ordered", "Support is setting it up", "Ready"] as const,
   started: (day: string) => `Started ${day}`,
   viewQuote: "View quote",
 });

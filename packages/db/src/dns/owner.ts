@@ -1075,7 +1075,7 @@ export async function ownerUseDifferentDomain(
   if (started) {
     throw new OwnerDomainRefused(
       "too_late",
-      "Your nameserver step has started. Ask CDS Support to use a different domain.",
+      "Your nameserver step has started. Ask Support to use a different domain.",
     );
   }
   await cancelMove(ctx, move.id, "owner chose a different domain", deps);

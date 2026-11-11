@@ -135,7 +135,7 @@ function ticketItem(
     return {
       ...base,
       kind: "support.reply",
-      title: `CDS replied to ticket #${number}`,
+      title: `Support replied to ticket #${number}`,
       sub: subject ? `${subject} · ${when}` : when,
       actionLabel: "Read reply",
       at: new Date(cdsAt).toISOString(),
@@ -210,7 +210,7 @@ async function messagesItem(
     return {
       ...base,
       kind: "support.message",
-      title: "New message from CDS",
+      title: "New message from Support",
       ...(body ? { sub: body } : {}),
       actionLabel: "Read message",
       at: isoOr(
@@ -227,7 +227,7 @@ async function messagesItem(
   return {
     ...base,
     kind: "support.note",
-    title: `New note from CDS: ${newest.title}`,
+    title: `New note from Support: ${newest.title}`,
     actionLabel: "Read note",
     at: isoOr(newest.created, now.toISOString()),
   };
@@ -289,7 +289,7 @@ async function heldItems(
       kind: "support.held",
       level: "normal",
       title: `Your changes to ${where.label} are waiting`,
-      sub: "CDS has finished its work.",
+      sub: "Support has finished its work.",
       actionLabel: "Review changes",
       href: where.href,
       section: "website",

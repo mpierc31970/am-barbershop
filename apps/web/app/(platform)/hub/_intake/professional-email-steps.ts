@@ -38,7 +38,7 @@ export const PRO_EMAIL_STEPS: readonly HowToStepView[] = Object.freeze([
   },
   {
     screen: "Your new mailbox",
-    action: "Open the email from CDS and click Confirm this address",
+    action: "Open the email from Support and click Confirm this address",
     expected:
       'The page reads "Address confirmed." Back in Settings, Email, the new address shows Confirmed and the old one is gone',
   },
@@ -72,6 +72,6 @@ export const PRO_EMAIL_STEPS: readonly HowToStepView[] = Object.freeze([
     screen: "The same row, if setup couldn't finish",
     action: "Read the warning",
     expected:
-      'It reads "We couldn\'t finish setting up sending from riverabakery.com. CDS is checking it. Emails still send under your business name." Nothing to do: CDS fixes it',
+      'It reads "We couldn\'t finish setting up sending from riverabakery.com. Support is checking it. Emails still send under your business name." Nothing to do: Support fixes it',
   },
 ]);

@@ -108,7 +108,7 @@ export async function billingNeedsYou(
   for (const q of s.quotes) {
     items.push({
       kind: "quote",
-      title: `Quote from CDS: ${q.title}`,
+      title: `Quote from Support: ${q.title}`,
       actionLabel: "Review quote",
       href: `${QUOTES_PATH}/${encodeURIComponent(q.id)}`,
     });

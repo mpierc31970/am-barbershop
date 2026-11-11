@@ -8,7 +8,7 @@ route: /hub/marketing?tab=social
 
 These steps are the recording script for the Remotion + Venice AI how-to videos (D110), so write every step precisely enough to record from.
 
-**Grow your social** is a free checklist of small things that help people find you (DASH-16). It sits under **My social accounts** on Marketing › Social, is part of every site (no add-on to buy) and needs no setup. Tips are grouped by **Every account** and then one group per social account on the list, and they fit your kind of business (a salon sees "how to book" tips, a shop sees "how to find you" tips). CDS never posts for you, never asks for your social passwords and never shows follower counts. Adding, editing and copying bio links is in [My social accounts](social-accounts.md).
+**Grow your social** is a free checklist of small things that help people find you (DASH-16). It sits under **My social accounts** on Marketing › Social, is part of every site (no add-on to buy) and needs no setup. Tips are grouped by **Every account** and then one group per social account on the list, and they fit your kind of business (a salon sees "how to book" tips, a shop sees "how to find you" tips). Support never posts for you, never asks for your social passwords and never shows follower counts. Adding, editing and copying bio links is in [My social accounts](social-accounts.md).
 
 ## Activate
 

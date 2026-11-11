@@ -502,7 +502,7 @@ export const UPDATE_CARD_AND_PAY = "Update card and pay";
 export const COMING_SOON = "Coming soon";
 /** 13-32: the line under the disabled button. */
 export const COMING_SOON_REASON =
-  "CDS is getting this one ready. You'll be able to add it soon.";
+  "Support is getting this one ready. You'll be able to add it soon.";
 
 /** 13-32 (T-13-32-01): the server refusal for adding a coming-soon add-on. */
 export function comingSoonAddCopy(name: string): string {

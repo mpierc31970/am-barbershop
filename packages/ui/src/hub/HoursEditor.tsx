@@ -44,7 +44,7 @@ export interface HoursEditorProps {
 export const HOURS_EMPTY_HELPER =
   "Leave all days closed and your site says 'Contact us for hours'.";
 export const HOURS_OVERNIGHT_HELPER =
-  "Open past midnight? Set the day to close at 11:45 pm and tell CDS.";
+  "Open past midnight? Set the day to close at 11:45 pm and tell Support.";
 export const COPY_WEEKDAYS_TOAST =
   "Copied Monday's hours to Tuesday to Friday.";
 

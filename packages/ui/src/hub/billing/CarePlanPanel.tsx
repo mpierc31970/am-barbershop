@@ -21,13 +21,13 @@ const ENTRY_LIMIT = 5;
 
 export const CARE_COPY = {
   heading: "Care Plan",
-  off: "1 hour a month of changes made for you by CDS, on top of the support every plan includes. Unused time doesn't carry over.",
+  off: "1 hour a month of changes made for you by Support, on top of the support every plan includes. Unused time doesn't carry over.",
   meterLabel: "Care Plan minutes used",
   empty: "No time used yet this month.",
   remove: "Remove the Care Plan",
   removeTitle: "Remove the Care Plan?",
   removeBody:
-    "CDS stops making changes for you today, and your next bill is credited for the rest of the month. The support every plan includes doesn't change.",
+    "Support stops making changes for you today, and your next bill is credited for the rest of the month. The support every plan includes doesn't change.",
   removeConfirm: "Remove Care Plan",
   keep: "Keep Care Plan",
 } as const;

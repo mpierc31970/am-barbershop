@@ -38,19 +38,19 @@ export const DOCS_PAGE = 50;
 export const MESSAGES_HREF = "/hub/support?tab=messages";
 
 export const DOCS_COPY = Object.freeze({
-  sharedHeading: "Shared by CDS",
+  sharedHeading: "Shared by Support",
   filesHeading: "From your tickets and messages",
   filterLabel: "Show files",
-  filter: Object.freeze({ all: "All", cds: "From CDS", you: "From you" }),
+  filter: Object.freeze({ all: "All", cds: "From Support", you: "From you" }),
   unread: "New",
   inTicket: "In ticket",
   inMessages: "In Messages",
-  byCds: "CDS",
+  byCds: "Support",
   byYou: "You",
-  fromCds: "From CDS",
+  fromCds: "From Support",
   filesEmpty: "No files in your tickets or messages yet.",
   filterEmpty: (from: "cds" | "you") =>
-    `No files from ${from === "cds" ? "CDS" : "you"} yet.`,
+    `No files from ${from === "cds" ? "Support" : "you"} yet.`,
 });
 
 /** "PDF", "PNG", "XLSX": from the file name's extension, else the mime subtype. */

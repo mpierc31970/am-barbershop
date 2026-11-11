@@ -78,7 +78,7 @@ describe("CheckoutSummary", () => {
     );
     expect(c.querySelector("button")?.textContent).toBe("Continue to payment");
     expect(c.textContent).toContain(
-      "You pay on Stripe's secure page. CDS never sees your card number.",
+      "You pay on Stripe's secure page. Support never sees your card number.",
     );
     const lock = c.querySelector("svg.lucide-lock");
     expect(lock?.getAttribute("aria-hidden")).toBe("true");
@@ -105,7 +105,7 @@ describe("CheckoutSummary", () => {
     );
     const t = mounted.container.textContent ?? "";
     expect(t).toContain("Tax calculated at payment. Test mode charges none.");
-    expect(t).toContain("You'll pay on a CDS test page. No card is needed.");
+    expect(t).toContain("You'll pay on a test page. No card is needed.");
     expect(t).not.toContain("Stripe's secure page");
   });
 

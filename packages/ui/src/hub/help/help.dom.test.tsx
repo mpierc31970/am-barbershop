@@ -71,7 +71,7 @@ describe("HelpCenter (DASH-17)", () => {
       "search",
     );
     expect(document.querySelector("[data-help-footer]")?.textContent).toBe(
-      "Can't find it? Ask CDS Support.",
+      "Can't find it? Ask Support.",
     );
     // 12-20: Ask CDS Support opens the Get help form (no target).
     expect(
@@ -95,13 +95,13 @@ describe("HelpCenter (DASH-17)", () => {
     expect(rows()).toEqual(["add-pages", "delete-page", "today"]);
   });
 
-  it("no match shows HELP-EMPTY with Ask CDS Support", () => {
+  it("no match shows HELP-EMPTY with Ask Support", () => {
     mounted = mount(<HelpCenter groups={GROUPS} />);
     typeInto(document.querySelector("input")!, "zebra");
     expect(rows()).toEqual([]);
     const empty = document.querySelector("[data-help-empty]");
     expect(empty?.textContent).toBe(
-      'No help articles match "zebra". Try another word, or ask CDS Support.',
+      'No help articles match "zebra". Try another word, or ask Support.',
     );
     expect(empty?.querySelector("a")?.getAttribute("href")).toBe(
       "/hub/support/tickets/new",
@@ -115,7 +115,7 @@ describe("HelpCenter (DASH-17)", () => {
     mounted = mount(<HelpCenter groups={[]} />);
     const empty = document.querySelector("[data-help-empty]");
     expect(empty?.textContent).toBe(
-      "No help articles here yet. For anything you need, ask CDS Support.",
+      "No help articles here yet. For anything you need, ask Support.",
     );
     expect(empty?.textContent).not.toContain('""');
   });

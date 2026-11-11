@@ -117,7 +117,7 @@ export function noticeTarget(
 ): string {
   switch (w.scope) {
     case "platform":
-      return "the CDS platform";
+      return "the platform";
     case "addon":
       return labels.addonName || "an add-on";
     case "page":

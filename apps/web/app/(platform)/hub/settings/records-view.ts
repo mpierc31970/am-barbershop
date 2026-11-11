@@ -30,7 +30,7 @@ export const RECORDS_VIEW_COPY = Object.freeze({
   heading: "DNS records",
   backToDomain: "Domain",
   explainer:
-    "DNS records tell the internet where your website and email live. CDS keeps them in one place for you.",
+    "DNS records tell the internet where your website and email live. Support keeps them in one place for you.",
   currentEmail: "Your current email",
   noEmail: "No email set up on this domain yet.",
   emailOwnerOnly: "Only the owner can set up email for the domain.",

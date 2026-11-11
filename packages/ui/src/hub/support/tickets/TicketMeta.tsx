@@ -45,7 +45,7 @@ export function TicketMeta({
   timeZone,
   now,
 }: TicketMetaProps) {
-  const who = ticket.openedByCds ? "CDS" : openedBy?.trim() || "";
+  const who = ticket.openedByCds ? "Support" : openedBy?.trim() || "";
   const openedDay = formatDayMonth(ticket.created, timeZone);
   const opened = who ? TICKETS_COPY.openedBy(openedDay, who) : openedDay;
   const slaType = ticket.type === "problem" || ticket.type === "question";

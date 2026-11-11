@@ -57,7 +57,7 @@ describe("ImpersonationBanner", () => {
     expect(region?.hasAttribute("data-cds-identity")).toBe(true);
     expect(region?.querySelector("[data-cds-mark]")).not.toBeNull();
     expect(text(region)).toContain(
-      "Viewing Rivera Bakery as CDS staff · as admin · Checking the menu · 52 min left",
+      "Viewing Rivera Bakery as support staff · as admin · Checking the menu · 52 min left",
     );
     const end = region?.querySelector("form button[type=submit]");
     expect(end?.textContent).toBe(P13_COPY.BANNER_END);

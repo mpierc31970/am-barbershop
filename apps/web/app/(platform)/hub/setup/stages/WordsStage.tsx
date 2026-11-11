@@ -19,13 +19,13 @@ import type { StageFormProps } from "../[stage]/stage-forms";
 export const WORDS_COPY = {
   about: "About",
   aboutHelper:
-    "A few paragraphs in your own words. Don't worry about polish; CDS edits it with you. Leave empty and we'll start from your business type and town.",
+    "A few paragraphs in your own words. Don't worry about polish; Support edits it with you. Leave empty and we'll start from your business type and town.",
   mission: "Mission",
   missionHelper:
     "Why you do what you do, in a sentence or two. Leave empty to skip it.",
   headline: "The first line visitors should read",
   headlineHelper:
-    "Like 'Real bread, baked before sunrise.' Leave empty and CDS writes one for you.",
+    "Like 'Real bread, baked before sunrise.' Leave empty and Support writes one for you.",
 } as const;
 
 export const ABOUT_MAX = 2000;

@@ -190,7 +190,7 @@ describe("sendToCdsAction (T-06-87)", () => {
     expect(await sendToCdsAction()).toEqual({
       ok: false,
       code: "forbidden",
-      message: "Only the site owner can send this to CDS.",
+      message: "Only the site owner can send this to Support.",
     });
   });
 
@@ -199,7 +199,7 @@ describe("sendToCdsAction (T-06-87)", () => {
     expect(await sendToCdsAction()).toEqual({
       ok: false,
       code: "impersonation_denied",
-      message: "Sending to CDS is the owner's step.",
+      message: "Sending to Support is the owner's step.",
     });
   });
 
@@ -208,7 +208,7 @@ describe("sendToCdsAction (T-06-87)", () => {
     expect(await sendToCdsAction()).toEqual({
       ok: false,
       code: "intake_incomplete",
-      message: "Send to CDS unlocks when the must-haves are in.",
+      message: "Send to Support unlocks when the must-haves are in.",
     });
   });
 

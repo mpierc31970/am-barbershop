@@ -309,7 +309,7 @@ describe("joinInviteAction", () => {
       { error: null },
       form({ token: TOKEN, mode: "join" }),
     );
-    expect(res.error).toMatch(/CDS staff accounts can't join a site/);
+    expect(res.error).toMatch(/Support staff accounts can't join a site/);
     // A plain InvalidInput (used, revoked) is still the expired copy.
     db.acceptInvite.mockRejectedValueOnce(new InvalidInput("used"));
     expect(

@@ -35,12 +35,12 @@ export const IDEA_FORM_COPY = Object.freeze({
   description: "Describe it",
   descriptionHelper: "What would it help you do?",
   footer:
-    "CDS may ask you about it in a ticket. Ideas don't have a reply time.",
+    "Support may ask you about it in a ticket. Ideas don't have a reply time.",
   titleRequired: "Give your idea a short name.",
   descriptionRequired: "Describe your idea.",
   posted: "Idea posted. Your site voted for it.",
   /** D-UI-P12-26: a scanner-held idea is not listed until CDS reviews it. */
-  held: "Idea sent. CDS will review it before it's listed.",
+  held: "Idea sent. Support will review it before it's listed.",
 });
 
 export type IdeaField = "ideaTitle" | "ideaDescription";

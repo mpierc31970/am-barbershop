@@ -69,7 +69,7 @@ export const SITE_POLICY_COPY = {
   previewHelper:
     "This is how it reads today. Your site shows it in your theme.",
   close: "Close",
-  ack: "I understand CDS gives no legal advice, and I'll have my own lawyer approve these pages.",
+  ack: "I understand this site gives no legal advice, and I'll have my own lawyer approve these pages.",
   publish: "Publish policy pages",
   publishUpdate: "Publish the update",
   publishing: "Publishing…",

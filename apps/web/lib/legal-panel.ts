@@ -116,17 +116,17 @@ export function legalTabCount(
 // "Your site's policy pages" (AGR-08; D217, D287; CONTEXT A5-Q3, A5-Q4; 09-UI-SPEC section 2
 // and Copywriting).
 
-export const SITE_POLICY_WARN_TITLE = "CDS is not a law firm";
+export const SITE_POLICY_WARN_TITLE = "We are not a law firm";
 export const SITE_POLICY_WARN =
-  "CDS gives no legal advice. These pages are a starting point written from what your site collects. Have your own lawyer approve them before you rely on them.";
+  "We give no legal advice. These pages are a starting point written from what your site collects. Have your own lawyer approve them before you rely on them.";
 export const SITE_POLICY_MISSING =
   "Add your legal business name and a privacy contact email first, in Setup › Domain & the rest. Your policy pages use them.";
 export const SITE_POLICY_TEMPLATE_UPDATE =
-  "CDS updated the policy page template. Your site keeps showing the version you approved until you review and publish the update.";
+  "Support updated the policy page template. Your site keeps showing the version you approved until you review and publish the update.";
 export const SITE_POLICY_NOT_OWNER =
   "Only the site owner can publish these pages.";
 export const SITE_POLICY_IMPERSONATING =
-  "You're viewing as CDS staff, so publishing is turned off. Only the owner can publish these pages.";
+  "You're viewing as support staff, so publishing is turned off. Only the owner can publish these pages.";
 /** Where legal_name and privacy_contact are edited (setup step "Domain & the rest"). */
 export const LEGAL_INPUTS_HREF = "/hub/setup/the-rest";
 

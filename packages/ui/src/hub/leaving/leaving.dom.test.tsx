@@ -50,9 +50,9 @@ describe("LeavingBanner", () => {
   it("is a named region with the static BANNER text, the number bold, and Open checklist", () => {
     mounted = mount(<LeavingBanner days={23} next="move your DNS" />);
     const region = mounted.container.querySelector('[role="region"]');
-    expect(region?.getAttribute("aria-label")).toBe("Leaving CDS");
+    expect(region?.getAttribute("aria-label")).toBe("Moving away");
     expect(region?.textContent).toContain(
-      "Leaving CDS · 23 days left · Next: move your DNS",
+      "Moving away · 23 days left · Next: move your DNS",
     );
     expect(region?.querySelector("strong")?.textContent).toBe("23");
     const link = region?.querySelector("a");
@@ -361,7 +361,7 @@ describe("LeavingChecklist", () => {
     ).toBe("Google Analytics and Search Console · not connected");
   });
 
-  it("is read-only for Admins: no buttons, no Stay with CDS", () => {
+  it("is read-only for Admins: no buttons, no Stay with us", () => {
     mounted = mount(
       <LeavingChecklist
         {...checklistProps({
@@ -384,14 +384,14 @@ describe("LeavingChecklist", () => {
     expect(mounted.container.textContent).toContain(LEAVING_UI_COPY.readOnly);
   });
 
-  it("Stay with CDS opens a dialog with STAY-B (+ the handed-back line) and the safe default", async () => {
+  it("Stay with us opens a dialog with STAY-B (+ the handed-back line) and the safe default", async () => {
     const onStay = vi.fn(async () => ({ ok: true as const, data: null }));
     const onStayed = vi.fn();
     mounted = mount(
       <LeavingChecklist
         {...checklistProps()}
         dnsHandedBack
-        stayHandedBackLine="Your domain no longer points to CDS. Connect it again from Settings › Domain."
+        stayHandedBackLine="Your domain no longer points to us. Connect it again from Settings › Domain."
         onStay={onStay}
         onStayed={onStayed}
       />,
@@ -400,7 +400,7 @@ describe("LeavingChecklist", () => {
     const dialog = mounted.container.querySelector("dialog");
     expect(dialog?.textContent).toContain(P14_COPY.STAY_H);
     expect(dialog?.textContent).toContain(P14_COPY.STAY_B);
-    expect(dialog?.textContent).toContain("no longer points to CDS");
+    expect(dialog?.textContent).toContain("no longer points to us");
     expect(button(dialog!, P14_COPY.BTN_KEEP_LEAVING)).not.toBeNull();
     const stay = button(dialog!, P14_COPY.BTN_STAY);
     expect(stay?.className).toMatch(/bg-hub-accent/);
@@ -572,7 +572,7 @@ describe("HandbackFlow", () => {
     );
   });
 
-  it("mismatch: HANDBACK-MISMATCH, CDS's nameservers and the missing records", () => {
+  it("mismatch: HANDBACK-MISMATCH, our nameservers and the missing records", () => {
     const msg = P14_COPY.HANDBACK_MISMATCH({ count: 1 });
     mounted = mount(
       <HandbackFlow

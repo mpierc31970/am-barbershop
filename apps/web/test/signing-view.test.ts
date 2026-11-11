@@ -284,7 +284,7 @@ describe("buildSigningView: who sees what (D287)", () => {
     expect(v.kind).toBe("readonly");
     expect(v.alert).toEqual({
       tone: "info",
-      text: "You're viewing as CDS staff, so signing is turned off. Only the owner can sign.",
+      text: "You're viewing as support staff, so signing is turned off. Only the owner can sign.",
     });
   });
 });

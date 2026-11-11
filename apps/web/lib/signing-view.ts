@@ -21,17 +21,17 @@ export const SIGN_TITLE = "Review and sign your agreement";
 export const REACCEPT_TITLE = "We've updated our terms";
 export const CURRENT_TITLE = "Your agreement";
 export const INTRO_SIGN =
-  "Five short policies cover how CDS builds and hosts your site. Read the summaries, open the full text of anything you want to check, tick each one, then sign once. You'll get a copy to keep.";
+  "Five short policies cover how Support builds and hosts your site. Read the summaries, open the full text of anything you want to check, tick each one, then sign once. You'll get a copy to keep.";
 export const INTRO_CURRENT =
-  "You've signed the current versions of every CDS policy. Your signed copies are in Settings › Legal.";
+  "You've signed the current versions of every policy. Your signed copies are in Settings › Legal.";
 export const INTRO_CONSENT_ONLY =
   "We updated the electronic signature consent. Review the policies and sign again to keep using your hub. Your site stays live the whole time.";
 export const CURRENT_COPY = "Your agreement is up to date.";
 export const IMPERSONATING_SIGN_COPY =
-  "You're viewing as CDS staff, so signing is turned off. Only the owner can sign.";
+  "You're viewing as support staff, so signing is turned off. Only the owner can sign.";
 export const DRAFT_HUB_TITLE = "Draft wording";
 export const DRAFT_HUB_COPY =
-  "These policies are drafts and haven't been reviewed by a lawyer yet. CDS will ask you to accept the final wording before it applies.";
+  "These policies are drafts and haven't been reviewed by a lawyer yet. Support will ask you to accept the final wording before it applies.";
 
 export function introReaccept(n: number): string {
   return `We changed ${n} of the policies you signed. Here's what changed. Sign again to keep using your hub. Your site stays live the whole time.`;

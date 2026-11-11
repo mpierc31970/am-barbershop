@@ -184,13 +184,13 @@ afterEach(() => {
 });
 
 describe("/hub/support frame (COMM-05, D311)", () => {
-  it("Owner: CDS identity root, mark, H1, byline link, Get help, four tabs", async () => {
+  it("Owner: Support identity root, mark, H1, byline link, Get help, four tabs", async () => {
     const c = await render();
     const root = c.querySelector("[data-cds-identity]")!;
     expect(root).not.toBeNull();
-    expect(root.querySelector("h1")?.textContent).toBe("CDS Support");
+    expect(root.querySelector("h1")?.textContent).toBe("Support");
     expect(root.querySelector("[data-cds-mark]")).not.toBeNull();
-    expect(c.textContent).toContain("From the Connections Design Studios team");
+    expect(c.textContent).toContain("From the support team");
     expect(
       c.querySelector("[data-support-includes]")?.getAttribute("href"),
     ).toBe("/hub/help/what-support-includes");
@@ -246,7 +246,7 @@ describe("/hub/support frame (COMM-05, D311)", () => {
     },
   );
 
-  it("every CDS mention is inside [data-cds-identity] (D83)", async () => {
+  it("every Support mention is inside [data-cds-identity] (D83)", async () => {
     const c = await render();
     const walker = document.createTreeWalker(c, NodeFilter.SHOW_TEXT);
     for (let n = walker.nextNode(); n; n = walker.nextNode()) {
@@ -265,7 +265,7 @@ describe("roles (COMM-07)", () => {
       const c = await render();
       expect(c.querySelector("[data-support-get-help]")).not.toBeNull();
       expect(c.querySelector("textarea")).not.toBeNull();
-      expect(c.textContent).toContain("Write to CDS");
+      expect(c.textContent).toContain("Write to Support");
       expect(c.textContent).not.toContain("You can read support but not write");
     },
   );
@@ -286,7 +286,7 @@ describe("roles (COMM-07)", () => {
     useRole("impersonating");
     const c = await render();
     expect(c.textContent).toContain(
-      "You're viewing as CDS staff, so filing and replying are turned off here.",
+      "You're viewing as support staff, so filing and replying are turned off here.",
     );
     expect(c.querySelector("textarea")).toBeNull();
     expect(c.querySelector("[data-support-get-help]")).toBeNull();
@@ -298,7 +298,7 @@ describe("roles (COMM-07)", () => {
     useRole("staffGrant");
     const c = await render();
     expect(c.querySelector("[data-cds-identity]")).not.toBeNull();
-    expect(c.textContent).toContain("doesn't include CDS Support");
+    expect(c.textContent).toContain("doesn't include Support");
     expect(c.querySelector("[data-support-footer]")).not.toBeNull();
     expect(c.querySelectorAll("nav a").length).toBe(0);
     expect(db.listCdsNotes).not.toHaveBeenCalled();
@@ -313,16 +313,16 @@ describe("Messages tab (COMM-01, COMM-02)", () => {
     const order = [
       "Your launch checklist",
       "Earlier notes (1)",
-      "Messages with CDS",
+      "Messages with us",
       "Can you change the hours?",
       "Done, they are live.",
-      "Write to CDS",
+      "Write to Support",
     ].map((t) => text.indexOf(t));
     for (const i of order) expect(i).toBeGreaterThanOrEqual(0);
     expect([...order].sort((a, b) => a - b)).toEqual(order);
     expect(c.querySelector("details")?.hasAttribute("open")).toBe(false);
     expect(c.querySelector("[data-unread-divider]")).not.toBeNull();
-    expect(text).toContain("CDS usually replies within 2 business days.");
+    expect(text).toContain("Support usually replies within 2 business days.");
     expect(db.listThreadMessages).toHaveBeenCalledWith(ROLES.owner, THREAD);
   });
 
@@ -337,7 +337,7 @@ describe("Messages tab (COMM-01, COMM-02)", () => {
     db.listCdsNotes.mockResolvedValue({ pinned: [], earlier: [] });
     const c = await render();
     expect(c.textContent).toContain("No messages yet");
-    expect(c.textContent).toContain("Write to CDS any time.");
+    expect(c.textContent).toContain("Write to Support any time.");
     expect(c.querySelector("textarea")).not.toBeNull();
     expect(db.listThreadMessages).not.toHaveBeenCalled();
     expect(actions.markNotesReadAction).not.toHaveBeenCalled();
@@ -398,7 +398,7 @@ describe("Messages tab (COMM-01, COMM-02)", () => {
     expect(c.textContent).toContain("Thanks!");
   });
 
-  it("WR-C01: a send polls at once from the server cursor, so a CDS reply just before it is kept", async () => {
+  it("WR-C01: a send polls at once from the server cursor, so a Support reply just before it is kept", async () => {
     const own = msg(
       "m3aaaaaaaaaaaa3",
       "member",
@@ -445,7 +445,7 @@ describe("Messages tab (COMM-01, COMM-02)", () => {
     expect(c.textContent?.split("Thanks!").length).toBe(2);
   });
 
-  it("polls /hub/api/support every 20 s while visible and announces new CDS messages", async () => {
+  it("polls /hub/api/support every 20 s while visible and announces new Support messages", async () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,
@@ -474,7 +474,7 @@ describe("Messages tab (COMM-01, COMM-02)", () => {
     expect(q.get("thread")).toBe(THREAD);
     expect(q.get("since")).toBe("2026-10-10T15:00:00.000Z");
     expect(c.textContent).toContain("One more thing.");
-    expect(c.textContent).toContain("1 new message from CDS");
+    expect(c.textContent).toContain("1 new message from Support");
 
     // A hidden page polls nothing.
     Object.defineProperty(document, "visibilityState", {

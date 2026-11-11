@@ -376,7 +376,7 @@ describe("lifecycle (choices 5-7)", () => {
     expect(page.messages.map((m) => m.event ?? m.body)).toEqual([
       "Start",
       "Here is the info",
-      "Back to CDS",
+      "Back to Support",
     ]);
     const audits = await statusAudits(row.id);
     expect(audits).toHaveLength(1);

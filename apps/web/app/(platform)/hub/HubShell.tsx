@@ -151,6 +151,10 @@ export interface HubShellProfile {
   email: string;
   /** "Owner at Rivera Bakery" */
   roleLine?: string;
+  /** A&M fork: the person's own menu items (nav.ts profileMenuLinks). */
+  links?: readonly { href: string; label: string }[];
+  /** A&M fork: their own seat, for "Take a photo" (to that seat's gallery). */
+  photoSeatId?: string;
 }
 
 export interface HubShellProps {

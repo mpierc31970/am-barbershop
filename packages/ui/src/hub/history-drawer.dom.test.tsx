@@ -181,7 +181,7 @@ describe("HistoryDrawer", () => {
     await flush();
     const rows = el.querySelectorAll("[data-version]");
     expect(rows[0]!.textContent).toContain("Saved by Maria Lopez");
-    expect(rows[1]!.textContent).toContain("Saved by CDS support");
+    expect(rows[1]!.textContent).toContain("Saved by Support");
     expect(rows[2]!.textContent).toContain("Saved by a former team member");
     expect(rows[3]!.textContent).toContain(
       "Saved before history was turned on",
@@ -343,8 +343,10 @@ describe("HistoryDrawer", () => {
       expect(rows[0]!.textContent).toContain("Published by Maria Rivera");
       expect(rows[0]!.textContent).toContain("Current");
       expect(rows[0]!.querySelector("button")).toBeNull();
-      expect(rows[1]!.textContent).toContain("Set up by CDS from your answers");
-      expect(rows[2]!.textContent).toContain("Published by CDS support");
+      expect(rows[1]!.textContent).toContain(
+        "Set up by Support from your answers",
+      );
+      expect(rows[2]!.textContent).toContain("Published by Support");
       expect(rows[3]!.textContent).toContain(
         "Published by a former team member",
       );

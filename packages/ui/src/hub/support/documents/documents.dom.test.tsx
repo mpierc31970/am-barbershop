@@ -104,7 +104,7 @@ describe("CdsNoteCard", () => {
     expect(card).not.toBeNull();
     expect(card!.textContent).toContain("Pinned");
     expect(card!.textContent).toContain("Your launch checklist");
-    expect(card!.textContent).toContain("From CDS · 9 Oct");
+    expect(card!.textContent).toContain("From Support · 9 Oct");
     expect(card!.querySelector("[data-cds-mark]")).not.toBeNull();
     const a = card!.querySelector("a");
     expect(a?.getAttribute("href")).toBe("https://example.com/guide");
@@ -156,7 +156,7 @@ describe("EarlierNotes", () => {
 });
 
 describe("DocumentList", () => {
-  it("wraps Shared by CDS in data-cds-identity and has no signed link in the markup", () => {
+  it("wraps Shared by Support in data-cds-identity and has no signed link in the markup", () => {
     const { c } = list();
     const shared = c.querySelector("[data-cds-identity]");
     expect(shared?.textContent).toContain(DOCS_COPY.sharedHeading);
@@ -166,7 +166,7 @@ describe("DocumentList", () => {
     }
   });
 
-  it("names the CDS document download with title, type and size", () => {
+  it("names the Support document download with title, type and size", () => {
     const { c } = list();
     expect(button(c, "Download Brand guide, PDF, 1.2 MB")).not.toBeNull();
   });
@@ -233,7 +233,7 @@ describe("DocumentList", () => {
     expect(links).toContainEqual(["In Messages", "/hub/support?tab=messages"]);
   });
 
-  it("filters From CDS / From you and calls onFilter", () => {
+  it("filters From Support / From you and calls onFilter", () => {
     const { c, props } = list();
     const you = c.querySelector('[role="radio"][data-value="you"]')!;
     click(you);

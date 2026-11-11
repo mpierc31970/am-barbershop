@@ -17,8 +17,8 @@ import type { ConnectPanelView, ConnectState } from "./types";
 export const CONNECT_COPY = {
   heading: "Take payments on your site",
   intro:
-    "Connect your own Stripe account so customers can pay you online for bookings, events and orders. Money goes straight to your Stripe account, never through CDS.",
-  fees: "You own this account, you are the seller, and you pay Stripe's fees directly (for example 2.9% + 30¢ online). CDS takes no cut.",
+    "Connect your own Stripe account so customers can pay you online for bookings, events and orders. Money goes straight to your Stripe account, never through Support.",
+  fees: "You own this account, you are the seller, and you pay Stripe's fees directly (for example 2.9% + 30¢ online). Support takes no cut.",
   helper:
     "Already use Stripe? You can link your account on the next screen. New to Stripe? You'll create a free account; it takes about 10 minutes.",
   noStripe: "No Stripe yet? Customers can still book and pay you in person.",
@@ -33,7 +33,7 @@ export const CONNECT_COPY = {
   disconnectHelp:
     "To disconnect, remove Connections Design Studios under Settings › Connected accounts in your Stripe dashboard. Online payments on your site stop straight away.",
   impersonating:
-    "You're viewing as CDS staff, so Stripe changes are turned off. Only the owner can connect Stripe.",
+    "You're viewing as support staff, so Stripe changes are turned off. Only the owner can connect Stripe.",
   adminOnly: "Only the site owner can connect or change Stripe.",
   errConnect:
     "We couldn't open Stripe just now. Nothing changed. Try again in a minute.",

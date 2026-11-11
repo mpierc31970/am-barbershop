@@ -34,10 +34,10 @@ describe("support email types (registry)", () => {
 describe("support.notify", () => {
   it("support.reply: subject, preheader, body, excerpt, button, footer", () => {
     const m = renderEmail("support.notify", base());
-    expect(m.subject).toBe("CDS replied to ticket #1042");
+    expect(m.subject).toBe("Support replied to ticket #1042");
     expect(m.preheader).toBe("Menu page photo is blurry");
     expect(m.text).toContain(
-      'Mara from CDS replied to your ticket "Menu page photo is blurry".',
+      'Mara from Support replied to your ticket "Menu page photo is blurry".',
     );
     expect(m.text).toContain("I swapped the photo for the full-size one.");
     expect(m.text).toContain("Read the reply");
@@ -64,7 +64,7 @@ describe("support.notify", () => {
       }),
     );
     expect(w.subject).toBe("Ticket #1042 is now Waiting on you");
-    expect(w.text).toContain("CDS needs something from you to continue.");
+    expect(w.text).toContain("Support needs something from you to continue.");
     expect(w.text).toContain("Open the ticket");
     const r = renderEmail(
       "support.notify",
@@ -74,7 +74,7 @@ describe("support.notify", () => {
       }),
     );
     expect(r.text).toContain(
-      "CDS marked this resolved. If it isn't, reply in your hub within 7 days to reopen it.",
+      "Support marked this resolved. If it isn't, reply in your hub within 7 days to reopen it.",
     );
     const c = renderEmail(
       "support.notify",
@@ -92,16 +92,16 @@ describe("support.notify", () => {
       "support.notify",
       base({ kind: "cds.message", ticket: undefined, excerpt: "Hello!" }),
     );
-    expect(msg.subject).toBe("New message from CDS");
+    expect(msg.subject).toBe("New message from Support");
     expect(msg.preheader).toBe("Rivera Bakery");
-    expect(msg.text).toContain("Mara from CDS wrote:");
+    expect(msg.text).toContain("Mara from Support wrote:");
     expect(msg.text).toContain("Read the message");
 
     const note = renderEmail(
       "support.notify",
       base({ kind: "cds.note", ticket: undefined, title: "Launch plan" }),
     );
-    expect(note.subject).toBe("A note from CDS: Launch plan");
+    expect(note.subject).toBe("A note from Support: Launch plan");
     expect(note.text).toContain("Read the note");
 
     const doc = renderEmail(
@@ -113,7 +113,7 @@ describe("support.notify", () => {
         excerpt: "secret body",
       }),
     );
-    expect(doc.subject).toBe("CDS shared a document: Brand guide");
+    expect(doc.subject).toBe("Support shared a document: Brand guide");
     expect(doc.text).toContain("Brand guide is in Documents in your hub.");
     expect(doc.text).not.toContain("secret body");
     expect(doc.text).toContain("Open Documents");
@@ -123,11 +123,13 @@ describe("support.notify", () => {
       base({
         kind: "cds.notice",
         ticket: undefined,
-        title: "CDS is working on your site until 4:00 pm",
-        excerpt: "CDS is working on your site until 4:00 pm. Changes wait.",
+        title: "Support is working on your site until 4:00 pm",
+        excerpt: "Support is working on your site until 4:00 pm. Changes wait.",
       }),
     );
-    expect(notice.subject).toBe("CDS is working on your site until 4:00 pm");
+    expect(notice.subject).toBe(
+      "Support is working on your site until 4:00 pm",
+    );
     expect(notice.text).toContain("Open your hub");
     for (const m of [msg, note, doc, notice]) {
       expect(m.text).toContain(FOOTER);
@@ -155,6 +157,6 @@ describe("support.sla_risk (staff)", () => {
     expect(m.text).toContain("npm run support:show -- --ticket 1042");
     expect(m.text).toContain("Something isn't working");
     expect(m.text).toContain(FOOTER);
-    expect(m.html).not.toContain("<a ");
+    expect(m.html.match(/<a /g)).toHaveLength(1); // the logo link only
   });
 });

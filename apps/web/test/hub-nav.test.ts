@@ -157,7 +157,7 @@ const MARKETING = {
 };
 
 const TODAY = { href: "/hub/today", label: "Today", iconKey: "House" };
-const ALERTS = { href: "/hub/profile#alerts", label: "Alerts", iconKey: "Bell" };
+const ALERTS = { href: "/hub/alerts", label: "Alerts", iconKey: "Bell" };
 const REPORTS = {
   href: "/hub/reports",
   label: "Reports",
@@ -189,7 +189,7 @@ function item(
 }
 
 describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marketing, Reports, Settings)", () => {
-  it("owner on a live org: the full list in D311 order; Get add-ons, Help and CDS Support pinned", () => {
+  it("owner on a live org: the full list in D311 order; Get add-ons, Help and Support pinned", () => {
     const nav = composeHubNav({
       role: "owner",
       grants: [],
@@ -214,7 +214,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
     });
   });
 
-  it("exports frozen Today, Reports, Help and CDS Support items", () => {
+  it("exports frozen Today, Reports, Help and Support items", () => {
     expect(TODAY_NAV).toEqual(TODAY);
     expect(REPORTS_NAV).toEqual(REPORTS);
     expect(HELP_NAV).toEqual(HELP);
@@ -266,7 +266,14 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
       active: [],
       registry,
     });
-    expect(viewer.items).toEqual([TODAY, ALERTS, INBOX, WEBSITE, MARKETING, REPORTS]);
+    expect(viewer.items).toEqual([
+      TODAY,
+      ALERTS,
+      INBOX,
+      WEBSITE,
+      MARKETING,
+      REPORTS,
+    ]);
     expect(viewer.items.map((i) => i.href)).not.toContain("/hub/settings");
     expect(viewer.pinned).toEqual([HELP, SUPPORT]);
   });
@@ -339,7 +346,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
     });
     expect(n.items.map((i) => i.href)).toEqual([
       "/hub/today",
-      "/hub/profile#alerts",
+      "/hub/alerts",
       "/hub/inbox",
       "/hub/website",
       "/hub/side-early",
@@ -359,7 +366,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
     });
     expect(nav.items.map((i) => i.href)).toEqual([
       "/hub/today",
-      "/hub/profile#alerts",
+      "/hub/alerts",
       "/hub/inbox",
       "/hub/website",
       "/hub/marketing",
@@ -385,7 +392,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
     // A&M fork: a sidebar add-on adds no empty Website item, and a seat gets no Marketing.
     expect(withGrant.items.map((i) => i.href)).toEqual([
       "/hub/today",
-      "/hub/profile#alerts",
+      "/hub/alerts",
       "/hub/fixture-side",
     ]);
   });
@@ -454,7 +461,7 @@ describe("composeHubNav: setup stages (06-18, D312; 11-14 Pitfall 2)", () => {
     });
     expect(n.items.map((i) => i.href)).toEqual([
       "/hub/today",
-      "/hub/profile#alerts",
+      "/hub/alerts",
       "/hub/inbox",
       "/hub/website",
       "/hub/marketing",
@@ -467,7 +474,7 @@ describe("composeHubNav: setup stages (06-18, D312; 11-14 Pitfall 2)", () => {
     expect(n.items.map((i) => i.href)).toEqual([
       "/hub/setup",
       "/hub/today",
-      "/hub/profile#alerts",
+      "/hub/alerts",
       "/hub/inbox",
       "/hub/website",
       "/hub/marketing",
@@ -675,7 +682,7 @@ describe("HubNotice (D286 existing owner)", () => {
     const html = renderToStaticMarkup(createElement(HubNotice));
     expect(html).toContain(EXISTING_OWNER_COPY);
     expect(EXISTING_OWNER_COPY).toBe(
-      "You already have a site with us, so we signed you in to it. We kept your new quote, and CDS will be in touch about it.",
+      "You already have a site with us, so we signed you in to it. We kept your new quote, and Support will be in touch about it.",
     );
   });
 
@@ -683,7 +690,7 @@ describe("HubNotice (D286 existing owner)", () => {
     nav.search = new URLSearchParams("notice=terms-updated");
     const html = renderToStaticMarkup(createElement(HubNotice));
     expect(html).toContain(
-      "CDS updated its terms. Your site owner needs to accept them; nothing changes for you or your site meanwhile.",
+      "Support updated its terms. Your site owner needs to accept them; nothing changes for you or your site meanwhile.",
     );
   });
 

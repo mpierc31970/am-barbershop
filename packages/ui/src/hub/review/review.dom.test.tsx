@@ -415,7 +415,7 @@ describe("ReviewSubmitPanel", () => {
       />,
     );
     expect(mounted.container.textContent).toContain(
-      "CDS is giving it a final look.",
+      "Support is giving it a final look.",
     );
     expect(mounted.container.querySelector("button")).toBeNull();
   });
@@ -435,7 +435,7 @@ describe("ReviewSubmitPanel", () => {
     );
     const root = mounted.container;
     expect(root.textContent).toContain(
-      "You changed About us after sending. Look at it again so CDS can launch.",
+      "You changed About us after sending. Look at it again so Support can launch.",
     );
     expect(root.querySelector("button")).toBeNull();
     expect(root.textContent).toContain(

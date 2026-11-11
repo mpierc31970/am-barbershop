@@ -9,9 +9,9 @@ export const HELP_COPY = Object.freeze({
     `No help articles match "${query}". Try another word, or `,
   /** Nothing to list and no search typed (review 11 IN-D05); shares the link and ending. */
   noneBefore: "No help articles here yet. For anything you need, ",
-  emptyLink: "ask CDS Support",
+  emptyLink: "ask Support",
   emptyAfter: ".",
-  askSupport: "Ask CDS Support",
+  askSupport: "Ask Support",
   footerBefore: "Can't find it? ",
   footerAfter: ".",
   /** 12-20: the Get help form (no target), same as the drawer's "Still stuck? Ask CDS". */

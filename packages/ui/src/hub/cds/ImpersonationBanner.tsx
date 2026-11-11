@@ -16,8 +16,8 @@ import { CdsSurface } from "./CdsSurface";
 
 /** Banner words that are not copy IDs (UI-SPEC lines 815-822, verbatim). */
 export const IMPERSONATION_BANNER_COPY = Object.freeze({
-  region: "CDS staff session",
-  endLabel: "End viewing as CDS staff",
+  region: "Support staff session",
+  endLabel: "End viewing as support staff",
   warning: "5 minutes left viewing {business}",
 });
 

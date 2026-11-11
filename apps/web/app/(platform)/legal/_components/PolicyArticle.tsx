@@ -12,7 +12,7 @@ import Link from "next/link";
 import { formatLegalDate, type LegalPage } from "../../../../lib/legal-pages";
 
 export const DRAFT_PUBLIC =
-  "Draft: this text hasn't been reviewed by a lawyer yet and will change before CDS launches.";
+  "Draft: this text hasn't been reviewed by a lawyer yet and will change before it takes effect.";
 
 const NAV_LINK =
   "inline-flex min-h-11 items-center text-base underline-offset-4";

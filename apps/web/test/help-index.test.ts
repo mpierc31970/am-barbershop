@@ -232,7 +232,7 @@ describe("help helpers", () => {
   });
 });
 
-describe("P12 CDS Support help (12-33; SUPPORT-01, D110)", () => {
+describe("P12 Support help (12-33; SUPPORT-01, D110)", () => {
   const ROLES: readonly OrgRole[] = ["owner", "admin", "editor", "viewer"];
   const P12_IDS = [
     "support.messages",
@@ -253,9 +253,9 @@ describe("P12 CDS Support help (12-33; SUPPORT-01, D110)", () => {
       expect(entry?.href).toBe("/hub/help/what-support-includes");
       expect(entry?.audience).toBe("all");
       const text = helpSearchText(entry!);
-      expect(text).toContain("cds replies within 2 business days.");
+      expect(text).toContain("support replies within 2 business days.");
       for (const area of [
-        "anything cds built",
+        "anything support built",
         "domain and dns",
         "google business profile",
         "restore from backup",
@@ -383,7 +383,7 @@ describe("P14 help (14-46; DOM-02, DOM-03, DOM-07, DOM-10, LIFE-01, ONB-10, T-14
     );
   });
 
-  it("an Admin reads the domain, email and review articles but not Leaving CDS", () => {
+  it("an Admin reads the domain, email and review articles but not Moving away", () => {
     const admin = ids("admin");
     expect(admin).toEqual(expect.arrayContaining(OWNER_ADMIN_P14));
     expect(admin).not.toContain("leaving-cds");

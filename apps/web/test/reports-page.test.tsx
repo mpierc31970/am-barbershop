@@ -189,7 +189,7 @@ describe("/hub/reports", () => {
     expect(text).toContain("2.1 s");
     // Not connected Google sections (DASH-10).
     expect(root.querySelectorAll("[data-not-connected]")).toHaveLength(2);
-    expect(text).toContain("Connects when CDS finishes setup");
+    expect(text).toContain("Connects when Support finishes setup");
     // The chart starts as its table (no-JS default).
     expect(root.textContent).toContain("Show as chart");
     // Fix link to the page's SEO drawer for an editor-capable member.

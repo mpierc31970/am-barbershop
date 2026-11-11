@@ -94,8 +94,7 @@ vi.mock("../app/actions/ideas", () => ideaActions);
 const { default: NewTicketPage, generateMetadata } =
   await import("../app/(platform)/hub/support/tickets/new/page");
 
-const IDEA_PUBLIC =
-  "Every CDS site can see this idea, without your business name.";
+const IDEA_PUBLIC = "Every site can see this idea, without your business name.";
 
 const TARGETS = [
   {
@@ -216,7 +215,7 @@ describe("Suggest a feature in Get help (CUSTOM-01, D-UI-P12-7)", () => {
     expect(c.querySelector("#ticket-subject")).toBeNull();
     expect(c.textContent).toContain("Post idea");
     expect(c.textContent).toContain(
-      "CDS may ask you about it in a ticket. Ideas don't have a reply time.",
+      "Support may ask you about it in a ticket. Ideas don't have a reply time.",
     );
     // The type cards stay, with Suggest a feature checked.
     expect(
@@ -364,7 +363,7 @@ describe("Post idea (CUSTOM-01)", () => {
     );
   });
 
-  it("a held idea says CDS will review it and highlights nothing (D-UI-P12-26)", async () => {
+  it("a held idea says Support will review it and highlights nothing (D-UI-P12-26)", async () => {
     ideaActions.submitIdeaAction.mockResolvedValue({
       ok: true,
       data: { id: "ideaaaaaaaaaaa9", held: true },
@@ -372,7 +371,7 @@ describe("Post idea (CUSTOM-01)", () => {
     const c = await renderNew({ type: "suggestion" });
     await fillAndPost(c);
     expect(document.body.textContent).toContain(
-      "Idea sent. CDS will review it before it's listed.",
+      "Idea sent. Support will review it before it's listed.",
     );
     expect(nav.push).toHaveBeenCalledWith(
       "/hub/support?tab=ideas&status=suggested",

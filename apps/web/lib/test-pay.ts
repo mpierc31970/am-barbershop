@@ -13,7 +13,7 @@ export const TEST_PAY_EXPIRED =
   "This test session has expired. Go back and start again.";
 export const TEST_PAY_FAILED = "That didn't go through. Try again.";
 export const TEST_PAY_TAX = "Tax calculated at payment: $0.00 in test mode.";
-export const TEST_PAY_WORDMARK = "CDS test payments";
+export const TEST_PAY_WORDMARK = "Test payments";
 export const TEST_PAY_HOME = "/hub";
 export const CARD_UPDATED_PATH = "/hub/settings?tab=billing&card=updated";
 export const CONNECT_DONE_PATH = "/hub/settings?tab=payments&connect=return";

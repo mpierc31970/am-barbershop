@@ -389,7 +389,7 @@ describe("saveTodayLayoutAction", () => {
     sess.getHubSession.mockResolvedValue({ ctx: impersonating, email: "" });
     const r = await saveTodayLayoutAction({ order: [], hidden: [] });
     expect(r.ok).toBe(false);
-    if (!r.ok) expect(r.message).toContain("viewing as CDS staff");
+    if (!r.ok) expect(r.message).toContain("viewing as support staff");
     expect(db.updateMemberPrefs).not.toHaveBeenCalled();
   });
 

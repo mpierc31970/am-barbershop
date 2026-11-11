@@ -25,7 +25,7 @@ export type TicketEvent = (typeof TICKET_EVENTS)[number];
 
 /** System-line labels posted with a move (the thread shows them as events). */
 export const SYSTEM_EVENTS = {
-  BACK_TO_CDS: "Back to CDS",
+  BACK_TO_CDS: "Back to Support",
   REOPENED: "Reopened by your reply",
   AUTO_CLOSED: "Closed after 7 days with no reply",
   SOLVED: "Marked as solved",
@@ -105,7 +105,7 @@ export function systemLineFor(
     case "undo_solved":
       return null;
     case "staff_set":
-      return `CDS changed the status to ${statusLabel(to)}`;
+      return `Support changed the status to ${statusLabel(to)}`;
     default:
       return null;
   }

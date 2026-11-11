@@ -331,7 +331,7 @@ describe("EmailRouting: Use a different address for…", () => {
     expect(groups).toEqual([
       "Website inquiries",
       "Newsletter",
-      "Billing from CDS",
+      "Billing from Support",
       "Account and support",
     ]);
     expect(box(c, "inquiries").checked).toBe(true);

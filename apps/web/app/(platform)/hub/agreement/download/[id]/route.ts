@@ -29,7 +29,7 @@ const SAFE_HEADERS = {
 const SETTINGS_LEGAL = "/hub/settings?tab=legal";
 
 const ERR_DOWNLOAD =
-  "We couldn't open that copy right now. Try again in a minute; your agreement is still safely stored. If it keeps happening, contact CDS Support.";
+  "We couldn't open that copy right now. Try again in a minute; your agreement is still safely stored. If it keeps happening, contact Support.";
 
 function escapeHtml(s: string): string {
   return s

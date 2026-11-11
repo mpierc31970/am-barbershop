@@ -41,8 +41,8 @@ export function isSendingLocalPart(v: unknown): v is string {
     typeof v === "string" && SENDING_LOCAL_PART.test(v) && !v.includes("..")
   );
 }
-const CDS_NAME = "Connections Design Studios";
-const CDS_SUPPORT_NAME = "CDS Support";
+const CDS_NAME = "A&M Barber Studio";
+const CDS_SUPPORT_NAME = "Support";
 
 function mailDomainOf(env: { mailDomain: string }): string {
   const d = env.mailDomain.trim().toLowerCase();

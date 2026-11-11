@@ -10,7 +10,7 @@ These steps are the recording script for the Remotion + Venice AI how-to videos 
 
 Every site includes 10 pages (D185). Only pages you build count: policy pages, the "Page not found" page, password pages and landing pages don't (D273). When you need more, add 5 more pages for $10 a month. Packs go on your one monthly bill and they stack (one pack gives you 15 pages, two give you 20). Before checkout the pack joins your order and is charged at checkout. Remove a pack any time and you're credited for the rest of the month.
 
-Only the site owner can add or remove pages packs. Admins and Editors see "You've used all 10 pages included with your site. Ask your site owner to add more pages." CDS staff viewing the hub as the owner see "You're viewing as CDS staff, so buying is turned off. Only the owner can add pages."
+Only the site owner can add or remove pages packs. Admins and Editors see "You've used all 10 pages included with your site. Ask your site owner to add more pages." support staff viewing the hub as the owner see "You're viewing as support staff, so buying is turned off. Only the owner can add pages."
 
 ## Activate
 

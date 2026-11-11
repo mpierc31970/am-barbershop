@@ -58,7 +58,7 @@ export const REPORT_FIELD_IDS: Readonly<Record<ReportField, string>> =
 
 export const REPORT_COPY = {
   TITLE: "Report a problem",
-  INTRO: "Tell us about content on a site CDS hosts. We review every report.",
+  INTRO: "Tell us about content on a site we host. We review every report.",
   CATEGORY_LEGEND: "What are you reporting?",
   CATEGORY: {
     copyright: {
@@ -90,9 +90,9 @@ export const REPORT_COPY = {
   ERROR_SUMMARY: "Check these and send again:",
   SENT_H: "Report received",
   SENT_BODY:
-    "Your report number is {ref}. We sent a copy to {email}. CDS reviews reports within 2 business days.",
+    "Your report number is {ref}. We sent a copy to {email}. Support reviews reports within 2 business days.",
   SENT_BODY_NO_EMAIL:
-    "Your report number is {ref}. CDS reviews reports within 2 business days.",
+    "Your report number is {ref}. Support reviews reports within 2 business days.",
   AGAIN: "Report something else",
   ERR_CATEGORY: "Pick what you're reporting.",
   ERR_URL: "Enter the full page address, starting with https://",

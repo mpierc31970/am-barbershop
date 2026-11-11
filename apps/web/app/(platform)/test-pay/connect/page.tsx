@@ -94,7 +94,7 @@ export default async function TestConnectPage({
         </button>
       </form>
       <a href={BACK} className={buttonClasses("ghost")}>
-        Back to CDS
+        Back to the hub
       </a>
     </>
   );

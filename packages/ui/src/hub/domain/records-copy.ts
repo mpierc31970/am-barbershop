@@ -27,7 +27,7 @@ export const RECORDS_UI_COPY = Object.freeze({
   step3H: "Check and add",
   currentEmail: "Your current email",
   otherProvider: "Another provider",
-  otherBody: "CDS adds the records for you, usually within 1 business day.",
+  otherBody: "Support adds the records for you, usually within 1 business day.",
   notYet:
     "Don't have these yet? You can come back. Nothing changes until step 3.",
   noValues: "Fastmail needs nothing pasted. Choose Next to see the records.",
@@ -37,7 +37,7 @@ export const RECORDS_UI_COPY = Object.freeze({
     `That doesn't look like a ${service} DKIM value. It starts with ${prefix}.`,
   getEmail: "Get a professional email address",
   asked: (n: number) =>
-    `Sent to CDS Support as request #${n}. CDS adds the records for you, usually within 1 business day.`,
+    `Sent to Support as request #${n}. Support adds the records for you, usually within 1 business day.`,
   sendingAsk: "Sending…",
   loadingPreview: "Checking…",
 });

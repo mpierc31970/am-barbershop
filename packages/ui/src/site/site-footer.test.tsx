@@ -94,7 +94,7 @@ describe("SiteFooter", () => {
     expect(out).toContain("© 2026 Rivera Bakery");
     expect(out).toContain("Cookie choices");
     const report = out.match(
-      /<a [^>]*aria-label="Report this site to CDS"[^>]*>Report<\/a>/,
+      /<a [^>]*aria-label="Report this site to Support"[^>]*>Report<\/a>/,
     );
     expect(report).not.toBeNull();
     expect(report![0]).toContain(`href="${REPORT}"`);
@@ -140,7 +140,7 @@ describe("SiteFooter", () => {
 describe("SiteFooter policy links", () => {
   const plain = footer({ extra_links: [] });
   const REPORT_RE =
-    /<a [^>]*aria-label="Report this site to CDS"[^>]*>Report<\/a>/;
+    /<a [^>]*aria-label="Report this site to Support"[^>]*>Report<\/a>/;
 
   it("renders copyright, Privacy, Terms, then Report, in order", () => {
     const out = renderToStaticMarkup(
@@ -171,7 +171,9 @@ describe("SiteFooter policy links", () => {
       />,
     );
     const cls = (re: RegExp) => out.match(re)?.[1];
-    const report = cls(/aria-label="Report this site to CDS" class="([^"]*)"/);
+    const report = cls(
+      /aria-label="Report this site to Support" class="([^"]*)"/,
+    );
     const privacy = cls(/<a [^>]*href="\/privacy"[^>]*class="([^"]*)"/);
     expect(privacy).toBeDefined();
     expect(privacy).toContain("min-h-11");

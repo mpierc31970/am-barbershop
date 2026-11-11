@@ -8,7 +8,7 @@ import { SUPPORT_COPY } from "@cds/core/support";
 /** Button and link labels (UI-SPEC "Primary CTA" and "Secondary actions"). */
 const BUTTONS = Object.freeze({
   getHelp: "Get help",
-  sendToCds: "Send to CDS",
+  sendToCds: "Send to Support",
   sendReply: "Send reply",
   sending: "Sending…",
   postIdea: "Post idea",
@@ -40,7 +40,7 @@ const BUTTONS = Object.freeze({
   chooseOption: "Choose an option",
   reviewChanges: "Review changes",
   seeDetails: "See details",
-  askCds: "Ask CDS",
+  askCds: "Ask Support",
   whatSupportIncludes: "What support includes",
   whatHappened: "What happened",
   goToDocuments: "Go to Documents",
@@ -51,16 +51,16 @@ const BUTTONS = Object.freeze({
 
 export const SUPPORT_UI_COPY = Object.freeze({
   BUTTONS,
-  BYLINE: "From the Connections Design Studios team",
+  BYLINE: "From the support team",
 
   MSG_EMPTY_H: "No messages yet",
-  MSG_EMPTY_B: "Write to CDS any time.",
+  MSG_EMPTY_B: "Write to Support any time.",
   TICKETS_EMPTY_H: "No tickets",
   /** "Need help?" followed by the Get help link (BUTTONS.getHelp). */
   TICKETS_EMPTY_B: "Need help?",
-  DOCS_EMPTY: "Files CDS shares with you will appear here.",
+  DOCS_EMPTY: "Files Support shares with you will appear here.",
   IDEAS_INTRO:
-    "Ideas from CDS sites for things CDS could build. Vote for the ones you'd use. One vote per site.",
+    "Ideas from sites for things Support could build. Vote for the ones you'd use. One vote per site.",
   IDEAS_EMPTY: Object.freeze({
     suggested: "No ideas yet. Suggest one.",
     considering: "Nothing being considered right now.",
@@ -74,9 +74,9 @@ export const SUPPORT_UI_COPY = Object.freeze({
   CONTEXT_NOTE:
     "We include the screen you came from and your browser, to help us look into it.",
   HELD_APPLY_NOTE:
-    "Applying puts them in your draft. CDS's fix stays in this page's history, so you can switch back.",
+    "Applying puts them in your draft. Support's fix stays in this page's history, so you can switch back.",
   LOCKED_BODY:
-    "You can look around, but changes are paused so nothing clashes with CDS's fix.",
+    "You can look around, but changes are paused so nothing clashes with Support's fix.",
   ATTACH_HINT: "You can also paste a screenshot or drop files here.",
   FILE_RULES:
     "Up to 5 files, 10 MB each: images, PDF, text, spreadsheets and Office documents.",
@@ -112,7 +112,7 @@ export const SUPPORT_UI_COPY = Object.freeze({
   VIEWER_READONLY:
     "You can read support but not write. Ask your site owner for Editor access.",
   IMPERSONATING_SUPPORT:
-    "You're viewing as CDS staff, so filing and replying are turned off here. Use support:reply to answer.",
+    "You're viewing as support staff, so filing and replying are turned off here. Use support:reply to answer.",
   SUPPORT_EMAIL_FALLBACK: (email: string) =>
     `Can't use your hub right now? Email ${email}.`,
 

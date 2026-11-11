@@ -113,7 +113,7 @@ export function ThreadMessage({
   );
 
   if (variant === "internal") {
-    const author = m.authorName.trim() || "CDS";
+    const author = m.authorName.trim() || "Support";
     return (
       <article
         aria-labelledby={labelId}
@@ -157,7 +157,7 @@ export function ThreadMessage({
       >
         <p id={labelId} className="flex flex-wrap items-center gap-2 text-sm">
           <CdsAuthor firstName={first} />
-          {first ? null : <span className="sr-only">from CDS</span>}
+          {first ? null : <span className="sr-only">from Support</span>}
           <span className="sr-only">, </span>
           <time
             dateTime={m.created}

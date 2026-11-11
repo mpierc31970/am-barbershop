@@ -151,7 +151,7 @@ const ROUTE_LABELS: Readonly<Record<string, string>> = Object.freeze({
   inquiries: "Website inquiries",
   newsletter: "Newsletter",
   default: "Your main address",
-  billing: "Billing from CDS",
+  billing: "Billing from Support",
   account: "Account and support",
 });
 const ROUTE_ORDER = ["inquiries", "newsletter", "default"] as const;

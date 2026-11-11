@@ -28,7 +28,7 @@ export const FOOTER_COPYRIGHT_MAX = 120;
 export const FOOTER_COPY = Object.freeze({
   saved: "Footer saved. It's live on your site.",
   reportNote:
-    "Every footer has a small Report link that lets visitors tell CDS about a problem. It can't be removed.",
+    "Every footer has a small Report link that lets visitors tell Support about a problem. It can't be removed.",
   copyrightHelp: "The year updates itself when you use {year}.",
   linksLimit: "Footers hold up to 6 extra links.",
   held: "Your footer is waiting for a quick review. Until then your site shows the standard copyright line and no extra links.",
@@ -37,7 +37,7 @@ export const FOOTER_COPY = Object.freeze({
 /** Visible text of the un-removable Report link (D249, D-UI-P7-30). */
 export const REPORT_LABEL = "Report";
 /** Its accessible name (D-UI-P7-30). */
-export const REPORT_ARIA_LABEL = "Report this site to CDS";
+export const REPORT_ARIA_LABEL = "Report this site to Support";
 
 export type FooterSettings = {
   show_address: boolean;

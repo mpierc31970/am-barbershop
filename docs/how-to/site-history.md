@@ -8,7 +8,7 @@ route: /hub/website?tab=navigation
 
 These steps are the recording script for the Remotion + Venice AI how-to videos (D110), so write every step precisely enough to record from.
 
-Your menu, footer, banner and site settings each keep their last 10 versions (CONT-36, D184). Every save keeps the version before it, so you can undo a bad change in two clicks without asking CDS. Each part has its own history: restoring the menu never changes the footer, the banner or your settings.
+Your menu, footer, banner and site settings each keep their last 10 versions (CONT-36, D184). Every save keeps the version before it, so you can undo a bad change in two clicks without asking Support. Each part has its own history: restoring the menu never changes the footer, the banner or your settings.
 
 ## Activate
 
@@ -20,7 +20,7 @@ Your menu, footer, banner and site settings each keep their last 10 versions (CO
 
 | # | Screen / route | Action | Expected result |
 |---|---|---|---|
-| 1 | `/hub/website?tab=navigation`, **History** | Click **History** and read a row | Each row shows when it was saved, like "28 Sep, 2:14 pm", and who saved it: "Saved by Maria Lopez", "Saved by a former team member", "Saved by CDS support" or "Saved before history was turned on". The newest live version has a shaded row with **Current**; with no older versions the drawer reads "No earlier versions yet. Each time you save, the previous version is kept here." |
+| 1 | `/hub/website?tab=navigation`, **History** | Click **History** and read a row | Each row shows when it was saved, like "28 Sep, 2:14 pm", and who saved it: "Saved by Maria Lopez", "Saved by a former team member", "Saved by Support" or "Saved before history was turned on". The newest live version has a shaded row with **Current**; with no older versions the drawer reads "No earlier versions yet. Each time you save, the previous version is kept here." |
 | 2 | **Navigation history** | Click **Restore** on an older row, then **Keep current** | A dialog asks "Restore your menu from 27 Sep, 9:05 am?" with **Keep current** already focused. **Keep current** (or **Esc**) closes it and nothing changes |
 | 3 | **Navigation history** | Click **Restore** on the same row again, then **Restore this version** | A toast reads "Restored. Your site shows the menu from 27 Sep, 9:05 am." The editor and preview show that menu, the live site's menu changes at once, and a new row marked **Current** is at the top. If you had unsaved edits, the dialog warned "Your unsaved changes on this screen will be lost." first |
 | 4 | **Navigation history** | Click **Restore** on the row that was **Current** before step 3, then **Restore this version** | The menu switches back to how it was before step 3 |

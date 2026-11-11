@@ -21,7 +21,7 @@ export const ADDON_CARD_COPY = {
   paused: "Paused",
   comingSoon: "Coming soon",
   comingSoonReason:
-    "CDS is getting this one ready. You'll be able to add it soon.",
+    "Support is getting this one ready. You'll be able to add it soon.",
   /** UI-SPEC UNPRICED-ADDON (D264: never an invented number). */
   unpriced: "We're finalising this price. You'll be able to add it soon.",
 } as const;

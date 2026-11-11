@@ -110,7 +110,7 @@ export const PEOPLE_COPY = {
     "Everyone here signs in with their own email. Each person sees only what their role allows.",
   adminNote: "Only the site owner can invite people or change roles.",
   impersonating:
-    "You're viewing as CDS staff, so changes to people are turned off.",
+    "You're viewing as support staff, so changes to people are turned off.",
   empty: "Just you so far. Invite someone to help with your site.",
   colPerson: "Person",
   colRole: "Role",

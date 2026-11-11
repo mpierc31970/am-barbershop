@@ -205,7 +205,7 @@ describe("signAgreementAction", () => {
       ok: false,
       code: "save_failed",
       message:
-        "We couldn't record your signature, so nothing was signed. Try again in a minute. If it keeps happening, contact CDS Support.",
+        "We couldn't record your signature, so nothing was signed. Try again in a minute. If it keeps happening, contact Support.",
     });
     // Never logs the typed name, the email or the IP (T-09-17-06).
     const logged = JSON.stringify(err.mock.calls);
@@ -231,7 +231,7 @@ describe("signAgreementAction", () => {
     expect(res.ok).toBe(false);
     if (!res.ok) {
       expect(res.message).toBe(
-        "You're viewing as CDS staff, so signing is turned off. Only the owner can sign.",
+        "You're viewing as support staff, so signing is turned off. Only the owner can sign.",
       );
     }
   });

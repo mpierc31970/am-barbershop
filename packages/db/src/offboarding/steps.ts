@@ -146,7 +146,7 @@ async function writeSteps(
 async function noticeRowFor(orgId: string): Promise<OffboardingRow> {
   const row = await readOffboardingRow(orgId);
   if (!row || row.status !== "notice") {
-    throw new InvalidInput("Leaving CDS hasn't started for this site.");
+    throw new InvalidInput("Moving away hasn't started for this site.");
   }
   return row;
 }
@@ -555,7 +555,7 @@ export async function closeAtNoticeEnd(
   }
   const facts = await orgFacts(org);
   if (!facts) throw new NotFound();
-  if (facts.demo) throw new InvalidInput("The demo site never leaves CDS.");
+  if (facts.demo) throw new InvalidInput("The demo site never moves away.");
   const at = now.toISOString();
 
   // 1. Custom hosts (preview row kept).

@@ -49,7 +49,7 @@ const ERR_PUBLISH =
   "We couldn't publish your policy pages. Nothing changed on your site. Try again in a minute.";
 const NOT_OWNER = "Only the site owner can publish these pages.";
 const IMPERSONATING =
-  "You're viewing as CDS staff, so publishing is turned off. Only the owner can publish these pages.";
+  "You're viewing as support staff, so publishing is turned off. Only the owner can publish these pages.";
 
 function session(ctx: Record<string, unknown>) {
   sess.getHubSession.mockResolvedValue({

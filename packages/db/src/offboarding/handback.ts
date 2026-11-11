@@ -428,15 +428,15 @@ export async function exportZoneFile(
     zone.cdsKeys,
   );
   const notes = [
-    `; DNS records for ${zone.domain}, from CDS.`,
+    `; DNS records for ${zone.domain}, from Support.`,
     "; Copy exactly: every record below that is not listed in the two notes here.",
   ];
   if (groups.points_to_cds.length > 0) {
-    notes.push("; Points to CDS: change when your new site is ready:");
+    notes.push("; Points to us: change when your new site is ready:");
     for (const r of groups.points_to_cds) notes.push(noteLine(r));
   }
   if (groups.remove.length > 0) {
-    notes.push("; CDS sending records: remove (do not copy):");
+    notes.push("; Support sending records: remove (do not copy):");
     for (const r of groups.remove) notes.push(noteLine(r));
   }
   const text = `${notes.join("\n")}\n;\n${bind}`;
@@ -581,7 +581,7 @@ function authorizeWrite(
 async function assertLeaving(org: string): Promise<void> {
   const row = await readOffboardingRow(org);
   if (!row || row.status !== "notice") {
-    throw new InvalidInput("Leaving CDS hasn't started for this site.");
+    throw new InvalidInput("Moving away hasn't started for this site.");
   }
 }
 
@@ -800,7 +800,7 @@ export async function chooseHandbackDestination(
     }
     if (nameservers.some((n) => zone.nameservers.includes(n))) {
       throw new InvalidInput(
-        "Those are CDS's nameservers. Enter your new host's.",
+        "Those are our nameservers. Enter your new host's.",
       );
     }
   } else {

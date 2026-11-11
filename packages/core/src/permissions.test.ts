@@ -376,7 +376,7 @@ describe("authorizeStaff (TEN-11)", () => {
     expect(() => authorizeStaff(undefined, feature)).toThrow(Forbidden);
   });
 
-  it("theme_import is CDS staff only (THEME-03, A1-Q3)", () => {
+  it("theme_import is support staff only (THEME-03, A1-Q3)", () => {
     expect(() => authorizeStaff("super_admin", "theme_import")).not.toThrow();
     expect(() => authorizeStaff("support_agent", "theme_import")).not.toThrow();
     expect(() => authorizeStaff("", "theme_import")).toThrow(Forbidden);
@@ -649,7 +649,7 @@ describe("P12 support (D93, D100, COMM-07, P12-P11)", () => {
     const e = new TargetLocked();
     expect(e.code).toBe("target_locked");
     expect(e.message).toBe(
-      "You can look around, but changes are paused so nothing clashes with CDS's fix.",
+      "You can look around, but changes are paused so nothing clashes with Support's fix.",
     );
   });
 });

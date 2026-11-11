@@ -62,16 +62,16 @@ export const P14_COPY = Object.freeze({
   BTN_SAVE_MAIN: "Save main address",
   BTN_READY_TO_LAUNCH: "Ready to launch",
   BTN_CONFIRM_DETAILS: "Confirm these details",
-  BTN_SEND_TO_CDS: "Send to CDS",
+  BTN_SEND_TO_CDS: "Send to Support",
   BTN_RETRY_STEP: "Retry step",
   BTN_RETRYING: "Retrying…",
   BTN_START_MOVE: "Start move",
   BTN_OVERRIDE: "Override",
   BTN_MAKE_IT_LIVE: "Make it live",
   BTN_NOT_YET: "Not yet",
-  BTN_TEST_DNS_CHANGE_NS: "Change nameservers to CDS",
+  BTN_TEST_DNS_CHANGE_NS: "Change nameservers to ours",
   BTN_USE_DIFFERENT_DOMAIN: "Use a different domain",
-  BTN_ASK_SUPPORT: "Ask CDS Support",
+  BTN_ASK_SUPPORT: "Ask Support",
   BTN_CHECK_AGAIN: "Check again",
   BTN_ADD_ZONE_FILE_OWNER: "Add your zone file",
   BTN_SEND_STEPS_SOMEONE: "Send these steps to someone",
@@ -90,7 +90,7 @@ export const P14_COPY = Object.freeze({
   BTN_KEEP_RECORD: "Keep record",
   BTN_ASK_TO_CHANGE: "Ask to change",
   BTN_CHANGE_EMAIL_SETUP: "Change email setup",
-  BTN_ASK_CDS_SET_UP: "Ask CDS to set it up",
+  BTN_ASK_CDS_SET_UP: "Ask Support to set it up",
   BTN_BACK: "Back",
   BTN_BACK_TO_RECORDS: "Back to DNS records",
   BTN_REVIEW_ON_PREVIEW: "Review on your preview address",
@@ -112,13 +112,13 @@ export const P14_COPY = Object.freeze({
   BTN_CHECKED_ON_PHONE: "Checked on my phone",
   BTN_OPEN_ON_PREVIEW: "Open on your preview address",
   BTN_COPY_PREVIEW_LINK: "Copy preview link",
-  BTN_LEAVE_CDS: "Leave CDS…",
+  BTN_LEAVE_CDS: "Move away…",
   BTN_KEEP_MY_SITE: "Keep my site",
   BTN_OPEN_CHECKLIST: "Open checklist",
   BTN_DOWNLOAD_ZONE_FILE: "Download zone file",
   BTN_CHECK_NEW_DNS: "Check my new DNS",
   BTN_DOWNLOAD_DATA: "Download your data",
-  BTN_STAY: "Stay with CDS",
+  BTN_STAY: "Stay with us",
   BTN_KEEP_LEAVING: "Keep leaving",
   BTN_START_NOTICE: "Start the 30-day notice",
   BTN_REPLACE_EMAIL: "Replace my current email",
@@ -138,23 +138,23 @@ export const P14_COPY = Object.freeze({
   // ---- Domain (S0-S8) ----
   EMPTY_H: "Connect your domain",
   DOM_CLOSED:
-    "Domain connection opens soon. CDS will email you when you can connect yours.",
+    "Domain connection opens soon. Support will email you when you can connect yours.",
   DOM_WHY_NOW:
-    "Connect it now while CDS builds your site, so launch day takes minutes. Your current website and email keep working until launch.",
+    "Connect it now while Support builds your site, so launch day takes minutes. Your current website and email keep working until launch.",
   DOM_FIELD_HELP: "Just the name, like riverabakery.com. No https:// or www.",
   DOM_OWN:
-    "Your domain stays registered in your name. CDS never buys or transfers domains.",
+    "Your domain stays registered in your name. Support never buys or transfers domains.",
   DOM_ADMIN_READ: "Only the owner can change the domain.",
   DOM_INVALID: "Enter a domain like riverabakery.com.",
   DOM_SUBDOMAIN:
     "Enter your main domain, like riverabakery.com, not a part of it like shop.riverabakery.com.",
-  DOM_RESERVED: "That address belongs to CDS. Enter your own domain.",
+  DOM_RESERVED: "That address is reserved. Enter your own domain.",
   DOM_TAKEN:
-    "That domain is already connected to another site on CDS. If it's yours, ask CDS Support.",
+    "That domain is already connected to another site. If it's yours, ask Support.",
   DOM_NOT_REGISTERED: ({ domain }: Domain) =>
     `We couldn't find ${domain} registered anywhere. Check the spelling. If you haven't bought it yet, buy it from a registrar first.`,
   DOM_CF_REGISTRAR: ({ domain }: Domain) =>
-    `${domain} is registered at Cloudflare, which doesn't allow its nameservers to change. CDS Support will set it up with you.`,
+    `${domain} is registered at Cloudflare, which doesn't allow its nameservers to change. Support will set it up with you.`,
   RDAP_UNKNOWN:
     "We couldn't see where it's registered. That's fine: you'll choose your registrar in a later step.",
   CHECKING_BODY: ({ domain }: Domain) =>
@@ -166,7 +166,7 @@ export const P14_COPY = Object.freeze({
   EMAIL_NONE: ({ count }: { count: number }) =>
     `We didn't find any email on this domain. We'll copy all ${n(count, "record", "records")} exactly before anything changes.`,
   COPY_SAFE: ({ registrar }: Registrar) =>
-    `Your email keeps working the whole time. CDS never changes your records at ${registrar}.`,
+    `Your email keeps working the whole time. Support never changes your records at ${registrar}.`,
   FIND_DNSSEC_T: ({ registrar }: Registrar) =>
     `Turn off DNSSEC at ${registrar} first`,
   FIND_DNSSEC_B: ({ registrar }: Registrar) =>
@@ -174,7 +174,7 @@ export const P14_COPY = Object.freeze({
   FIND_SPF_T: ({ count }: { count: number }) =>
     `Your domain has ${n(count, "SPF record", "SPF records")}. Email allows only one.`,
   FIND_SPF_B:
-    "SPF lists who may send email for your domain. With two, other servers can reject your email. Your email provider can merge them into one, or CDS Support can help.",
+    "SPF lists who may send email for your domain. With two, other servers can reject your email. Your email provider can merge them into one, or Support can help.",
   FIND_FWD_T: ({ registrar }: Registrar) =>
     `Your email forwarding at ${registrar} stops when you switch.`,
   FIND_FWD_B: ({ registrar }: Registrar) =>
@@ -182,13 +182,13 @@ export const P14_COPY = Object.freeze({
   FIND_WEBFWD_T: ({ registrar }: Registrar) =>
     `Your web forwarding at ${registrar} stops when you switch.`,
   FIND_WEBFWD_B: ({ registrar }: Registrar) =>
-    `${registrar}'s forwarding only works on its own DNS. Once you switch, the domain shows your new CDS site instead.`,
+    `${registrar}'s forwarding only works on its own DNS. Once you switch, the domain shows your new site instead.`,
   FIND_G2_T: ({ provider }: { provider: string }) =>
     `We couldn't find all of your ${provider} records.`,
   FIND_G2_B:
-    "Some email records are hard to see from outside. Add your zone file so we copy everything, or CDS will check it with you.",
+    "Some email records are hard to see from outside. Add your zone file so we copy everything, or Support will check it with you.",
   FIND_CDS_T: ({ count }: { count: number }) =>
-    `CDS is reviewing ${n(count, "record", "records")} with you.`,
+    `Support is reviewing ${n(count, "record", "records")} with you.`,
   FIND_CDS_B: ({ registrar }: Registrar) =>
     `We want every email record copied exactly before you switch. Nothing has changed at ${registrar}.`,
   FIND_CDS_WAIT: "We'll email you when it's done.",
@@ -217,19 +217,19 @@ export const P14_COPY = Object.freeze({
   NS_SLOW: ({ registrar }: Registrar) =>
     `It's been 2 days. Check the nameservers at ${registrar} match these two exactly, or send the steps to someone who manages the domain.`,
   CONNECTED_READY: ({ domain }: Domain) =>
-    `Ready. Goes live at ${domain} when CDS approves your launch.`,
+    `Ready. Goes live at ${domain} when Support approves your launch.`,
   LAUNCH_FINISHING:
     "We're finishing your launch. Your site stays on its preview address until it's done.",
   DOM_MOVE_HELP:
-    "Moving to a different domain? Ask CDS Support. CDS moves it for you, and your old domain keeps sending visitors to the new one.",
+    "Moving to a different domain? Ask Support. Support moves it for you, and your old domain keeps sending visitors to the new one.",
   MISMATCH_T: ({ registrar }: Registrar) =>
     `Switch your nameservers back to ${registrar}'s`,
   MISMATCH_B: ({ count, registrar }: { count: number } & Registrar) =>
-    `After the switch, ${n(count, "email record", "email records")} didn't match the copy. Your email keeps working at ${registrar}, because CDS never changed anything there. Change your nameservers back now. CDS has been alerted and will contact you today.`,
+    `After the switch, ${n(count, "email record", "email records")} didn't match the copy. Your email keeps working at ${registrar}, because Support never changed anything there. Change your nameservers back now. Support has been alerted and will contact you today.`,
   SWITCHBACK_WAIT: "Waiting for the switch back. Usually under an hour.",
-  LOST_T: ({ domain }: Domain) => `${domain} no longer points to CDS`,
+  LOST_T: ({ domain }: Domain) => `${domain} no longer points to us`,
   LOST_B: ({ registrar }: Registrar) =>
-    `The nameservers at ${registrar} were changed. Your site and email may stop working. Change them back to these two, or ask CDS Support.`,
+    `The nameservers at ${registrar} were changed. Your site and email may stop working. Change them back to these two, or ask Support.`,
   EXPIRY_30: ({ domain, registrar, date }: DomainAt & { date: string }) =>
     `Renew ${domain} at ${registrar} before ${date}, or your site and email stop.`,
   EXPIRY_7: ({ domain, registrar, date }: DomainAt & { date: string }) =>
@@ -239,15 +239,15 @@ export const P14_COPY = Object.freeze({
 
   // ---- DNS records and email setup ----
   RECORDS_INTRO:
-    "You can add or remove verification records yourself. Everything else is kept safe by CDS. To change one, ask CDS Support.",
+    "You can add or remove verification records yourself. Everything else is kept safe by Support. To change one, ask Support.",
   RECORDS_GROUP_EMPTY: "None yet.",
   REC_NAME_INVALID:
     "Use letters, numbers, dots, dashes or underscores, or @ for the domain itself.",
   REC_VALUE_EMPTY: "Paste the value the service gave you.",
   REC_EXISTS:
-    "A record with that name already exists. Ask CDS Support to change it.",
+    "A record with that name already exists. Ask Support to change it.",
   REC_PROTECTED:
-    "That name is kept safe by CDS. Use Set up email for my domain, or ask CDS Support.",
+    "That name is kept safe by Support. Use Set up email for my domain, or ask Support.",
   REC_SPF:
     "That's an SPF record, which belongs to your email. Use Set up email for my domain instead.",
   REC_ADDED: ({ type }: { type: string }) =>
@@ -276,7 +276,7 @@ export const P14_COPY = Object.freeze({
   SEND_ON: ({ address }: { address: string }) =>
     `Emails now send from ${address}.`,
   SEND_FAILED: ({ domain }: Domain) =>
-    `We couldn't finish setting up sending from ${domain}. CDS is checking it. Emails still send under your business name.`,
+    `We couldn't finish setting up sending from ${domain}. Support is checking it. Emails still send under your business name.`,
   SEND_LOCAL_INVALID:
     "Use letters, numbers, dots or dashes, like hello or bookings.",
   INTEG_PRELAUNCH: ({ domain }: Domain) =>
@@ -312,11 +312,11 @@ export const P14_COPY = Object.freeze({
   SUBMIT_H: ({ domain }: Domain) => `Your site goes live at ${domain}.`,
   DOMAIN_NOT_READY:
     "Your domain isn't ready yet. Finish connecting it in Settings › Domain.",
-  SUBMITTED_H: "CDS is giving it a final look.",
+  SUBMITTED_H: "Support is giving it a final look.",
   SUBMITTED_B:
     "Usually within 1 business day. We'll email you the moment you're live. You can still edit, but changed pages need another look.",
   RESUBMIT: ({ title }: { title: string }) =>
-    `You changed ${title} after sending. Look at it again so CDS can launch.`,
+    `You changed ${title} after sending. Look at it again so Support can launch.`,
   TESTFORM_DONE: "It's in your Inbox",
   TESTFORM_NA: "Your site has no form, so there's nothing to test.",
   FACTS_EMAIL: ({ email }: { email: string }) =>
@@ -329,25 +329,25 @@ export const P14_COPY = Object.freeze({
   LEAVE_INTRO:
     "We're sorry to see you go. Here's exactly what happens, in order.",
   IMPERSONATING_LEAVE:
-    "You're viewing as CDS staff, so this is turned off. Only the owner can start leaving. Staff use the console.",
+    "You're viewing as support staff, so this is turned off. Only the owner can start leaving. Staff use the console.",
   BANNER: ({ days, next }: { days: number; next: string }) =>
-    `Leaving CDS · ${n(days, "day", "days")} left · Next: ${next}`,
+    `Moving away · ${n(days, "day", "days")} left · Next: ${next}`,
   LOCKED: "Opens once your DNS has moved back.",
   HANDBACK_NA:
-    "Your domain never moved to CDS, so there's nothing to hand back.",
+    "Your domain never moved to us, so there's nothing to hand back.",
   HANDBACK_AFTER: ({ registrar }: Registrar) =>
     `${registrar}'s DNS only answers after the switch. We'll check through public DNS straight after you change.`,
   HANDBACK_DONE: "Your DNS is back with you. Your email keeps working.",
   HANDBACK_MISMATCH: ({ count }: { count: number }) =>
-    `${n(count, "email record", "email records")} ${count === 1 ? "is" : "are"} missing at your new DNS. Switch your nameservers back to CDS's until ${count === 1 ? "it's" : "they're"} added: your email keeps working there.`,
+    `${n(count, "email record", "email records")} ${count === 1 ? "is" : "are"} missing at your new DNS. Switch your nameservers back to ours until ${count === 1 ? "it's" : "they're"} added: your email keeps working there.`,
   ADDONS_NA: "Nothing to settle for your add-ons.",
-  STAY_H: "Stay with CDS?",
+  STAY_H: "Stay with us?",
   STAY_B:
     "Your notice is cancelled and everything carries on as before, including your price.",
 
   // ---- Staff ----
   CANCEL_DELEGATED:
-    "Their DNS now lives at CDS. Hand it back first. The zone is kept; cancelling only stops the site steps.",
+    "Their DNS now lives with us. Hand it back first. The zone is kept; cancelling only stops the site steps.",
   APPROVE_BLOCKED: ({ waitingOn }: { waitingOn: string }) =>
     `Domain not prepared: ${waitingOn}.`,
   /** CR-D01: pages changed after Ready to launch, so the owner's send is stale. */
@@ -360,7 +360,7 @@ export const P14_COPY = Object.freeze({
   APPROVE_STOPPED: ({ business, step }: { business: string; step: string }) =>
     `The launch of ${business} stopped at step ${step}. Open Site › Domain to retry.`,
   APPROVE_B: ({ business, domain }: { business: string } & Domain) =>
-    `Make ${business} live at ${domain}? CDS runs the last five domain steps (records, edge, HTTPS, switch, search). It takes a few minutes. Live is final once the switch finishes.`,
+    `Make ${business} live at ${domain}? Support runs the last five domain steps (records, edge, HTTPS, switch, search). It takes a few minutes. Live is final once the switch finishes.`,
   STAFF_NO_DOMAIN: "No domain connected yet.",
   STAFF_NOT_LEAVING: ({ business }: { business: string }) =>
     `${business} isn't leaving.`,
@@ -386,19 +386,19 @@ export const P14_COPY = Object.freeze({
     `${sender} at ${business} asked you to change the nameservers for ${domain}.`,
   MAIL_CONNECTED_S: ({ domain }: Domain) => `${domain} is connected`,
   MAIL_CONNECTED_B: ({ domain }: Domain) =>
-    `Your nameservers changed and your email records match. Your site goes live at ${domain} when CDS approves your launch.`,
+    `Your nameservers changed and your email records match. Your site goes live at ${domain} when Support approves your launch.`,
   MAIL_SWITCH_BACK_S: ({ domain }: Domain) =>
     `Action needed: switch ${domain}'s nameservers back`,
   MAIL_EXPIRY_S: ({ domain, date }: Domain & { date: string }) =>
     `Renew ${domain} by ${date}`,
-  MAIL_REVIEW_SENT_S: "CDS is giving your site a final look",
+  MAIL_REVIEW_SENT_S: "Support is giving your site a final look",
   MAIL_LEAVING_S: "Your 30-day notice has started",
   MAIL_LEAVING_B: ({ endsOn }: { endsOn: string }) =>
     `Your site stays up until ${endsOn}. First, move your DNS so your email keeps working.`,
   MAIL_HANDED_BACK_S: "Your DNS is back with you",
-  MAIL_HANDBACK_OVERDUE_S: "Your DNS is still at CDS",
+  MAIL_HANDBACK_OVERDUE_S: "Your DNS is still with us",
   MAIL_HANDBACK_OVERDUE_B:
-    "Your notice has ended, but your DNS is still at CDS. Move it so we can close your site.",
+    "Your notice has ended, but your DNS is still with us. Move it so we can close your site.",
 } as const);
 
 /** One-line explainers shown the first time a term appears on a screen (UI-SPEC "Voice"). */
@@ -407,7 +407,7 @@ export const JARGON = Object.freeze({
   dnsRecords:
     "DNS records tell the internet where your website and email live.",
   nameservers:
-    "Nameservers decide which company holds your DNS records. Changing them moves your records to CDS. Your domain stays registered where it is.",
+    "Nameservers decide which company holds your DNS records. Changing them moves your records to us. Your domain stays registered where it is.",
   registrar: "The company you pay for your domain, like GoDaddy or Namecheap.",
   zoneFile:
     "A file from your registrar listing every DNS record on your domain.",
@@ -418,7 +418,7 @@ export const JARGON = Object.freeze({
   dnssec:
     "DNSSEC is an extra lock on your DNS. It has to be off while your records move.",
   https:
-    "The padlock in the browser. CDS sets it up for you and keeps it renewed.",
+    "The padlock in the browser. Support sets it up for you and keeps it renewed.",
 } as const);
 
 /** The owner allowlisted view of a move (S5b "Launch steps"), in order. */
@@ -523,7 +523,7 @@ export const NEEDS_YOU = Object.freeze({
     action: "See what to do",
   }),
   lostDelegation: ({ domain }: Domain): NeedsYouCopy => ({
-    title: `${domain} no longer points to CDS`,
+    title: `${domain} no longer points to us`,
     sub: "Your site and email may stop.",
     action: "See what to do",
   }),

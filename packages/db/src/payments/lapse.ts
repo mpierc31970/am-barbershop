@@ -559,8 +559,8 @@ export async function syncSubscriptionState(
           {
             type: "billing.card_failed",
             sourceKey: "billing:fix_card",
-            title: "Your payment to CDS failed. Update your card.",
-            safeTitle: "Your payment to CDS failed",
+            title: "Your payment to us failed. Update your card.",
+            safeTitle: "Your payment to us failed",
             href: "/hub/settings?tab=billing",
             actionLabel: "Update card",
           },

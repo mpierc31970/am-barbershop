@@ -62,9 +62,9 @@ export type CheckoutOrderView = {
 // UI-SPEC copy (Copywriting Contract).
 export const CHECKOUT_TITLE = "Pay and start your build";
 export const INTRO_CHECKOUT =
-  "Check your order, choose how to pay for the build, then pay on a secure payment page. CDS starts building your site as soon as payment goes through.";
+  "Check your order, choose how to pay for the build, then pay on a secure payment page. Support starts building your site as soon as payment goes through.";
 export const TEST_CHECKOUT =
-  "Test mode: no real money moves. You'll see a CDS test payment page instead of Stripe.";
+  "Test mode: no real money moves. You'll see a test payment page instead of Stripe.";
 export const CANCELLED_CHECKOUT =
   "You left the payment page, so nothing was charged. Your choices are kept.";
 export const UNPRICED_COPY =
@@ -74,7 +74,7 @@ export const MORE_ADDONS =
 export const PRICE_CHANGED =
   "A price changed since you opened this page. We've updated your order; check the new total before you pay.";
 export const IMPERSONATING_PAY =
-  "You're viewing as CDS staff, so payment is turned off. Only the owner can pay.";
+  "You're viewing as support staff, so payment is turned off. Only the owner can pay.";
 export const ERR_GATE =
   "Sign your agreement before you buy anything. It takes about 3 minutes.";
 export const HELD_CHECKOUT =
@@ -83,16 +83,16 @@ export const OPEN_SOON_H = "Checkout opens soon";
 export const OPEN_SOON_B =
   "We're finishing our payment setup. Your order is saved, and we'll email you the moment you can pay.";
 export const ERR_CHECKOUT =
-  "We couldn't open the payment page, and nothing was charged. Try again in a minute. If it keeps happening, contact CDS Support.";
+  "We couldn't open the payment page, and nothing was charged. Try again in a minute. If it keeps happening, contact Support.";
 export const ERR_PAY =
   "Your payment didn't go through, so nothing was charged. Try again, or use a different card.";
 export const ERR_PRICES = "We couldn't load prices just now.";
 export const SLOW_CONFIRM =
   "Your payment is still being confirmed. This can take a few minutes. We'll email your receipt; you can leave this page.";
 export const PAID_BODY =
-  "Thank you. CDS starts building your site now. We'll email you when it's ready for you to review.";
+  "Thank you. Support starts building your site now. We'll email you when it's ready for you to review.";
 export const CARE_HELPER =
-  "1 hour a month of changes made for you by CDS. Every plan already includes support.";
+  "1 hour a month of changes made for you by Support. Every plan already includes support.";
 export const CADENCE_HELPER =
   "Yearly covers the plan and add-ons. The build fee is the same.";
 export const CONTINUE_LABEL = "Continue to payment";

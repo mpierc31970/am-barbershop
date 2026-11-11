@@ -94,13 +94,13 @@ export const DOMAIN_STATUS_COPY = Object.freeze({
   canSwitch: " can switch.",
   cdsReviewing: (n: number) =>
     n === 1
-      ? "CDS is reviewing one record with you. Usually within 1 business day."
-      : `CDS is reviewing ${n} records with you. Usually within 1 business day.`,
+      ? "Support is reviewing one record with you. Usually within 1 business day."
+      : `Support is reviewing ${n} records with you. Usually within 1 business day.`,
   nameservers: "Every record is copied. Next: change your nameservers.",
   waiting: "Waiting for your nameservers to change.",
   liveAt: "Your site is live at ",
   switchBack: "Switch your nameservers back. Your email is safer there.",
-  noLongerPoints: " no longer points to CDS.",
+  noLongerPoints: " no longer points to us.",
   viewSite: "View site",
   yourRegistrar: "your registrar",
 });

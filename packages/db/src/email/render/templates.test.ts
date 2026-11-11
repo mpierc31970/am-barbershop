@@ -106,17 +106,17 @@ describe("P14 templates", () => {
       [
         "domain.connected",
         "riverabakery.com is connected",
-        "Your nameservers changed and your email records match. Your site goes live at riverabakery.com when CDS approves your launch.",
+        "Your nameservers changed and your email records match. Your site goes live at riverabakery.com when Support approves your launch.",
       ],
       [
         "domain.switch_back",
         "Action needed: switch riverabakery.com's nameservers back",
-        "After the switch, 1 email record didn't match the copy. Your email keeps working at GoDaddy, because CDS never changed anything there. Change your nameservers back now. CDS has been alerted and will contact you today.",
+        "After the switch, 1 email record didn't match the copy. Your email keeps working at GoDaddy, because Support never changed anything there. Change your nameservers back now. Support has been alerted and will contact you today.",
       ],
       [
         "domain.lost_delegation",
-        "riverabakery.com no longer points to CDS",
-        "The nameservers at GoDaddy were changed. Your site and email may stop working. Change them back to these two, or ask CDS Support.",
+        "riverabakery.com no longer points to us",
+        "The nameservers at GoDaddy were changed. Your site and email may stop working. Change them back to these two, or ask Support.",
       ],
       [
         "domain.expiry",
@@ -125,7 +125,7 @@ describe("P14 templates", () => {
       ],
       [
         "review.sent",
-        "CDS is giving your site a final look",
+        "Support is giving your site a final look",
         "Usually within 1 business day. We'll email you the moment you're live. You can still edit, but changed pages need another look.",
       ],
       [
@@ -140,8 +140,8 @@ describe("P14 templates", () => {
       ],
       [
         "offboarding.handback_overdue",
-        "Your DNS is still at CDS",
-        "Your notice has ended, but your DNS is still at CDS. Move it so we can close your site.",
+        "Your DNS is still with us",
+        "Your notice has ended, but your DNS is still with us. Move it so we can close your site.",
       ],
     ];
     for (const [t, subject, first] of cases) {
@@ -206,7 +206,7 @@ describe("P14 templates", () => {
   it("staff alert: subject shape, ids and counts only, console button (T-14-03-02)", () => {
     const m = render("staff.domain_alert");
     expect(m.subject).toBe(
-      "[CDS] Rivera Bakery · post-switch mismatch · riverabakery.com",
+      "[Alert] Rivera Bakery · post-switch mismatch · riverabakery.com",
     );
     expect(m.text).toContain("abc123def456ghi");
     expect(m.text).toContain("M-14");
@@ -239,7 +239,7 @@ describe("P14 templates", () => {
         kind,
       });
       expect(m.subject).toMatch(
-        /^\[CDS\] Rivera Bakery · .+ · riverabakery\.com$/,
+        /^\[Alert\] Rivera Bakery · .+ · riverabakery\.com$/,
       );
     }
     expect(() =>

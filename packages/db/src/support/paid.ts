@@ -59,7 +59,7 @@ import { applyTicketTransition, ticketPaidView } from "./threads";
 export const PAID_LINES = {
   MARKED: "This is a paid service",
   QUOTE_REQUESTED: "Quote requested",
-  QUOTE_SENT: "CDS sent a quote",
+  QUOTE_SENT: "Support sent a quote",
   QUOTE_ACCEPTED: "Quote accepted",
 } as const;
 

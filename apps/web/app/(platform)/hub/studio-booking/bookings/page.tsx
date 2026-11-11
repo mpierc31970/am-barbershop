@@ -25,7 +25,9 @@ type Props = {
 };
 
 const STATUS_LABEL: Record<BookingView["status"], string> = {
+  requested: "Waiting for you",
   confirmed: "Booked",
+  declined: "Declined",
   completed: "Done",
   no_show: "No-show",
   cancelled: "Cancelled",
@@ -47,7 +49,13 @@ function StatusButton({
       <Button
         type="submit"
         size="sm"
-        variant={to === "cancelled" ? "ghost" : "secondary"}
+        variant={
+          to === "confirmed"
+            ? "primary"
+            : to === "cancelled" || to === "declined"
+              ? "ghost"
+              : "secondary"
+        }
       >
         {label}
       </Button>
@@ -153,6 +161,12 @@ export default async function BookingsPage({ searchParams }: Props) {
                     {b.reference}
                   </p>
                   {b.note ? <p className="text-sm">“{b.note}”</p> : null}
+                  {b.status === "requested" ? (
+                    <div className="flex flex-wrap gap-2">
+                      <StatusButton b={b} to="confirmed" label="Approve" />
+                      <StatusButton b={b} to="declined" label="Decline" />
+                    </div>
+                  ) : null}
                   {b.status === "confirmed" ? (
                     <div className="flex flex-wrap gap-2">
                       <StatusButton b={b} to="completed" label="Done" />

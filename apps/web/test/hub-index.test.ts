@@ -56,19 +56,19 @@ describe("/hub index redirect (DASH-30, D312)", () => {
     await expect(go("fit_review")).rejects.toThrow(/^REDIRECT:\/hub\/setup$/);
   });
 
-  it("C-WR-06: a Viewer (no business:read) goes to /hub/today during setup; an Editor to setup", async () => {
+  it("C-WR-06: a Viewer (no business:read) goes to /hub/alerts during setup; an Editor to setup", async () => {
     await expect(go("intake", {}, "viewer")).rejects.toThrow(
-      /^REDIRECT:\/hub\/today$/,
+      /^REDIRECT:\/hub\/alerts$/,
     );
     await expect(go("fit_review", {}, "viewer")).rejects.toThrow(
-      /^REDIRECT:\/hub\/today$/,
+      /^REDIRECT:\/hub\/alerts$/,
     );
     await expect(go("intake", {}, "editor")).rejects.toThrow(
       /^REDIRECT:\/hub\/setup$/,
     );
   });
 
-  it("every stage past fit_review, and an empty stage, goes to /hub/today", async () => {
+  it("every stage past fit_review, and an empty stage, goes to /hub/alerts", async () => {
     for (const stage of [
       "ready_for_build",
       "being_built",
@@ -76,7 +76,7 @@ describe("/hub index redirect (DASH-30, D312)", () => {
       "live",
       "",
     ]) {
-      await expect(go(stage)).rejects.toThrow(/^REDIRECT:\/hub\/today$/);
+      await expect(go(stage)).rejects.toThrow(/^REDIRECT:\/hub\/alerts$/);
     }
   });
 
@@ -85,27 +85,27 @@ describe("/hub index redirect (DASH-30, D312)", () => {
       "REDIRECT:/hub/setup?notice=existing-owner",
     );
     await expect(go("live", { notice: "existing-owner" })).rejects.toThrow(
-      "REDIRECT:/hub/today?notice=existing-owner",
+      "REDIRECT:/hub/alerts?notice=existing-owner",
     );
   });
 
   it("09-19: an Admin with outdated terms lands with the terms-updated notice; nobody else", async () => {
     db.agreementStatus.mockResolvedValue({ state: "outdated" });
     await expect(go("live", {}, "admin")).rejects.toThrow(
-      /^REDIRECT:\/hub\/today\?notice=terms-updated$/,
+      /^REDIRECT:\/hub\/alerts\?notice=terms-updated$/,
     );
     for (const role of ["editor", "viewer"]) {
       await expect(go("live", {}, role)).rejects.toThrow(
-        /^REDIRECT:\/hub\/today$/,
+        /^REDIRECT:\/hub\/alerts$/,
       );
     }
     // A notice already in the query wins.
     await expect(
       go("live", { notice: "existing-owner" }, "admin"),
-    ).rejects.toThrow("REDIRECT:/hub/today?notice=existing-owner");
+    ).rejects.toThrow("REDIRECT:/hub/alerts?notice=existing-owner");
     db.agreementStatus.mockResolvedValue({ state: "current" });
     await expect(go("live", {}, "admin")).rejects.toThrow(
-      /^REDIRECT:\/hub\/today$/,
+      /^REDIRECT:\/hub\/alerts$/,
     );
   });
 
@@ -113,18 +113,18 @@ describe("/hub index redirect (DASH-30, D312)", () => {
     db.agreementStatus.mockRejectedValue(new Error("down"));
     const err = vi.spyOn(console, "error").mockImplementation(() => {});
     await expect(go("live", {}, "admin")).rejects.toThrow(
-      /^REDIRECT:\/hub\/today$/,
+      /^REDIRECT:\/hub\/alerts$/,
     );
     err.mockRestore();
   });
 
-  it("an unreadable stage falls back to /hub/today", async () => {
+  it("an unreadable stage falls back to /hub/alerts", async () => {
     sess.requireHubSession.mockResolvedValue(session);
     db.getOrgStage.mockRejectedValue(new Error("down"));
     const err = vi.spyOn(console, "error").mockImplementation(() => {});
     await expect(
       HubIndex({ searchParams: Promise.resolve({}) }),
-    ).rejects.toThrow(/^REDIRECT:\/hub\/today$/);
+    ).rejects.toThrow(/^REDIRECT:\/hub\/alerts$/);
     err.mockRestore();
   });
 });

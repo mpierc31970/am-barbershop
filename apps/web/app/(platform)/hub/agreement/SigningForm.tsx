@@ -43,7 +43,7 @@ export interface SigningFormProps {
 }
 
 const ERR_SIGN =
-  "We couldn't record your signature, so nothing was signed. Try again in a minute. If it keeps happening, contact CDS Support.";
+  "We couldn't record your signature, so nothing was signed. Try again in a minute. If it keeps happening, contact Support.";
 
 function tickId(c: { key: string; sha256: string }): string {
   return `${c.key}#${c.sha256}`;

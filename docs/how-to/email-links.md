@@ -4,11 +4,11 @@ phase: 06
 route: /start/q/<token>, /start/unsubscribe, /start/confirm-email
 ---
 
-# How to: Use the links in CDS emails
+# How to: Use the links in Support emails
 
 These steps are the recording script for the Remotion + Venice AI how-to videos (D110), so write every step precisely enough to record from.
 
-CDS emails carry three kinds of link. A **reopen** link brings a saved quote back. An **unsubscribe** link stops quote reminders. A **confirm** link confirms where a site's email should go. Opening a link never changes anything by itself, because email scanners open links too. The page always asks first, and the button does the work.
+Support emails carry three kinds of link. A **reopen** link brings a saved quote back. An **unsubscribe** link stops quote reminders. A **confirm** link confirms where a site's email should go. Opening a link never changes anything by itself, because email scanners open links too. The page always asks first, and the button does the work.
 
 ## Activate
 

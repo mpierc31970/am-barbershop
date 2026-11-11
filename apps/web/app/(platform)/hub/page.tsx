@@ -70,5 +70,6 @@ export default async function HubIndex({
   ) {
     redirect(`/hub/setup${query}`);
   }
-  redirect(`/hub/today${query}`);
+  // A&M fork: everyone lands on their Alerts list.
+  redirect(`/hub/alerts${query}`);
 }

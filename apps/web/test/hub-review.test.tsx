@@ -263,7 +263,7 @@ describe("/hub/review page", () => {
     );
     const root = await render();
     expect(root.querySelector("[data-review-sent]")!.textContent).toContain(
-      "CDS is giving it a final look.",
+      "Support is giving it a final look.",
     );
   });
 });
@@ -276,7 +276,7 @@ describe("launch review actions", () => {
     expect(res).toMatchObject({
       ok: false,
       message:
-        "You're viewing as CDS staff, so this is turned off. Only the owner can approve the launch.",
+        "You're viewing as support staff, so this is turned off. Only the owner can approve the launch.",
     });
   });
 

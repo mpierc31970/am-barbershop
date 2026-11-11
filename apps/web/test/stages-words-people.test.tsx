@@ -835,7 +835,7 @@ describe("4 · Your words & services", () => {
       "The first line visitors should read",
     );
     expect(c.textContent).toContain(
-      "Like 'Real bread, baked before sunrise.' Leave empty and CDS writes one for you.",
+      "Like 'Real bread, baked before sunrise.' Leave empty and Support writes one for you.",
     );
     expect(c.textContent).toContain("No services yet");
     expect(db.listServices).toHaveBeenCalled();

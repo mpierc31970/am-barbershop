@@ -75,7 +75,7 @@ const ACTIVE: ServiceNotice = {
   id: "w1aaaaaaaaaaaa1",
   code: "W-1",
   phase: "active",
-  text: "CDS is working on your site until 4:00 pm.",
+  text: "Support is working on your site until 4:00 pm.",
   message: "",
   startsAt: "2026-10-12T17:00:00Z",
   endsAt: "2026-10-12T21:00:00Z",
@@ -95,7 +95,7 @@ const PAGE: ServiceNotice = {
   ...ACTIVE,
   id: "w3aaaaaaaaaaaa3",
   code: "W-3",
-  text: "CDS is working on your About us page until 4:00 pm.",
+  text: "Support is working on your About us page until 4:00 pm.",
   reach: { scope: "page", page: "p1" },
 };
 
@@ -109,7 +109,7 @@ async function render(): Promise<string> {
 
 /** Index of the strip vs the main landmark: the strip sits above <main>. */
 function stripBeforeMain(html: string): boolean {
-  const strip = html.indexOf('aria-label="Notices from CDS"');
+  const strip = html.indexOf('aria-label="Notices from Support"');
   const main = html.indexOf('id="hub-main"');
   return strip >= 0 && main > strip;
 }
@@ -144,7 +144,7 @@ describe("hub notice strip (COMM-11)", () => {
     const html = await render();
     expect(stripBeforeMain(html)).toBe(true);
     expect(html).toContain('role="status"');
-    expect(html).toContain("CDS is working on your site until 4:00 pm.");
+    expect(html).toContain("Support is working on your site until 4:00 pm.");
     expect(html).toContain("Planned work on your site");
     expect(html).toContain('aria-label="Dismiss this notice"');
     expect(html).toContain("<p>inner</p>");
@@ -161,14 +161,14 @@ describe("hub notice strip (COMM-11)", () => {
     db.activeServiceNotices.mockResolvedValue([ACTIVE]);
     const html = await render();
     expect(stripBeforeMain(html)).toBe(true);
-    expect(html).toContain("CDS is working on your site until 4:00 pm.");
+    expect(html).toContain("Support is working on your site until 4:00 pm.");
   });
 
   it("a page notice stays off other screens", async () => {
     db.activeServiceNotices.mockResolvedValue([PAGE]);
     const html = await render();
     expect(html).not.toContain("About us page");
-    expect(html).not.toContain('aria-label="Notices from CDS"');
+    expect(html).not.toContain('aria-label="Notices from Support"');
   });
 
   it("builder mode renders the strip (page notice on its own builder)", async () => {
@@ -176,8 +176,8 @@ describe("hub notice strip (COMM-11)", () => {
     db.activeServiceNotices.mockResolvedValue([PAGE, ACTIVE]);
     const html = await render();
     expect(stripBeforeMain(html)).toBe(true);
-    expect(html).toContain("CDS is working on your About us page");
-    expect(html).toContain("CDS is working on your site until 4:00 pm.");
+    expect(html).toContain("Support is working on your About us page");
+    expect(html).toContain("Support is working on your site until 4:00 pm.");
   });
 
   it("a throwing notice read renders the page and no strip", async () => {
@@ -186,7 +186,7 @@ describe("hub notice strip (COMM-11)", () => {
     const html = await render();
     expect(html).toContain("<p>inner</p>");
     expect(html).toContain('aria-label="Hub"');
-    expect(html).not.toContain('aria-label="Notices from CDS"');
+    expect(html).not.toContain('aria-label="Notices from Support"');
     expect(err).toHaveBeenCalledWith(
       "[hub] service notices failed",
       "TypeError",
@@ -198,7 +198,7 @@ describe("hub notice strip (COMM-11)", () => {
     state.pathname = "/hub/website/pages/p1/preview";
     db.activeServiceNotices.mockResolvedValue([ACTIVE]);
     const html = await render();
-    expect(html).not.toContain('aria-label="Notices from CDS"');
+    expect(html).not.toContain('aria-label="Notices from Support"');
   });
 
   it("IN-C01: the strip gets the business's own time zone", async () => {

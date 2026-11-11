@@ -186,7 +186,7 @@ describe("DataDownloadPanel (11-41)", () => {
   it("impersonating staff: IMPERSONATING-DATA and no button", () => {
     const { c } = render(view({ viewer: "impersonating" }));
     expect(c.textContent).toContain(
-      "You're viewing as CDS staff, so downloads are turned off. Only the owner can download the site's data.",
+      "You're viewing as support staff, so downloads are turned off. Only the owner can download the site's data.",
     );
     expect(c.querySelector("button")).toBeNull();
   });

@@ -714,7 +714,7 @@ export async function jobStartServiceWindows(
                 orgId: org.id,
                 as,
                 type: "cds.notice",
-                title: `CDS is working on ${target} until ${end}`,
+                title: `Support is working on ${target} until ${end}`,
                 href: NOTICE_HREF,
                 ...(row.message ? { excerpt: row.message } : {}),
                 businessName: org.name || "your site",

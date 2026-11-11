@@ -44,7 +44,7 @@ function one(v: string | string[] | undefined): string {
 
 const DELEGATED: Record<FakeWorldForOrg["world"]["delegatedTo"], string> = {
   old: "The old host",
-  cds: "CDS",
+  cds: "Support",
   other: "Another host",
 };
 

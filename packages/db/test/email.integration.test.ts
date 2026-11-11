@@ -71,7 +71,7 @@ describe("email pipeline (throwaway PocketBase)", () => {
     const m = t.sent[0]!;
     expect(m.to).toBe("visitor1@example.com");
     expect(m.orgId).toBeNull();
-    expect(m.fromName).toBe("Connections Design Studios");
+    expect(m.fromName).toBe("A&M Barber Studio");
     expect(m.fromAddress).toBe("hello@send.cds.needtobeedgy.com");
     expect(m.headers["List-Unsubscribe"]).toBe(
       "<http://localhost:3000/api/unsubscribe?t=tok>",

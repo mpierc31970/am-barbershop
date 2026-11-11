@@ -6,7 +6,7 @@
 export const HUB_THEME_COLOR = "#F2F2EF";
 export const HUB_BACKGROUND_COLOR = "#FFFFFF";
 const MONOGRAM_INK = "#1B1B19";
-export const HUB_START_URL = "/hub/today";
+export const HUB_START_URL = "/hub/alerts";
 export const HUB_SCOPE = "/hub/";
 export const SHORT_NAME_MAX = 12;
 
@@ -117,7 +117,8 @@ export function buildHubManifest(input: {
         },
       ];
   return {
-    id: HUB_START_URL,
+    // The app id stays the first start_url, so an installed hub is not a new app.
+    id: "/hub/today",
     name,
     short_name: shortNameOf(name),
     start_url: HUB_START_URL,

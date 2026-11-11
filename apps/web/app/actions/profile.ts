@@ -23,7 +23,7 @@ import { runAction, type ActionResult } from "../../lib/action";
 import { alertTypesFor } from "../../lib/alert-types";
 
 const IMPERSONATING_COPY =
-  "You're viewing as CDS staff, so alert settings are turned off. Only the person can change their own alerts.";
+  "You're viewing as support staff, so alert settings are turned off. Only the person can change their own alerts.";
 const BAD_INPUT_COPY = "That didn't work. Reload the page and try again.";
 const COPY = { impersonation: IMPERSONATING_COPY };
 

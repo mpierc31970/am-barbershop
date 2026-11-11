@@ -34,7 +34,7 @@ import {
   toHandbackUi,
 } from "./leaving-view";
 
-export const metadata: Metadata = { title: "Leaving CDS" };
+export const metadata: Metadata = { title: "Moving away" };
 
 export const dynamic = "force-dynamic";
 

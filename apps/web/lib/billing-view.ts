@@ -509,7 +509,7 @@ const WHAT_FOR: Record<InvoiceMirror["kind"], string> = {
   renewal: "Monthly plan",
   change: "Change to your plan",
   one_off: "One-off charge",
-  work_order: "Quote from CDS",
+  work_order: "Quote from Support",
 };
 
 /** Invoice rows newest first; drafts are not shown (not yet an invoice to the owner). */

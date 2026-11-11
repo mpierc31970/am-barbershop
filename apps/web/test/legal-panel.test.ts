@@ -32,7 +32,7 @@ function status(
 }
 
 const MEMBER_OUTDATED =
-  "CDS updated its terms. Your site owner needs to accept them; nothing changes for you or your site meanwhile.";
+  "Support updated its terms. Your site owner needs to accept them; nothing changes for you or your site meanwhile.";
 const REVIEW = { label: "Review and sign", href: "/hub/agreement" };
 
 describe("agreementStrip", () => {
@@ -221,7 +221,7 @@ const ACK = {
   userName: "Ana Rivera",
 };
 const WARN_LEGAL =
-  "CDS gives no legal advice. These pages are a starting point written from what your site collects. Have your own lawyer approve them before you rely on them.";
+  "We give no legal advice. These pages are a starting point written from what your site collects. Have your own lawyer approve them before you rely on them.";
 
 describe("sitePolicyRows", () => {
   it("unpublished: both pages Not published (draft); privacy lists what it covers", () => {
@@ -266,13 +266,13 @@ describe("sitePolicyRows", () => {
 });
 
 describe("sitePolicyNotices", () => {
-  it("always WARN-LEGAL first, titled CDS is not a law firm", () => {
+  it("always WARN-LEGAL first, titled We are not a law firm", () => {
     for (const role of ["owner", "admin"]) {
       const n = sitePolicyNotices(siteState(), role, false);
       expect(n.alerts[0]).toEqual({
         key: "warn-legal",
         tone: "warning",
-        title: "CDS is not a law firm",
+        title: "We are not a law firm",
         text: WARN_LEGAL,
         link: null,
       });
@@ -305,7 +305,7 @@ describe("sitePolicyNotices", () => {
     const owner = sitePolicyNotices(state, "owner", false);
     expect(owner.alerts.map((a) => a.key)).toContain("template-update");
     expect(owner.alerts.find((a) => a.key === "template-update")?.text).toBe(
-      "CDS updated the policy page template. Your site keeps showing the version you approved until you review and publish the update.",
+      "Support updated the policy page template. Your site keeps showing the version you approved until you review and publish the update.",
     );
     expect(owner.ackedLine).toBe(null);
     const admin = sitePolicyNotices(state, "admin", false);

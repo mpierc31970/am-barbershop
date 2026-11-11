@@ -163,7 +163,7 @@ function noticeView(over: Record<string, unknown> = {}) {
     noticeEndsAt: ENDS,
     daysLeft: 23,
     next: "move your DNS",
-    banner: "Leaving CDS · 23 days left · Next: move your DNS",
+    banner: "Moving away · 23 days left · Next: move your DNS",
     steps: [],
     systemSteps: null,
     reasonCategory: null,
@@ -234,7 +234,7 @@ beforeEach(() => {
 describe("/hub/leaving page", () => {
   it("Owner, no notice: the start page with the ordered lines, code step and one danger button", async () => {
     const html = await renderPage();
-    expect(html).toContain("Leaving CDS");
+    expect(html).toContain("Moving away");
     expect(html).toContain(P14_COPY.LEAVE_INTRO.replace(/'/g, "&#x27;"));
     expect(html).toContain("until <strong");
     expect(html).toContain("14 Nov 2026");
@@ -339,7 +339,7 @@ describe("hub layout banner", () => {
   it("Owner during the notice: the static banner under the top bar", async () => {
     db.offboardingView.mockResolvedValue(noticeView());
     const html = await renderLayout();
-    expect(html).toContain('aria-label="Leaving CDS"');
+    expect(html).toContain('aria-label="Moving away"');
     expect(html).toContain("Next: move your DNS");
     expect(html).toContain('href="/hub/leaving"');
     expect(html.indexOf("data-leaving-banner")).toBeLessThan(
@@ -380,7 +380,7 @@ describe("hub layout banner", () => {
   });
 });
 
-describe("Settings › Billing Leave CDS row", () => {
+describe("Settings › Billing Move away row", () => {
   const view = (impersonating: boolean) => ({
     paid: false,
     status: { ok: false as const },
@@ -419,7 +419,7 @@ describe("Settings › Billing Leave CDS row", () => {
       ),
     );
     expect(html).not.toContain(`href="/hub/leaving"`);
-    expect(html).toMatch(/aria-disabled="true"[^>]*>Leave CDS…/);
+    expect(html).toMatch(/aria-disabled="true"[^>]*>Move away…/);
     expect(html).toContain(
       P14_COPY.IMPERSONATING_LEAVE.replace(/'/g, "&#x27;"),
     );

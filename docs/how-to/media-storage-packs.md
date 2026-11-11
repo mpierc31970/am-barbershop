@@ -10,7 +10,7 @@ These steps are the recording script for the Remotion + Venice AI how-to videos 
 
 Every site includes 2 GB of media storage for photos, video and audio. When you need more, add a storage pack: 5 GB for $5 a month or 25 GB for $15 a month. Packs go on your one monthly bill, charged to the card you saved at checkout, and they stack (two 5 GB packs give you 12 GB). Remove a pack any time and you're credited for the rest of the month.
 
-Only the site owner can buy or remove packs, and only after checkout. Admins and Editors see "Media storage is full. Ask your site owner to add more, or delete something to make room." CDS staff viewing the hub as the owner see the same line and no purchase buttons.
+Only the site owner can buy or remove packs, and only after checkout. Admins and Editors see "Media storage is full. Ask your site owner to add more, or delete something to make room." support staff viewing the hub as the owner see the same line and no purchase buttons.
 
 ## Activate
 

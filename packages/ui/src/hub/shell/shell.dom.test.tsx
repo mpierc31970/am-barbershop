@@ -220,6 +220,41 @@ describe("ProfileMenu", () => {
     expect(onSignOut).toHaveBeenCalledTimes(1);
   });
 
+  it("A&M: own items replace the profile link; Take a photo posts to the seat's gallery", () => {
+    mounted = mount(
+      <ProfileMenu
+        name="Ana"
+        email=""
+        onSignOut={() => {}}
+        links={[
+          { href: "/hub/studio-booking/seats/s1", label: "My page" },
+          { href: "/hub/alerts", label: "Alerts" },
+        ]}
+        photoSeatId="s1"
+      />,
+    );
+    click(button(mounted.container, "Your profile and sign out")!);
+    const menu = mounted.container.querySelector('[role="menu"]')!;
+    const links = [
+      ...menu.querySelectorAll<HTMLAnchorElement>('a[role="menuitem"]'),
+    ].map((a) => a.textContent);
+    expect(links).toEqual(["My page", "Alerts"]);
+    expect(menu.textContent).not.toContain("Your profile and alerts");
+    const form = menu.querySelector("form")!;
+    expect(form.getAttribute("action")).toBe("/hub/api/studio/photo");
+    const file = form.querySelector<HTMLInputElement>('input[type="file"]')!;
+    expect(file.getAttribute("accept")).toBe("image/*");
+    expect(file.getAttribute("capture")).toBe("environment");
+    expect(
+      form.querySelector<HTMLInputElement>('input[name="target"]')!.value,
+    ).toBe("gallery");
+    expect(
+      form.querySelector<HTMLInputElement>('input[name="seatId"]')!.value,
+    ).toBe("s1");
+    expect(button(menu, "Take a photo")).not.toBeNull();
+    expect(button(menu, "Sign out")).not.toBeNull();
+  });
+
   it("Esc closes and returns focus", () => {
     mounted = mount(
       <ProfileMenu name="Maria" email="m@example.com" onSignOut={() => {}} />,

@@ -53,7 +53,7 @@ export const TEST_DNS_BUTTON: Record<TestDnsAction, string> = {
 
 /** The confirmation shown after each action (UI-SPEC Toast "Done: …"). */
 export const TEST_DNS_DONE: Record<TestDnsAction, string> = {
-  ns_cds: "Done: nameservers now point to CDS.",
+  ns_cds: "Done: nameservers now point to us.",
   ns_back: "Done: nameservers point back to the old host.",
   break_email: "Done: an email record is now wrong in public DNS.",
   dnssec_on: "Done: DNSSEC is on.",

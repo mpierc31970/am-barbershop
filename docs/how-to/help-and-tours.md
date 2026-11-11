@@ -23,7 +23,7 @@ Every screen explains itself: the **?** beside its title opens the how-to for th
 | # | Screen / route | Action | Expected result |
 |---|---|---|---|
 | 1 | `/hub/help` | Type in **Search help**, e.g. `alerts` | The list narrows as you type, articles with the word in their title first, and the line reads "{n} articles". Articles are grouped **Your add-ons** (only add-ons you have), **Your site** and, before launch, **Getting set up**. Each row shows the title and one line about it |
-| 2 | `/hub/help` | Type a word nothing matches, e.g. `zebra` | "No help articles match "zebra". Try another word, or ask CDS Support." **ask CDS Support** opens `/hub/support`. The page always ends with "Can't find it? **Ask CDS Support**." |
+| 2 | `/hub/help` | Type a word nothing matches, e.g. `zebra` | "No help articles match "zebra". Try another word, or ask Support." **ask Support** opens `/hub/support`. The page always ends with "Can't find it? **Ask Support**." |
 | 3 | `/hub/help` | Click an article title, e.g. **Today** | `/hub/help/today` opens with **← Help**, the title, **Turn it on** and **Use it** steps (numbered, each with its expected result under it) and **Go to Today**, which opens that screen. The **Go to** button shows only for a screen you can open |
 | 4 | `/hub/help/<id>` | Click a linked article name inside a step, e.g. **Your profile and alerts** | That article opens. Names of articles your role can't read stay plain text |
 | 5 | `/hub/help/<id>` | Click **← Help** | Back to `/hub/help` |

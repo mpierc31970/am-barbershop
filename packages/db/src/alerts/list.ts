@@ -28,6 +28,8 @@ export type BellAlert = {
   read: boolean;
   /** Unread, but its Needs-you item is done: renders read and is not counted. */
   cleared: boolean;
+  /** What raised it ("booking:<id>" for a booking request); lets a screen act in place. */
+  sourceKey: string;
 };
 
 export type BellKeys = ReadonlySet<string> | readonly string[];
@@ -137,6 +139,7 @@ function toBell(row: RecordModel, keys: ReadonlySet<string>): BellAlert {
     createdAt: str(row.created),
     read: str(row.read_at) !== "",
     cleared: isCleared(row, keys),
+    sourceKey: str(row.source_key),
   };
 }
 

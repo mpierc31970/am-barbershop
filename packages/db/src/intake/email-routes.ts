@@ -82,7 +82,7 @@ const PURPOSE_LABELS: Readonly<Record<EmailPurpose, string>> = {
   default: "all its email",
   inquiries: "website inquiries",
   newsletter: "newsletter replies",
-  billing: "billing from CDS",
+  billing: "billing from Support",
   account: "account and support",
 };
 

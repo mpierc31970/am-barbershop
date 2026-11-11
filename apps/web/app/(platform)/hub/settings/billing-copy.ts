@@ -24,10 +24,10 @@ export const BEFORE_CHECKOUT_LINE =
   "Your plan, card and invoices show here after checkout.";
 /** UI-SPEC CADENCE-HELP (D-UI-P10-11). */
 export const CADENCE_HELP =
-  "Want to switch between monthly and yearly billing? Ask CDS Support and we'll change it from your next bill.";
+  "Want to switch between monthly and yearly billing? Ask Support and we'll change it from your next bill.";
 export const NOT_OWNER_BILLING = "Only the site owner can change billing.";
 export const IMPERSONATING_BILLING =
-  "You're viewing as CDS staff, so billing changes are turned off. Only the owner can change billing.";
+  "You're viewing as support staff, so billing changes are turned off. Only the owner can change billing.";
 /** The preview call failed or was refused without its own copy. */
 export const PREVIEW_FAILED =
   "We couldn't get the price just now. Try again in a minute.";
@@ -42,7 +42,7 @@ export const BAD_CARE = "Choose whether to add or remove the Care Plan.";
 
 /** "Resets on 1 Nov. Need more than the hour? …" (CARE-RESET). */
 export function careResetCopy(resetLabel: string): string {
-  return `Resets on ${resetLabel}. Need more than the hour? Ask CDS Support; extra time is quoted before any work starts.`;
+  return `Resets on ${resetLabel}. Need more than the hour? Ask Support; extra time is quoted before any work starts.`;
 }
 
 /** True for `?card=updated` (string or first of an array). */

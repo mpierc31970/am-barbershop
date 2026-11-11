@@ -54,7 +54,7 @@ export async function saveSiteSettingsAction(
 }
 
 const SENSITIVE_IMPERSONATING_COPY =
-  "You're viewing as CDS staff, so sensitive-practice mode can't be changed. Only the owner or an admin can change it.";
+  "You're viewing as support staff, so sensitive-practice mode can't be changed. Only the owner or an admin can change it.";
 
 /** Settings › Business info: sensitive-practice mode on or off (Owner, Admin). */
 export async function setSensitivePracticeAction(

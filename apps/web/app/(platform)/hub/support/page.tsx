@@ -49,7 +49,7 @@ import { SupportFrame, type SupportAccess } from "./SupportFrame";
 import { TicketsPanel, type CareRow } from "./TicketsPanel";
 import { DEFAULT_SUPPORT_EMAIL, careOnLine } from "./support-copy";
 
-export const metadata: Metadata = { title: "CDS Support" };
+export const metadata: Metadata = { title: "Support" };
 
 export const dynamic = "force-dynamic";
 
@@ -65,7 +65,7 @@ type SupportPanelProps = {
 type SupportPanel = (props: SupportPanelProps) => Promise<ReactNode>;
 
 const NO_ACCESS_COPY =
-  "Your role on this site doesn't include CDS Support. Ask your site owner.";
+  "Your role on this site doesn't include Support. Ask your site owner.";
 
 const LINK =
   "rounded text-hub-accent underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hub-accent";

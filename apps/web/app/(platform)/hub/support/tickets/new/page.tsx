@@ -68,7 +68,7 @@ type SearchParams = Record<string, string | string[] | undefined>;
 
 const SUPPORT_HREF = "/hub/support";
 const NO_ACCESS_COPY =
-  "Your role on this site doesn't include CDS Support. Ask your site owner.";
+  "Your role on this site doesn't include Support. Ask your site owner.";
 const BACK_LINK =
   "inline-flex items-center gap-1 self-start rounded text-sm font-semibold text-hub-accent " +
   "underline-offset-2 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 " +
@@ -170,7 +170,7 @@ export default async function NewTicketPage({
     <>
       <GuardedLink href={SUPPORT_HREF} className={BACK_LINK}>
         <ArrowLeft aria-hidden size={16} strokeWidth={2} />
-        CDS Support
+        Support
       </GuardedLink>
       <ScreenHeader title={title} helpId={helpId} LinkComponent={GuardedLink} />
     </>

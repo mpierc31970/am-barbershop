@@ -83,7 +83,7 @@ import { SUPPORT_COPY } from "../../support-copy";
 import { useSupportPoll } from "../../useSupportPoll";
 
 export const TICKET_DETAIL_COPY = Object.freeze({
-  waitingOnYou: "CDS is waiting for your reply.",
+  waitingOnYou: "Support is waiting for your reply.",
   replyLabel: "Your reply",
   conversation: "Conversation",
 });

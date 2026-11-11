@@ -71,7 +71,7 @@ const NOTICE = {
   invoices: [
     {
       id: "inv1",
-      number: "CDS-0001",
+      number: "Support-0001",
       issuedAt: "2026-10-08 10:00:00.000Z",
       description: "Build fee",
       kind: "build",
@@ -127,7 +127,7 @@ describe("declined notice frame (BILL-09, D214)", () => {
       expect(html).toMatch(/<h1[^>]*>We&#x27;ve refunded your order<\/h1>/);
       expect(html).toContain(
         esc(
-          "CDS can't build this site, so we've refunded everything you paid, $1,539.00, to your card. It can take 5 to 10 business days to show. We can't take on your build right now",
+          "Support can't build this site, so we've refunded everything you paid, $1,539.00, to your card. It can take 5 to 10 business days to show. We can't take on your build right now",
         ),
       );
       expect(html).toContain("Refunded");
@@ -141,9 +141,9 @@ describe("declined notice frame (BILL-09, D214)", () => {
         /<a href="\/hub\/agreement\/download\/sig1"[^>]*>Download your signed agreement<\/a>/,
       );
       expect(html).toContain("View invoices");
-      expect(html).toContain("CDS-0001");
+      expect(html).toContain("Support-0001");
       expect(html).toMatch(
-        /<a href="mailto:support@connectionsdesignstudios.com"[^>]*>Contact CDS Support<\/a>/,
+        /<a href="mailto:support@connectionsdesignstudios.com"[^>]*>Contact Support<\/a>/,
       );
       expect(html).toContain("Sign out");
       // The page under the layout never renders, nor does the hub nav.

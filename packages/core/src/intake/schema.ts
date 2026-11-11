@@ -210,7 +210,7 @@ const FIELDS = [
     present: (s) => filled(s.profile.headline),
     fallback: {
       rule: "cds-writes",
-      ownerText: "Leave empty and CDS writes one for you.",
+      ownerText: "Leave empty and Support writes one for you.",
     },
   },
   {
@@ -265,7 +265,10 @@ const FIELDS = [
     label: "Mood board",
     anchor: "field-moodboard",
     present: (s) => s.counts.moodboard > 0,
-    fallback: { rule: "cds-colours", ownerText: "CDS picks colours with you." },
+    fallback: {
+      rule: "cds-colours",
+      ownerText: "Support picks colours with you.",
+    },
   },
   {
     id: "photo_descriptions",
@@ -308,7 +311,7 @@ const FIELDS = [
     present: (s) => s.answers.gbp !== "",
     fallback: {
       rule: "omit",
-      ownerText: "Leave it and CDS asks you about it later.",
+      ownerText: "Leave it and Support asks you about it later.",
     },
   },
   {

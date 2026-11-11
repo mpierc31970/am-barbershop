@@ -189,7 +189,7 @@ describe("CustomizeTodaySheet", () => {
 
   it("impersonating: read-only, with the note, and nothing saves", async () => {
     const { onSave, root } = sheet({ impersonating: true });
-    expect(root.textContent).toContain("You're viewing as CDS staff");
+    expect(root.textContent).toContain("You're viewing as support staff");
     click(buttonNamed(root, "Move Inquiries down"));
     click(root.querySelector('input[aria-label="Show Bookings"]'));
     click(buttonNamed(root, "Reset to default order"));
@@ -354,7 +354,7 @@ describe("FromCdsCard", () => {
     mounted = mount(<FromCdsCard card={tip} onDismiss={onDismiss} />);
     const root = mounted.container;
     expect(root.querySelector("[data-cds-identity]")!.textContent).toBe(
-      "From CDS",
+      "From Support",
     );
     click(buttonNamed(root, "Dismiss this card"));
     expect(onDismiss).toHaveBeenCalledWith("tip:reply-fast");
@@ -417,7 +417,7 @@ describe("FromCdsCard", () => {
     expect(ext.getAttribute("rel")).toContain("noopener");
   });
 
-  it("note kind: title, text, Read the note, and the CDS mark inside data-cds-identity (12-29)", () => {
+  it("note kind: title, text, Read the note, and the Support mark inside data-cds-identity (12-29)", () => {
     mounted = mount(
       <FromCdsCard
         card={{
@@ -446,17 +446,17 @@ describe("FromCdsCard", () => {
     expect(mark.getAttribute("width")).toBe("20");
     expect(mark.getAttribute("aria-hidden")).toBe("true");
     expect(mark.closest("[data-cds-identity]")).not.toBeNull();
-    expect(root.querySelector("h2")!.textContent).toBe("From CDS");
+    expect(root.querySelector("h2")!.textContent).toBe("From Support");
   });
 
-  it("every kind carries the CDS mark before the heading", () => {
+  it("every kind carries the Support mark before the heading", () => {
     mounted = mount(<FromCdsCard card={tip} />);
     const mark = mounted.container.querySelector("[data-cds-mark]")!;
     expect(mark.closest("[data-cds-identity]")).not.toBeNull();
   });
 });
 
-describe("NeedsYouList CDS marker (12-29)", () => {
+describe("NeedsYouList Support marker (12-29)", () => {
   function item(over: Partial<NeedsYouItem> & { key: string }): NeedsYouItem {
     return {
       kind: "test",
@@ -477,11 +477,11 @@ describe("NeedsYouList CDS marker (12-29)", () => {
           item({
             key: "support:notice:w1",
             level: "urgent",
-            title: "CDS is working on your site until 4:00 pm",
+            title: "Support is working on your site until 4:00 pm",
           }),
           item({
             key: "support:ticket:1001",
-            title: "CDS replied to ticket #1001",
+            title: "Support replied to ticket #1001",
           }),
           item({ key: "inbox:m1", section: "inbox", title: "New message" }),
         ]}
@@ -520,7 +520,7 @@ describe("BuildWorkCard", () => {
     const job = root.querySelector('[data-build-job="w1"]')!;
     expect(job.querySelectorAll("ol > li")).toHaveLength(3);
     expect(job.querySelector('[aria-current="step"]')!.textContent).toContain(
-      "CDS is setting it up",
+      "Support is setting it up",
     );
     expect(job.textContent).toContain("Started 9 Oct");
     expect(job.querySelector("a")!.getAttribute("href")).toBe(

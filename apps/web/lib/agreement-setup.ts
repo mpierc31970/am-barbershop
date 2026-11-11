@@ -124,7 +124,7 @@ export function setupNeededCount(
 
 /** MEMBER-OUTDATED (09-UI-SPEC copy), shown to Admins only. */
 export const MEMBER_OUTDATED_COPY =
-  "CDS updated its terms. Your site owner needs to accept them; nothing changes for you or your site meanwhile.";
+  "Support updated its terms. Your site owner needs to accept them; nothing changes for you or your site meanwhile.";
 
 /** The ?notice= value /hub adds for an Admin when the terms are outdated (HubNotice). */
 export const TERMS_UPDATED_NOTICE = "terms-updated";

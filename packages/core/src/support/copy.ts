@@ -23,10 +23,10 @@ const TYPE_LABELS: Record<TicketType, string> = {
 /** One-line card descriptions (UI-SPEC lines 383-387). */
 const TYPE_HINTS: Record<TicketType, string> = {
   problem: "A page, form or feature is broken or looks wrong.",
-  change: "Ask CDS to change something on your site.",
+  change: "Ask Support to change something on your site.",
   question: "Ask how to do something.",
   billing: "A question about your bill or plan.",
-  suggestion: "An idea for something CDS could build.",
+  suggestion: "An idea for something Support could build.",
 };
 
 const PAID_CATEGORY_LABELS: Record<PaidCategory, string> = {
@@ -43,7 +43,7 @@ const PAID_CATEGORY_LABELS: Record<PaidCategory, string> = {
 
 export const SUPPORT_COPY = {
   /** SLA-LINE (CONTEXT anchor, verbatim). */
-  SLA_LINE: "CDS replies within 2 business days.",
+  SLA_LINE: "Support replies within 2 business days.",
   /** PAID-RULE (CONTEXT anchor, verbatim). */
   PAID_RULE:
     "Things you can do in your dashboard are yours; we'll show you how. Doing it for you is a paid service.",
@@ -66,14 +66,14 @@ export const SUPPORT_COPY = {
   PAID_BLOCKS_PROGRESS:
     "This is a paid service. Work can't start until the owner accepts a quote or chooses a Care hour.",
   RESOLVED_NOTE:
-    "CDS marked this resolved. If it isn't, reply and it reopens. It closes by itself after 7 days.",
+    "Support marked this resolved. If it isn't, reply and it reopens. It closes by itself after 7 days.",
   /** IDEA-PUBLIC (CONTEXT anchor, verbatim). */
-  IDEA_PUBLIC: "Every CDS site can see this idea, without your business name.",
+  IDEA_PUBLIC: "Every site can see this idea, without your business name.",
   /** HELD-KEPT (CONTEXT anchor, verbatim). */
   HELD_KEPT:
-    "Your unsaved changes are kept. You can apply them when CDS is done.",
+    "Your unsaved changes are kept. You can apply them when Support is done.",
   /** NOTICE-ACTIVE template: {target} {end} {message}. */
-  NOTICE_ACTIVE: "CDS is working on {target} until {end}. {message}",
+  NOTICE_ACTIVE: "Support is working on {target} until {end}. {message}",
   /** NOTICE-PLANNED template: {target} {when} {message}. */
   NOTICE_PLANNED: "Planned work on {target} {when}. {message}",
   STATUS_LABELS,
@@ -92,7 +92,7 @@ export function typeLabel(t: TicketType): string {
 
 /** Email subject when CDS replies on a ticket: "CDS replied to ticket #1042". */
 export function replySubject(n: number): string {
-  return `CDS replied to ticket #${n}`;
+  return `Support replied to ticket #${n}`;
 }
 
 /** Email subject on a status change: "Ticket #1042 is now Waiting on you". */

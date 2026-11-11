@@ -320,32 +320,34 @@ describe("/hub/setup overview", () => {
     expect(html).toMatch(
       /<a[^>]*href="\/hub\/setup\/contact"[^>]*>Continue setup<\/a>/,
     );
-    expect(html).toContain("Send to CDS unlocks when the must-haves are in.");
+    expect(html).toContain(
+      "Send to Support unlocks when the must-haves are in.",
+    );
     expect(html).toContain("Business phone or email · Contact &amp; hours");
     expect(html).toContain("2 needed");
-    expect(html).not.toContain(">Send to CDS<");
+    expect(html).not.toContain(">Send to Support<");
   });
 
-  it("all must-haves in: Send to CDS for the owner, with the optional-gap note", async () => {
+  it("all must-haves in: Send to Support for the owner, with the optional-gap note", async () => {
     load({ snap: complete() });
     const html = await overview();
-    expect(html).toMatch(/<button[^>]*>.*Send to CDS/);
-    expect(html).not.toMatch(/<button[^>]*disabled=""[^>]*>.*Send to CDS/);
+    expect(html).toMatch(/<button[^>]*>.*Send to Support/);
+    expect(html).not.toMatch(/<button[^>]*disabled=""[^>]*>.*Send to Support/);
     expect(html).toMatch(/\d+ optional items are empty\./);
   });
 
   it("an admin or editor sees Send disabled with the owner-only reason", async () => {
     load({ snap: complete(), role: "admin" });
     const html = await overview();
-    expect(html).toMatch(/<button[^>]*disabled=""[^>]*>.*Send to CDS/);
-    expect(html).toContain("Only the site owner can send this to CDS.");
+    expect(html).toMatch(/<button[^>]*disabled=""[^>]*>.*Send to Support/);
+    expect(html).toContain("Only the site owner can send this to Support.");
   });
 
   it("staff impersonating see the owner's-step reason", async () => {
     load({ snap: complete(), impersonator: "staff1" });
     const html = await overview();
-    expect(html).toMatch(/<button[^>]*disabled=""[^>]*>.*Send to CDS/);
-    expect(html).toContain("Sending to CDS is the owner&#x27;s step.");
+    expect(html).toMatch(/<button[^>]*disabled=""[^>]*>.*Send to Support/);
+    expect(html).toContain("Sending to Support is the owner&#x27;s step.");
   });
 
   it("sent: SENT copy with the date and the keep-editing line", async () => {
@@ -355,15 +357,15 @@ describe("/hub/setup overview", () => {
       prof: { time_zone: "America/Chicago" },
     });
     const html = await overview();
-    expect(html).toContain("Sent to CDS on 28 Sep.");
+    expect(html).toContain("Sent to Support on 28 Sep.");
     expect(html).toContain("You can keep editing.");
     expect(sentCopy("2026-09-28T15:00:00Z", "")).toBe(
-      "Sent to CDS on 28 Sep. We'll email you when your site is ready to review.",
+      "Sent to Support on 28 Sep. We'll email you when your site is ready to review.",
     );
     expect(optionalGapCopy(1)).toMatch(/^1 optional item is empty\./);
   });
 
-  it("Send to CDS flips the panel to Sent and toasts", async () => {
+  it("Send to Support flips the panel to Sent and toasts", async () => {
     load({ snap: complete() });
     actions.sendToCdsAction.mockResolvedValue({
       ok: true,
@@ -371,11 +373,13 @@ describe("/hub/setup overview", () => {
     });
     const el = (await SetupPage()) as ReactElement;
     mounted = mount(<ToastRegion>{el}</ToastRegion>);
-    click(button(mounted.container, /Send to CDS/));
+    click(button(mounted.container, /Send to Support/));
     await flush();
     expect(actions.sendToCdsAction).toHaveBeenCalledTimes(1);
     expect(document.body.textContent).toContain(SENT_TOAST);
-    expect(mounted.container.textContent).toContain("Sent to CDS on 28 Sep.");
+    expect(mounted.container.textContent).toContain(
+      "Sent to Support on 28 Sep.",
+    );
   });
 
   it("a failed send shows the action's copy in the panel", async () => {
@@ -388,7 +392,7 @@ describe("/hub/setup overview", () => {
     });
     const el = (await SetupPage()) as ReactElement;
     mounted = mount(<ToastRegion>{el}</ToastRegion>);
-    click(button(mounted.container, /Send to CDS/));
+    click(button(mounted.container, /Send to Support/));
     await flush();
     expect(
       mounted.container.querySelector('[role="alert"]')?.textContent,
@@ -400,12 +404,12 @@ describe("/hub/setup overview", () => {
     actions.sendToCdsAction.mockRejectedValue(new Error("network"));
     const el = (await SetupPage()) as ReactElement;
     mounted = mount(<ToastRegion>{el}</ToastRegion>);
-    click(button(mounted.container, /Send to CDS/));
+    click(button(mounted.container, /Send to Support/));
     await flush();
     expect(
       mounted.container.querySelector('[role="alert"]')?.textContent,
     ).toContain(SEND_FAILED);
-    const btn = button(mounted.container, /Send to CDS/);
+    const btn = button(mounted.container, /Send to Support/);
     expect(btn).not.toBeNull();
     expect(btn!.getAttribute("aria-busy")).not.toBe("true");
     expect(btn!.disabled).toBe(false);
@@ -423,7 +427,7 @@ describe("/hub/setup overview", () => {
     const root = mounted.container;
     const text = root.textContent ?? "";
     expect(text).toContain("Being built");
-    expect(text).not.toContain("Sent to CDS");
+    expect(text).not.toContain("Sent to Support");
     expect(text).toContain(BUILT_COPY);
     expect(text).toContain(STATUS_HELPER);
     const link = [...root.querySelectorAll("a")].find((a) =>
@@ -447,7 +451,7 @@ describe("/hub/setup overview", () => {
       expect(cls).toContain("pointer-coarse:min-h-11");
       expect(cls).toContain("inline-flex");
     }
-    expect(button(root, /Send to CDS/)).toBeNull();
+    expect(button(root, /Send to Support/)).toBeNull();
     expect(text).not.toContain("Continue setup");
     // UI-SPEC Voice: owner UI never names the machinery.
     for (const word of [
@@ -466,7 +470,9 @@ describe("/hub/setup overview", () => {
     load({ snap: complete(), stage: "being_built" });
     db.getSitePreviewUrl.mockResolvedValue(null);
     const html = await overview();
-    expect(html).toContain("Your site is assembled. CDS is polishing it now.");
+    expect(html).toContain(
+      "Your site is assembled. Support is polishing it now.",
+    );
     expect(html).not.toContain("See your site");
     expect(html).not.toContain('target="_blank"');
   });
@@ -478,7 +484,7 @@ describe("/hub/setup overview", () => {
       submittedAt: new Date("2026-09-28T15:00:00Z"),
     });
     const html = await overview();
-    expect(html).toContain("Sent to CDS on 28 Sep.");
+    expect(html).toContain("Sent to Support on 28 Sep.");
     expect(html).not.toContain("Being built");
     expect(html).not.toContain("Your site is assembled.");
     expect(db.getSitePreviewUrl).not.toHaveBeenCalled();
@@ -526,9 +532,9 @@ describe("/hub/setup overview", () => {
       );
       expect(links[0]!.textContent).toBe("Review and sign");
       // The Sent line moves under the button as muted text (no success alert).
-      expect(text).toContain("Sent to CDS on 28 Sep.");
+      expect(text).toContain("Sent to Support on 28 Sep.");
       const sent = [...root.querySelectorAll("p")].find((p) =>
-        p.textContent?.startsWith("Sent to CDS on"),
+        p.textContent?.startsWith("Sent to Support on"),
       );
       expect(sent?.className).toContain("text-hub-ink-muted");
       expect(text).not.toContain("Everything's in.");
@@ -585,7 +591,7 @@ describe("/hub/setup overview", () => {
       expect(html).not.toContain('href="/hub/agreement"');
     });
 
-    it("before Send to CDS (and while held) nothing about the agreement shows", async () => {
+    it("before Send to Support (and while held) nothing about the agreement shows", async () => {
       for (const stage of ["intake", "fit_review"]) {
         load({ snap: complete(), stage });
         db.agreementStatus.mockResolvedValue(UNSIGNED);
@@ -601,7 +607,7 @@ describe("/hub/setup overview", () => {
       const err = vi.spyOn(console, "error").mockImplementation(() => {});
       const html = await overview();
       err.mockRestore();
-      expect(html).toContain("Sent to CDS on 28 Sep.");
+      expect(html).toContain("Sent to Support on 28 Sep.");
       expect(html.toLowerCase()).not.toContain("agreement");
     });
   });
@@ -644,7 +650,7 @@ describe("/hub/setup overview", () => {
       );
       expect(pay).toHaveLength(1);
       expect(pay[0]!.textContent).toBe("Go to checkout");
-      expect(text).toContain("Sent to CDS on 28 Sep.");
+      expect(text).toContain("Sent to Support on 28 Sep.");
     });
 
     it("Admin: the row with the owner-only line, no button", async () => {
@@ -690,7 +696,7 @@ describe("/hub/setup overview", () => {
       expect(html).not.toContain('href="/hub/checkout"');
     });
 
-    it("before Send to CDS nothing shows and nothing is read", async () => {
+    it("before Send to Support nothing shows and nothing is read", async () => {
       load({ snap: complete(), stage: "intake" });
       db.readCheckoutState.mockResolvedValue(OPEN);
       const html = await overview();

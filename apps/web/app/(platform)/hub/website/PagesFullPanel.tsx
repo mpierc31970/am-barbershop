@@ -23,7 +23,7 @@ import { CARD_HREF } from "../settings/billing-copy";
 export const PAGES_FULL_COPY = {
   /** UI-SPEC IMPERSONATING-BUY. */
   impersonating:
-    "You're viewing as CDS staff, so buying is turned off. Only the owner can add pages.",
+    "You're viewing as support staff, so buying is turned off. Only the owner can add pages.",
   paused: PAUSED_NO_ADD,
   unpriced: UNPRICED_ADDON_REASON,
   updateCardAndPay: UPDATE_CARD_AND_PAY,

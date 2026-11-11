@@ -106,8 +106,10 @@ async function main(): Promise<void> {
   // signs in as AM_BARBER_EMAIL (barber{n}@example.com) with a renter/staff membership (the seat's kind)
   // and the Studio Booking grant; the seat links itself on first sign-in (email match,
   // studio/shared ownSeat). Leftover barber<N> accounts are removed.
-  const pattern = process.env.AM_BARBER_EMAIL?.trim() || "barber{n}@example.com";
-  const barberEmail = (k: number) => pattern.replace("{n}", String(k)).toLowerCase();
+  const pattern =
+    process.env.AM_BARBER_EMAIL?.trim() || "barber{n}@example.com";
+  const barberEmail = (k: number) =>
+    pattern.replace("{n}", String(k)).toLowerCase();
   const ownerSeat = process.env.AM_OWNER_SEAT?.trim().toLowerCase() || "";
   const barberPassword = env("AM_BARBER_PASSWORD");
   const seats = await withSuperuser((pb) =>

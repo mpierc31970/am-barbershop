@@ -21,7 +21,7 @@ import type { QuoteView } from "./types";
 import { QUOTE_STATUS_BADGE } from "./WorkOrderCard";
 
 export const QUOTE_COPY = {
-  whatCds: "What CDS will do",
+  whatCds: "What Support will do",
   price: "Price",
   payNow: "Pay now",
   tax: "Plus sales tax where applicable.",
@@ -35,7 +35,7 @@ export const QUOTE_COPY = {
   decline: "Decline this quote",
   declineTitle: "Decline this quote?",
   declineBody:
-    "CDS is told, and no work starts. You can ask for a new quote any time.",
+    "Support is told, and no work starts. You can ask for a new quote any time.",
   declineConfirm: "Decline quote",
   keep: "Keep quote",
   declining: "Declining…",
@@ -45,16 +45,16 @@ export const QUOTE_COPY = {
     `Accepted on ${date}. Pay the invoice to start the work.`,
   pay: (amount: string) => `Pay ${amount}`,
   started: (date: string | null) =>
-    `${date ? `Paid on ${date}. ` : ""}CDS has started the work and will message you when it's ready.`,
+    `${date ? `Paid on ${date}. ` : ""}Support has started the work and will message you when it's ready.`,
   balance: (date: string | null) =>
-    `CDS delivered this work${date ? ` on ${date}` : ""}. Pay the balance to finish; your monthly maintenance starts with your next bill.`,
+    `Support delivered this work${date ? ` on ${date}` : ""}. Pay the balance to finish; your monthly maintenance starts with your next bill.`,
   payBalance: (amount: string) => `Pay the balance ${amount}`,
   declined: (date: string | null) =>
     `You declined this quote${date ? ` on ${date}` : ""}.`,
   expired: (date: string | null) =>
-    `This quote expired${date ? ` on ${date}` : ""}. Ask CDS Support for a new one.`,
+    `This quote expired${date ? ` on ${date}` : ""}. Ask Support for a new one.`,
   impersonating:
-    "You're viewing as CDS staff, so payment is turned off. Only the owner can pay.",
+    "You're viewing as support staff, so payment is turned off. Only the owner can pay.",
 } as const;
 
 const SCOPE =

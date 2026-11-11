@@ -133,9 +133,9 @@ export const HISTORY_COPY = Object.freeze({
         case "former":
           return "Published by a former team member";
         case "support":
-          return "Published by CDS support";
+          return "Published by Support";
         case "assembly":
-          return "Set up by CDS from your answers";
+          return "Set up by Support from your answers";
         default:
           return "Published before history was turned on";
       }
@@ -147,7 +147,7 @@ export const HISTORY_COPY = Object.freeze({
         return "Saved by a former team member";
       case "support":
       case "assembly":
-        return "Saved by CDS support";
+        return "Saved by Support";
       default:
         return "Saved before history was turned on";
     }

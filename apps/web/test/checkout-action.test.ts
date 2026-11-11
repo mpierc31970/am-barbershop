@@ -105,7 +105,7 @@ describe("startCheckoutAction", () => {
     expect(res).toMatchObject({
       ok: false,
       message:
-        "You're viewing as CDS staff, so payment is turned off. Only the owner can pay.",
+        "You're viewing as support staff, so payment is turned off. Only the owner can pay.",
     });
     expect(db.startCheckout).not.toHaveBeenCalled();
   });

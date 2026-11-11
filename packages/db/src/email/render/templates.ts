@@ -627,7 +627,7 @@ function fitApproved(
 ): RenderedParts {
   const body =
     "Thanks for waiting. Your site is cleared, and you can keep setting it up.";
-  const why = `You're getting this because you're setting up ${d.orgName}'s website with CDS.`;
+  const why = `You're getting this because you're setting up ${d.orgName}'s website with us.`;
   const preheader = "You can keep setting up your site.";
   const { html, text } = layout({
     brand: o.brand,
@@ -652,7 +652,7 @@ function fitDeclined(
 ): RenderedParts {
   const body =
     "We've looked at your answers and can't host this site. Reply to this email if you think we got it wrong.";
-  const why = `You're getting this because you started a website for ${d.orgName} with CDS.`;
+  const why = `You're getting this because you started a website for ${d.orgName} with us.`;
   const preheader = "An update on your website.";
   const { html, text } = layout({
     brand: o.brand,
@@ -663,7 +663,7 @@ function fitDeclined(
     footerText: why,
   });
   return {
-    subject: headerValue("About your website with CDS"),
+    subject: headerValue("About your website with us"),
     preheader,
     html,
     text,
@@ -786,7 +786,7 @@ function mediaAlert(
 ): RenderedParts {
   const subject = MEDIA_ALERT_SUBJECTS[d.event](d.orgName ?? "A tenant");
   const since = `Since ${shortDate(d.at)}`;
-  const why = "CDS staff alert.";
+  const why = "Support staff alert.";
   const { html, text } = layout({
     brand: o.brand,
     preheader: subject,
@@ -801,7 +801,7 @@ function mediaAlert(
 
 // ---- P8 (08-10): staff hand-off emails (UI-SPEC "Staff emails"; D-UI-P8-27, -28) ----
 
-const STAFF_WHY = "You're getting this because you're CDS staff.";
+const STAFF_WHY = "You're getting this because you're support staff.";
 const TABLE_OPEN = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 16px;font-size:16px;line-height:1.5;color:#1B1B19">`;
 
 /** Two-column facts table: muted 14px keys, body values, tabular figures. */
@@ -922,7 +922,7 @@ function siteAssemblyFailed(
 ): RenderedParts {
   const subject = `Site didn't assemble: ${d.businessName}`;
   const preheader = `Stopped after ${d.attempts} tries. The owner hasn't been told.`;
-  const body = `${d.businessName}'s site stopped assembling after ${d.attempts} tries. The owner hasn't been told; their setup page still says CDS has their details.`;
+  const body = `${d.businessName}'s site stopped assembling after ${d.attempts} tries. The owner hasn't been told; their setup page still says Support has their details.`;
   const facts: [string, string][] = [
     ["Error", d.errorCode],
     ["Page", d.page],
@@ -962,7 +962,7 @@ function agreementSigned(
         `</ul>`;
   const afterLead =
     "You can also find it in Settings › Legal. If you ever need to show the agreement wasn't changed, its proof code is:";
-  const why = "You're getting this because you signed an agreement with CDS.";
+  const why = "You're getting this because you signed an agreement with us.";
   const preheader = `Signed ${d.signedDate} for ${d.orgName}. Download your copy any time.`;
   const { html, text } = layout({
     brand: o.brand,
@@ -978,7 +978,7 @@ function agreementSigned(
     footerText: why,
   });
   return {
-    subject: headerValue("Your signed CDS agreement"),
+    subject: headerValue("Your signed agreement"),
     preheader,
     html,
     text,
@@ -987,7 +987,7 @@ function agreementSigned(
 
 // ---- P10 (10-03): billing emails (UI-SPEC "Emails"; D214, D310; owner words only) ----
 
-const BILLING_WHY = "You're getting this because you have a website with CDS.";
+const BILLING_WHY = "You're getting this because you have a website with us.";
 
 const EXACT = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -1054,7 +1054,7 @@ function billingReceipt(
   ]);
   return ownerBilling(
     {
-      subject: "Your receipt from CDS",
+      subject: "Your receipt from Support",
       preheader: `${paid} paid on ${d.paidOn}.`,
       body: [
         `Thanks, ${d.firstName}. We received ${paid} (including ${exactMoney(d.taxCents)} sales tax) for ${d.orgName}'s website.`,
@@ -1144,7 +1144,7 @@ function billingQuoteSent(
   const scope = sentence(d.scopeLine);
   return ownerBilling(
     {
-      subject: `CDS sent you a quote: ${d.title}`,
+      subject: `Support sent you a quote: ${d.title}`,
       preheader: `${total}. Valid until ${d.validUntil}.`,
       body: [
         `Here's the quote you asked for: ${sentence(d.title)}.${scope ? ` ${scope}.` : ""} Price ${total}${deposit}. No work starts until you accept it.`,
@@ -1182,7 +1182,7 @@ export const DECLINE_REASON_SENTENCES: Readonly<
   fit: "Your business is a kind of site we don't host.",
   capacity:
     "We can't take on your build right now and didn't want to keep you waiting.",
-  scope: "What your site needs is outside what CDS builds.",
+  scope: "What your site needs is outside what Support builds.",
 };
 
 /** The reason sentence for a category; `other` is the note as one sentence ("" when empty). */
@@ -1200,11 +1200,11 @@ function orgDeclined(
   o: RenderOptions,
 ): RenderedParts {
   const reason = declineReasonSentence(d.reason, d.otherNote);
-  const body = `CDS can't build this site, so we've refunded everything you paid, ${exactMoney(d.refundedCents)}, to your card. It can take 5 to 10 business days to show.${reason ? ` ${reason}` : ""}`;
+  const body = `Support can't build this site, so we've refunded everything you paid, ${exactMoney(d.refundedCents)}, to your card. It can take 5 to 10 business days to show.${reason ? ` ${reason}` : ""}`;
   const keep = `Your preview site is offline. Your account and site details are deleted on ${d.deleteOn}. Your signed agreement and receipts are kept for our records, and you can download them until then.`;
   return ownerBilling(
     {
-      subject: "About your CDS order",
+      subject: "About your order",
       preheader: "We've refunded your payment in full.",
       body: [body, keep],
       button: { label: "Download your signed agreement", href: d.agreementUrl },
@@ -1464,13 +1464,13 @@ function excerptOf(v: string | undefined): string {
 
 function whoFromCds(first: string | undefined): string {
   const n = headerValue(first ?? "").trim();
-  return n ? `${n} from CDS` : "CDS";
+  return n ? `${n} from Support` : "Support";
 }
 
 const STATUS_BODY: Readonly<Partial<Record<TicketStatus, string>>> = {
-  waiting_on_you: "CDS needs something from you to continue.",
+  waiting_on_you: "Support needs something from you to continue.",
   resolved:
-    "CDS marked this resolved. If it isn't, reply in your hub within 7 days to reopen it.",
+    "Support marked this resolved. If it isn't, reply in your hub within 7 days to reopen it.",
   closed: "This ticket is closed. Open a new one any time.",
 };
 
@@ -1526,14 +1526,14 @@ function supportShape(d: SupportEmailVars): SupportShape {
     }
     case "cds.message":
       return {
-        subject: "New message from CDS",
+        subject: "New message from Support",
         preheader: d.business,
         lines: [`${whoFromCds(d.authorFirstName)} wrote:`, excerpt],
         button: "Read the message",
       };
     case "cds.note":
       return {
-        subject: `A note from CDS: ${needTitle(d)}`,
+        subject: `A note from Support: ${needTitle(d)}`,
         preheader: d.business,
         lines: [excerpt],
         button: "Read the note",
@@ -1542,7 +1542,7 @@ function supportShape(d: SupportEmailVars): SupportShape {
       // No attachment and no link to the file itself; the excerpt is never used.
       const title = needTitle(d);
       return {
-        subject: `CDS shared a document: ${title}`,
+        subject: `Support shared a document: ${title}`,
         preheader: d.business,
         lines: [`${title} is in Documents in your hub.`],
         button: "Open Documents",
@@ -1674,7 +1674,8 @@ export function ctWeekdayDate(d: Date): string {
   return CT_WEEKDAY_DAY.format(d).replace(",", "");
 }
 
-const REPORTER_WHY = "You're getting this because you sent a report to CDS.";
+const REPORTER_WHY =
+  "You're getting this because you sent a report to Support.";
 
 function needPositiveInt(n: number, what: string): void {
   if (!Number.isInteger(n) || n <= 0) throw new Error(`${what} is required`);
@@ -1798,7 +1799,7 @@ function siteSuspended(
       subject: `${d.business} is offline`,
       preheader: offline,
       body: [offline, `Reason: ${d.reasonLabel}`],
-      button: { label: "Open CDS Support", href: d.href },
+      button: { label: "Open Support", href: d.href },
     },
     o,
   );
@@ -1823,7 +1824,7 @@ function reportContentNotice(
   d: EmailData["report.content_notice"],
   o: RenderOptions,
 ): RenderedParts {
-  const lead = `Someone reported a page on ${d.business} to CDS. CDS reviews every report, usually within 2 business days, and tells you if anything needs to change.`;
+  const lead = `Someone reported a page on ${d.business} to Support. Support reviews every report, usually within 2 business days, and tells you if anything needs to change.`;
   const rows: [string, string][] = [
     ["Page", d.url],
     ["Reason", d.categoryLabel],
@@ -1885,7 +1886,7 @@ function hubInquiry(
   if (d.phone.trim()) facts.push(["Phone", d.phone.trim()]);
   if (d.about.trim()) facts.push(["About", d.about.trim()]);
   const lead =
-    "Someone sent the contact form on the CDS site. Reply to this email to answer them.";
+    "Someone sent the contact form on the site. Reply to this email to answer them.";
   const { html, text } = layout({
     brand: o.brand,
     preheader: subject,
@@ -1973,7 +1974,7 @@ function domainNameserverSteps(
   const steps = d.steps.map((s, i) => `${i + 1}. ${s.trim()}`);
   const stepsLabel = `Steps at ${d.registrar}`;
   const safe = P14_COPY.NS_SAFE;
-  const why = `You're getting this because someone at ${d.business} entered your address. CDS never asks for a password.`;
+  const why = `You're getting this because someone at ${d.business} entered your address. Support never asks for a password.`;
   const { html, text } = layout({
     brand: o.brand,
     preheader: lead,
@@ -2131,7 +2132,7 @@ function staffDomainAlert(
     ? STAFF_ALERT_KIND_WORDS[d.kind]
     : undefined;
   if (!words) throw new Error("staff.domain_alert needs a known kind");
-  const subject = `[CDS] ${d.business} · ${words} · ${d.domain}`;
+  const subject = `[Alert] ${d.business} · ${words} · ${d.domain}`;
   const rows: [string, string][] = [
     ["Kind", words],
     ["Site", `${d.business} (${d.orgId})`],
@@ -2141,7 +2142,7 @@ function staffDomainAlert(
   if (d.step) rows.push(["Step", STAFF_STEP_WORDS[d.step]]);
   if (d.rule) rows.push(["Rule", GATE_RULE_NAMES[d.rule]]);
   if (d.count !== undefined) rows.push(["Records", NUM.format(d.count)]);
-  const lead = `A domain event on ${d.business} needs CDS: ${words}.`;
+  const lead = `A domain event on ${d.business} needs Support: ${words}.`;
   const { html, text } = layout({
     brand: o.brand,
     preheader: lead,

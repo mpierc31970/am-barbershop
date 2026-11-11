@@ -2,8 +2,9 @@
 // palm-science's booking flow (service -> date/time -> contact -> confirm), server-side:
 //   - Visitors book through the site (createPublicBooking): published barber, one of their
 //     services, an open time (re-checked under the studio lock, so two clients can't take
-//     the same chair), name + email. The client gets a confirmation email; the barber and
-//     the owner get a hub alert (bell + email).
+//     the same chair), name + email. It starts as a `requested` booking that holds the time;
+//     the client gets a "request received" email; the barber and the owner get a hub alert
+//     and approve or decline it (setBookingStatus), which emails the client again.
 //   - The hub lists bookings: the owner every barber's, a barber only their own.
 //   - runStudioReminders (jobs route) emails each client once, about a day ahead.
 // No payments here (CDS never processes tenant payments, D146): price is shown, paid in shop.
@@ -12,6 +13,7 @@ import { isEmail } from "@cds/core/email";
 import type PocketBase from "pocketbase";
 import type { RecordModel } from "pocketbase";
 import { raiseAlert } from "../alerts/raise";
+import { orgOwnerEmails } from "../members";
 import { withSuperuser } from "../client";
 import { assertSiteContext, type SiteContext } from "../content/site-context";
 import { withOrgLock } from "../content/lock";
@@ -44,12 +46,29 @@ import {
 } from "./slots";
 
 export const BOOKING_STATUSES = [
+  "requested",
   "confirmed",
+  "declined",
   "cancelled",
   "completed",
   "no_show",
 ] as const;
 export type BookingStatus = (typeof BOOKING_STATUSES)[number];
+
+/**
+ * True when a booking may move from one status to the other. A request is approved
+ * (confirmed) or declined; a confirmed booking is done, a no-show or cancelled.
+ */
+export function bookingTransition(
+  from: BookingStatus,
+  to: BookingStatus,
+): boolean {
+  if (from === "requested") return to === "confirmed" || to === "declined";
+  if (from === "confirmed") {
+    return to === "completed" || to === "no_show" || to === "cancelled";
+  }
+  return false;
+}
 
 const JOB = mintSystemContext({ job: "studio-booking" });
 const REF_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -89,6 +108,39 @@ async function shopOf(pb: PocketBase, orgId: string): Promise<Shop> {
     .catch(() => null);
   const tz = str(profile?.time_zone) || "America/Chicago";
   return { tz, name: str(org.name), phone: str(profile?.phone) };
+}
+
+/**
+ * Client booking mail replies go to the shop owner(s) and the booking's barber, never the
+ * site's routed or public address (that is the website admin, for technical issues only).
+ */
+async function bookingReplyTo(
+  pb: PocketBase,
+  orgId: string,
+  barberUserId: string,
+): Promise<string[]> {
+  const out = await orgOwnerEmails(pb, orgId);
+  if (barberUserId) {
+    const barber = await pb
+      .collection("users")
+      .getOne(barberUserId, { fields: "email" })
+      .catch(() => null);
+    out.push(str(barber?.email));
+  }
+  return [...new Set(out.filter((e) => isEmail(e.toLowerCase())))];
+}
+
+/** "Reply to this email to reach Sam and the shop, or call 555-0100." */
+function contactLine(
+  ask: string,
+  barber: string,
+  shop: Shop,
+  canReply: boolean,
+): string {
+  const call = shop.phone ? `call ${shop.phone}` : "call the shop";
+  return canReply
+    ? ` ${ask} Reply to this email to reach ${barber || "your barber"} and the shop, or ${call}.`
+    : ` ${ask} ${call[0]!.toUpperCase()}${call.slice(1)}.`;
 }
 
 function status(v: unknown): BookingStatus {
@@ -156,7 +208,8 @@ async function confirmedBusy(
   const to = `${addDays(date, 2)}T00:00:00.000Z`;
   const rows = await pb.collection("studio_bookings").getFullList({
     filter: pb.filter(
-      "organization = {:org} && seat = {:s} && status = 'confirmed' && starts_at >= {:from} && starts_at < {:to}",
+      // A pending request holds the chair like a booking.
+      "organization = {:org} && seat = {:s} && (status = 'confirmed' || status = 'requested') && starts_at >= {:from} && starts_at < {:to}",
       { org: orgId, s: seatId, from, to },
     ),
     fields: "starts_at,ends_at",
@@ -245,7 +298,7 @@ export async function publicAvailability(
     const today = utcToZoned(now, tz).date;
     const all = await pb.collection("studio_bookings").getFullList({
       filter: pb.filter(
-        "organization = {:org} && seat = {:s} && status = 'confirmed' && starts_at >= {:from}",
+        "organization = {:org} && seat = {:s} && (status = 'confirmed' || status = 'requested') && starts_at >= {:from}",
         {
           org: site.orgId,
           s: seat.id,
@@ -378,10 +431,11 @@ export async function createPublicBooking(
         client_email: email,
         client_phone: phone,
         note,
-        status: "confirmed",
+        status: "requested",
         reminder_sent: false,
       });
-      return { id, reference, seat, svc, shop, slot };
+      const replyTo = await bookingReplyTo(pb, site.orgId, str(seat.user));
+      return { id, reference, seat, svc, shop, slot, replyTo };
     }),
   );
 
@@ -401,12 +455,12 @@ export async function createPublicBooking(
     "booking.notice",
     email,
     {
-      subject: `You're booked with ${barber}, ${when}`,
-      lead: `Thanks, ${name}. You're booked at ${made.shop.name}.`,
+      subject: `Request received: ${barber}, ${when}`,
+      lead: `Thanks, ${name}. Your request at ${made.shop.name} is in. ${barber || "Your barber"} will confirm it, and we'll email you when they do.`,
       facts,
-      why: `You're getting this because you booked online at ${made.shop.name}.${made.shop.phone ? ` Need to change it? Call ${made.shop.phone}.` : " Need to change it? Call the shop."}`,
+      why: `You're getting this because you asked to book online at ${made.shop.name}.${contactLine("Questions?", barber, made.shop, made.replyTo.length > 0)}`,
     },
-    { transport: deps.transport },
+    { transport: deps.transport, replyTo: made.replyTo },
   ).catch((err: unknown) =>
     console.error(
       `[studio] confirmation not sent: ${err instanceof Error ? err.name : "error"}`,
@@ -418,10 +472,10 @@ export async function createPublicBooking(
     {
       type: "studio-booking.new",
       sourceKey: `booking:${made.id}`,
-      title: `New booking: ${name} with ${barber}, ${when} (${service})`,
-      safeTitle: `New booking with ${barber}, ${when}`,
-      href: "/hub/studio-booking/bookings",
-      actionLabel: "See bookings",
+      title: `Booking request: ${name} with ${barber}, ${when} (${service})`,
+      safeTitle: `Booking request with ${barber}, ${when}`,
+      href: "/hub/alerts",
+      actionLabel: "Approve or decline",
       audience: {
         users: barberUser ? [barberUser] : [],
         roles: ["owner", "admin"],
@@ -481,7 +535,39 @@ export async function listBookings(
   });
 }
 
-/** Mark a booking done / no-show / cancelled (the owner, or the booking's own barber). */
+/** The client email each status change sends (none for done / no-show). */
+function statusMail(
+  next: BookingStatus,
+  shop: Shop,
+  barber: string,
+  when: string,
+): { subject: string; lead: string } | null {
+  if (next === "confirmed") {
+    return {
+      subject: `You're booked with ${barber}, ${when}`,
+      lead: `Good news: ${barber || "your barber"} confirmed your booking at ${shop.name} on ${when}. We'll remind you the day before.`,
+    };
+  }
+  if (next === "declined") {
+    return {
+      subject: `${barber || "Your barber"} can't take your booking request`,
+      lead: `Sorry, ${barber || "your barber"} can't take your request at ${shop.name} on ${when}. Pick another time online or get in touch.`,
+    };
+  }
+  if (next === "cancelled") {
+    return {
+      subject: `Your booking with ${barber} was cancelled`,
+      lead: `Your booking at ${shop.name} on ${when} was cancelled by the shop.`,
+    };
+  }
+  return null;
+}
+
+/**
+ * Approve or decline a request, or mark a booking done / no-show / cancelled (the owner or an
+ * admin on any booking, a barber on their own). The client is emailed on approve, decline
+ * and cancel; replies go to the barber and the shop owner.
+ */
 export async function setBookingStatus(
   ctx: OrgContext,
   bookingId: string,
@@ -490,8 +576,9 @@ export async function setBookingStatus(
 ): Promise<void> {
   requireStudio(ctx, "write");
   if (!(BOOKING_STATUSES as readonly unknown[]).includes(next)) {
-    throw new InvalidInput("Pick done, no-show or cancel.");
+    throw new InvalidInput("Pick approve, decline, done, no-show or cancel.");
   }
+  const to = next as BookingStatus;
   const row = await studioWrite(ctx, async (pb) => {
     const r = await pb
       .collection("studio_bookings")
@@ -506,7 +593,10 @@ export async function setBookingStatus(
       });
     // The barber's own seat only (another barber's booking is NotFound).
     const seat = await seatFor(pb, ctx, str(r.seat));
-    if (r.status === next) return null;
+    if (r.status === to) return null;
+    if (!bookingTransition(status(r.status), to)) {
+      throw new InvalidInput("That booking can't change that way any more.");
+    }
     await commit(
       pb,
       ctx,
@@ -527,24 +617,29 @@ export async function setBookingStatus(
     );
     return { r, seat, shop: await shopOf(pb, ctx.orgId) };
   });
-  if (!row || next !== "cancelled") return;
+  if (!row) return;
   const when = whenLabel(Date.parse(str(row.r.starts_at)), row.shop.tz);
+  const mail = statusMail(to, row.shop, str(row.seat.name), when);
+  if (!mail) return;
+  const replyTo = await withSuperuser((pb) =>
+    bookingReplyTo(pb, ctx.orgId, str(row.seat.user)),
+  ).catch(() => [] as string[]);
   await sendEmail(
     { kind: "org", ctx, orgId: ctx.orgId },
     "booking.notice",
     str(row.r.client_email),
     {
-      subject: `Your booking with ${str(row.seat.name)} was cancelled`,
-      lead: `Your booking at ${row.shop.name} on ${when} was cancelled by the shop.`,
+      ...mail,
       facts: [
         ["Barber", str(row.seat.name)],
         ["Service", str(row.r.service_name)],
+        ["When", when],
         ["Booking", str(row.r.reference)],
       ],
-      why: `You're getting this because you booked at ${row.shop.name}.${row.shop.phone ? ` Questions? Call ${row.shop.phone}.` : ""}`,
+      why: `You're getting this because you booked at ${row.shop.name}.${contactLine("Questions?", str(row.seat.name), row.shop, replyTo.length > 0)}`,
     },
-    { transport: deps.transport },
-  ).catch(() => console.error("[studio] cancellation not sent"));
+    { transport: deps.transport, replyTo },
+  ).catch(() => console.error(`[studio] ${to} email not sent`));
 }
 
 // ---------------------------------------------------------------- jobs
@@ -577,8 +672,12 @@ export async function runStudioReminders(
         .update(r.id, { reminder_sent: true });
       const seat = await pb
         .collection("studio_seats")
-        .getOne(str(r.seat), { fields: "name" });
-      return { seat: str(seat.name), shop: await shopOf(pb, orgId) };
+        .getOne(str(r.seat), { fields: "name,user" });
+      return {
+        seat: str(seat.name),
+        shop: await shopOf(pb, orgId),
+        replyTo: await bookingReplyTo(pb, orgId, str(seat.user)),
+      };
     });
     if (!facts) continue;
     const when = whenLabel(Date.parse(str(r.starts_at)), facts.shop.tz);
@@ -596,9 +695,9 @@ export async function runStudioReminders(
             ["When", when],
             ["Booking", str(r.reference)],
           ],
-          why: `You're getting this because you booked at ${facts.shop.name}.${facts.shop.phone ? ` Can't make it? Call ${facts.shop.phone}.` : ""}`,
+          why: `You're getting this because you booked at ${facts.shop.name}.${contactLine("Can't make it?", facts.seat, facts.shop, facts.replyTo.length > 0)}`,
         },
-        { transport: deps.transport },
+        { transport: deps.transport, replyTo: facts.replyTo },
       );
       reminded++;
     } catch {

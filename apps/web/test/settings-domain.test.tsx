@@ -118,7 +118,7 @@ describe("domain-view: every state (14-31 choice 2)", () => {
     [
       "connected",
       "ready",
-      "Ready. Goes live at riverabakery.com when CDS approves your launch.",
+      "Ready. Goes live at riverabakery.com when Support approves your launch.",
     ],
     ["finishing", "finishing", P14_COPY.LAUNCH_FINISHING],
     ["live", "live", "Your site is live at riverabakery.com."],
@@ -127,7 +127,7 @@ describe("domain-view: every state (14-31 choice 2)", () => {
       "broken",
       "Switch your nameservers back. Your email is safer there.",
     ],
-    ["lost", "broken", "riverabakery.com no longer points to CDS."],
+    ["lost", "broken", "riverabakery.com no longer points to us."],
   ];
 
   it.each(cases)("%s: tone %s and its one sentence", (state, tone, text) => {
@@ -151,7 +151,7 @@ describe("domain-view: every state (14-31 choice 2)", () => {
     );
   });
 
-  it("findings: owner things are count-aware 'Your turn'; CDS-only is 'CDS is reviewing'", () => {
+  it("findings: owner things are count-aware 'Your turn'; Support-only is 'Support is reviewing'", () => {
     const one = buildDomainView(
       view({
         state: "findings",
@@ -198,7 +198,7 @@ describe("domain-view: every state (14-31 choice 2)", () => {
     );
     expect(cds.tone).toBe("cds");
     expect(sentenceText(cds.sentence)).toBe(
-      "CDS is reviewing one record with you. Usually within 1 business day.",
+      "Support is reviewing one record with you. Usually within 1 business day.",
     );
   });
 
@@ -229,7 +229,7 @@ describe("domain-view: every state (14-31 choice 2)", () => {
     }
   });
 
-  it("S6 live sends a domain move to CDS Support, never self-service (D-UI-P14-28)", () => {
+  it("S6 live sends a domain move to Support, never self-service (D-UI-P14-28)", () => {
     const m = buildDomainView(view({ state: "live" }));
     expect(m.secondary).toContain("ask_support");
     expect(m.secondary).not.toContain("check_domain");
@@ -308,7 +308,7 @@ describe("DomainPanel server render (14-31 choice 3)", () => {
     const text = textOf(html);
     expect(text).toContain(P14_COPY.EMPTY_H);
     expect(text).toContain(
-      "Your domain stays registered in your name. CDS never buys or transfers domains.",
+      "Your domain stays registered in your name. Support never buys or transfers domains.",
     );
     expect(text).toContain(P14_COPY.BTN_CHECK_DOMAIN);
     expect(text).toContain(P14_COPY.DOM_WHY_NOW);
@@ -376,7 +376,7 @@ describe("DomainPanel server render (14-31 choice 3)", () => {
     expect(text).toContain(P14_COPY.BTN_USE_DIFFERENT_DOMAIN);
   });
 
-  it("S6 live: DOM-MOVE-HELP with Ask CDS Support; no connect form", () => {
+  it("S6 live: DOM-MOVE-HELP with Ask Support; no connect form", () => {
     const text = textOf(render(view({ state: "live" })));
     expect(text).toContain(P14_COPY.DOM_MOVE_HELP);
     expect(text).toContain(P14_COPY.BTN_ASK_SUPPORT);

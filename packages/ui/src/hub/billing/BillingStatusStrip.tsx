@@ -26,7 +26,7 @@ export const BILLING_STATUS_COPY = {
     (amount
       ? `Pay ${amount} to turn everything back on.`
       : "Pay what's due to turn everything back on."),
-  quote: (title: string) => `CDS sent you a quote: ${title}.`,
+  quote: (title: string) => `Support sent you a quote: ${title}.`,
   goToCheckout: "Go to checkout",
   updateCard: "Update card",
   updateCardAndPay: "Update card and pay",

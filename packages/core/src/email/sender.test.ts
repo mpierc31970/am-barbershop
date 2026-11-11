@@ -73,14 +73,14 @@ describe("senderFor (ONB-10)", () => {
     expect(senderFor(org({ replyTo: "not-an-email" }), env).replyTo).toBeNull();
   });
 
-  it("CDS sends as Connections Design Studios with support as reply-to", () => {
+  it("Support sends as A&M Barber Studio with support as reply-to", () => {
     expect(
       senderFor(
         { kind: "cds" },
         { ...env, supportEmail: "support@connectionsdesignstudios.com" },
       ),
     ).toEqual({
-      fromName: "Connections Design Studios",
+      fromName: "A&M Barber Studio",
       fromAddress: "hello@send.connectionsdesignstudios.com",
       replyTo: "support@connectionsdesignstudios.com",
     });
@@ -134,21 +134,21 @@ describe("headerValue / formatAddress / escapeHtml (Pitfall 11)", () => {
   });
 });
 
-describe("senderFor CDS Support no-reply (P12, D97, T-12-05-01)", () => {
-  it("sends as CDS Support from no-reply@ with no Reply-To", () => {
+describe("senderFor Support no-reply (P12, D97, T-12-05-01)", () => {
+  it("sends as Support from no-reply@ with no Reply-To", () => {
     expect(
       senderFor(
         { kind: "cds", noReply: true },
         { ...env, supportEmail: "help@connectionsdesignstudios.com" },
       ),
     ).toEqual({
-      fromName: "CDS Support",
+      fromName: "Support",
       fromAddress: "no-reply@send.connectionsdesignstudios.com",
       replyTo: null,
     });
   });
 
-  it("plain CDS mail keeps hello@ and the support Reply-To", () => {
+  it("plain Support mail keeps hello@ and the support Reply-To", () => {
     const r = senderFor(
       { kind: "cds" },
       { ...env, supportEmail: "help@connectionsdesignstudios.com" },

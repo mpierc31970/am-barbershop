@@ -134,7 +134,7 @@ const DESCRIPTIONS: Readonly<Record<string, string>> = {
   services: "Your services and prices.",
   memberships: "The people who help run the site and their roles.",
   audit_log: "Who changed what, and when.",
-  billing_invoices: "Your invoices from CDS.",
+  billing_invoices: "Your invoices from Support.",
   agreement_signatures: "The agreements you signed.",
   social_accounts: "Your social media links.",
   site_daily_stats: "Daily visitor counts per page.",
@@ -146,10 +146,10 @@ const DESCRIPTIONS: Readonly<Record<string, string>> = {
   content_flags: "Content checks on your site.",
   form_drafts: "Form answers people saved to finish later.",
   site_policy_acks: "When people accepted your site's policies.",
-  billing_accounts: "Your plan with CDS.",
+  billing_accounts: "Your plan with us.",
   gateway_accounts: "Your payment account connection.",
-  work_orders: "Quotes for extra work from CDS.",
-  care_plan_time: "Care Plan time CDS logged for you.",
+  work_orders: "Quotes for extra work from Support.",
+  care_plan_time: "Care Plan time Support logged for you.",
   member_invites: "Invites you sent to people.",
 };
 
@@ -297,7 +297,7 @@ function readme(source: DownloadSource, result: BuildResult): string {
   }
   if (result.supportFiles > 0) {
     lines.push(
-      `support/: files from your support tickets and messages, and documents from CDS (${result.supportFiles}).`,
+      `support/: files from your support tickets and messages, and documents from Support (${result.supportFiles}).`,
     );
   }
   const pending = source.supportPending ?? 0;
@@ -930,7 +930,7 @@ async function dnsZoneFile(
           name: DOWNLOAD_ZONE_FILE,
           text,
           readme:
-            "your domain's DNS records as a zone file (BIND format). Its first lines say which records point to CDS and which to remove.",
+            "your domain's DNS records as a zone file (BIND format). Its first lines say which records point to us and which to remove.",
         },
       ],
       notes: [],
@@ -940,7 +940,7 @@ async function dnsZoneFile(
     return {
       files: [],
       notes: [
-        `${DOWNLOAD_ZONE_FILE}: your DNS records couldn't be added this time. Ask CDS Support for your zone file.`,
+        `${DOWNLOAD_ZONE_FILE}: your DNS records couldn't be added this time. Ask Support for your zone file.`,
       ],
     };
   }

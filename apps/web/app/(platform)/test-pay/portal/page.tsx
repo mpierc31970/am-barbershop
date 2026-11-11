@@ -80,7 +80,7 @@ export default async function TestPortalPage({
         </button>
       </form>
       <a href={BACK} className={buttonClasses("ghost")}>
-        Back to CDS
+        Back to the hub
       </a>
     </>
   );

@@ -40,7 +40,7 @@ import "@fontsource-variable/instrument-sans/index.css";
 import "@fontsource-variable/instrument-sans/wght-italic.css";
 
 export const metadata: Metadata = {
-  title: "CDS Platform",
+  title: "A&M Barber Studio",
 };
 
 async function languageFor(host: string): Promise<string> {

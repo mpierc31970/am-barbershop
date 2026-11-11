@@ -27,12 +27,12 @@ export function CdsAuthor({ firstName, className }: CdsAuthorProps) {
           <span aria-hidden="true">
             <span className="text-hub-ink">{name}</span>
             {" · "}
-            <span className="text-cds-mark">CDS</span>
+            <span className="text-cds-mark">Support</span>
           </span>
-          <span className="sr-only">{`${name} from CDS`}</span>
+          <span className="sr-only">{`${name} from Support`}</span>
         </>
       ) : (
-        <span className="text-cds-mark">CDS</span>
+        <span className="text-cds-mark">Support</span>
       )}
     </span>
   );

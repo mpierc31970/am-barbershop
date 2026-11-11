@@ -3,7 +3,7 @@
 // owner manages every seat; visitors see only published seats of that site's org.
 // Registers add-on collections before anything reads the composed registry.
 import "@cds/addon-registry/server";
-import { Forbidden, NotFound } from "@cds/core";
+import { Forbidden, InvalidInput, NotFound } from "@cds/core";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -306,6 +306,19 @@ describe("Studio Booking seat isolation", () => {
     );
     const owner = await listBookings(seed.ctxA, { from: "2030-01-07" }, now);
     expect(owner.bookings.map((b) => b.id)).toContain(id);
+
+    // A request holds the time (above) and waits for its barber: no reminder, no "done".
+    expect(own.bookings[0]!.status).toBe("requested");
+    expect(
+      (await runStudioReminders({ now: Date.parse("2030-01-07T18:00:00Z") }))
+        .reminded,
+    ).toBe(0);
+    await expect(setBookingStatus(barber1, id, "completed")).rejects.toThrow(
+      InvalidInput,
+    );
+    const approve = captureTransport();
+    await setBookingStatus(barber1, id, "confirmed", { transport: approve });
+    expect(approve.sent.map((m) => m.to)).toEqual(["one@cds.test"]);
 
     const r1 = await runStudioReminders({
       now: Date.parse("2030-01-07T18:00:00Z"),

@@ -95,7 +95,7 @@ describe("HoursEditor", () => {
     expect(text).toContain(HOURS_EMPTY_HELPER);
     expect(text).toContain("Closed");
     expect(text).toContain(
-      "Open past midnight? Set the day to close at 11:45 pm and tell CDS.",
+      "Open past midnight? Set the day to close at 11:45 pm and tell Support.",
     );
   });
 

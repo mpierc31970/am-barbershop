@@ -657,7 +657,7 @@ describe("tenant layout (CONT-11, 03-UI-SPEC site rendering contract)", () => {
       expect([...order].sort((a, b) => a - b)).toEqual(order);
       expect(out).toContain('<nav aria-label="Main">');
       expect(out).toMatch(
-        /aria-label="Report this site to CDS"[^>]*>Report<\/a>/,
+        /aria-label="Report this site to Support"[^>]*>Report<\/a>/,
       );
       expect(out).toContain(">shop.example.com</span>");
       expect(out).not.toContain("Cookie choices");
@@ -687,7 +687,7 @@ describe("tenant layout (CONT-11, 03-UI-SPEC site rendering contract)", () => {
       db.readAddonSiteState.mockRejectedValue(new Error("pb down"));
       const out = await render();
       expect(out).toContain("<header");
-      expect(out).toContain('aria-label="Report this site to CDS"');
+      expect(out).toContain('aria-label="Report this site to Support"');
       log.mockRestore();
     });
   });

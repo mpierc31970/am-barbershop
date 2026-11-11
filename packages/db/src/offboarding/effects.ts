@@ -220,8 +220,8 @@ export async function notifyOwners(
       : {
           type: "offboarding.started",
           sourceKey: data.sourceKey,
-          title: "Your DNS is still at CDS",
-          safeTitle: "Your DNS is still at CDS",
+          title: "Your DNS is still with us",
+          safeTitle: "Your DNS is still with us",
           href: LEAVING_HREF,
           actionLabel: "Open checklist",
         },

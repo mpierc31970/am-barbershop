@@ -118,7 +118,7 @@ export async function assertNotStaff(
     throw err;
   }
   if (u.staff_role)
-    throw new InvalidInput("CDS staff cannot be tenant members");
+    throw new InvalidInput("Support staff cannot be tenant members");
 }
 
 // ---------------------------------------------------------------------------------------
@@ -457,4 +457,26 @@ export async function transferOwnership(
       },
     );
   });
+}
+
+/** The org's owners' sign-in emails (Reply-To for client mail about the shop). */
+export async function orgOwnerEmails(
+  pb: PocketBase,
+  orgId: string,
+): Promise<string[]> {
+  const rows = await pb
+    .collection("memberships")
+    .getFullList({
+      filter: pb.filter("organization = {:org} && role = 'owner'", {
+        org: orgId,
+      }),
+      expand: "user",
+      fields: "expand.user.email",
+    })
+    .catch(() => [] as RecordModel[]);
+  const out = rows.map((r) => {
+    const e = (r.expand?.user as { email?: unknown } | undefined)?.email;
+    return typeof e === "string" ? e : "";
+  });
+  return [...new Set(out.filter((e) => e !== ""))];
 }

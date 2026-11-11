@@ -47,7 +47,7 @@ afterEach(() => {
 
 const preview: ChargePreview = {
   title: "Add the Care Plan?",
-  what: "1 hour a month of changes made for you by CDS.",
+  what: "1 hour a month of changes made for you by Support.",
   todayCents: 4150,
   todayLabel: "For the rest of October",
   thenText: "$99/mo on your monthly bill from 1 Nov",
@@ -106,7 +106,7 @@ describe("ChargeConfirmDialog", () => {
     mounted = mount(<Harness onConfirm={vi.fn()} />);
     const t = body();
     expect(t).toContain("Add the Care Plan?");
-    expect(t).toContain("1 hour a month of changes made for you by CDS.");
+    expect(t).toContain("1 hour a month of changes made for you by Support.");
     expect(t).toContain("Today · $41.50");
     expect(t).toContain("For the rest of October");
     expect(t).toContain("Then · $99/mo on your monthly bill from 1 Nov");
@@ -231,7 +231,7 @@ const careOn = (over: Partial<CarePlanView> = {}): CarePlanView => ({
   usedMinutes: 25,
   monthLabel: "October",
   resetLabel:
-    "Resets on 1 Nov. Need more than the hour? Ask CDS Support; extra time is quoted before any work starts.",
+    "Resets on 1 Nov. Need more than the hour? Ask Support; extra time is quoted before any work starts.",
   entries: [
     { date: "8 Oct", minutes: 15, note: "Swapped the hero photo" },
     { date: "3 Oct", minutes: 10, note: "New opening hours" },
@@ -272,7 +272,7 @@ describe("CarePlanPanel", () => {
       }),
     );
     expect(body()).toContain(
-      "1 hour a month of changes made for you by CDS, on top of the support every plan includes. Unused time doesn't carry over.",
+      "1 hour a month of changes made for you by Support, on top of the support every plan includes. Unused time doesn't carry over.",
     );
     click(button(document.body, "Add the Care Plan, $99/mo"));
     await flush();
@@ -353,7 +353,7 @@ describe("CarePlanPanel", () => {
     click(button(document.body, "Remove the Care Plan"));
     expect(body()).toContain("Remove the Care Plan?");
     expect(body()).toContain(
-      "CDS stops making changes for you today, and your next bill is credited for the rest of the month.",
+      "Support stops making changes for you today, and your next bill is credited for the rest of the month.",
     );
     expect(document.activeElement).toBe(
       button(document.body, "Keep Care Plan"),

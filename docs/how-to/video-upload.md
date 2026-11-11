@@ -8,7 +8,7 @@ route: /hub/website?tab=media
 
 These steps are the recording script for the Remotion + Venice AI how-to videos (D110), so write every step precisely enough to record from.
 
-MP4 videos up to 250 MB go into **Website › Media**. The browser sends the file in small parts, then CDS optimizes it for fast playback in the background (D220): you can leave the page while that happens. One video is optimized at a time, so a second one waits its turn. Captions (a `.vtt` file) and a cover photo are set in the video's drawer.
+MP4 videos up to 250 MB go into **Website › Media**. The browser sends the file in small parts, then Support optimizes it for fast playback in the background (D220): you can leave the page while that happens. One video is optimized at a time, so a second one waits its turn. Captions (a `.vtt` file) and a cover photo are set in the video's drawer.
 
 ## Activate
 

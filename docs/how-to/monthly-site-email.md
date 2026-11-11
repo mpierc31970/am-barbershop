@@ -12,13 +12,13 @@ Once your site is live, you get one short email on the 1st of each month: **"You
 
 There is nothing to switch on. It starts after your first full month live: a site that goes live on 20 October gets its first email on 1 December, about November. Everyone on your team who can open Reports gets it (Owner, Admin, Editor, Viewer), and each person can turn it off for themselves.
 
-CDS staff: running and scheduling the job is in [Run the monthly site email job](monthly-site-email-job.md).
+Support staff: running and scheduling the job is in [Run the monthly site email job](monthly-site-email-job.md).
 
 ## Activate
 
 | # | Screen / route | Action | Expected result |
 |---|---|---|---|
-| 1 | `/hub/today` | Open Today after CDS launches your site | The status line reads "Your site is live at {your address}". Before launch no monthly email is sent |
+| 1 | `/hub/today` | Open Today after Support launches your site | The status line reads "Your site is live at {your address}". Before launch no monthly email is sent |
 | 2 | Your email inbox, on the 1st after your first full month live | Look for the email from your business name | The subject reads "Your site this month: November" (the month just ended) |
 
 ## Use

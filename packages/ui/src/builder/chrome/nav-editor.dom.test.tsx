@@ -227,7 +227,7 @@ describe("FooterEditor", () => {
       "The year updates itself when you use {year}.",
     );
     expect(m.container.textContent).toContain(
-      "Every footer has a small Report link that lets visitors tell CDS about a problem. It can't be removed.",
+      "Every footer has a small Report link that lets visitors tell Support about a problem. It can't be removed.",
     );
     click(m.container.querySelector("#footer-hours"));
     expect(latestFooter!.show_hours).toBe(false);

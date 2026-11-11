@@ -22,7 +22,7 @@ import { connectPanelView } from "../(platform)/hub/settings/payments-view";
 const COPY = {
   forbidden: "Only the site owner can connect or change Stripe.",
   impersonation:
-    "You're viewing as CDS staff, so Stripe changes are turned off. Only the owner can connect Stripe.",
+    "You're viewing as support staff, so Stripe changes are turned off. Only the owner can connect Stripe.",
 };
 
 function testMode(): boolean {

@@ -8,7 +8,7 @@ import { findPreset, type SocialAccount } from "@cds/core/social";
 export const SOCIAL_UI_COPY = Object.freeze({
   heading: "My social accounts",
   intro:
-    "Add the social accounts you use. They show as icons in your site's footer and help Google connect them to your business. CDS never posts for you.",
+    "Add the social accounts you use. They show as icons in your site's footer and help Google connect them to your business. Support never posts for you.",
   yourAccounts: "Your accounts",
   empty: "No accounts yet. Pick one below.",
   bioPreview:

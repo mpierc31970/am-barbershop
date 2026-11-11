@@ -72,7 +72,7 @@ const { default: ProfileLoading } =
 const actions = await import("../app/actions/profile");
 
 const IMPERSONATING =
-  "You're viewing as CDS staff, so alert settings are turned off. Only the person can change their own alerts.";
+  "You're viewing as support staff, so alert settings are turned off. Only the person can change their own alerts.";
 
 function prefs() {
   return {
@@ -161,7 +161,7 @@ describe("/hub/profile", () => {
     expect(c.textContent).toContain("maria@riverabakery.com");
     expect(c.textContent).toContain("Your role at Rivera Bakery · Owner");
     expect(c.textContent).toContain(
-      "To change your sign-in email, ask CDS Support.",
+      "To change your sign-in email, ask the shop owner.",
     );
     expect(rowTypes(c)).toEqual(
       expect.arrayContaining([

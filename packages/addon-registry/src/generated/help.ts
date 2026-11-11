@@ -14,14 +14,14 @@ export type HelpArticleData = {
 export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.freeze(
   {
     "docs/how-to/accept-a-quote.md": {
-      "feature": "Accept a quote from CDS",
+      "feature": "Accept a quote from Support",
       "route": "/hub/settings/quotes/<id>",
       "summary": "Every paid job (a design polish block, a custom block, a private or premium add-on) is quoted and accepted in your dashboard before any work starts.",
       "activate": [
         {
           "screen": "`/hub/support/tickets/new`",
-          "action": "Click **Get help** on CDS Support and file a **Change request** for the paid work you want (for example \"polish my homepage design\" or \"build me a custom add-on\") (see [Get help](get-help.md))",
-          "expected": "CDS marks the ticket as a paid service. On the ticket, click **Get a quote** (see [Paid services and your Care hour](paid-services-and-care-hour.md)); CDS writes the scope and price and sends you a quote"
+          "action": "Click **Get help** on Support and file a **Change request** for the paid work you want (for example \"polish my homepage design\" or \"build me a custom add-on\") (see [Get help](get-help.md))",
+          "expected": "Support marks the ticket as a paid service. On the ticket, click **Get a quote** (see [Paid services and your Care hour](paid-services-and-care-hour.md)); Support writes the scope and price and sends you a quote"
         },
         {
           "screen": "`/hub/support/tickets/<number>`",
@@ -30,24 +30,24 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "Your email inbox",
-          "action": "Open the email \"CDS sent you a quote: {title}\"",
+          "action": "Open the email \"Support sent you a quote: {title}\"",
           "expected": "It names the quote, the price and the date it is valid until, with a link to the quote in your dashboard"
         },
         {
           "screen": "`/hub/settings?tab=billing`",
-          "action": "Open Settings, then the Billing tab, and scroll to **Quotes from CDS**",
+          "action": "Open Settings, then the Billing tab, and scroll to **Quotes from Support**",
           "expected": "The quote is listed first with the badge **Waiting for you**, \"Sent {date} · {total}\" and a **Review quote** link. The tab label reads \"Billing · 1\""
         }
       ],
       "use": [
         {
-          "screen": "Settings › Billing, Quotes from CDS",
+          "screen": "Settings › Billing, Quotes from Support",
           "action": "Click **Review quote**",
-          "expected": "The quote page opens at `/hub/settings/quotes/<id>` with the Billing tab still selected and a **← Billing** link at the top. The heading is the quote title with the badge **Waiting for you**, under it \"Quote from CDS · Sent {date} · Valid until {date}\""
+          "expected": "The quote page opens at `/hub/settings/quotes/<id>` with the Billing tab still selected and a **← Billing** link at the top. The heading is the quote title with the badge **Waiting for you**, under it \"Quote from Support · Sent {date} · Valid until {date}\""
         },
         {
           "screen": "The quote page",
-          "action": "Read **What CDS will do** and the **Price** box",
+          "action": "Read **What Support will do** and the **Price** box",
           "expected": "The scope lists the work. The price box shows the rows for this kind of job (for example \"Design polish, 3-hour block · 3 h × $120 · $360\", or \"Build price\", \"Deposit today (50%)\", \"Balance when delivered\" and \"Maintenance after delivery · $50/mo on your monthly bill\" for an add-on), then **Pay now** with the amount due today and \"Plus sales tax where applicable.\""
         },
         {
@@ -68,7 +68,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "The invoice page",
           "action": "Pay the invoice with your card",
-          "expected": "The invoice shows as paid. Back on the quote page the badge reads **Paid** (or **Deposit paid**) and the line reads \"Paid on {date}. CDS has started the work and will message you when it's ready.\" (after a deposit it reads \"CDS has started the work and will message you when it's ready.\")"
+          "expected": "The invoice shows as paid. Back on the quote page the badge reads **Paid** (or **Deposit paid**) and the line reads \"Paid on {date}. Support has started the work and will message you when it's ready.\" (after a deposit it reads \"Support has started the work and will message you when it's ready.\")"
         },
         {
           "screen": "The quote page, accepted but not yet paid",
@@ -76,9 +76,9 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
           "expected": "The line reads \"Accepted on {date}. Pay the invoice to start the work.\" with a **Pay {amount}** button that opens the same invoice"
         },
         {
-          "screen": "The quote page, after CDS delivers an add-on",
+          "screen": "The quote page, after Support delivers an add-on",
           "action": "Open the quote from Settings › Billing (**View quote**)",
-          "expected": "The line reads \"CDS delivered this work on {date}. Pay the balance to finish; your monthly maintenance starts with your next bill.\" Click **Pay the balance {amount}** and pay the invoice that opens"
+          "expected": "The line reads \"Support delivered this work on {date}. Pay the balance to finish; your monthly maintenance starts with your next bill.\" Click **Pay the balance {amount}** and pay the invoice that opens"
         },
         {
           "screen": "Settings › Billing, What you pay for",
@@ -88,29 +88,29 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "The quote page, quote waiting",
           "action": "Click **Decline this quote**",
-          "expected": "A dialog titled \"Decline this quote?\" says \"CDS is told, and no work starts. You can ask for a new quote any time.\" **Keep quote** has the focus"
+          "expected": "A dialog titled \"Decline this quote?\" says \"Support is told, and no work starts. You can ask for a new quote any time.\" **Keep quote** has the focus"
         },
         {
           "screen": "The dialog",
           "action": "Click **Decline quote**",
-          "expected": "The button reads \"Declining…\", the dialog closes and the page reads \"You declined this quote on {date}.\" CDS gets an alert; nothing is invoiced"
+          "expected": "The button reads \"Declining…\", the dialog closes and the page reads \"You declined this quote on {date}.\" Support gets an alert; nothing is invoiced"
         },
         {
           "screen": "The quote page, past its valid-until date",
           "action": "Open an old quote",
-          "expected": "The page reads \"This quote expired on {date}. Ask CDS Support for a new one.\" and there is nothing to accept"
+          "expected": "The page reads \"This quote expired on {date}. Ask Support for a new one.\" and there is nothing to accept"
         }
       ]
     },
     "docs/how-to/add-a-dns-record.md": {
       "feature": "Add a DNS record",
       "route": "/hub/settings?tab=domain&view=records",
-      "summary": "Once your domain's DNS is at CDS, you can add or remove the verification records services like Google ask for, yourself.",
+      "summary": "Once your domain's DNS is with us, you can add or remove the verification records services like Google ask for, yourself.",
       "activate": [
         {
           "screen": "Settings › Domain (`/hub/settings?tab=domain`), signed in as the **Owner**, after you clicked **I've changed them** (see **Connect your domain**)",
           "action": "Click **DNS records**",
-          "expected": "The **DNS records** view opens with \"You can add or remove verification records yourself. Everything else is kept safe by CDS. To change one, ask CDS Support.\" and the toolbar **Add a record** · **Set up email for my domain**"
+          "expected": "The **DNS records** view opens with \"You can add or remove verification records yourself. Everything else is kept safe by Support. To change one, ask Support.\" and the toolbar **Add a record** · **Set up email for my domain**"
         },
         {
           "screen": "The same view, signed in as an **Admin**",
@@ -122,7 +122,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "DNS records (`/hub/settings?tab=domain&view=records`)",
           "action": "Read the groups",
-          "expected": "Records are grouped **Your email** · **Verification** · **Your site** · **Sending email from your domain** · **Other**, with **Who manages it** on each row. **Managed by CDS** rows have no button"
+          "expected": "Records are grouped **Your email** · **Verification** · **Your site** · **Sending email from your domain** · **Other**, with **Who manages it** on each row. **Managed by Support** rows have no button"
         },
         {
           "screen": "The toolbar",
@@ -157,7 +157,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "A row under **Other**",
           "action": "Click **Ask to change**",
-          "expected": "A CDS Support change ticket opens, prefilled \"Change a DNS record\" with the record"
+          "expected": "A Support change ticket opens, prefilled \"Change a DNS record\" with the record"
         },
         {
           "screen": "The **Your email** group header",
@@ -169,7 +169,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
     "docs/how-to/add-an-addon-after-launch.md": {
       "feature": "Add an add-on after launch",
       "route": "/hub/add-ons",
-      "summary": "Every add-on card on Get add-ons shows its price for your plan: \"$9/mo\", \"Included\" when your plan already covers it, or \"Price coming soon\" while CDS is…",
+      "summary": "Every add-on card on Get add-ons shows its price for your plan: \"$9/mo\", \"Included\" when your plan already covers it, or \"Price coming soon\" while Support is…",
       "activate": [
         {
           "screen": "`/hub/setup` → `/hub/checkout`",
@@ -737,7 +737,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
           "expected": "You are signed out, and this browser stops getting your alerts: it leaves your **Phones and computers** list for every site you belong to. The next person who signs in and taps **Turn on alerts** gets only their own alerts here"
         },
         {
-          "screen": "Any phone where alerts stopped after CDS changed its alert keys",
+          "screen": "Any phone where alerts stopped after Support changed its alert keys",
           "action": "Tap **Turn on alerts** again (Today or `/hub/profile`)",
           "expected": "A toast reads \"Alerts are on for this device.\" The phone is subscribed again with the new keys and alerts arrive again"
         }
@@ -810,12 +810,12 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
     "docs/how-to/billing-and-invoices.md": {
       "feature": "Billing and invoices",
       "route": "/hub/settings?tab=billing",
-      "summary": "Settings › Billing shows everything you pay CDS for on one screen: your plan, your next bill, your card, each item on your one monthly subscription, your Care…",
+      "summary": "Settings › Billing shows everything you pay Support for on one screen: your plan, your next bill, your card, each item on your one monthly subscription, your…",
       "activate": [
         {
           "screen": "`/hub/settings?tab=billing`",
           "action": "Before you have paid, open Settings, then the Billing tab",
-          "expected": "A blue strip reads \"You haven't checked out yet. Your plan and invoices show here after you pay.\" with a **Go to checkout** button; under it \"Your plan, card and invoices show here after checkout.\", Quotes from CDS, and Invoices with \"No invoices yet\""
+          "expected": "A blue strip reads \"You haven't checked out yet. Your plan and invoices show here after you pay.\" with a **Go to checkout** button; under it \"Your plan, card and invoices show here after checkout.\", Quotes from Support, and Invoices with \"No invoices yet\""
         },
         {
           "screen": "`/hub/checkout`",
@@ -825,24 +825,24 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/settings?tab=billing`",
           "action": "Open Settings › Billing again",
-          "expected": "A green strip reads \"You're all paid up. Next bill {date}, {amount}.\" and the Your plan, What you pay for, Care Plan, Media storage, Quotes from CDS and Invoices sections show"
+          "expected": "A green strip reads \"You're all paid up. Next bill {date}, {amount}.\" and the Your plan, What you pay for, Care Plan, Media storage, Quotes from Support and Invoices sections show"
         }
       ],
       "use": [
         {
           "screen": "Settings › Billing, Your plan",
           "action": "Read the Plan, Next bill and Card rows",
-          "expected": "Plan reads e.g. \"Standard website, billed monthly\"; Next bill reads e.g. \"8 Nov 2026 · $39.00 plus sales tax\"; Card reads e.g. \"Visa ending 4242, expires 08/28\". To switch between monthly and yearly, ask CDS Support (the line under the plan says so)"
+          "expected": "Plan reads e.g. \"Standard website, billed monthly\"; Next bill reads e.g. \"8 Nov 2026 · $39.00 plus sales tax\"; Card reads e.g. \"Visa ending 4242, expires 08/28\". To switch between monthly and yearly, ask Support (the line under the plan says so)"
         },
         {
           "screen": "Settings › Billing, What you pay for",
           "action": "Read the list",
-          "expected": "One row per item with its price: your plan, each add-on (\"$9/mo\" or \"Included\"), storage packs (\"+5 GB storage × 1 · $5/mo\"), build payments (\"Website build, payment 3 of 6 · $250/mo\" with \"Ends after {date}.\"), and the Care Plan when on. The last row reads \"Monthly total · {amount} plus sales tax\". Each amount is what you are billed for that item: with a price lock, your locked price, not today's list price. An item whose price CDS has not set yet reads \"Price coming soon\". **Manage add-ons** opens Get add-ons"
+          "expected": "One row per item with its price: your plan, each add-on (\"$9/mo\" or \"Included\"), storage packs (\"+5 GB storage × 1 · $5/mo\"), build payments (\"Website build, payment 3 of 6 · $250/mo\" with \"Ends after {date}.\"), and the Care Plan when on. The last row reads \"Monthly total · {amount} plus sales tax\". Each amount is what you are billed for that item: with a price lock, your locked price, not today's list price. An item whose price Support has not set yet reads \"Price coming soon\". **Manage add-ons** opens Get add-ons"
         },
         {
           "screen": "Settings › Billing, Your plan",
           "action": "Click **Update card**",
-          "expected": "The secure card page opens in the same tab (in test mode, the CDS test card page)"
+          "expected": "The secure card page opens in the same tab (in test mode, the test card page)"
         },
         {
           "screen": "The card page",
@@ -870,9 +870,9 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
           "expected": "You come back to Settings › Billing; the strip turns green and your paused add-ons come back on with everything they held"
         },
         {
-          "screen": "Settings › Billing, Quotes from CDS",
-          "action": "When CDS sends you a quote, click **Review quote**",
-          "expected": "The quote page opens; quotes waiting for you sit first, with a \"Waiting for you\" badge, and the strip shows \"CDS sent you a quote: {title}.\""
+          "screen": "Settings › Billing, Quotes from Support",
+          "action": "When Support sends you a quote, click **Review quote**",
+          "expected": "The quote page opens; quotes waiting for you sit first, with a \"Waiting for you\" badge, and the strip shows \"Support sent you a quote: {title}.\""
         },
         {
           "screen": "Any hub screen except Settings › Billing",
@@ -2604,12 +2604,12 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
     "docs/how-to/care-plan.md": {
       "feature": "Care Plan",
       "route": "/hub/settings?tab=billing",
-      "summary": "The Care Plan is 1 hour a month of changes made for you by CDS, on top of the support every plan includes.",
+      "summary": "The Care Plan is 1 hour a month of changes made for you by Support, on top of the support every plan includes.",
       "activate": [
         {
           "screen": "`/hub/settings?tab=billing`",
           "action": "Open Settings, then the Billing tab, and scroll to **Care Plan**",
-          "expected": "The Care Plan panel reads \"1 hour a month of changes made for you by CDS, on top of the support every plan includes. Unused time doesn't carry over.\" with the button **Add the Care Plan, $99/mo**"
+          "expected": "The Care Plan panel reads \"1 hour a month of changes made for you by Support, on top of the support every plan includes. Unused time doesn't carry over.\" with the button **Add the Care Plan, $99/mo**"
         },
         {
           "screen": "Settings › Billing, Care Plan",
@@ -2625,8 +2625,8 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
       "use": [
         {
           "screen": "`/hub/support/tickets/new`",
-          "action": "Click **Get help** on CDS Support and file a **Change request** for what you want (new photos, a price list update, a new section) (see [Get help](get-help.md))",
-          "expected": "If CDS marks it a paid service, the ticket shows **Use my Care hour** with the minutes you have left; choose it and confirm (see [Paid services and your Care hour](paid-services-and-care-hour.md)). CDS makes the change and logs the minutes it took against your Care Plan, linked to the ticket"
+          "action": "Click **Get help** on Support and file a **Change request** for what you want (new photos, a price list update, a new section) (see [Get help](get-help.md))",
+          "expected": "If Support marks it a paid service, the ticket shows **Use my Care hour** with the minutes you have left; choose it and confirm (see [Paid services and your Care hour](paid-services-and-care-hour.md)). Support makes the change and logs the minutes it took against your Care Plan, linked to the ticket"
         },
         {
           "screen": "`/hub/support?tab=tickets`",
@@ -2636,17 +2636,17 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "Settings › Billing, Care Plan",
           "action": "Read the meter",
-          "expected": "It reads e.g. \"25 of 60 minutes used in October\", then \"Resets on 1 Nov. Need more than the hour? Ask CDS Support; extra time is quoted before any work starts.\" Below it, up to 5 recent entries (date · minutes · what was done), newest first, with **Show all {n}** for the rest. A new month with no time yet reads \"No time used yet this month.\""
+          "expected": "It reads e.g. \"25 of 60 minutes used in October\", then \"Resets on 1 Nov. Need more than the hour? Ask Support; extra time is quoted before any work starts.\" Below it, up to 5 recent entries (date · minutes · what was done), newest first, with **Show all {n}** for the rest. A new month with no time yet reads \"No time used yet this month.\""
         },
         {
           "screen": "Settings › Billing, Care Plan",
           "action": "When the hour is used up",
-          "expected": "The meter is full at 60 minutes. CDS sends you a quote for anything more; it shows under Quotes from CDS for you to accept or decline, and no extra work starts until you accept"
+          "expected": "The meter is full at 60 minutes. Support sends you a quote for anything more; it shows under Quotes from Support for you to accept or decline, and no extra work starts until you accept"
         },
         {
           "screen": "Settings › Billing, Care Plan",
           "action": "Click **Remove the Care Plan**",
-          "expected": "A dialog titled \"Remove the Care Plan?\" explains that CDS stops making changes for you today and your next bill is credited for the rest of the month; **Keep Care Plan** has the focus"
+          "expected": "A dialog titled \"Remove the Care Plan?\" explains that Support stops making changes for you today and your next bill is credited for the rest of the month; **Keep Care Plan** has the focus"
         },
         {
           "screen": "The dialog",
@@ -2656,14 +2656,14 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
       ]
     },
     "docs/how-to/cds-support.md": {
-      "feature": "CDS Support",
+      "feature": "Support",
       "route": "/hub/support",
-      "summary": "CDS Support is how you reach the CDS team: questions, changes, or something not working.",
+      "summary": "Support is how you reach us: questions, changes, or something not working.",
       "activate": [
         {
           "screen": "Any hub screen",
-          "action": "Click **CDS Support** at the bottom of the sidebar (on a phone: open the menu first)",
-          "expected": "`/hub/support` opens on **Messages**: the CDS mark, the heading **CDS Support**, the line \"From the Connections Design Studios team · What support includes\", the button **Get help**, and the tabs **Messages · Tickets · Documents · Ideas**. A tab with something new shows a count, e.g. \"Messages · 2\""
+          "action": "Click **Support** at the bottom of the sidebar (on a phone: open the menu first)",
+          "expected": "`/hub/support` opens on **Messages**: the Support mark, the heading **Support**, the line \"From the Connections Design Studios team · What support includes\", the button **Get help**, and the tabs **Messages · Tickets · Documents · Ideas**. A tab with something new shows a count, e.g. \"Messages · 2\""
         }
       ],
       "use": [
@@ -2674,8 +2674,8 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "`/hub/support?tab=messages`",
-          "action": "Write in **Write to CDS** and click **Send message**",
-          "expected": "Your message is added to **Messages with CDS** (see [Messages with CDS](messages-with-cds.md))"
+          "action": "Write in **Write to Support** and click **Send message**",
+          "expected": "Your message is added to **Messages with us** (see [Messages with us](messages-with-cds.md))"
         },
         {
           "screen": "`/hub/support`",
@@ -2690,12 +2690,12 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/support`",
           "action": "Click **Documents**",
-          "expected": "**Shared by CDS** and **From your tickets and messages** list your files (see [Documents from CDS](documents-from-cds.md))"
+          "expected": "**Shared by Support** and **From your tickets and messages** list your files (see [Documents from Support](documents-from-cds.md))"
         },
         {
           "screen": "`/hub/support`",
           "action": "Click **Ideas**",
-          "expected": "Feature ideas from CDS sites, with votes (see [Suggest a feature](suggest-a-feature.md))"
+          "expected": "Feature ideas from Support sites, with votes (see [Suggest a feature](suggest-a-feature.md))"
         },
         {
           "screen": "`/hub/support`",
@@ -2726,7 +2726,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
       "activate": [
         {
           "screen": "`/hub/setup`",
-          "action": "As the owner, click **Send to CDS** once the must-haves are in (see the Set up your site how-to)",
+          "action": "As the owner, click **Send to Support** once the must-haves are in (see the Set up your site how-to)",
           "expected": "**What's still needed** gains **Review and sign your agreement** and, under it, **Pay and start your build** with \"After you sign your agreement.\""
         },
         {
@@ -2735,9 +2735,9 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
           "expected": "Back on `/hub/setup`, the agreement row reads \"Agreement signed on {date}\""
         },
         {
-          "screen": "`/hub/setup` (CDS confirms the site)",
-          "action": "Wait for CDS to check your details if the site was held",
-          "expected": "The row **Pay and start your build** reads \"Your build fee and first month. About 2 minutes.\" and the panel's button is **Go to checkout**. While held it reads \"Checkout opens once CDS has checked your details, usually within 2 business days.\""
+          "screen": "`/hub/setup` (Support confirms the site)",
+          "action": "Wait for Support to check your details if the site was held",
+          "expected": "The row **Pay and start your build** reads \"Your build fee and first month. About 2 minutes.\" and the panel's button is **Go to checkout**. While held it reads \"Checkout opens once Support has checked your details, usually within 2 business days.\""
         }
       ],
       "use": [
@@ -2794,7 +2794,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/checkout`",
           "action": "Click **Continue to payment**",
-          "expected": "The button reads **Opening secure payment…** with a spinner and the choices lock; the secure payment page opens (in test mode, the CDS test payment page with a \"Test mode\" strip)"
+          "expected": "The button reads **Opening secure payment…** with a spinner and the choices lock; the secure payment page opens (in test mode, the test payment page with a \"Test mode\" strip)"
         },
         {
           "screen": "Secure payment page",
@@ -2804,7 +2804,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/checkout/return`",
           "action": "Wait a few seconds",
-          "expected": "A green tick and **Payment received**, \"Thank you. CDS starts building your site now…\", then **Paid today** (for example \"$1,539.00 plus $0.00 tax\"), **Next bill** and **Receipt** \"Emailed to {your email}\", with **Go to your hub** and **See billing and invoices**"
+          "expected": "A green tick and **Payment received**, \"Thank you. Support starts building your site now…\", then **Paid today** (for example \"$1,539.00 plus $0.00 tax\"), **Next bill** and **Receipt** \"Emailed to {your email}\", with **Go to your hub** and **See billing and invoices**"
         },
         {
           "screen": "`/hub/setup`, after paying",
@@ -2920,7 +2920,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "Hub sidebar",
           "action": "Click Settings, then the Payments tab",
-          "expected": "Settings › Payments opens with the heading \"Take payments on your site\", a Not connected badge, and a grey box: \"You own this account, you are the seller, and you pay Stripe's fees directly (for example 2.9% + 30¢ online). CDS takes no cut.\""
+          "expected": "Settings › Payments opens with the heading \"Take payments on your site\", a Not connected badge, and a grey box: \"You own this account, you are the seller, and you pay Stripe's fees directly (for example 2.9% + 30¢ online). Support takes no cut.\""
         },
         {
           "screen": "Settings › Payments",
@@ -2930,7 +2930,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "Stripe's setup page",
           "action": "Sign in to the Stripe account you already have, or create a free one, and answer Stripe's questions about your business and bank account (about 10 minutes)",
-          "expected": "Stripe shows that your details are submitted and sends you back to CDS (in test mode, click Connect test account)"
+          "expected": "Stripe shows that your details are submitted and sends you back to Support (in test mode, click Connect test account)"
         },
         {
           "screen": "Settings › Payments",
@@ -2947,7 +2947,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "Settings › Payments",
           "action": "Click Check again next to Last checked",
-          "expected": "CDS asks Stripe for the latest status; Last checked changes to \"just now\""
+          "expected": "Support asks Stripe for the latest status; Last checked changes to \"just now\""
         },
         {
           "screen": "Settings › Payments",
@@ -2982,19 +2982,19 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "Settings › Payments",
           "action": "Read the grey fees box",
-          "expected": "It always reads \"You own this account, you are the seller, and you pay Stripe's fees directly (for example 2.9% + 30¢ online). CDS takes no cut.\" Stripe charges its fees from your own account; CDS never adds a fee"
+          "expected": "It always reads \"You own this account, you are the seller, and you pay Stripe's fees directly (for example 2.9% + 30¢ online). Support takes no cut.\" Stripe charges its fees from your own account; Support never adds a fee"
         }
       ]
     },
     "docs/how-to/connect-your-domain.md": {
       "feature": "Connect your domain",
       "route": "/hub/settings?tab=domain",
-      "summary": "Connect your own web address, like riverabakery.com, while CDS builds your site, so launch day takes minutes.",
+      "summary": "Connect your own web address, like riverabakery.com, while Support builds your site, so launch day takes minutes.",
       "activate": [
         {
           "screen": "Hub, signed in as the site's **Owner**",
           "action": "Open **Settings**, then the **Domain** tab (`/hub/settings?tab=domain`)",
-          "expected": "The status line reads \"Your site is on its preview address, **rivera.sites.connectionsdesignstudios.com**.\" and the heading **Connect your domain** shows, with the line \"Connect it now while CDS builds your site, so launch day takes minutes. Your current website and email keep working until launch.\""
+          "expected": "The status line reads \"Your site is on its preview address, **rivera.sites.connectionsdesignstudios.com**.\" and the heading **Connect your domain** shows, with the line \"Connect it now while Support builds your site, so launch day takes minutes. Your current website and email keep working until launch.\""
         },
         {
           "screen": "The same tab, signed in as an **Admin**",
@@ -3004,7 +3004,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "The same tab, when connecting isn't open yet",
           "action": "Read the tab",
-          "expected": "It reads \"Domain connection opens soon. CDS will email you when you can connect yours.\" There is nothing to do yet; CDS emails you"
+          "expected": "It reads \"Domain connection opens soon. Support will email you when you can connect yours.\" There is nothing to do yet; Support emails you"
         }
       ],
       "use": [
@@ -3016,12 +3016,12 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "The same screen, a minute or two later",
           "action": "Read the summary under **What we'll copy**",
-          "expected": "It reads \"We found your email at **Google Workspace**. We'll copy these **7** records exactly before anything changes.\" and \"Your email keeps working the whole time. CDS never changes your records at GoDaddy.\" The records are listed in groups: **Your email** first, then **Verification**, **Your site** and **Other**"
+          "expected": "It reads \"We found your email at **Google Workspace**. We'll copy these **7** records exactly before anything changes.\" and \"Your email keeps working the whole time. Support never changes your records at GoDaddy.\" The records are listed in groups: **Your email** first, then **Verification**, **Your site** and **Other**"
         },
         {
           "screen": "**Before you switch** (shown only when something needs you)",
           "action": "Follow each item: for \"Turn off DNSSEC at GoDaddy first\", turn it off at your registrar and click **Check again**; for forwarding, tick **I understand my email forwarding stops**",
-          "expected": "Each item clears once it is done. \"This step can't be skipped.\" items stay until fixed; CDS items read \"We'll email you when it's done.\""
+          "expected": "Each item clears once it is done. \"This step can't be skipped.\" items stay until fixed; Support items read \"We'll email you when it's done.\""
         },
         {
           "screen": "**Add your zone file (most complete)** (optional; opens by itself when we couldn't see every email record)",
@@ -3056,7 +3056,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "Settings › Domain, once the change is seen",
           "action": "Read the status line",
-          "expected": "It reads \"Ready. Goes live at **riverabakery.com** when CDS approves your launch.\" and Today's Needs you item is gone"
+          "expected": "It reads \"Ready. Goes live at **riverabakery.com** when Support approves your launch.\" and Today's Needs you item is gone"
         },
         {
           "screen": "**Your main address**",
@@ -3064,14 +3064,14 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
           "expected": "\"Saved\" shows; the other address sends visitors to your main one after launch"
         },
         {
-          "screen": "Settings › Domain, after CDS approves your launch",
+          "screen": "Settings › Domain, after Support approves your launch",
           "action": "Read the status line",
           "expected": "It reads \"We're finishing your launch. Your site stays on its preview address until it's done.\" with **Launch steps**: Records copied · Nameservers changed · Pointing your domain to your new site · Setting up the secure connection · Switching to riverabakery.com · Telling search engines"
         },
         {
           "screen": "Settings › Domain, when launch is done",
           "action": "Read the status line",
-          "expected": "It reads \"Your site is live at **riverabakery.com**.\" with **View site**, **Secure connection** \"On · renews automatically\" and **DNS** \"At CDS\""
+          "expected": "It reads \"Your site is live at **riverabakery.com**.\" with **View site**, **Secure connection** \"On · renews automatically\" and **DNS** \"With us\""
         },
         {
           "screen": "The live tab",
@@ -3081,7 +3081,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "Settings › **Integrations** (`/hub/settings?tab=integrations`)",
           "action": "Read the tab",
-          "expected": "Before launch: \"Search engines hear about your site once it's live on riverabakery.com. Your preview address is hidden from them on purpose.\" After launch: **Search engines and analytics** lists Google Analytics, Google Search Console, Bing Webmaster Tools and Instant updates, which CDS sets up"
+          "expected": "Before launch: \"Search engines hear about your site once it's live on riverabakery.com. Your preview address is hidden from them on purpose.\" After launch: **Search engines and analytics** lists Google Analytics, Google Search Console, Bing Webmaster Tools and Instant updates, which Support sets up"
         }
       ]
     },
@@ -3152,7 +3152,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
     "docs/how-to/content-notices-and-suspension.md": {
       "feature": "Content notices and suspension",
       "route": "/hub/today",
-      "summary": "Every site CDS hosts follows the same hosting rules.",
+      "summary": "Every site Support hosts follows the same hosting rules.",
       "activate": [
         {
           "screen": "`/hub/profile`",
@@ -3164,7 +3164,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "Your email inbox",
           "action": "Open \"Action needed on Rivera Bakery by Thu 16 Oct\"",
-          "expected": "\"CDS found something on your site that breaks the hosting rules. Fix it by Thu 16 Oct or your site goes offline.\", then what to change, then \"If you think this is a mistake, reply in CDS Support.\" and a **See what to fix** button"
+          "expected": "\"Support found something on your site that breaks the hosting rules. Fix it by Thu 16 Oct or your site goes offline.\", then what to change, then \"If you think this is a mistake, reply in Support.\" and a **See what to fix** button"
         },
         {
           "screen": "Any hub page, for example `/hub/today`",
@@ -3174,7 +3174,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "Strip",
           "action": "Click **See what to fix**",
-          "expected": "`/hub/support?tab=messages` opens on CDS's note, which says exactly what to change and where"
+          "expected": "`/hub/support?tab=messages` opens on Support's note, which says exactly what to change and where"
         },
         {
           "screen": "The page or file named in the note",
@@ -3183,18 +3183,18 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "`/hub/support?tab=messages`",
-          "action": "Reply to CDS's note that it's fixed (or click **Get help** to ask a question)",
-          "expected": "CDS checks the site and marks it fixed. The strip goes away"
+          "action": "Reply to Support's note that it's fixed (or click **Get help** to ask a question)",
+          "expected": "Support checks the site and marks it fixed. The strip goes away"
         },
         {
           "screen": "Your email inbox, notice not fixed in time (or a serious case)",
           "action": "Open \"Rivera Bakery is offline\"",
-          "expected": "\"Your site is offline. CDS suspended it on 16 Oct. Your hub and CDS Support still work.\" with the reason and an **Open CDS Support** button"
+          "expected": "\"Your site is offline. Support suspended it on 16 Oct. Your hub and Support still work.\" with the reason and an **Open Support** button"
         },
         {
           "screen": "Any hub page",
           "action": "Read the red strip under the top bar",
-          "expected": "\"Your site is offline. CDS suspended it on 16 Oct. Your hub and CDS Support still work.\" with a **Read why** link to the CDS note in Messages"
+          "expected": "\"Your site is offline. Support suspended it on 16 Oct. Your hub and Support still work.\" with a **Read why** link to the Support note in Messages"
         },
         {
           "screen": "Your site's address, in a private window",
@@ -3203,8 +3203,8 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "`/hub/support?tab=messages`",
-          "action": "Fix what the note names and reply to CDS",
-          "expected": "CDS reviews it and lifts the suspension"
+          "action": "Fix what the note names and reply to Support",
+          "expected": "Support reviews it and lifts the suspension"
         },
         {
           "screen": "Your email inbox",
@@ -3214,7 +3214,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "Your email inbox, after a visitor reported a page",
           "action": "Open \"A page on Rivera Bakery was reported\"",
-          "expected": "\"Someone reported a page on Rivera Bakery to CDS. CDS reviews every report, usually within 2 business days, and tells you if anything needs to change.\" with **Page** (its address) and **Reason** (Copyright, Scam or fraud, Illegal content or Something else). You don't need to do anything unless CDS asks"
+          "expected": "\"Someone reported a page on Rivera Bakery to Support. Support reviews every report, usually within 2 business days, and tells you if anything needs to change.\" with **Page** (its address) and **Reason** (Copyright, Scam or fraud, Illegal content or Something else). You don't need to do anything unless Support asks"
         }
       ]
     },
@@ -3382,21 +3382,21 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
       ]
     },
     "docs/how-to/documents-from-cds.md": {
-      "feature": "Documents from CDS",
+      "feature": "Documents from Support",
       "route": "/hub/support?tab=documents",
-      "summary": "Documents keeps every file in one place: files CDS shares with your site (reports, proofs, guides), and every file attached to your tickets and messages, by…",
+      "summary": "Documents keeps every file in one place: files Support shares with your site (reports, proofs, guides), and every file attached to your tickets and messages…",
       "activate": [
         {
           "screen": "`/hub/support`",
           "action": "Click the **Documents** tab",
-          "expected": "Two sections: **Shared by CDS** and **From your tickets and messages**. With nothing shared yet: \"Files CDS shares with you will appear here.\""
+          "expected": "Two sections: **Shared by Support** and **From your tickets and messages**. With nothing shared yet: \"Files Support shares with you will appear here.\""
         }
       ],
       "use": [
         {
           "screen": "`/hub/support?tab=documents`",
-          "action": "Read **Shared by CDS**",
-          "expected": "Newest first: each row has the file type, the title, CDS's note about it and \"From CDS · 9 Oct · 1.2 MB\". A document you haven't opened yet shows **New**; opening the tab marks them read"
+          "action": "Read **Shared by Support**",
+          "expected": "Newest first: each row has the file type, the title, Support's note about it and \"From Support · 9 Oct · 1.2 MB\". A document you haven't opened yet shows **New**; opening the tab marks them read"
         },
         {
           "screen": "`/hub/support?tab=documents`",
@@ -3405,8 +3405,8 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "`/hub/support?tab=documents`",
-          "action": "Under **From your tickets and messages**, click **All**, **From CDS** or **From you**",
-          "expected": "The file list filters in place. Each row shows the file name, where it came from (\"In ticket #1042\" or \"In Messages\", both links), who sent it (\"Mara · CDS\", \"You\" or a team member), the date and the size"
+          "action": "Under **From your tickets and messages**, click **All**, **From Support** or **From you**",
+          "expected": "The file list filters in place. Each row shows the file name, where it came from (\"In ticket #1042\" or \"In Messages\", both links), who sent it (\"Mara · Support\", \"You\" or a team member), the date and the size"
         },
         {
           "screen": "`/hub/support?tab=documents`",
@@ -3425,8 +3425,8 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "Any hub screen",
-          "action": "When CDS shares a document",
-          "expected": "The bell shows \"CDS shared a document: {title}\" with the CDS mark, and you get an email (Profile › Alerts, row **Documents from CDS**)"
+          "action": "When Support shares a document",
+          "expected": "The bell shows \"Support shared a document: {title}\" with the Support mark, and you get an email (Profile › Alerts, row **Documents from Support**)"
         }
       ]
     },
@@ -3485,14 +3485,14 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "**Your data** (a build that failed)",
           "action": "Read the section",
-          "expected": "\"We couldn't build your download, and nothing was lost. Try again, or contact CDS Support if it keeps happening.\" with **Try again**, which starts a new build straight away"
+          "expected": "\"We couldn't build your download, and nothing was lost. Try again, or contact Support if it keeps happening.\" with **Try again**, which starts a new build straight away"
         }
       ]
     },
     "docs/how-to/download-signed-copy.md": {
       "feature": "Download your signed agreement",
       "route": "/hub/settings?tab=legal",
-      "summary": "Every time the owner signs the CDS agreement, the platform stores an exact copy: each policy's wording and version, the signer, the time and a proof code.",
+      "summary": "Every time the owner signs the agreement, the platform stores an exact copy: each policy's wording and version, the signer, the time and a proof code.",
       "activate": [
         {
           "screen": "`/hub/agreement`",
@@ -3509,7 +3509,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/agreement/signed/{id}`",
           "action": "Click **Download your signed copy**",
-          "expected": "The browser downloads `CDS-agreement-{business}-{yyyy-mm-dd}.html`; the page stays where it is"
+          "expected": "The browser downloads `Support-agreement-{business}-{yyyy-mm-dd}.html`; the page stays where it is"
         },
         {
           "screen": "Your downloads folder",
@@ -3529,7 +3529,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/agreement/signed/{id}`",
           "action": "Click **Proof code**",
-          "expected": "It opens: \"If you ever need to show this agreement wasn't changed, CDS can check it against this code.\" and a long code of letters and numbers"
+          "expected": "It opens: \"If you ever need to show this agreement wasn't changed, Support can check it against this code.\" and a long code of letters and numbers"
         },
         {
           "screen": "`/hub/agreement/signed/{id}`, **Proof code**",
@@ -3549,7 +3549,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/settings?tab=legal`",
           "action": "Click **Download** on any row",
-          "expected": "The same `CDS-agreement-….html` file for that signing downloads"
+          "expected": "The same `Support-agreement-….html` file for that signing downloads"
         },
         {
           "screen": "Link in the \"agreement signed\" email",
@@ -3561,7 +3561,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
     "docs/how-to/email-links.md": {
       "feature": "Email links (reopen, unsubscribe, confirm address)",
       "route": "/start/q/<token>, /start/unsubscribe, /start/confirm-email",
-      "summary": "CDS emails carry three kinds of link.",
+      "summary": "Support emails carry three kinds of link.",
       "activate": [
         {
           "screen": "`/start` on the platform domain",
@@ -3625,7 +3625,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
     "docs/how-to/email-routing.md": {
       "feature": "Where your email goes",
       "route": "/hub/settings?tab=email",
-      "summary": "Where should your email go? decides which address gets each kind of email from your site and from CDS.",
+      "summary": "Where should your email go? decides which address gets each kind of email from your site and from Support.",
       "activate": [
         {
           "screen": "Hub sidebar",
@@ -3667,7 +3667,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/settings?tab=email`",
           "action": "Click **Use a different address for…**",
-          "expected": "Four choices open, each a checkbox: **Website inquiries**, **Newsletter**, **Billing from CDS**, **Account and support**"
+          "expected": "Four choices open, each a checkbox: **Website inquiries**, **Newsletter**, **Billing from Support**, **Account and support**"
         },
         {
           "screen": "**Website inquiries**",
@@ -3724,7 +3724,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
     "docs/how-to/follow-a-ticket.md": {
       "feature": "Follow a ticket",
       "route": "/hub/support?tab=tickets",
-      "summary": "Every ticket your site sends CDS has a number (#1042) and a status: Open, In progress, Waiting on you, Resolved or Closed.",
+      "summary": "Every ticket your site sends Support has a number (#1042) and a status: Open, In progress, Waiting on you, Resolved or Closed.",
       "activate": [
         {
           "screen": "`/hub/support`",
@@ -3736,7 +3736,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/support?tab=tickets`",
           "action": "Read a row",
-          "expected": "\"#1042\", the subject and the status badge; under it \"Problem · Whole site · Updated 2 hours ago\" (plus \"· Opened by CDS\" when CDS opened it for you). **New reply** marks an unread CDS reply. **Waiting on you** tickets come first"
+          "expected": "\"#1042\", the subject and the status badge; under it \"Problem · Whole site · Updated 2 hours ago\" (plus \"· Opened by Support\" when Support opened it for you). **New reply** marks an unread Support reply. **Waiting on you** tickets come first"
         },
         {
           "screen": "`/hub/support?tab=tickets`",
@@ -3746,17 +3746,17 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/support?tab=tickets`",
           "action": "Click a ticket",
-          "expected": "`/hub/support/tickets/<number>` opens: **← Tickets**, the subject as the heading, and \"#1042 · status · Problem · Whole site\". The side panel (above the thread on a phone) shows Status, About, Type, Opened and Last update, then \"CDS replies within 2 business days.\" until CDS first replies, and \"CDS first replied 10 Oct.\" after"
+          "expected": "`/hub/support/tickets/<number>` opens: **← Tickets**, the subject as the heading, and \"#1042 · status · Problem · Whole site\". The side panel (above the thread on a phone) shows Status, About, Type, Opened and Last update, then \"Support replies within 2 business days.\" until Support first replies, and \"Support first replied 10 Oct.\" after"
         },
         {
           "screen": "`/hub/support/tickets/<number>`",
           "action": "Read the thread",
-          "expected": "Your messages and CDS replies in order, with status lines between them such as \"Status changed to **Waiting on you** · CDS · 2:14 pm\". Opening the page marks CDS's replies read and clears them from the bell and Needs you"
+          "expected": "Your messages and Support replies in order, with status lines between them such as \"Status changed to **Waiting on you** · Support · 2:14 pm\". Opening the page marks Support's replies read and clears them from the bell and Needs you"
         },
         {
           "screen": "`/hub/support/tickets/<number>`, Waiting on you",
           "action": "Type in **Your reply** and click **Send reply**",
-          "expected": "\"CDS is waiting for your reply.\" shows above the box. Your reply posts and the ticket moves to **In progress** (\"Back to CDS\")"
+          "expected": "\"Support is waiting for your reply.\" shows above the box. Your reply posts and the ticket moves to **In progress** (\"Back to Support\")"
         },
         {
           "screen": "`/hub/support/tickets/<number>`",
@@ -3771,7 +3771,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/support/tickets/<number>`, Resolved",
           "action": "Read under the thread, then reply if it isn't fixed",
-          "expected": "\"CDS marked this resolved. If it isn't, reply and it reopens. It closes by itself after 7 days.\" A reply moves it back to **In progress**"
+          "expected": "\"Support marked this resolved. If it isn't, reply and it reopens. It closes by itself after 7 days.\" A reply moves it back to **In progress**"
         },
         {
           "screen": "`/hub/support/tickets/<number>`, Closed",
@@ -3781,7 +3781,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/support/tickets/<number>`, linked to a known problem",
           "action": "Read the box at the top",
-          "expected": "\"Known problem: {title}\" with **Being fixed** or **Fixed** and what CDS has said about it. When it is fixed, your ticket is marked resolved"
+          "expected": "\"Known problem: {title}\" with **Being fixed** or **Fixed** and what Support has said about it. When it is fixed, your ticket is marked resolved"
         },
         {
           "screen": "`/hub/support/tickets/<number>`, marked as a paid service",
@@ -3790,8 +3790,8 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "Any hub screen",
-          "action": "When CDS replies or changes the status",
-          "expected": "The bell shows \"CDS replied to ticket #1042\" or \"Ticket #1042 is now Waiting on you\" with the CDS mark, Needs you shows **Read reply** or **Reply**, and the Tickets tab label reads \"Tickets · 1\""
+          "action": "When Support replies or changes the status",
+          "expected": "The bell shows \"Support replied to ticket #1042\" or \"Ticket #1042 is now Waiting on you\" with the Support mark, Needs you shows **Read reply** or **Reply**, and the Tickets tab label reads \"Tickets · 1\""
         }
       ]
     },
@@ -4051,16 +4051,16 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
     "docs/how-to/get-help.md": {
       "feature": "Get help (file a ticket)",
       "route": "/hub/support/tickets/new",
-      "summary": "Get help sends CDS a ticket: a numbered request CDS tracks until it is solved.",
+      "summary": "Get help sends Support a ticket: a numbered request Support tracks until it is solved.",
       "activate": [
         {
           "screen": "`/hub/support`",
           "action": "Click **Get help**",
-          "expected": "`/hub/support/tickets/new` opens: a **← CDS Support** link, the heading **Get help** and the section **What do you need?**"
+          "expected": "`/hub/support/tickets/new` opens: a **← Support** link, the heading **Get help** and the section **What do you need?**"
         },
         {
           "screen": "Any help article in the help drawer (the **?** on any screen)",
-          "action": "Click **Ask CDS** after \"Still stuck?\"",
+          "action": "Click **Ask Support** after \"Still stuck?\"",
           "expected": "The same form opens with **Question** chosen and **About** set to the screen you were on (for example Footer on the Website › Footer tab)"
         },
         {
@@ -4102,12 +4102,12 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "`/hub/support/tickets/new`",
-          "action": "Read the footer, then click **Send to CDS**",
-          "expected": "The footer reads \"CDS replies within 2 business days.\" (problems and questions) or \"CDS replies here and lets you know by email.\" (changes and billing), and \"We include the screen you came from and your browser, to help us look into it.\" Sending opens the new ticket at `/hub/support/tickets/<number>` with a toast \"Ticket #1042 sent. CDS replies within 2 business days.\""
+          "action": "Read the footer, then click **Send to Support**",
+          "expected": "The footer reads \"Support replies within 2 business days.\" (problems and questions) or \"Support replies here and lets you know by email.\" (changes and billing), and \"We include the screen you came from and your browser, to help us look into it.\" Sending opens the new ticket at `/hub/support/tickets/<number>` with a toast \"Ticket #1042 sent. Support replies within 2 business days.\""
         },
         {
           "screen": "`/hub/support/tickets/new`",
-          "action": "Click **Send to CDS** with a field missing",
+          "action": "Click **Send to Support** with a field missing",
           "expected": "The form stays, the first missing field is focused and says what's needed, e.g. \"Choose what you need.\" or \"Add a short subject.\""
         },
         {
@@ -4162,7 +4162,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "Google Search",
           "action": "Search for your business name and town",
-          "expected": "Your profile shows the same hours, phone and website as your site. If Google asks you to verify the business (by post, phone or video), follow its steps; CDS cannot do this for you"
+          "expected": "Your profile shows the same hours, phone and website as your site. If Google asks you to verify the business (by post, phone or video), follow its steps; Support cannot do this for you"
         }
       ]
     },
@@ -4250,7 +4250,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/help`",
           "action": "Type a word nothing matches, e.g. `zebra`",
-          "expected": "\"No help articles match \"zebra\". Try another word, or ask CDS Support.\" **ask CDS Support** opens `/hub/support`. The page always ends with \"Can't find it? **Ask CDS Support**.\""
+          "expected": "\"No help articles match \"zebra\". Try another word, or ask Support.\" **ask Support** opens `/hub/support`. The page always ends with \"Can't find it? **Ask Support**.\""
         },
         {
           "screen": "`/hub/help`",
@@ -4860,7 +4860,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "Choose a photo",
-          "action": "Click the **Free photos** tab (shown only when free photos are switched on for CDS), type \"bakery\" in **Search free photos, like 'bakery'**, press Enter, click a photo, check its **Description**, click **Use this photo**",
+          "action": "Click the **Free photos** tab (shown only when free photos are switched on for Support), type \"bakery\" in **Search free photos, like 'bakery'**, press Enter, click a photo, check its **Description**, click **Use this photo**",
           "expected": "The item shows the photo with \"Photo by <name>\" and **Replace** · **Remove**; it never counts toward your 2 GB. On your site the photo has a small line under it, \"Photo by <name> on Unsplash\" (or Pexels), with both names linked. Choosing a photo from **Your media** or pasting a link removes the credit"
         }
       ]
@@ -5181,19 +5181,19 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
       ]
     },
     "docs/how-to/leaving-cds.md": {
-      "feature": "Leaving CDS",
+      "feature": "Moving away",
       "route": "/hub/leaving",
-      "summary": "Leaving CDS gives 30 days' notice.",
+      "summary": "Moving away gives 30 days' notice.",
       "activate": [
         {
           "screen": "Settings › Billing (`/hub/settings?tab=billing`), signed in as the **Owner**",
-          "action": "On the last row **Leave CDS**, click **Leave CDS…**",
-          "expected": "**Leaving CDS** (`/hub/leaving`) opens: \"We're sorry to see you go. Here's exactly what happens, in order.\" and the ordered list (DNS first, site up 30 days, download, billing, site closes)"
+          "action": "On the last row **Move away**, click **Move away…**",
+          "expected": "**Moving away** (`/hub/leaving`) opens: \"We're sorry to see you go. Here's exactly what happens, in order.\" and the ordered list (DNS first, site up 30 days, download, billing, site closes)"
         },
         {
-          "screen": "The same row while CDS staff view your site",
+          "screen": "The same row while support staff view your site",
           "action": "Read the row",
-          "expected": "The button is off: \"You're viewing as CDS staff, so this is turned off. Only the owner can start leaving. Staff use the console.\""
+          "expected": "The button is off: \"You're viewing as support staff, so this is turned off. Only the owner can start leaving. Staff use the console.\""
         }
       ],
       "use": [
@@ -5205,7 +5205,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "The same page",
           "action": "Enter the code from the email (\"To confirm, we emailed a code to m•••@gmail.com.\") and click **Start the 30-day notice**",
-          "expected": "The button shows **Starting…**, then a toast reads \"Your 30-day notice has started. Next: move your DNS.\" Every hub screen shows \"Leaving CDS · 30 days left · Next: move your DNS\" with **Open checklist**"
+          "expected": "The button shows **Starting…**, then a toast reads \"Your 30-day notice has started. Next: move your DNS.\" Every hub screen shows \"Moving away · 30 days left · Next: move your DNS\" with **Open checklist**"
         },
         {
           "screen": "Checklist step **Move your DNS**",
@@ -5239,7 +5239,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "The checklist footer, if you change your mind",
-          "action": "Click **Stay with CDS**, then **Stay with CDS** in the dialog",
+          "action": "Click **Stay with us**, then **Stay with us** in the dialog",
           "expected": "A toast reads \"Your notice is cancelled.\" Everything carries on as before, including your price"
         }
       ]
@@ -5432,31 +5432,31 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
       ]
     },
     "docs/how-to/messages-with-cds.md": {
-      "feature": "Messages with CDS",
+      "feature": "Messages with us",
       "route": "/hub/support?tab=messages",
-      "summary": "Messages is one ongoing conversation between your site and the CDS team, plus the notes CDS pins for you.",
+      "summary": "Messages is one ongoing conversation between your site and the Support team, plus the notes Support pins for you.",
       "activate": [
         {
           "screen": "Any hub screen",
-          "action": "Click **CDS Support** at the bottom of the sidebar",
-          "expected": "`/hub/support` opens on **Messages**. With no messages yet it reads \"No messages yet\" and \"Write to CDS any time.\", with the **Write to CDS** box below"
+          "action": "Click **Support** at the bottom of the sidebar",
+          "expected": "`/hub/support` opens on **Messages**. With no messages yet it reads \"No messages yet\" and \"Write to Support any time.\", with the **Write to Support** box below"
         }
       ],
       "use": [
         {
           "screen": "`/hub/support?tab=messages`",
           "action": "Read the top of the tab",
-          "expected": "Pinned notes from CDS come first: each a CDS card with the CDS mark, the title, \"Pinned\", the text and \"From CDS · 9 Oct\". An unread note shows **New**; opening the tab marks it read. Older notes sit under **Earlier notes (3)**; click it to open them"
+          "expected": "Pinned notes from Support come first: each a Support card with the Support mark, the title, \"Pinned\", the text and \"From Support · 9 Oct\". An unread note shows **New**; opening the tab marks it read. Older notes sit under **Earlier notes (3)**; click it to open them"
         },
         {
           "screen": "`/hub/support?tab=messages`",
-          "action": "Scroll to **Messages with CDS**",
-          "expected": "The conversation, oldest at the top, grouped by day (\"Today\", \"Yesterday\", \"Thu 9 Oct\"). CDS messages sit on the CDS card with the writer's first name and \"CDS\" (e.g. \"Mara · CDS\"); yours read \"You\". A line \"New since your last visit\" marks where you left off"
+          "action": "Scroll to **Messages with us**",
+          "expected": "The conversation, oldest at the top, grouped by day (\"Today\", \"Yesterday\", \"Thu 9 Oct\"). Support messages sit on the Support card with the writer's first name and \"Support\" (e.g. \"Mara · Support\"); yours read \"You\". A line \"New since your last visit\" marks where you left off"
         },
         {
           "screen": "`/hub/support?tab=messages`",
-          "action": "Type in **Write to CDS** and click **Send message** (or press Ctrl+Enter, Cmd+Enter on a Mac)",
-          "expected": "Your message appears at the bottom straight away. Under the box: \"CDS usually replies within 2 business days. For something broken on your site, Get help opens a ticket we track.\""
+          "action": "Type in **Write to Support** and click **Send message** (or press Ctrl+Enter, Cmd+Enter on a Mac)",
+          "expected": "Your message appears at the bottom straight away. Under the box: \"Support usually replies within 2 business days. For something broken on your site, Get help opens a ticket we track.\""
         },
         {
           "screen": "`/hub/support?tab=messages`",
@@ -5466,17 +5466,17 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/support?tab=messages`",
           "action": "Look at a file you just sent",
-          "expected": "It shows **Checking file** until CDS's safety check passes; then it can be downloaded. Images show as small thumbnails: click one to preview it, then **Download**"
+          "expected": "It shows **Checking file** until Support's safety check passes; then it can be downloaded. Images show as small thumbnails: click one to preview it, then **Download**"
         },
         {
           "screen": "`/hub/support?tab=messages`, left open",
-          "action": "Wait for CDS to reply",
-          "expected": "The reply appears within about 20 seconds, and screen readers hear \"1 new message from CDS\". If you have scrolled up, a **1 new message** button appears; click it to jump down"
+          "action": "Wait for Support to reply",
+          "expected": "The reply appears within about 20 seconds, and screen readers hear \"1 new message from Support\". If you have scrolled up, a **1 new message** button appears; click it to jump down"
         },
         {
           "screen": "Any hub screen",
-          "action": "When CDS writes while you are elsewhere",
-          "expected": "The bell shows \"New message from CDS\" with the small CDS mark, Today's **Needs you** shows it with **Read message**, and you get an email (set this in Profile › Alerts, row **Messages from CDS**)"
+          "action": "When Support writes while you are elsewhere",
+          "expected": "The bell shows \"New message from Support\" with the small Support mark, Today's **Needs you** shows it with **Read message**, and you get an email (set this in Profile › Alerts, row **Messages from Support**)"
         },
         {
           "screen": "`/hub/support?tab=messages`, more than 50 messages",
@@ -5485,8 +5485,8 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "`/hub/today`",
-          "action": "When CDS pins a note",
-          "expected": "The **From CDS** card shows the note's title and text with **Read the note**, which opens this tab. **Dismiss** hides the card; the note stays here"
+          "action": "When Support pins a note",
+          "expected": "The **From Support** card shows the note's title and text with **Read the note**, which opens this tab. **Dismiss** hides the card; the note stays here"
         }
       ]
     },
@@ -5497,7 +5497,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
       "activate": [
         {
           "screen": "`/hub/today`",
-          "action": "Open Today after CDS launches your site",
+          "action": "Open Today after Support launches your site",
           "expected": "The status line reads \"Your site is live at {your address}\". Before launch no monthly email is sent"
         },
         {
@@ -5554,7 +5554,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/setup/look`, **Your mood board**",
           "action": "Drop a photo on the **Mood board photos** box (or click **choose a photo**)",
-          "expected": "Within a moment, before the upload finishes, a strip of up to six colour blocks appears under the box, wider blocks for colours the photo uses more, each hex code under its block on a wide screen. On the right (below on a phone) a card shows the business name as a heading, the tagline (or \"Welcome in\"), a **Book a visit** button and a band of section colour, all in the photo's colours. Under the card: \"This is a first look. CDS designs your full theme from your mood board.\""
+          "expected": "Within a moment, before the upload finishes, a strip of up to six colour blocks appears under the box, wider blocks for colours the photo uses more, each hex code under its block on a wide screen. On the right (below on a phone) a card shows the business name as a heading, the tagline (or \"Welcome in\"), a **Book a visit** button and a band of section colour, all in the photo's colours. Under the card: \"This is a first look. Support designs your full theme from your mood board.\""
         },
         {
           "screen": "`/hub/setup/look`, **Your mood board**",
@@ -5584,7 +5584,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/setup/look`, **Your mood board**",
           "action": "Pick a file the browser can't read colours from",
-          "expected": "A yellow note reads \"We couldn't read colours from this image. Try another one; CDS will still see it.\" The photo still uploads"
+          "expected": "A yellow note reads \"We couldn't read colours from this image. Try another one; Support will still see it.\" The photo still uploads"
         },
         {
           "screen": "`/hub/setup/look`, **Main photo**",
@@ -5672,18 +5672,18 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "`/hub/today` › **Needs you** and the **Alerts** panel",
-          "action": "Read a row from CDS",
-          "expected": "It shows the small CDS mark: \"CDS replied to ticket #1042\" (**Read reply**), \"Ticket #1042 is waiting on you\" (**Reply**), \"New message from CDS\" (**Read message**), \"New note from CDS: {title}\" (**Read note**), and for the owner \"Choose how to handle ticket #1042\" (**Choose an option**). Each opens CDS Support at the right place (see [Follow a ticket](follow-a-ticket.md), [Messages with CDS](messages-with-cds.md))"
+          "action": "Read a row from Support",
+          "expected": "It shows the small Support mark: \"Support replied to ticket #1042\" (**Read reply**), \"Ticket #1042 is waiting on you\" (**Reply**), \"New message from Support\" (**Read message**), \"New note from Support: {title}\" (**Read note**), and for the owner \"Choose how to handle ticket #1042\" (**Choose an option**). Each opens Support at the right place (see [Follow a ticket](follow-a-ticket.md), [Messages with us](messages-with-cds.md))"
         },
         {
           "screen": "`/hub/today` › **Needs you**",
-          "action": "When CDS paused editing while you were saving",
+          "action": "When Support paused editing while you were saving",
           "expected": "\"Your changes to {About us} are waiting\" with **Review changes** (see [Service notices and locked pages](service-notices-and-locked-pages.md))"
         },
         {
           "screen": "`/hub/today` › **Needs you** and the **Alerts** panel",
-          "action": "When CDS is working on your site",
-          "expected": "The urgent row \"CDS is working on your site until 4:00 pm\" shows the warning icon, first in the list, with **See details**"
+          "action": "When Support is working on your site",
+          "expected": "The urgent row \"Support is working on your site until 4:00 pm\" shows the warning icon, first in the list, with **See details**"
         }
       ]
     },
@@ -5860,7 +5860,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "**Page history**",
           "action": "Read a row",
-          "expected": "Each row shows when it was published, like \"Published 9 Oct, 2:14 pm\", and who published it: \"Published by Maria Rivera\", \"Set up by CDS from your answers\" (the first version CDS built), \"Published by CDS support\", \"Published by a former team member\" or \"Published before history was turned on\""
+          "expected": "Each row shows when it was published, like \"Published 9 Oct, 2:14 pm\", and who published it: \"Published by Maria Rivera\", \"Set up by Support from your answers\" (the first version Support built), \"Published by Support\", \"Published by a former team member\" or \"Published before history was turned on\""
         },
         {
           "screen": "**Page history**, a page published only once",
@@ -6044,7 +6044,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "Any hub screen (Owner)",
-          "action": "When CDS marks it paid",
+          "action": "When Support marks it paid",
           "expected": "Today's **Needs you** shows \"Choose how to handle ticket #1042\" with **Choose an option**, and the ticket is **Waiting on you**"
         }
       ],
@@ -6052,7 +6052,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/support/tickets/<number>`",
           "action": "Read the box at the top of the thread",
-          "expected": "A CDS box **This is a paid service** with the category (e.g. \"Design changes\"), \"Things you can do in your dashboard are yours; we'll show you how. Doing it for you is a paid service.\" and three options: **Do it yourself**, **Have CDS do it** and (on the Care Plan) **Use my Care hour**"
+          "expected": "A Support box **This is a paid service** with the category (e.g. \"Design changes\"), \"Things you can do in your dashboard are yours; we'll show you how. Doing it for you is a paid service.\" and three options: **Do it yourself**, **Have Support do it** and (on the Care Plan) **Use my Care hour**"
         },
         {
           "screen": "The paid-service box",
@@ -6061,23 +6061,23 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "The paid-service box (Owner)",
-          "action": "Under **Have CDS do it** (\"We'll send you a price first. Nothing starts until you accept.\"), click **Get a quote**",
-          "expected": "The line reads \"Quote requested 12 Oct. CDS will send it here.\""
+          "action": "Under **Have Support do it** (\"We'll send you a price first. Nothing starts until you accept.\"), click **Get a quote**",
+          "expected": "The line reads \"Quote requested 12 Oct. Support will send it here.\""
         },
         {
           "screen": "The paid-service box, quote sent",
           "action": "Click **View quote**",
-          "expected": "The quote opens at `/hub/settings/quotes/<id>` (\"Sent 13 Oct · $120\"). Accept and pay it there (see [Accept a quote from CDS](accept-a-quote.md)); the box then reads \"You accepted the quote on 13 Oct. CDS has started.\""
+          "expected": "The quote opens at `/hub/settings/quotes/<id>` (\"Sent 13 Oct · $120\"). Accept and pay it there (see [Accept a quote from Support](accept-a-quote.md)); the box then reads \"You accepted the quote on 13 Oct. Support has started.\""
         },
         {
           "screen": "The paid-service box (Owner on the Care Plan)",
           "action": "Under **Use my Care hour** (\"You have 35 of 60 minutes left in October.\"), click **Use my Care hour**",
-          "expected": "A dialog \"Use your Care hour on this?\" explains \"CDS works on it using this month's Care Plan time and tells you how many minutes it took.\" **Not now** has the focus"
+          "expected": "A dialog \"Use your Care hour on this?\" explains \"Support works on it using this month's Care Plan time and tells you how many minutes it took.\" **Not now** has the focus"
         },
         {
           "screen": "The dialog",
           "action": "Click **Use my Care hour**",
-          "expected": "The thread shows \"{your name} chose the Care hour\" and the box reads \"You chose your Care hour on 12 Oct. CDS has started.\" The minutes CDS uses show on Settings › Billing (see [Care Plan](care-plan.md))"
+          "expected": "The thread shows \"{your name} chose the Care hour\" and the box reads \"You chose your Care hour on 12 Oct. Support has started.\" The minutes Support uses show on Settings › Billing (see [Care Plan](care-plan.md))"
         },
         {
           "screen": "The paid-service box, Care Plan with no minutes left",
@@ -6525,7 +6525,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "Your new mailbox",
-          "action": "Open the email from CDS and click Confirm this address",
+          "action": "Open the email from Support and click Confirm this address",
           "expected": "The page reads \"Address confirmed.\" Back in Settings, Email, the new address shows Confirmed and the old one is gone"
         },
         {
@@ -6551,7 +6551,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "The same row, if setup couldn't finish",
           "action": "Read the warning",
-          "expected": "It reads \"We couldn't finish setting up sending from riverabakery.com. CDS is checking it. Emails still send under your business name.\" Nothing to do: CDS fixes it"
+          "expected": "It reads \"We couldn't finish setting up sending from riverabakery.com. Support is checking it. Emails still send under your business name.\" Nothing to do: Support fixes it"
         }
       ]
     },
@@ -6575,7 +6575,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/profile` › **You**",
           "action": "Read the section",
-          "expected": "Your sign-in email, \"Your role at {business} · {role}\", and \"To change your sign-in email, ask CDS Support.\""
+          "expected": "Your sign-in email, \"Your role at {business} · {role}\", and \"To change your sign-in email, ask Support.\""
         },
         {
           "screen": "`/hub/profile` › **Alerts**",
@@ -6691,7 +6691,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
     "docs/how-to/rate-a-resolved-ticket.md": {
       "feature": "Rate a resolved ticket",
       "route": "/hub/support/tickets/<number>",
-      "summary": "When CDS marks one of your tickets Resolved, you can tell CDS whether it went well: Yes or No, with an optional comment.",
+      "summary": "When Support marks one of your tickets Resolved, you can tell Support whether it went well: Yes or No, with an optional comment.",
       "activate": [
         {
           "screen": "`/hub/support?tab=tickets`",
@@ -6703,7 +6703,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/support/tickets/<number>` (Resolved)",
           "action": "Under \"Was this resolved well?\" click **Yes** or **No**",
-          "expected": "The button stays pressed and the card reads \"Thanks. CDS reads every rating.\""
+          "expected": "The button stays pressed and the card reads \"Thanks. Support reads every rating.\""
         },
         {
           "screen": "Same card",
@@ -6713,7 +6713,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "Same card, while the ticket is still Resolved",
           "action": "Click the other button",
-          "expected": "Your rating changes. CDS sees the new one"
+          "expected": "Your rating changes. Support sees the new one"
         },
         {
           "screen": "Your email inbox",
@@ -6746,19 +6746,19 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
           "expected": "No rating card: Viewers can't rate. Opening a rating link from the email shows a line saying who can rate (Owners, Admins, Editors and the person who filed it)"
         },
         {
-          "screen": "Same page, while CDS staff view your hub",
+          "screen": "Same page, while support staff view your hub",
           "action": "Read the card",
-          "expected": "\"Ratings are turned off while viewing as CDS staff.\" Only your team can rate"
+          "expected": "\"Ratings are turned off while viewing as support staff.\" Only your team can rate"
         }
       ]
     },
     "docs/how-to/reaccept-terms.md": {
       "feature": "Re-accept updated terms",
       "route": "/hub/agreement?mode=reaccept",
-      "summary": "When CDS publishes a new version of a policy the owner has already signed, the owner is asked to accept it the next time they open the hub.",
+      "summary": "When Support publishes a new version of a policy the owner has already signed, the owner is asked to accept it the next time they open the hub.",
       "activate": [
         {
-          "screen": "CDS repo (staff)",
+          "screen": "Support repo (staff)",
           "action": "Publish a new version of a policy (for example Terms of Service v2, with a `changes` line) and deploy",
           "expected": "Every org that signed version 1 now has an outdated agreement. Orgs that never signed are not affected"
         }
@@ -6807,19 +6807,19 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub` (as an admin, before the owner signs)",
           "action": "Sign in as an admin",
-          "expected": "The hub opens as usual with the note \"CDS updated its terms. Your site owner needs to accept them…\". Opening `/hub/agreement` shows the cards read-only with \"Only the site owner can sign this agreement.\" and no **Sign and accept** button"
+          "expected": "The hub opens as usual with the note \"Support updated its terms. Your site owner needs to accept them…\". Opening `/hub/agreement` shows the cards read-only with \"Only the site owner can sign this agreement.\" and no **Sign and accept** button"
         }
       ]
     },
     "docs/how-to/read-cds-policies.md": {
-      "feature": "Read CDS policies (public)",
+      "feature": "Read the policies (public)",
       "route": "/legal/<key>",
-      "summary": "CDS publishes its five policies on the platform site so anyone can read them before signing up, without an account: Service Agreement…",
+      "summary": "Support publishes its five policies on the platform site so anyone can read them before signing up, without an account: Service Agreement…",
       "activate": [
         {
           "screen": "`/legal/terms-of-service`",
           "action": "Nothing to switch on: open the address in any browser, signed in or not",
-          "expected": "The five pages ship with the platform. While the texts are drafts (until the lawyer review listed in GO-LIVE), each page shows the yellow alert \"Draft: this text hasn't been reviewed by a lawyer yet and will change before CDS launches.\""
+          "expected": "The five pages ship with the platform. While the texts are drafts (until the lawyer review listed in GO-LIVE), each page shows the yellow alert \"Draft: this text hasn't been reviewed by a lawyer yet and will change before Support launches.\""
         }
       ],
       "use": [
@@ -6853,12 +6853,12 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
     "docs/how-to/report-a-problem.md": {
       "feature": "Report a problem",
       "route": "/report",
-      "summary": "Anyone can tell CDS about content on a site CDS hosts: a copyright problem, a scam, illegal content or something else.",
+      "summary": "Anyone can tell Support about content on a site we host: a copyright problem, a scam, illegal content or something else.",
       "activate": [
         {
-          "screen": "Any page of a site CDS hosts",
+          "screen": "Any page of a site we host",
           "action": "Scroll to the footer and click **Report**",
-          "expected": "`/report?site=<the site's address>` opens on the platform domain: \"Report a problem\" and \"Tell us about content on a site CDS hosts. We review every report.\" **Site** and **Page address** are already filled in"
+          "expected": "`/report?site=<the site's address>` opens on the platform domain: \"Report a problem\" and \"Tell us about content on a site we host. We review every report.\" **Site** and **Page address** are already filled in"
         }
       ],
       "use": [
@@ -6875,7 +6875,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "Same page",
           "action": "Type **What's wrong?** (20 to 2,000 characters), then under **Your contact** your **Email** (and **Name**)",
-          "expected": "The counter follows the text. CDS emails your copy of the report to this address"
+          "expected": "The counter follows the text. Support emails your copy of the report to this address"
         },
         {
           "screen": "**Copyright notice** (Copyright only)",
@@ -6885,7 +6885,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "Same page",
           "action": "Complete the \"are you a person\" check if it shows, then click **Send report**",
-          "expected": "\"Sending…\", then **Report received**: \"Your report number is R-32. We sent a copy to you@example.com. CDS reviews reports within 2 business days.\" **Report something else** opens a fresh form"
+          "expected": "\"Sending…\", then **Report received**: \"Your report number is R-32. We sent a copy to you@example.com. Support reviews reports within 2 business days.\" **Report something else** opens a fresh form"
         },
         {
           "screen": "Same page, a field left out",
@@ -6895,7 +6895,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "Your email inbox",
           "action": "Open \"We received your report R-32\"",
-          "expected": "\"CDS reviews every report, usually within 2 business days.\" with Report · Page · Reason (your own words are not repeated back)"
+          "expected": "\"Support reviews every report, usually within 2 business days.\" with Report · Page · Reason (your own words are not repeated back)"
         },
         {
           "screen": "`/report`, a sixth report within an hour from the same connection",
@@ -6959,7 +6959,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "Reports › Site Report",
           "action": "Read **What people searched on Google** and **Google Analytics**",
-          "expected": "Searches with times shown and clicks; Google's visitor count with the note that it only counts visitors who accept cookies. Before CDS connects them: \"Connects when CDS finishes setup.\""
+          "expected": "Searches with times shown and clicks; Google's visitor count with the note that it only counts visitors who accept cookies. Before Support connects them: \"Connects when Support finishes setup.\""
         },
         {
           "screen": "Reports",
@@ -6976,10 +6976,10 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
     "docs/how-to/review-your-site-before-launch.md": {
       "feature": "Review your site before launch",
       "route": "/hub/review",
-      "summary": "Before CDS launches your site, you look over every page on its preview address, confirm your key details, check it on your phone and send a test message.",
+      "summary": "Before Support launches your site, you look over every page on its preview address, confirm your key details, check it on your phone and send a test message.",
       "activate": [
         {
-          "screen": "Today (`/hub`), signed in as the **Owner**, once CDS has your site ready for review",
+          "screen": "Today (`/hub`), signed in as the **Owner**, once Support has your site ready for review",
           "action": "Click **Continue review** on the launch review card",
           "expected": "**Review your site** (`/hub/review`) opens with \"0 of 6 done\" and the six items"
         },
@@ -7002,8 +7002,8 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "The review bar, a page that needs work",
-          "action": "Click **Needs a change**, write **Your note** (at least 10 characters, like \"Change the phone number in the footer.\"), click **Send to CDS**",
-          "expected": "You return to the page and the strip reads \"Sent. CDS will make the change and tell you.\" **Changes you asked for** counts it"
+          "action": "Click **Needs a change**, write **Your note** (at least 10 characters, like \"Change the phone number in the footer.\"), click **Send to Support**",
+          "expected": "You return to the page and the strip reads \"Sent. Support will make the change and tell you.\" **Changes you asked for** counts it"
         },
         {
           "screen": "**Your key details confirmed**",
@@ -7022,18 +7022,18 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "**No open change requests**",
-          "action": "Wait for CDS to finish any changes (**See your requests** shows them)",
+          "action": "Wait for Support to finish any changes (**See your requests** shows them)",
           "expected": "The item reads \"No open change requests\""
         },
         {
           "screen": "**Your site goes live at riverabakery.com.** panel",
           "action": "Click **Ready to launch**",
-          "expected": "The button shows **Sending…**, then \"CDS is giving it a final look.\" with \"Usually within 1 business day. We'll email you the moment you're live. You can still edit, but changed pages need another look.\""
+          "expected": "The button shows **Sending…**, then \"Support is giving it a final look.\" with \"Usually within 1 business day. We'll email you the moment you're live. You can still edit, but changed pages need another look.\""
         },
         {
           "screen": "The same panel, if you edit a page after sending",
           "action": "Look at the changed page again and mark it **Looks good**",
-          "expected": "The warning \"You changed About us after sending. Look at it again so CDS can launch.\" clears"
+          "expected": "The warning \"You changed About us after sending. Look at it again so Support can launch.\" clears"
         }
       ]
     },
@@ -7086,7 +7086,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "**Share image** picker",
-          "action": "Click the **Free photos** tab (only there when free photos are switched on for CDS), search \"bakery\", click a photo, check its **Description**, click **Use this photo**",
+          "action": "Click the **Free photos** tab (only there when free photos are switched on for Support), search \"bakery\", click a photo, check its **Description**, click **Use this photo**",
           "expected": "The free photo is used by its link; it never counts toward your 2 GB. Each result shows \"Photo by <name>\""
         },
         {
@@ -7144,12 +7144,12 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
     "docs/how-to/service-notices-and-locked-pages.md": {
       "feature": "Service notices and locked pages",
       "route": "/hub/today",
-      "summary": "When CDS is working on your site, a notice strip at the top of your hub says so, and the part CDS is fixing pauses its editing so your changes and CDS's fix…",
+      "summary": "When Support is working on your site, a notice strip at the top of your hub says so, and the part Support is fixing pauses its editing so your changes and…",
       "activate": [
         {
-          "screen": "Any hub screen, while CDS is working",
+          "screen": "Any hub screen, while Support is working",
           "action": "Look under the top bar",
-          "expected": "A strip with the CDS mark reads e.g. \"CDS is working on your site until 4:00 pm.\" with CDS's message. A page notice shows only on that page's builder; a Footer, Menus or Header notice only on that Website tab; an add-on notice on that add-on's screens"
+          "expected": "A strip with the Support mark reads e.g. \"Support is working on your site until 4:00 pm.\" with Support's message. A page notice shows only on that page's builder; a Footer, Menus or Header notice only on that Website tab; an add-on notice on that add-on's screens"
         },
         {
           "screen": "Any hub screen, work planned within 24 hours",
@@ -7166,7 +7166,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "A strip with **What happened**",
           "action": "Click **What happened**",
-          "expected": "A dialog shows the known problem: \"Known problem: {title}\", **Being fixed** or **Fixed**, and what CDS has said. Click **Close**"
+          "expected": "A dialog shows the known problem: \"Known problem: {title}\", **Being fixed** or **Fixed**, and what Support has said. Click **Close**"
         },
         {
           "screen": "Any hub screen, more than two notices",
@@ -7174,19 +7174,19 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
           "expected": "The extra notice opens in place. Work under way is listed before planned work"
         },
         {
-          "screen": "`/hub/website/pages/<id>` (or the Footer, Navigation, Banner or Site settings tab, or an add-on tab) while CDS works on it",
+          "screen": "`/hub/website/pages/<id>` (or the Footer, Navigation, Banner or Site settings tab, or an add-on tab) while Support works on it",
           "action": "Open the editor",
-          "expected": "A CDS panel reads \"Editing is paused while CDS works on this page\", \"You can look around, but changes are paused so nothing clashes with CDS's fix.\" and \"Until 4:00 pm\". Edit controls are greyed out; Preview, History (read only) and the rest of the hub keep working"
+          "expected": "A Support panel reads \"Editing is paused while Support works on this page\", \"You can look around, but changes are paused so nothing clashes with Support's fix.\" and \"Until 4:00 pm\". Edit controls are greyed out; Preview, History (read only) and the rest of the hub keep working"
         },
         {
           "screen": "The same editor, if the pause started while you were editing",
           "action": "Click **Save**",
-          "expected": "Nothing is lost: the panel adds \"Your unsaved changes are kept. You can apply them when CDS is done.\" and \"Saved at 2:14 pm\". Autosaving editors show \"Editing paused\""
+          "expected": "Nothing is lost: the panel adds \"Your unsaved changes are kept. You can apply them when Support is done.\" and \"Saved at 2:14 pm\". Autosaving editors show \"Editing paused\""
         },
         {
-          "screen": "The same editor, after CDS finishes",
+          "screen": "The same editor, after Support finishes",
           "action": "Open it again (it refreshes by itself shortly after the end time)",
-          "expected": "A panel reads \"CDS has finished. Your changes from 2:14 pm are waiting.\" and \"Applying puts them in your draft. CDS's fix stays in this page's history, so you can switch back.\" with **Apply my changes** and **Discard my changes**"
+          "expected": "A panel reads \"Support has finished. Your changes from 2:14 pm are waiting.\" and \"Applying puts them in your draft. Support's fix stays in this page's history, so you can switch back.\" with **Apply my changes** and **Discard my changes**"
         },
         {
           "screen": "The held-changes panel",
@@ -7205,8 +7205,8 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "Any hub screen",
-          "action": "When CDS starts work or plans it",
-          "expected": "The bell shows \"CDS is working on your site until 4:00 pm\" (urgent, with a warning icon), and you get an email and, if you turned it on, a phone alert (Profile › Alerts, row **CDS service notices**)"
+          "action": "When Support starts work or plans it",
+          "expected": "The bell shows \"Support is working on your site until 4:00 pm\" (urgent, with a warning icon), and you get an email and, if you turned it on, a phone alert (Profile › Alerts, row **Support service notices**)"
         }
       ]
     },
@@ -7313,8 +7313,8 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "Step 1, provider not listed",
-          "action": "Pick **Another provider**, then click **Ask CDS to set it up**",
-          "expected": "A CDS Support change ticket opens. \"CDS adds the records for you, usually within 1 business day.\""
+          "action": "Pick **Another provider**, then click **Ask Support to set it up**",
+          "expected": "A Support change ticket opens. \"Support adds the records for you, usually within 1 business day.\""
         },
         {
           "screen": "Step 2",
@@ -7351,7 +7351,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
     "docs/how-to/set-up-your-site.md": {
       "feature": "Set up your site",
       "route": "/hub/setup",
-      "summary": "After Submit, the owner tells CDS about the business in seven short steps: Your business, Contact & hours, Email, Your words & services, People & proof…",
+      "summary": "After Submit, the owner tells Support about the business in seven short steps: Your business, Contact & hours, Email, Your words & services, People & proof…",
       "activate": [
         {
           "screen": "`/start/submit`",
@@ -7438,17 +7438,17 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/setup`",
           "action": "Fill the other steps until **What's still needed** has no Must-haves",
-          "expected": "The panel's button changes from **Continue setup** (with \"Send to CDS unlocks when the must-haves are in.\") to **Send to CDS**, with a note like \"3 optional items are empty. CDS will use the defaults shown above, and you can add them later.\""
+          "expected": "The panel's button changes from **Continue setup** (with \"Send to Support unlocks when the must-haves are in.\") to **Send to Support**, with a note like \"3 optional items are empty. Support will use the defaults shown above, and you can add them later.\""
         },
         {
           "screen": "`/hub/setup` (as the owner)",
-          "action": "Click **Send to CDS**",
-          "expected": "The button reads \"Sending…\". Then a toast reads \"Sent to CDS. We'll email you when your site is ready to review.\", the panel reads \"Sent to CDS on 28 Sep. We'll email you when your site is ready to review.\" and \"You can keep editing. CDS always sees your latest answers.\", and a **Sent to CDS** badge sits next to the heading"
+          "action": "Click **Send to Support**",
+          "expected": "The button reads \"Sending…\". Then a toast reads \"Sent to Support. We'll email you when your site is ready to review.\", the panel reads \"Sent to Support on 28 Sep. We'll email you when your site is ready to review.\" and \"You can keep editing. Support always sees your latest answers.\", and a **Sent to Support** badge sits next to the heading"
         },
         {
           "screen": "`/hub/setup` (as an admin, or staff viewing as the owner)",
           "action": "Look at the panel",
-          "expected": "**Send to CDS** is greyed out with \"Only the site owner can send this to CDS.\" (admin) or \"Sending to CDS is the owner's step.\" (staff)"
+          "expected": "**Send to Support** is greyed out with \"Only the site owner can send this to Support.\" (admin) or \"Sending to Support is the owner's step.\" (staff)"
         },
         {
           "screen": "`/hub/setup` (a site held for review)",
@@ -7488,7 +7488,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/setup/business`, **Your site's style**",
           "action": "Scroll to the seven cards and click **Warm and classic**",
-          "expected": "Each card shows your business name and \"Fresh bread every morning. Order ahead for weekends.\" in that style's fonts. The status reads \"Saving…\", then \"Saved\". **Let CDS choose** is picked until you choose"
+          "expected": "Each card shows your business name and \"Fresh bread every morning. Order ahead for weekends.\" in that style's fonts. The status reads \"Saving…\", then \"Saved\". **Let Support choose** is picked until you choose"
         },
         {
           "screen": "`/hub/setup/contact`, **How customers reach you**",
@@ -7586,20 +7586,20 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
           "expected": "\"Have reviews from customers? **Add Testimonials** to show them.\" The link opens the Testimonials add-on page"
         },
         {
-          "screen": "`/hub/setup` (after **Send to CDS**, within the hour)",
+          "screen": "`/hub/setup` (after **Send to Support**, within the hour)",
           "action": "Reload the overview",
-          "expected": "A grey **Being built** badge replaces **Sent to CDS**, and the panel reads \"Your site is assembled. CDS is polishing it now.\" with **See your site's preview**. See the [Your first site, assembled](site-assembly.md) how-to"
+          "expected": "A grey **Being built** badge replaces **Sent to Support**, and the panel reads \"Your site is assembled. Support is polishing it now.\" with **See your site's preview**. See the [Your first site, assembled](site-assembly.md) how-to"
         }
       ]
     },
     "docs/how-to/sign-your-agreement.md": {
       "feature": "Sign your agreement",
       "route": "/hub/agreement",
-      "summary": "Before CDS takes any payment, the site owner signs the CDS agreement once, on one screen: five short policies (Service Agreement, Acceptable Use Policy, Terms…",
+      "summary": "Before Support takes any payment, the site owner signs the agreement once, on one screen: five short policies (Service Agreement, Acceptable Use Policy, Terms…",
       "activate": [
         {
           "screen": "`/hub/setup`",
-          "action": "As the owner, click **Send to CDS** once the must-haves are in (see the Set up your site how-to)",
+          "action": "As the owner, click **Send to Support** once the must-haves are in (see the Set up your site how-to)",
           "expected": "The setup checklist gains the required item **Review and sign your agreement**, with a **Review and sign** button"
         },
         {
@@ -7612,7 +7612,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/agreement`",
           "action": "Read the top of the page",
-          "expected": "The intro \"Five short policies cover how CDS builds and hosts your site…\", a yellow **Draft wording** note (while the texts are drafts), and a bar reading \"0 of 5 accepted\" that stays at the top of the screen as you scroll"
+          "expected": "The intro \"Five short policies cover how Support builds and hosts your site…\", a yellow **Draft wording** note (while the texts are drafts), and a bar reading \"0 of 5 accepted\" that stays at the top of the screen as you scroll"
         },
         {
           "screen": "`/hub/agreement`, **Service Agreement** card",
@@ -7690,38 +7690,38 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
           "expected": "The row **Review and sign your agreement** with \"Only the site owner can sign the agreement.\" and no button"
         },
         {
-          "screen": "`/hub`, signed in as an admin after CDS updates a policy",
+          "screen": "`/hub`, signed in as an admin after Support updates a policy",
           "action": "Sign in",
-          "expected": "The landing screen opens with the blue note \"CDS updated its terms. Your site owner needs to accept them; nothing changes for you or your site meanwhile.\" Everything keeps working. Editors and viewers see no note"
+          "expected": "The landing screen opens with the blue note \"Support updated its terms. Your site owner needs to accept them; nothing changes for you or your site meanwhile.\" Everything keeps working. Editors and viewers see no note"
         }
       ]
     },
     "docs/how-to/site-assembly.md": {
       "feature": "Your first site, assembled",
       "route": "/hub/setup",
-      "summary": "When the owner sends their setup answers to CDS, CDS builds the first version of the site from them: a Home page and an About page in the site's own style…",
+      "summary": "When the owner sends their setup answers to Support, Support builds the first version of the site from them: a Home page and an About page in the site's own…",
       "activate": [
         {
           "screen": "`/hub/setup` (as the owner)",
           "action": "Fill the steps until **What's still needed** has no Must-haves (see the Set up your site how-to)",
-          "expected": "The panel's button changes from **Continue setup** to **Send to CDS**"
+          "expected": "The panel's button changes from **Continue setup** to **Send to Support**"
         },
         {
           "screen": "`/hub/setup`",
-          "action": "Click **Send to CDS**",
-          "expected": "A toast reads \"Sent to CDS. We'll email you when your site is ready to review.\", the panel reads \"Sent to CDS on 28 Sep. We'll email you when your site is ready to review.\" and a green **Sent to CDS** badge sits next to the heading. Nothing else changes yet"
+          "action": "Click **Send to Support**",
+          "expected": "A toast reads \"Sent to Support. We'll email you when your site is ready to review.\", the panel reads \"Sent to Support on 28 Sep. We'll email you when your site is ready to review.\" and a green **Sent to Support** badge sits next to the heading. Nothing else changes yet"
         },
         {
           "screen": "`/hub/setup` (within the hour)",
           "action": "Reload the page",
-          "expected": "The badge next to the heading now reads **Being built** (grey). The panel shows the green line \"Your site is assembled. CDS is polishing it now.\" with the link **See your site's preview**. **Set up your site** stays in the sidebar"
+          "expected": "The badge next to the heading now reads **Being built** (grey). The panel shows the green line \"Your site is assembled. Support is polishing it now.\" with the link **See your site's preview**. **Set up your site** stays in the sidebar"
         }
       ],
       "use": [
         {
           "screen": "`/hub/setup`, **What's still needed**",
           "action": "Read the panel",
-          "expected": "The green line \"Your site is assembled. CDS is polishing it now.\", the link **See your site's preview** (with a small open-in-new-tab icon), and under it: \"Services, team and hours update on your site as you change them. Your other answers were used to write your pages; to change those words, edit the pages in Website › Pages.\" There is no button to press. Any optional items still empty are listed as before"
+          "expected": "The green line \"Your site is assembled. Support is polishing it now.\", the link **See your site's preview** (with a small open-in-new-tab icon), and under it: \"Services, team and hours update on your site as you change them. Your other answers were used to write your pages; to change those words, edit the pages in Website › Pages.\" There is no button to press. Any optional items still empty are listed as before"
         },
         {
           "screen": "`/hub/setup`",
@@ -7731,7 +7731,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/website?tab=services`",
           "action": "Change the price of a service (for example \"Haircut\" from $45 to $50) and click **Save service**",
-          "expected": "A toast reads \"Service saved.\" Reload the preview tab: the service list on the site shows the new price. No need to ask CDS"
+          "expected": "A toast reads \"Service saved.\" Reload the preview tab: the service list on the site shows the new price. No need to ask Support"
         },
         {
           "screen": "`/hub/settings` (team or hours)",
@@ -7750,8 +7750,8 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "`/hub/setup` (a site still being prepared)",
-          "action": "Open the overview right after **Send to CDS**",
-          "expected": "The panel still shows the **Sent to CDS** state. If anything holds up the build, CDS fixes it; you see nothing alarming and nothing is needed from you"
+          "action": "Open the overview right after **Send to Support**",
+          "expected": "The panel still shows the **Sent to Support** state. If anything holds up the build, Support fixes it; you see nothing alarming and nothing is needed from you"
         }
       ]
     },
@@ -7790,7 +7790,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/website?tab=footer`",
           "action": "Read the note with the lock icon",
-          "expected": "\"Every footer has a small Report link that lets visitors tell CDS about a problem. It can't be removed.\" The Report link is how visitors report abuse or a copyright problem to CDS, which the platform must offer on every site (D249)"
+          "expected": "\"Every footer has a small Report link that lets visitors tell Support about a problem. It can't be removed.\" The Report link is how visitors report abuse or a copyright problem to Support, which the platform must offer on every site (D249)"
         },
         {
           "screen": "`/hub/website?tab=footer`",
@@ -7800,7 +7800,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "Your site, any page",
           "action": "Scroll to the bottom",
-          "expected": "The footer shows your columns, then the copyright line, **Cookie choices** (only on sites that show a cookie notice) and **Report**. A screen reader reads the Report link as \"Report this site to CDS\""
+          "expected": "The footer shows your columns, then the copyright line, **Cookie choices** (only on sites that show a cookie notice) and **Report**. A screen reader reads the Report link as \"Report this site to Support\""
         }
       ]
     },
@@ -7819,7 +7819,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/website?tab=navigation`, **History**",
           "action": "Click **History** and read a row",
-          "expected": "Each row shows when it was saved, like \"28 Sep, 2:14 pm\", and who saved it: \"Saved by Maria Lopez\", \"Saved by a former team member\", \"Saved by CDS support\" or \"Saved before history was turned on\". The newest live version has a shaded row with **Current**; with no older versions the drawer reads \"No earlier versions yet. Each time you save, the previous version is kept here.\""
+          "expected": "Each row shows when it was saved, like \"28 Sep, 2:14 pm\", and who saved it: \"Saved by Maria Lopez\", \"Saved by a former team member\", \"Saved by Support\" or \"Saved before history was turned on\". The newest live version has a shaded row with **Current**; with no older versions the drawer reads \"No earlier versions yet. Each time you save, the previous version is kept here.\""
         },
         {
           "screen": "**Navigation history**",
@@ -7970,7 +7970,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
     "docs/how-to/site-policy-pages.md": {
       "feature": "Publish your site's policy pages",
       "route": "/hub/settings?tab=legal",
-      "summary": "CDS writes a Privacy policy and Terms for your site from what your site collects: contact forms, newsletter sign-ups, analytics and the add-ons you have.",
+      "summary": "Support writes a Privacy policy and Terms for your site from what your site collects: contact forms, newsletter sign-ups, analytics and the add-ons you have.",
       "activate": [
         {
           "screen": "`/hub/setup/the-rest`",
@@ -7987,7 +7987,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/settings?tab=legal`",
           "action": "Read the yellow notice at the top of **Your site's policy pages**",
-          "expected": "It is titled **CDS is not a law firm** and reads \"CDS gives no legal advice. These pages are a starting point written from what your site collects. Have your own lawyer approve them before you rely on them.\" It has no close button"
+          "expected": "It is titled **We are not a law firm** and reads \"We give no legal advice. These pages are a starting point written from what your site collects. Have your own lawyer approve them before you rely on them.\" It has no close button"
         },
         {
           "screen": "`/hub/settings?tab=legal`",
@@ -8016,7 +8016,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "`/hub/settings?tab=legal`",
-          "action": "Tick \"I understand CDS gives no legal advice, and I'll have my own lawyer approve these pages.\"",
+          "action": "Tick \"I understand this site gives no legal advice, and I'll have my own lawyer approve these pages.\"",
           "expected": "The **Publish policy pages** button is no longer greyed out"
         },
         {
@@ -8045,8 +8045,8 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
           "expected": "The notice is gone; your live `/privacy` page already includes the new section"
         },
         {
-          "screen": "`/hub/settings?tab=legal` (when CDS updates the template)",
-          "action": "Read the notice \"CDS updated the policy page template. Your site keeps showing the version you approved until you review and publish the update.\"",
+          "screen": "`/hub/settings?tab=legal` (when Support updates the template)",
+          "action": "Read the notice \"Support updated the policy page template. Your site keeps showing the version you approved until you review and publish the update.\"",
           "expected": "Both badges read **Update waiting**; preview the pages, tick the box and click **Publish the update**; the toast confirms and the badges turn **Published**"
         }
       ]
@@ -8308,7 +8308,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/start/submit`, **Email**",
           "action": "Check the address (it is filled in if you saved the quote)",
-          "expected": "The helper reads \"This is how you'll sign in. No password needed.\" Under the button: \"Next you'll set up your site's details. You'll see the agreement and pay only at checkout, after CDS has confirmed your site.\" There is no terms checkbox"
+          "expected": "The helper reads \"This is how you'll sign in. No password needed.\" Under the button: \"Next you'll set up your site's details. You'll see the agreement and pay only at checkout, after Support has confirmed your site.\" There is no terms checkbox"
         },
         {
           "screen": "`/start/submit`",
@@ -8348,7 +8348,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/start/submit`, a type of site we don't host",
           "action": "Enter the code",
-          "expected": "The page reads **We can't host this site** and \"Your answers match a type of site we don't host: {category}.\" **See what we host and why** is open with both lists. **Contact CDS** opens an email to CDS support. No account was created"
+          "expected": "The page reads **We can't host this site** and \"Your answers match a type of site we don't host: {category}.\" **See what we host and why** is open with both lists. **Contact Support** opens an email to Support. No account was created"
         },
         {
           "screen": "`/sign-in`, later",
@@ -8370,12 +8370,12 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
     "docs/how-to/suggest-a-feature.md": {
       "feature": "Suggest a feature",
       "route": "/hub/support?tab=ideas",
-      "summary": "Ideas is a shared board of features CDS sites would like CDS to build.",
+      "summary": "Ideas is a shared board of features Support sites would like Support to build.",
       "activate": [
         {
           "screen": "`/hub/support`",
           "action": "Click the **Ideas** tab",
-          "expected": "\"Ideas from CDS sites for things CDS could build. Vote for the ones you'd use. One vote per site.\" then **Search ideas**, the status filter **Suggested · Considering · Planned · Built** and **Suggest a feature**"
+          "expected": "\"Ideas from sites for things Support could build. Vote for the ones you'd use. One vote per site.\" then **Search ideas**, the status filter **Suggested · Considering · Planned · Built** and **Suggest a feature**"
         }
       ],
       "use": [
@@ -8412,16 +8412,16 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/support/tickets/new?type=suggestion`",
           "action": "Fill **Describe it** (what it would help you do, up to 2,000 characters) and read the note",
-          "expected": "\"Every CDS site can see this idea, without your business name.\""
+          "expected": "\"Every site can see this idea, without your business name.\""
         },
         {
           "screen": "`/hub/support/tickets/new?type=suggestion`",
           "action": "Click **Post idea**",
-          "expected": "The Ideas tab opens on **Suggested** with your idea highlighted and a toast \"Idea posted. Your site voted for it.\" If CDS needs to review it first: \"Idea sent. CDS will review it before it's listed.\" Until the full content scan is live, every idea is reviewed first."
+          "expected": "The Ideas tab opens on **Suggested** with your idea highlighted and a toast \"Idea posted. Your site voted for it.\" If Support needs to review it first: \"Idea sent. Support will review it before it's listed.\" Until the full content scan is live, every idea is reviewed first."
         },
         {
           "screen": "`/hub/support?tab=ideas`",
-          "action": "Open an old link to an idea CDS merged",
+          "action": "Open an old link to an idea Support merged",
           "expected": "\"This idea was merged with a similar one. Your vote carried over.\" above the idea it joined"
         },
         {
@@ -8572,19 +8572,19 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
       ],
       "use": [
         {
-          "screen": "`/hub/today`, while CDS builds your site",
+          "screen": "`/hub/today`, while Support builds your site",
           "action": "Read the line under the greeting",
-          "expected": "A **Being built** badge and \"CDS is building your site. You can edit anything while we work.\" with **View preview**, which opens your preview site in a new tab"
+          "expected": "A **Being built** badge and \"Support is building your site. You can edit anything while we work.\" with **View preview**, which opens your preview site in a new tab"
         },
         {
           "screen": "`/hub/today` › **Your build**",
           "action": "Read the tracker",
-          "expected": "Five steps: **Received**, **Site assembled**, **CDS polishing**, **Your review**, **Live**, with dates on the done steps and the current step highlighted. Under it, **What CDS is doing now:** and \"Updated 9 Oct\", then \"You can edit any page while we work. If CDS is working on a page, it says so on that page.\""
+          "expected": "Five steps: **Received**, **Site assembled**, **Support polishing**, **Your review**, **Live**, with dates on the done steps and the current step highlighted. Under it, **What Support is doing now:** and \"Updated 9 Oct\", then \"You can edit any page while we work. If Support is working on a page, it says so on that page.\""
         },
         {
           "screen": "`/hub/today`, when your site is ready for review",
           "action": "Read the panel",
-          "expected": "The badge reads **Ready for your review** and the sentence \"Your site is ready. Look it over and tell us what to change before it goes live.\" The panel **Review your site before it goes live** shows \"0 of 6 done\" and six checks. Until the review screen ships it reads \"CDS will email you when your review is ready to start.\""
+          "expected": "The badge reads **Ready for your review** and the sentence \"Your site is ready. Look it over and tell us what to change before it goes live.\" The panel **Review your site before it goes live** shows \"0 of 6 done\" and six checks. Until the review screen ships it reads \"Support will email you when your review is ready to start.\""
         },
         {
           "screen": "`/hub/today`, first visit after launch",
@@ -8622,12 +8622,12 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
           "expected": "**Visitors** and **Messages** for this Monday-to-Sunday week with \"12 more than last week\", \"3 fewer than last week\" or \"Same as last week\". **See your Site Report** opens `/hub/reports` (see [Reports](reports.md)). Before launch it reads \"Your first numbers appear a day after launch.\""
         },
         {
-          "screen": "`/hub/today` › **Work in progress** (after you order paid work or an add-on CDS sets up)",
+          "screen": "`/hub/today` › **Work in progress** (after you order paid work or an add-on Support sets up)",
           "action": "Read the card",
-          "expected": "One row per job with **Ordered**, **CDS is setting it up**, **Ready** and \"Started 9 Oct\"; it disappears when the job is done"
+          "expected": "One row per job with **Ordered**, **Support is setting it up**, **Ready** and \"Started 9 Oct\"; it disappears when the job is done"
         },
         {
-          "screen": "`/hub/today` › **From CDS**",
+          "screen": "`/hub/today` › **From Support**",
           "action": "Read the card, then click **Dismiss this card** (the X)",
           "expected": "A news item, a tip, or **Getting started with {add-on}** with **Show me how**. Dismissing it is saved for you; the next card appears on your next visit"
         },
@@ -8695,11 +8695,11 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
     "docs/how-to/what-support-includes.md": {
       "feature": "What support includes",
       "route": "/hub/support",
-      "summary": "Support is included in every CDS plan: this is what CDS does for you, what counts as a paid service, how fast CDS replies and how to reach the team.",
+      "summary": "Support is included in every Support plan: this is what Support does for you, what counts as a paid service, how fast Support replies and how to reach the team.",
       "activate": [
         {
           "screen": "`/hub/support`",
-          "action": "Click **What support includes** in the line \"From the Connections Design Studios team · What support includes\" under the heading",
+          "action": "Click **What support includes** in the line \"From the support team · What support includes\" under the heading",
           "expected": "This article opens at `/hub/help/what-support-includes`"
         },
         {
@@ -8712,22 +8712,22 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/help/what-support-includes`",
           "action": "Read **Included in every plan: platform upkeep**",
-          "expected": "CDS keeps your site and dashboard running, updated and secure. Anything CDS built that breaks is fixed free"
+          "expected": "Support keeps your site and dashboard running, updated and secure. Anything Support built that breaks is fixed free"
         },
         {
           "screen": "`/hub/help/what-support-includes`",
           "action": "Read **Included in every plan: how-to help**",
-          "expected": "Ask by ticket how to do something and CDS shows you; every feature also has a how-to in the Help center and training in your dashboard"
+          "expected": "Ask by ticket how to do something and Support shows you; every feature also has a how-to in the Help center and training in your dashboard"
         },
         {
           "screen": "`/hub/help/what-support-includes`",
           "action": "Read **Included in every plan: technical setup**",
-          "expected": "CDS does the setup you can't do in the dashboard: your domain and DNS, where your email goes, linking your own payment gateway, verifying your sending address, and your Google Business Profile"
+          "expected": "Support does the setup you can't do in the dashboard: your domain and DNS, where your email goes, linking your own payment gateway, verifying your sending address, and your Google Business Profile"
         },
         {
           "screen": "`/hub/help/what-support-includes`",
           "action": "Read **Included in every plan: recovery**",
-          "expected": "If something goes badly wrong, CDS helps you get back, including a restore from backup after a serious mistake"
+          "expected": "If something goes badly wrong, Support helps you get back, including a restore from backup after a serious mistake"
         },
         {
           "screen": "`/hub/help/what-support-includes`",
@@ -8737,26 +8737,26 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "`/hub/help/what-support-includes`",
           "action": "Read **Included in every plan: safety**",
-          "expected": "CDS handles content holds, DMCA (copyright) notices and security incidents"
+          "expected": "Support handles content holds, DMCA (copyright) notices and security incidents"
         },
         {
           "screen": "`/hub/help/what-support-includes`",
           "action": "Read **What's a paid service**",
-          "expected": "\"Things you can do in your dashboard are yours; we'll show you how. Doing it for you is a paid service.\" Paid services are copywriting, design changes, page building, product entry, newsletters, photos, logos, SEO and custom work. CDS sends a price first and nothing starts until you accept (see [Accept a quote from CDS](accept-a-quote.md)); on the [Care Plan](care-plan.md) small jobs can use your Care hour"
+          "expected": "\"Things you can do in your dashboard are yours; we'll show you how. Doing it for you is a paid service.\" Paid services are copywriting, design changes, page building, product entry, newsletters, photos, logos, SEO and custom work. Support sends a price first and nothing starts until you accept (see [Accept a quote from Support](accept-a-quote.md)); on the [Care Plan](care-plan.md) small jobs can use your Care hour"
         },
         {
           "screen": "`/hub/help/what-support-includes`",
           "action": "Read **How fast we reply**",
-          "expected": "\"CDS replies within 2 business days. Business days are Monday to Friday, Central Time.\" This covers the first reply to a Something isn't working or Question ticket"
+          "expected": "\"Support replies within 2 business days. Business days are Monday to Friday, Central Time.\" This covers the first reply to a Something isn't working or Question ticket"
         },
         {
           "screen": "`/hub/help/what-support-includes`",
-          "action": "Read **How to reach CDS**",
-          "expected": "**Get help** opens a ticket CDS tracks ([Get help](get-help.md)); **Messages** is your ongoing conversation with CDS ([Messages with CDS](messages-with-cds.md)); if the hub is down, email the address at the foot of CDS Support"
+          "action": "Read **How to reach Support**",
+          "expected": "**Get help** opens a ticket Support tracks ([Get help](get-help.md)); **Messages** is your ongoing conversation with us ([Messages with us](messages-with-cds.md)); if the hub is down, email the address at the foot of Support"
         },
         {
           "screen": "`/hub/help/what-support-includes`",
-          "action": "Click **Go to CDS Support**",
+          "action": "Click **Go to Support**",
           "expected": "`/hub/support` opens on the **Messages** tab"
         }
       ]

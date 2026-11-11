@@ -50,7 +50,7 @@ const HELP_ID = /^[a-z0-9][a-z0-9.-]{0,99}$/;
 export const HELP_DRAWER_COPY = {
   openInHelpCenter: "Open in Help center",
   stillStuck: "Still stuck?",
-  askCds: "Ask CDS",
+  askCds: "Ask Support",
 } as const;
 
 const NEW_TICKET_HREF = "/hub/support/tickets/new";

@@ -40,7 +40,7 @@ export const CORE_ALERT_TYPES: readonly AlertTypeSpec[] = Object.freeze(
       {
         type: "billing.card_failed",
         level: "urgent",
-        label: "Payment to CDS failed",
+        label: "Payment to us failed",
         example: "Your card on file was declined",
         feature: "billing",
         access: "read",
@@ -97,7 +97,7 @@ export const CORE_ALERT_TYPES: readonly AlertTypeSpec[] = Object.freeze(
       {
         type: "cds.notice",
         level: "urgent",
-        label: "Service notice from CDS",
+        label: "Service notice from Support",
         example: "Something affecting your whole site",
         feature: "content",
         access: "read",
@@ -122,8 +122,8 @@ export const CORE_ALERT_TYPES: readonly AlertTypeSpec[] = Object.freeze(
       {
         type: "support.reply",
         level: "normal",
-        label: "CDS replies to your tickets",
-        example: "A new reply from CDS on one of your tickets",
+        label: "Support replies to your tickets",
+        example: "A new reply from Support on one of your tickets",
         feature: "support",
         access: "read",
         section: "support",
@@ -142,8 +142,8 @@ export const CORE_ALERT_TYPES: readonly AlertTypeSpec[] = Object.freeze(
       {
         type: "cds.message",
         level: "normal",
-        label: "Messages from CDS",
-        example: "CDS started a conversation with you",
+        label: "Messages from Support",
+        example: "Support started a conversation with you",
         feature: "support",
         access: "read",
         section: "support",
@@ -152,8 +152,8 @@ export const CORE_ALERT_TYPES: readonly AlertTypeSpec[] = Object.freeze(
       {
         type: "cds.note",
         level: "normal",
-        label: "Notes from CDS",
-        example: "CDS added a note for your site",
+        label: "Notes from Support",
+        example: "Support added a note for your site",
         feature: "support",
         access: "read",
         section: "support",
@@ -162,8 +162,8 @@ export const CORE_ALERT_TYPES: readonly AlertTypeSpec[] = Object.freeze(
       {
         type: "cds.document",
         level: "normal",
-        label: "Documents from CDS",
-        example: "CDS shared a document with you",
+        label: "Documents from Support",
+        example: "Support shared a document with you",
         feature: "support",
         access: "read",
         section: "support",
@@ -188,7 +188,7 @@ export const CORE_ALERT_TYPES: readonly AlertTypeSpec[] = Object.freeze(
         level: "urgent",
         label: "Hosting rule notices",
         example:
-          "CDS found something on your site that breaks the hosting rules",
+          "Support found something on your site that breaks the hosting rules",
         feature: "settings",
         access: "read",
         section: "settings",
@@ -230,7 +230,7 @@ export const CORE_ALERT_TYPES: readonly AlertTypeSpec[] = Object.freeze(
       {
         type: "domain.lost_delegation",
         level: "urgent",
-        label: "Domain no longer points to CDS",
+        label: "Domain no longer points to us",
         example: "Your nameservers were changed; your site and email may stop",
         feature: "domain",
         access: "read",
@@ -250,7 +250,7 @@ export const CORE_ALERT_TYPES: readonly AlertTypeSpec[] = Object.freeze(
       {
         type: "offboarding.started",
         level: "normal",
-        label: "Leaving CDS",
+        label: "Moving away",
         example: "Your 30-day notice has started",
         feature: "offboarding",
         access: "read",

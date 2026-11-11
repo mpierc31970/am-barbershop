@@ -973,12 +973,12 @@ const nameserversStep: StepFn = async ({ move, step, deps, now }) => {
   if (!row0?.providerZoneId) return failed("no_zone");
   const p = provider(deps);
   const status = await p.zoneStatus(row0.providerZoneId);
-  if (status === "active") return done("Nameservers point to CDS");
+  if (status === "active") return done("Nameservers point to us");
   const ns = await (deps.resolver ?? getDnsResolver()).resolveNsIps(
     move.toHost,
   );
   if (sameSet(ns.names, row0.nameservers)) {
-    return done("Nameservers point to CDS");
+    return done("Nameservers point to us");
   }
   if (
     !intersects(ns.names, row0.nameservers) &&
@@ -1702,7 +1702,7 @@ export async function startMove(
       });
       if (leaving.items.length > 0) {
         throw new InvalidInput(
-          "This site is leaving CDS, so it can't connect a domain.",
+          "This site is moving away, so it can't connect a domain.",
         );
       }
       const live = orgRow.stage === "live";
@@ -1989,7 +1989,7 @@ export async function retakeSnapshot(
       throw new InvalidInput("This move can't take a new snapshot now.");
     }
     if (stepOf(m, "delegation").status === "done") {
-      throw new InvalidInput("The domain already points to CDS.");
+      throw new InvalidInput("The domain already points to us.");
     }
     const now = nowOf(deps);
     const latest = await latestSnapshot(m.orgId, m.toHost, {
@@ -2009,7 +2009,7 @@ export async function retakeSnapshot(
     } catch (err) {
       // CR-A02: never snapshot CDS's own copy.
       if (err instanceof DnsSweepAtCds) {
-        throw new InvalidInput("The domain already points to CDS.");
+        throw new InvalidInput("The domain already points to us.");
       }
       throw err;
     }

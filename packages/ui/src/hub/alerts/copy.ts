@@ -69,7 +69,7 @@ const SECTION_WORDS: Readonly<Record<string, string>> = Object.freeze({
   settings: "Settings",
   addons: "Add-ons",
   help: "Help",
-  support: "CDS Support",
+  support: "Support",
 });
 
 /** The row's section label in owner words ("Inbox"; `addon:studio-booking` -> "Studio booking"). */
@@ -148,7 +148,7 @@ export const PROFILE_COPY = {
   name: "Name",
   email: "Email",
   /** PROFILE-SIGNIN-HELP */
-  signinHelp: "To change your sign-in email, ask CDS Support.",
+  signinHelp: "To change your sign-in email, ask the shop owner.",
   alerts: "Alerts",
   /** ALERTS-INTRO */
   alertsIntro:
@@ -193,7 +193,7 @@ export const PROFILE_COPY = {
   toursDone: "Tours will show again the next time you open each screen.",
   /** Impersonation (UI-SPEC IMPERSONATING pattern). */
   impersonating:
-    "You're viewing as CDS staff, so alert settings are turned off. Only the person can change their own alerts.",
+    "You're viewing as support staff, so alert settings are turned off. Only the person can change their own alerts.",
 } as const;
 
 /** SENSITIVE-ON with the business name. */

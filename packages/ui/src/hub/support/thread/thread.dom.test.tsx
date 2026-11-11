@@ -142,7 +142,7 @@ describe("Thread", () => {
     const cdsLabel = document.getElementById(
       articles[1]!.getAttribute("aria-labelledby")!,
     )!;
-    expect(cdsLabel.textContent).toContain("Mara from CDS");
+    expect(cdsLabel.textContent).toContain("Mara from Support");
     expect(cdsLabel.textContent).toContain("2:14 pm");
   });
 
@@ -174,14 +174,14 @@ describe("Thread", () => {
     expect(mine!.closest("[data-cds-identity]")).toBeNull();
     expect(mine!.querySelector("[data-cds-mark]")).toBeNull();
     expect(cds!.closest("[data-cds-identity]")).not.toBeNull();
-    expect(cds!.textContent).toContain("Mara from CDS");
+    expect(cds!.textContent).toContain("Mara from Support");
   });
 
-  it("a member named like CDS is still plain (identity from authorKind only)", () => {
+  it("a member named like Support is still plain (identity from authorKind only)", () => {
     mounted = mount(
       <Thread
         messages={[
-          msg({ id: "a", authorKind: "member", authorName: "Mara · CDS" }),
+          msg({ id: "a", authorKind: "member", authorName: "Mara · Support" }),
         ]}
         timeZone={TZ}
         now={NOW}
@@ -242,7 +242,7 @@ describe("Thread", () => {
           msg({
             id: "s",
             authorKind: "system",
-            authorName: "CDS",
+            authorName: "Support",
             event: "Reopened by your reply",
           }),
         ]}
@@ -478,7 +478,7 @@ describe("AttachmentList", () => {
 // 13-35 choice 1 (STAFF-08, D-UI-P13-8): the staff-only internal note surface. The default
 // variants stay exactly as P12 shipped them.
 describe("ThreadMessage variant", () => {
-  it("internal renders the hatched dashed surface with 'Only CDS sees this.'", () => {
+  it("internal renders the hatched dashed surface with 'Only Support sees this.'", () => {
     mounted = mount(
       <ThreadMessage
         message={msg({

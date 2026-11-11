@@ -109,7 +109,7 @@ const { lockFromNotices, editorLockKey } =
 const ORG = { id: "org1", name: "Palm Science", primaryHost: "palm.example" };
 const CTX = { orgId: "org1", actor: "u1", role: "owner" };
 const HELD_KEPT =
-  "Your unsaved changes are kept. You can apply them when CDS is done.";
+  "Your unsaved changes are kept. You can apply them when Support is done.";
 
 function signIn() {
   state.jar.set("cds_session", "tok");
@@ -129,7 +129,7 @@ function notice(over: Record<string, unknown>) {
     id: "w1",
     code: "W-1",
     phase: "active",
-    text: "CDS is working on your site",
+    text: "Support is working on your site",
     message: "",
     startsAt: iso(-60_000),
     endsAt: iso(3_600_000),
@@ -271,7 +271,9 @@ describe("builder (choice 2)", () => {
       (el.props as { lock: { locked: unknown } }).lock.locked,
     ).not.toBeNull();
     expect(html).toContain("data-locked-panel");
-    expect(html).toContain("Editing is paused while CDS works on this page");
+    expect(html).toContain(
+      "Editing is paused while Support works on this page",
+    );
     // The block list and form sit in a disabled fieldset described by the panel.
     const panelTag = tagWith(html, "data-locked-panel");
     const panelId = /id="([^"]+)"/.exec(panelTag)?.[1];
@@ -358,7 +360,9 @@ describe("site parts and add-on tabs (choice 4)", () => {
     expect(db.listHeldDrafts).toHaveBeenCalledWith(CTX, {
       target: { kind: "part", key: "footer" },
     });
-    expect(html).toContain("Editing is paused while CDS works on this footer");
+    expect(html).toContain(
+      "Editing is paused while Support works on this footer",
+    );
     expect(tagWith(html, "data-locked-editor")).toContain("disabled");
   });
 
@@ -399,7 +403,9 @@ describe("site parts and add-on tabs (choice 4)", () => {
       activeAddons: ["testimonials"],
     });
     expect(html).toContain("data-locked-panel");
-    expect(html).toContain("Editing is paused while CDS works on this add-on");
+    expect(html).toContain(
+      "Editing is paused while Support works on this add-on",
+    );
     // One panel only (the header's), and the panel's controls are disabled.
     expect(html.split("data-locked-panel").length - 1).toBe(1);
     expect(tagWith(html, "data-locked-editor")).toContain("disabled");

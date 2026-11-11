@@ -143,7 +143,7 @@ const SECTION_WORDS: Readonly<Record<string, string>> = Object.freeze({
   settings: "Settings",
   addons: "Add-ons",
   help: "Help",
-  support: "CDS Support",
+  support: "Support",
 });
 
 function errName(err: unknown): string {

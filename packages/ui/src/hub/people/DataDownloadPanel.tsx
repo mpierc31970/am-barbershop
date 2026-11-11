@@ -67,11 +67,11 @@ export const DATA_COPY = {
   preparing: "Preparing your download…",
   download: "Download your data",
   failed:
-    "We couldn't build your download, and nothing was lost. Try again, or contact CDS Support if it keeps happening.",
+    "We couldn't build your download, and nothing was lost. Try again, or contact Support if it keeps happening.",
   tryAgain: "Try again",
   notOwner: "Only the site owner can download the site's data.",
   impersonating:
-    "You're viewing as CDS staff, so downloads are turned off. Only the owner can download the site's data.",
+    "You're viewing as support staff, so downloads are turned off. Only the owner can download the site's data.",
   loadFailed: "We couldn't load this part. The rest of the page is fine.",
   requestFailed:
     "We couldn't start your download just now. Try again in a minute.",

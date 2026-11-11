@@ -15,7 +15,7 @@ export const P13_COPY = {
     "Booking arrives in v1.1. Health checks, alerts and the fail-safe are ready for it.",
   INTERNAL_LINE: "Only CDS sees this.",
   BANNER:
-    "Viewing {business} as CDS staff · as {admin} · {reason} · {minutes} min left",
+    "Viewing {business} as support staff · as {admin} · {reason} · {minutes} min left",
   BANNER_END: "End",
   RATING_Q: "Was this resolved well?",
   RATING_YES: "Yes",
@@ -25,9 +25,9 @@ export const P13_COPY = {
   SUSPENDED_PAGE_H: "This site is temporarily unavailable.",
   SUSPENDED_PAGE_B: "Please check back later.",
   SUSP_NOTICE:
-    "CDS found something on your site that breaks the hosting rules. Fix it by {when} or your site goes offline.",
+    "Support found something on your site that breaks the hosting rules. Fix it by {when} or your site goes offline.",
   SUSP_OFFLINE:
-    "Your site is offline. CDS suspended it on {date}. Your hub and CDS Support still work.",
+    "Your site is offline. Support suspended it on {date}. Your hub and Support still work.",
   STAFF_SIGNIN_FAILED: "That email and password don't match a staff account.",
   CODE_WRONG: "That code isn't right. Check the latest email.",
   CODE_EXPIRED: "That code has expired. Send a new one.",
@@ -48,11 +48,11 @@ export const P13_COPY = {
   UNDO: "Undo",
   // P13 mail lines (UI-SPEC "Emails"); the templates in @cds/db read these.
   MAIL_NO_COMMENT: "No comment",
-  MAIL_MISTAKE_LINE: "If you think this is a mistake, reply in CDS Support.",
-  MAIL_HUB_WORKS: "Your hub and CDS Support still work.",
+  MAIL_MISTAKE_LINE: "If you think this is a mistake, reply in Support.",
+  MAIL_HUB_WORKS: "Your hub and Support still work.",
   MAIL_BACK_ONLINE: "Your site is back online. Thanks for sorting it out.",
   MAIL_REPORT_REVIEW:
-    "CDS reviews every report, usually within 2 business days.",
+    "Support reviews every report, usually within 2 business days.",
 } as const;
 
 export type P13CopyId = keyof typeof P13_COPY;

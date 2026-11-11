@@ -69,7 +69,8 @@ export async function signInAction(
 ): Promise<SignInState> {
   const rawEmail = formData.get("email");
   const password = formData.get("password");
-  const email = typeof rawEmail === "string" ? rawEmail.trim() : "";
+  const email =
+    typeof rawEmail === "string" ? rawEmail.trim().toLowerCase() : "";
   if (!email || typeof password !== "string" || !password) {
     return { error: WRONG_CREDENTIALS };
   }
@@ -123,7 +124,8 @@ export async function requestMemberCodeAction(
   formData: FormData,
 ): Promise<MemberCodeState> {
   const raw = formData.get("email");
-  const email = typeof raw === "string" ? raw.trim().slice(0, EMAIL_MAX) : "";
+  const email =
+    typeof raw === "string" ? raw.trim().toLowerCase().slice(0, EMAIL_MAX) : "";
   try {
     const { otpId } = await requestMemberCode(email, await clientIp());
     await setSignInCodeCookie({ otpId, email });

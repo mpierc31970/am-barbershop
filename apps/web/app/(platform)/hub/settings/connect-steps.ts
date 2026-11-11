@@ -15,7 +15,7 @@ export const CONNECT_STEPS: readonly HowToStepView[] = Object.freeze([
     screen: "Hub sidebar",
     action: "Click Settings, then the Payments tab",
     expected:
-      'Settings › Payments opens with the heading "Take payments on your site", a Not connected badge, and a grey box: "You own this account, you are the seller, and you pay Stripe\'s fees directly (for example 2.9% + 30¢ online). CDS takes no cut."',
+      'Settings › Payments opens with the heading "Take payments on your site", a Not connected badge, and a grey box: "You own this account, you are the seller, and you pay Stripe\'s fees directly (for example 2.9% + 30¢ online). Support takes no cut."',
   },
   {
     screen: "Settings › Payments",
@@ -28,7 +28,7 @@ export const CONNECT_STEPS: readonly HowToStepView[] = Object.freeze([
     action:
       "Sign in to the Stripe account you already have, or create a free one, and answer Stripe's questions about your business and bank account (about 10 minutes)",
     expected:
-      "Stripe shows that your details are submitted and sends you back to CDS (in test mode, click Connect test account)",
+      "Stripe shows that your details are submitted and sends you back to Support (in test mode, click Connect test account)",
   },
   {
     screen: "Settings › Payments",
@@ -46,7 +46,7 @@ export const CONNECT_STEPS: readonly HowToStepView[] = Object.freeze([
     screen: "Settings › Payments",
     action: "Click Check again next to Last checked",
     expected:
-      'CDS asks Stripe for the latest status; Last checked changes to "just now"',
+      'Support asks Stripe for the latest status; Last checked changes to "just now"',
   },
   {
     screen: "Settings › Payments",
@@ -90,6 +90,6 @@ export const CONNECT_STEPS: readonly HowToStepView[] = Object.freeze([
     screen: "Settings › Payments",
     action: "Read the grey fees box",
     expected:
-      'It always reads "You own this account, you are the seller, and you pay Stripe\'s fees directly (for example 2.9% + 30¢ online). CDS takes no cut." Stripe charges its fees from your own account; CDS never adds a fee',
+      'It always reads "You own this account, you are the seller, and you pay Stripe\'s fees directly (for example 2.9% + 30¢ online). Support takes no cut." Stripe charges its fees from your own account; Support never adds a fee',
   },
 ]);

@@ -130,7 +130,7 @@ const PRUNE_CAP = 500;
 const PUSH_NOUNS: Readonly<Record<string, string>> = Object.freeze({
   "form.message": "messages",
   "site.stage": "site updates",
-  "cds.notice": "notices from CDS",
+  "cds.notice": "notices from Support",
   "data_export.ready": "downloads ready",
 });
 

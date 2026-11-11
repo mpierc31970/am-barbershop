@@ -206,7 +206,7 @@ describe("rating link page (13-42 choice 3)", () => {
     db.ticketRatingView.mockResolvedValue(view({ canRate: false }));
     const html = await render(linkParams("up"));
     expect(html).toContain(
-      "Ratings are turned off while viewing as CDS staff.",
+      "Ratings are turned off while viewing as support staff.",
     );
     expect(html).not.toContain("Save rating");
     expect(html).not.toContain("aria-pressed");
@@ -298,7 +298,7 @@ describe("rateTicketAction (13-42 choice 2)", () => {
     const res = await rateTicketAction(1042, "up");
     expect(res).toMatchObject({
       ok: false,
-      message: "Ratings are turned off while viewing as CDS staff.",
+      message: "Ratings are turned off while viewing as support staff.",
     });
   });
 

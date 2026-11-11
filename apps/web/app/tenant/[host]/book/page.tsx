@@ -118,14 +118,15 @@ export default async function BookPage({ params, searchParams }: Props) {
   if (booked) {
     return (
       <main id="content" tabIndex={-1} className="outline-none">
-        <PageTitleHeader title="You're booked" />
+        <PageTitleHeader title="Request sent" />
         <div className="mx-auto flex max-w-[720px] flex-col gap-4 px-6 pb-16 md:px-8">
           <p>
             {one(sp.b)} · {one(sp.s)} · {one(sp.w)}
           </p>
           <p className={MUTED}>
-            Booking {booked}. We emailed you the details and we&apos;ll remind
-            you the day before.
+            Request sent — your barber will confirm. Booking {booked}. We
+            emailed you the details and will email again once your barber
+            confirms.
           </p>
           <div>
             <Link href="/" className={siteButtonClasses("secondary")}>
@@ -414,11 +415,11 @@ export default async function BookPage({ params, searchParams }: Props) {
                 />
               </label>
               <p className={`text-sm ${MUTED}`}>
-                Pay in the shop. We&apos;ll email you a confirmation.
+                Pay in the shop. Your barber confirms the time by email.
               </p>
               <div>
                 <button type="submit" className={siteButtonClasses("primary")}>
-                  Book it
+                  Request it
                 </button>
               </div>
             </form>

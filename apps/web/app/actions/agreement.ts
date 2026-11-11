@@ -17,10 +17,10 @@ import * as hubSession from "../../lib/session";
 const SIGN_COPY = {
   forbidden: "Only the site owner can sign this agreement.",
   impersonation:
-    "You're viewing as CDS staff, so signing is turned off. Only the owner can sign.",
+    "You're viewing as support staff, so signing is turned off. Only the owner can sign.",
 };
 const ERR_SIGN =
-  "We couldn't record your signature, so nothing was signed. Try again in a minute. If it keeps happening, contact CDS Support.";
+  "We couldn't record your signature, so nothing was signed. Try again in a minute. If it keeps happening, contact Support.";
 const BAD_REQUEST =
   "That signing request doesn't look right. Reload the page and try again.";
 const NAME_TOO_LONG = "Type your full name, up to 120 characters.";

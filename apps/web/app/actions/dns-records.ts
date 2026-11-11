@@ -50,7 +50,7 @@ const BAD_INPUT = "That didn't look right. Reload the page and try again.";
 
 // Not exported: a "use server" module exports async functions only.
 const DNS_RECORDS_ACTION_COPY = Object.freeze({
-  spf: "Your domain's SPF record needs a hand from CDS. Choose Another provider, then Ask CDS to set it up.",
+  spf: "Your domain's SPF record needs a hand from Support. Choose Another provider, then Ask Support to set it up.",
   changeSubject: "Change a DNS record",
   changeIntro: "Please change this DNS record on my domain:",
   emailSubject: "Set up email for my domain",

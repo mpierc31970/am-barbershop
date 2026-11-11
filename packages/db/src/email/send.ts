@@ -42,8 +42,9 @@ export type SendDeps = {
   /**
    * Per-message Reply-To (07-15): the visitor's email for form notifications. Ignored unless
    * a valid address (normaliseEmail refuses CR/LF, so no header injection); never throws.
+   * A list (Studio Booking: the owner and the barber) keeps its valid addresses, joined.
    */
-  replyTo?: string;
+  replyTo?: string | readonly string[];
   /**
    * P13 (13-02): the org a CDS-identity mail is about (suspension, report notice, support
    * notices). 13-24: mail about the demo org is dropped (STAFF-18, D293).
@@ -194,12 +195,19 @@ export async function sendEmail<T extends keyof EmailData>(
     headers["List-Unsubscribe-Post"] = "List-Unsubscribe=One-Click";
   }
 
-  const override =
-    !noReply &&
-    deps.replyTo !== undefined &&
-    isEmail(String(deps.replyTo).trim().toLowerCase())
-      ? normaliseEmail(deps.replyTo)
-      : null;
+  const overrides = noReply
+    ? []
+    : [
+        ...new Set(
+          (typeof deps.replyTo === "string"
+            ? [deps.replyTo]
+            : (deps.replyTo ?? [])
+          )
+            .filter((a) => isEmail(String(a).trim().toLowerCase()))
+            .map((a) => normaliseEmail(a)),
+        ),
+      ];
+  const override = overrides.length > 0 ? overrides.join(", ") : null;
 
   const msg: RenderedEmail = {
     type: String(type),

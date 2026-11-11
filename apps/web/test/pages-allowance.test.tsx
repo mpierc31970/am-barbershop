@@ -53,7 +53,7 @@ const { PagesFullPanel, PAGES_FULL_COPY } =
   await import("../app/(platform)/hub/website/PagesFullPanel");
 
 const IMPERSONATING_BUY =
-  "You're viewing as CDS staff, so buying is turned off. Only the owner can add pages.";
+  "You're viewing as support staff, so buying is turned off. Only the owner can add pages.";
 const PAUSED_NO_ADD =
   "Your add-ons are paused until your overdue bill is paid. Pay it first, then add new ones.";
 const UNPRICED = "We're finalising this price. You'll be able to add it soon.";

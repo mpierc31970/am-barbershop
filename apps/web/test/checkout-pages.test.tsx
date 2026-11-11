@@ -478,7 +478,7 @@ describe("/hub/checkout: who sees what and blocked states", () => {
     sessionAs({ ...OWNER, impersonator: "staff1" });
     const root = await renderCheckout();
     expect(root.textContent).toContain(
-      "You're viewing as CDS staff, so payment is turned off.",
+      "You're viewing as support staff, so payment is turned off.",
     );
     expect(button(root, "Continue to payment")).toBeNull();
   });

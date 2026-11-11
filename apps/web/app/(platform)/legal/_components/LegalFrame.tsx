@@ -26,7 +26,7 @@ export function LegalFrame({ children }: { children: ReactNode }) {
         {children}
       </main>
       <footer className="mx-auto flex max-w-[1120px] flex-col gap-2 border-t border-hub-border px-4 py-8 text-sm text-hub-ink-muted md:px-8">
-        <nav aria-label="CDS policies">
+        <nav aria-label="Policies">
           <ul className="flex flex-wrap gap-x-6">
             {policies.map((p) => (
               <li key={p.key}>

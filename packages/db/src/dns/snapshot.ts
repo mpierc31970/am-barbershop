@@ -89,7 +89,7 @@ export type SnapshotDeps = {
  */
 export class DnsSweepAtCds extends Error {
   constructor() {
-    super("The domain already points to CDS");
+    super("The domain already points to us");
     this.name = "DnsSweepAtCds";
   }
 }

@@ -17,7 +17,7 @@ export const PLAN_COPY = {
   priceLocked: (date: string) => `Your prices are locked until ${date}.`,
   updateCard: "Update card",
   cadenceHelp:
-    "Want to switch between monthly and yearly billing? Ask CDS Support and we'll change it from your next bill.",
+    "Want to switch between monthly and yearly billing? Ask Support and we'll change it from your next bill.",
 } as const;
 
 export interface PlanSummaryProps {

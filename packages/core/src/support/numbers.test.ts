@@ -47,7 +47,9 @@ describe("parseTicketNumber", () => {
 
 describe("SUPPORT_COPY", () => {
   it("keeps the CONTEXT anchors verbatim", () => {
-    expect(SUPPORT_COPY.SLA_LINE).toBe("CDS replies within 2 business days.");
+    expect(SUPPORT_COPY.SLA_LINE).toBe(
+      "Support replies within 2 business days.",
+    );
     expect(SUPPORT_COPY.NO_REPLY_FOOTER).toBe(
       "Replies to this email aren't read. Reply in your hub.",
     );
@@ -57,7 +59,7 @@ describe("SUPPORT_COPY", () => {
   });
 
   it("builds email subjects", () => {
-    expect(replySubject(1042)).toBe("CDS replied to ticket #1042");
+    expect(replySubject(1042)).toBe("Support replied to ticket #1042");
     expect(statusSubject(1042, "waiting_on_you")).toBe(
       "Ticket #1042 is now Waiting on you",
     );

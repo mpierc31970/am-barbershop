@@ -73,14 +73,14 @@ export const ROUTING_COPY = {
   groups: {
     inquiries: "Website inquiries",
     newsletter: "Newsletter",
-    billing: "Billing from CDS",
+    billing: "Billing from Support",
     account: "Account and support",
   },
   groupHelpers: {
     inquiries: "Messages people send from your site.",
     newsletter: "Replies to your newsletter.",
-    billing: "Invoices and receipts from CDS.",
-    account: "Sign-in notices and messages from CDS support.",
+    billing: "Invoices and receipts from Support.",
+    account: "Sign-in notices and messages from Support.",
   },
   address: "Email address",
   replyTo: "Reply-to address",

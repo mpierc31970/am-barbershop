@@ -54,20 +54,22 @@ import { sendToCdsAction } from "../../../actions/intake";
 import { GuardedLink } from "../GuardedLink";
 
 export const SETUP_INTRO =
-  "Tell us about your business, in as many sittings as you like. Everything saves as you go. When the must-haves are in, send it to CDS and we start building.";
+  "Tell us about your business, in as many sittings as you like. Everything saves as you go. When the must-haves are in, send it to Support and we start building.";
 export const HELD_COPY =
   "We're checking a couple of details about your business, usually within 2 business days. Keep setting up your site in the meantime; we'll email you when it's done.";
-export const UNLOCK_HINT = "Send to CDS unlocks when the must-haves are in.";
-export const NOT_OWNER_SEND = "Only the site owner can send this to CDS.";
-export const IMPERSONATING_SEND = "Sending to CDS is the owner's step.";
+export const UNLOCK_HINT =
+  "Send to Support unlocks when the must-haves are in.";
+export const NOT_OWNER_SEND = "Only the site owner can send this to Support.";
+export const IMPERSONATING_SEND = "Sending to Support is the owner's step.";
 export const SENT_TOAST =
-  "Sent to CDS. We'll email you when your site is ready to review.";
+  "Sent to Support. We'll email you when your site is ready to review.";
 export const SEND_FAILED =
   "That didn't go through. Your answers are saved. Check your connection and try again.";
 export const KEEP_EDITING =
-  "You can keep editing. CDS always sees your latest answers.";
+  "You can keep editing. Support always sees your latest answers.";
 
-export const BUILT_COPY = "Your site is assembled. CDS is polishing it now.";
+export const BUILT_COPY =
+  "Your site is assembled. Support is polishing it now.";
 const HELPER_LEAD =
   "Services, team and hours update on your site as you change them. Your other answers were used to write your pages; to change those words, edit the pages in ";
 const PAGES_LABEL = "Website › Pages";
@@ -94,13 +96,13 @@ export function sentDate(iso: string, timeZone: string): string {
 }
 
 export function sentCopy(iso: string, timeZone: string): string {
-  return `Sent to CDS on ${sentDate(iso, timeZone)}. We'll email you when your site is ready to review.`;
+  return `Sent to Support on ${sentDate(iso, timeZone)}. We'll email you when your site is ready to review.`;
 }
 
 export function optionalGapCopy(n: number): string {
   return n === 1
-    ? "1 optional item is empty. CDS will use the default shown above, and you can add it later."
-    : `${n} optional items are empty. CDS will use the defaults shown above, and you can add them later.`;
+    ? "1 optional item is empty. Support will use the default shown above, and you can add it later."
+    : `${n} optional items are empty. Support will use the defaults shown above, and you can add them later.`;
 }
 
 export const AGREEMENT_TITLE = "Review and sign your agreement";
@@ -343,7 +345,7 @@ export function SetupOverview({ data }: { data: StageData }) {
           aria-describedby={reason ? "send-reason" : undefined}
           onClick={() => void send()}
         >
-          Send to CDS
+          Send to Support
         </Button>
         {reason ? (
           <p id="send-reason" className="text-sm text-hub-ink-muted">
@@ -439,7 +441,7 @@ export function SetupOverview({ data }: { data: StageData }) {
           ) : held ? (
             <Badge tone="review">In review</Badge>
           ) : submittedAt ? (
-            <Badge tone="sent">Sent to CDS</Badge>
+            <Badge tone="sent">Sent to Support</Badge>
           ) : null}
         </ScreenHeader>
         {!data.firstVisitDismissed ? (

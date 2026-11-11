@@ -8,7 +8,7 @@ import { safeNext } from "./agreement-gate";
 export const SIGNED_TITLE = "Your agreement is signed";
 export const PROOF_LABEL = "Proof code";
 export const PROOF_HELPER =
-  "If you ever need to show this agreement wasn't changed, CDS can check it against this code.";
+  "If you ever need to show this agreement wasn't changed, Support can check it against this code.";
 export const SETTINGS_LEGAL = "/hub/settings?tab=legal";
 
 export type ConfirmationAction = { label: string; href: string };

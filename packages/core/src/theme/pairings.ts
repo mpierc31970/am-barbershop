@@ -16,7 +16,7 @@ export const CDS_CHOOSE_PAIRING_ID = "cds-choose";
 export const FONT_PAIRINGS: readonly FontPairing[] = [
   {
     id: CDS_CHOOSE_PAIRING_ID,
-    label: "Let CDS choose",
+    label: "Let Support choose",
     heading: null,
     body: null,
     helper: "We'll pick fonts that fit your mood board.",

@@ -54,7 +54,7 @@ function notice(p: Partial<ServiceNotice> = {}): ServiceNotice {
     id: "w1",
     code: "W-1",
     phase: "active",
-    text: "CDS is working on your site until 4:00 pm.",
+    text: "Support is working on your site until 4:00 pm.",
     message: "",
     startsAt: "2026-10-12T17:00:00Z",
     endsAt: END,
@@ -73,13 +73,13 @@ const PLANNED = notice({
 });
 
 describe("ServiceNoticeStrip", () => {
-  it("renders an active notice in the CDS layer with role status", () => {
+  it("renders an active notice in the Support layer with role status", () => {
     mounted = mount(<ServiceNoticeStrip notices={[notice()]} timeZone={TZ} />);
     const status = mounted.container.querySelector('[role="status"]');
     expect(status).not.toBeNull();
     const strip = status!.querySelector("[data-cds-identity]");
     expect(strip?.textContent).toContain(
-      "CDS is working on your site until 4:00 pm.",
+      "Support is working on your site until 4:00 pm.",
     );
     expect(strip?.querySelector("[data-cds-mark]")).not.toBeNull();
     expect(button(mounted.container, "Dismiss this notice")).toBeNull();
@@ -215,7 +215,7 @@ describe("ServiceNoticeStrip", () => {
   it("message text is a text node, never markup (T-12-14-01)", () => {
     mounted = mount(
       <ServiceNoticeStrip
-        notices={[notice({ text: "CDS is working <b>x</b>" })]}
+        notices={[notice({ text: "Support is working <b>x</b>" })]}
         timeZone={TZ}
       />,
     );
@@ -276,7 +276,9 @@ describe("LockedPanel", () => {
       <LockedPanel target="page" until={END} timeZone={TZ} now={NOW} />,
     );
     const text = mounted.container.textContent ?? "";
-    expect(text).toContain("Editing is paused while CDS works on this page");
+    expect(text).toContain(
+      "Editing is paused while Support works on this page",
+    );
     expect(text).toContain(NOTICES_COPY.LOCKED_BODY);
     expect(text).toContain("Until 4:00 pm");
     expect(text).not.toContain(SUPPORT_COPY.HELD_KEPT);
@@ -324,7 +326,7 @@ describe("LockedPanel", () => {
 });
 
 describe("HeldChangesPanel", () => {
-  it("offers Apply and Discard, outside the CDS layer", async () => {
+  it("offers Apply and Discard, outside the Support layer", async () => {
     const onApply = vi.fn(async () => {});
     const onDiscard = vi.fn(async () => {});
     mounted = mount(
@@ -337,7 +339,7 @@ describe("HeldChangesPanel", () => {
     );
     const text = mounted.container.textContent ?? "";
     expect(text).toContain(
-      "CDS has finished. Your changes from 2:14 pm are waiting.",
+      "Support has finished. Your changes from 2:14 pm are waiting.",
     );
     expect(text).toContain(NOTICES_COPY.HELD_APPLY_NOTE);
     expect(mounted.container.querySelector("[data-cds-identity]")).toBeNull();

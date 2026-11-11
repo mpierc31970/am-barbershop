@@ -122,7 +122,7 @@ const STATUSES = new Set<string>([
 
 /** Locked copy (UI-SPEC "Quote page" and CONTEXT A4). */
 export const WORK_ORDER_EXPIRED_COPY =
-  "This quote has expired. Ask CDS Support for a new one.";
+  "This quote has expired. Ask Support for a new one.";
 export const WORK_ORDER_ANSWERED_COPY = "This quote was already answered.";
 export const WORK_ORDER_NOT_ACCEPTED_COPY =
   "No paid work starts before acceptance: the owner hasn't accepted this quote.";
@@ -970,7 +970,7 @@ export async function deliverWorkOrder(
               priceRef: null,
             },
           ],
-          description: `Quote from CDS: ${row.title} (balance)`,
+          description: `Quote from Support: ${row.title} (balance)`,
           metadata: {
             kind: "work_order",
             work_order: row.id,
@@ -1203,7 +1203,7 @@ export async function readWorkOrder(
             ? row.validUntil
             : null;
     const meta = [
-      "Quote from CDS",
+      "Quote from Support",
       row.sentAt ? `Sent ${longDay(row.sentAt)}` : "",
       row.validUntil ? `Valid until ${longDay(row.validUntil)}` : "",
     ].filter((s) => s !== "");
@@ -1300,7 +1300,7 @@ export async function acceptWorkOrder(
                   priceRef: null,
                 },
               ],
-              description: `Quote from CDS: ${row.title}${deposit ? " (deposit)" : ""}`,
+              description: `Quote from Support: ${row.title}${deposit ? " (deposit)" : ""}`,
               metadata: {
                 kind: "work_order",
                 work_order: row.id,

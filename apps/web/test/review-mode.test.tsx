@@ -429,7 +429,7 @@ describe("POST /_site/review/send and the note page (choice 3)", () => {
     expect(out).toContain('action="/_site/review/send"');
     expect(out).toContain('name="note"');
     expect(out).toContain("Tell us a little more, at least 10 characters.");
-    expect(out).toContain("Send to CDS");
+    expect(out).toContain("Send to Support");
     expect(out).toContain('href="/about"');
     expect(out).toContain('aria-label="Preview notice"');
     expect(out).not.toContain("data-site");

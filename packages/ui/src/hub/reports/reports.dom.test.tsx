@@ -156,7 +156,7 @@ describe("SeoHealthPanel", () => {
 });
 
 describe("Google panels", () => {
-  it("not connected GA4 and Search Console read 'Connects when CDS finishes setup'", () => {
+  it("not connected GA4 and Search Console read 'Connects when Support finishes setup'", () => {
     mounted = mount(
       <div>
         <Ga4Panel summary={{ connected: false }} />
@@ -165,7 +165,9 @@ describe("Google panels", () => {
     );
     const notes = mounted.container.querySelectorAll("[data-not-connected]");
     expect(notes).toHaveLength(2);
-    expect(notes[0]!.textContent).toContain("Connects when CDS finishes setup");
+    expect(notes[0]!.textContent).toContain(
+      "Connects when Support finishes setup",
+    );
     expect(mounted.container.querySelector("button")).toBeNull();
     expect(mounted.container.querySelector("[role='alert']")).toBeNull();
   });

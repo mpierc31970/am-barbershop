@@ -8,22 +8,22 @@ route: /hub/agreement
 
 These steps are the recording script for the Remotion + Venice AI how-to videos (D110), so write every step precisely enough to record from.
 
-Before CDS takes any payment, the site owner signs the CDS agreement once, on one screen: five short policies (Service Agreement, Acceptable Use Policy, Terms of Service, Subscription terms, Data Processing Agreement), one box to tick for each, a box agreeing to sign electronically, and the owner's typed full legal name. The time, the IP address and the exact version of every policy are recorded with the signature, and the owner gets a copy to keep.
+Before Support takes any payment, the site owner signs the agreement once, on one screen: five short policies (Service Agreement, Acceptable Use Policy, Terms of Service, Subscription terms, Data Processing Agreement), one box to tick for each, a box agreeing to sign electronically, and the owner's typed full legal name. The time, the IP address and the exact version of every policy are recorded with the signature, and the owner gets a copy to keep.
 
-Only the site owner can sign. An admin sees the same screen read-only, with the note "Only the site owner can sign this agreement. {Owner name} will see it when they next sign in." Staff viewing the hub as the owner see it read-only too, with "You're viewing as CDS staff, so signing is turned off. Only the owner can sign." Editors and viewers don't see the screen: `/hub/agreement` takes them to the hub.
+Only the site owner can sign. An admin sees the same screen read-only, with the note "Only the site owner can sign this agreement. {Owner name} will see it when they next sign in." Staff viewing the hub as the owner see it read-only too, with "You're viewing as support staff, so signing is turned off. Only the owner can sign." Editors and viewers don't see the screen: `/hub/agreement` takes them to the hub.
 
 ## Activate
 
 | # | Screen / route | Action | Expected result |
 |---|---|---|---|
-| 1 | `/hub/setup` | As the owner, click **Send to CDS** once the must-haves are in (see the Set up your site how-to) | The setup checklist gains the required item **Review and sign your agreement**, with a **Review and sign** button |
+| 1 | `/hub/setup` | As the owner, click **Send to Support** once the must-haves are in (see the Set up your site how-to) | The setup checklist gains the required item **Review and sign your agreement**, with a **Review and sign** button |
 | 2 | `/hub/setup` | Click **Review and sign** | `/hub/agreement` opens with the heading **Review and sign your agreement**, inside the normal hub (sidebar visible) |
 
 ## Use
 
 | # | Screen / route | Action | Expected result |
 |---|---|---|---|
-| 1 | `/hub/agreement` | Read the top of the page | The intro "Five short policies cover how CDS builds and hosts your site…", a yellow **Draft wording** note (while the texts are drafts), and a bar reading "0 of 5 accepted" that stays at the top of the screen as you scroll |
+| 1 | `/hub/agreement` | Read the top of the page | The intro "Five short policies cover how Support builds and hosts your site…", a yellow **Draft wording** note (while the texts are drafts), and a bar reading "0 of 5 accepted" that stays at the top of the screen as you scroll |
 | 2 | `/hub/agreement`, **Service Agreement** card | Read the card | The title, "Version 1 · Effective {date}", three short bullet points, **Read the full text**, and the unticked box "I have read and agree to the Service Agreement." |
 | 3 | `/hub/agreement`, **Service Agreement** card | Click **Read the full text** | The full text opens inside the card (no pop-up); the link now reads **Hide the full text**. At the end of the text: **Open in a new tab** and **Hide the full text**. The box is still unticked |
 | 4 | `/hub/agreement`, end of the open text | Click **Hide the full text** | The text closes and the focus returns to **Read the full text** |
@@ -39,4 +39,4 @@ Only the site owner can sign. An admin sees the same screen read-only, with the 
 | 14 | Sidebar, before signing | Look at **Set up your site** | Its number counts the agreement as one item still needed, the same as the **What's still needed** panel |
 | 15 | `/hub/setup`, after signing | Look at **What's still needed** | The row reads "Agreement signed on {date}" with a green tick and the link **Settings › Legal**; there is no **Review and sign** button, and the sidebar number drops by one |
 | 16 | `/hub/setup`, signed in as an admin before the owner signs | Look at **What's still needed** | The row **Review and sign your agreement** with "Only the site owner can sign the agreement." and no button |
-| 17 | `/hub`, signed in as an admin after CDS updates a policy | Sign in | The landing screen opens with the blue note "CDS updated its terms. Your site owner needs to accept them; nothing changes for you or your site meanwhile." Everything keeps working. Editors and viewers see no note |
+| 17 | `/hub`, signed in as an admin after Support updates a policy | Sign in | The landing screen opens with the blue note "Support updated its terms. Your site owner needs to accept them; nothing changes for you or your site meanwhile." Everything keeps working. Editors and viewers see no note |

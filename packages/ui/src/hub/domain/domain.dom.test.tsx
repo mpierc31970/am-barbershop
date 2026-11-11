@@ -342,7 +342,7 @@ describe("GateFinding", () => {
     );
   });
 
-  it("CDS review is info with the CDS byline and the wait line", () => {
+  it("Support review is info with the Support byline and the wait line", () => {
     mounted = mount(
       <GateFinding
         finding={{ kind: "cds_review", count: 1, cdsName: "Mara" }}
@@ -352,7 +352,7 @@ describe("GateFinding", () => {
     const box = mounted.container.querySelector("[data-finding]");
     expect(box?.getAttribute("data-tone")).toBe("info");
     expect(box?.querySelector("[data-cds-identity]")).not.toBeNull();
-    expect(box?.textContent).toContain("Mara from CDS");
+    expect(box?.textContent).toContain("Mara from Support");
     expect(box?.textContent).toContain(P14_COPY.FIND_CDS_WAIT);
   });
 });
@@ -485,7 +485,7 @@ describe("DomainConnectForm", () => {
     ).toBe("We'll use riverabakery.com.");
   });
 
-  it("refuses a CDS address locally and focuses the error", async () => {
+  it("refuses a Support address locally and focuses the error", async () => {
     const action = vi.fn();
     mounted = mount(
       <DomainConnectForm
@@ -531,7 +531,7 @@ describe("DomainConnectForm", () => {
     expect(action).toHaveBeenCalledWith(DOMAIN);
     const alert = mounted.container.querySelector('[role="alert"]');
     expect(alert?.textContent).toContain("registered at Cloudflare");
-    expect(alert?.querySelector("a")?.textContent).toBe("Ask CDS Support");
+    expect(alert?.querySelector("a")?.textContent).toBe("Ask Support");
   });
 });
 

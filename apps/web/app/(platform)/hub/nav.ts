@@ -53,9 +53,9 @@ export const TODAY_NAV: HubNavItem = Object.freeze({
   iconKey: "House",
 });
 
-/** A&M fork: the person's alert settings (also in the profile menu). */
+/** A&M fork: the person's own alerts, acted on in place; the first screen after sign-in. */
 export const ALERTS_NAV: HubNavItem = Object.freeze({
-  href: "/hub/profile#alerts",
+  href: "/hub/alerts",
   label: "Alerts",
   iconKey: "Bell",
 });
@@ -131,6 +131,7 @@ export function inSetup(stage: string | undefined): boolean {
 /** Hub routes a sidebar add-on's /hub/<slug> may never shadow. */
 export const CORE_SEGMENTS: ReadonlySet<string> = new Set([
   "today",
+  "alerts",
   "website",
   "add-ons",
   "setup",
@@ -325,4 +326,34 @@ export function composeHubNav(input: {
   pinned.push({ ...HELP_NAV });
   if (!seatOnly) pinned.push({ ...SUPPORT_NAV });
   return { items, pinned };
+}
+
+/** One link in the top-right profile menu. */
+export type ProfileMenuLink = { href: string; label: string };
+
+/**
+ * A&M fork: the profile menu lists only the person's own things. With their own seat (a
+ * barber, or the owner's Employee seat): My page, My Social, Services & Pricing, Hours, My
+ * bookings, My Rent (chair renters only: the owner's Rent screen is every chair's) and
+ * Alerts. No seat: just Alerts (the default "Your profile and alerts" link stays).
+ */
+export function profileMenuLinks(
+  seatId: string | null,
+  role: OrgRole,
+): ProfileMenuLink[] {
+  const alerts = { href: ALERTS_NAV.href, label: ALERTS_NAV.label };
+  if (!seatId) return [alerts];
+  const base = "/hub/studio-booking";
+  const seat = `${base}/seats/${seatId}`;
+  const q = `?seat=${seatId}`;
+  const links: ProfileMenuLink[] = [
+    { href: seat, label: "My page" },
+    { href: `${base}/social${q}`, label: "My Social" },
+    { href: `${base}/services${q}`, label: "Services & Pricing" },
+    { href: `${seat}#hours`, label: "Hours" },
+    { href: `${base}/bookings${q}`, label: "My bookings" },
+  ];
+  if (role === "renter") links.push({ href: `${base}/rent`, label: "My Rent" });
+  links.push(alerts);
+  return links;
 }

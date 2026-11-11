@@ -77,7 +77,7 @@ const H2 = "text-xl leading-tight font-semibold text-hub-ink";
 
 /** 14-42: the Leave CDS row's words (UI-SPEC "Leaving CDS (owner)" › Entry). */
 export const LEAVE_ROW = Object.freeze({
-  title: "Leave CDS",
+  title: "Move away",
   label:
     "Close your site and take your domain and data with you. There's a 30-day notice period.",
   href: "/hub/leaving",
@@ -299,7 +299,7 @@ export function BillingPanel({ view, cardUpdated }: BillingPanelProps) {
       )}
 
       {quotes.ok ? (
-        <Titled id="billing-quotes" heading="Quotes from CDS">
+        <Titled id="billing-quotes" heading="Quotes from Support">
           {quotes.data.length === 0 ? (
             <p className="text-base text-hub-ink-muted">{QUOTES_EMPTY}</p>
           ) : (
@@ -313,7 +313,7 @@ export function BillingPanel({ view, cardUpdated }: BillingPanelProps) {
           )}
         </Titled>
       ) : (
-        <SectionError id="billing-quotes" heading="Quotes from CDS" />
+        <SectionError id="billing-quotes" heading="Quotes from Support" />
       )}
 
       {invoices.ok ? (

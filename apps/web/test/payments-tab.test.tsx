@@ -119,11 +119,11 @@ const { GET: refreshRoute } =
   await import("../app/(platform)/hub/settings/connect/refresh/route");
 
 const FEES =
-  "You own this account, you are the seller, and you pay Stripe's fees directly (for example 2.9% + 30¢ online). CDS takes no cut.";
+  "You own this account, you are the seller, and you pay Stripe's fees directly (for example 2.9% + 30¢ online). Support takes no cut.";
 const HELP = "Help me set up Stripe";
 const TOAST = "Stripe connected. Your site can take payments online.";
 const IMPERSONATING =
-  "You're viewing as CDS staff, so Stripe changes are turned off. Only the owner can connect Stripe.";
+  "You're viewing as support staff, so Stripe changes are turned off. Only the owner can connect Stripe.";
 const ADMIN_LINE = "Only the site owner can connect or change Stripe.";
 const ERR_CONNECT =
   "We couldn't open Stripe just now. Nothing changed. Try again in a minute.";
@@ -535,7 +535,7 @@ describe("PAY-10: the fee disclosure and help link on every connect screen (D296
   ];
   for (const state of Object.keys(STATUS) as StateKey[]) {
     for (const [who, ctx] of viewers) {
-      it(`${state} as ${who}: "CDS takes no cut" and "${HELP}"`, async () => {
+      it(`${state} as ${who}: "Support takes no cut" and "${HELP}"`, async () => {
         signIn(ctx);
         db.readConnectStatus.mockResolvedValue(STATUS[state]);
         const { container: c } = await openTab();
@@ -555,7 +555,7 @@ describe("PAY-10: the fee disclosure and help link on every connect screen (D296
       connect: "return",
     });
     expect(panelText(c)).toContain("Checking your Stripe account…");
-    expect(panelText(c)).toContain("CDS takes no cut");
+    expect(panelText(c)).toContain("Support takes no cut");
     expect(panelText(c)).toContain(HELP);
   });
 });
@@ -687,7 +687,7 @@ describe("the connect-stripe how-to (D110; the Help me set up Stripe target)", (
 
   it("states the fees (PAY-10) and is the Payments tab's route", () => {
     const text = md();
-    expect(text).toContain("CDS takes no cut");
+    expect(text).toContain("Support takes no cut");
     expect(text).toContain("route: /hub/settings?tab=payments");
   });
 

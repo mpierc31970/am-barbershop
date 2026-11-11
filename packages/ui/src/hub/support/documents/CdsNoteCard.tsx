@@ -13,7 +13,7 @@ import { MessageBody } from "../thread";
 export const NOTES_COPY = Object.freeze({
   pinned: "Pinned",
   unread: "New",
-  from: (day: string) => (day ? `From CDS · ${day}` : "From CDS"),
+  from: (day: string) => (day ? `From Support · ${day}` : "From Support"),
   earlier: (n: number) => `Earlier notes (${n})`,
 });
 

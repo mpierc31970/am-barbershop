@@ -40,9 +40,9 @@ export const REPORTS_COPY = Object.freeze({
   socialEmptyLink: "Add your bio links",
   socialFootnote:
     "Counts visits from your bio links and from social sites that pass their address. Follower counts aren't shown.",
-  notConnected: "Connects when CDS finishes setup.",
+  notConnected: "Connects when Support finishes setup.",
   notConnectedNote:
-    "CDS sets this up for you under our Google account. Ask CDS Support if you'd like access.",
+    "Support sets this up for you under our Google account. Ask Support if you'd like access.",
   showTable: "Show as table",
   showChart: "Show as chart",
   showAll: (n: number) => `Show all ${n}`,

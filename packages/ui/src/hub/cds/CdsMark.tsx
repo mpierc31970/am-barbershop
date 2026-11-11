@@ -21,7 +21,7 @@ const ARC = "M16.24 7.76 A6 6 0 1 0 16.24 16.24";
 
 export function CdsMark({ size, label = false, className }: CdsMarkProps) {
   const a11y = label
-    ? ({ role: "img", "aria-label": "CDS" } as const)
+    ? ({ role: "img", "aria-label": "Support" } as const)
     : ({ "aria-hidden": "true" } as const);
   return (
     <svg

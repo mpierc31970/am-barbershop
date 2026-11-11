@@ -13,14 +13,14 @@ import { invoiceRows } from "../../../lib/billing-view";
 export const DECLINED_COPY = {
   title: "We've refunded your order",
   body: (amount: string, reason: string) =>
-    `CDS can't build this site, so we've refunded everything you paid, ${amount}, to your card. It can take 5 to 10 business days to show.${reason ? ` ${reason}` : ""}`,
+    `Support can't build this site, so we've refunded everything you paid, ${amount}, to your card. It can take 5 to 10 business days to show.${reason ? ` ${reason}` : ""}`,
   refunded: "Refunded",
   deleted: "Account and site details deleted on",
   keep: (date: string) =>
     `Your preview site is offline. Your account and site details are deleted on ${date}. Your signed agreement and receipts are kept for our records, and you can download them until then.`,
   download: "Download your signed agreement",
   invoices: "View invoices",
-  support: "Contact CDS Support",
+  support: "Contact Support",
 } as const;
 
 const TERM = "text-sm font-semibold text-hub-ink-muted";

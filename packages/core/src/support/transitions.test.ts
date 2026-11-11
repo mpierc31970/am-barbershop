@@ -163,7 +163,7 @@ describe("nextStatus refusals are UI copy (WR-B02)", () => {
 describe("systemLineFor", () => {
   it("labels the tenant and job moves", () => {
     expect(systemLineFor("waiting_on_you", "in_progress", "tenant_reply")).toBe(
-      "Back to CDS",
+      "Back to Support",
     );
     expect(systemLineFor("resolved", "in_progress", "tenant_reply")).toBe(
       "Reopened by your reply",
@@ -175,7 +175,7 @@ describe("systemLineFor", () => {
       "Marked as solved",
     );
     expect(systemLineFor("in_progress", "waiting_on_you", "staff_set")).toBe(
-      "CDS changed the status to Waiting on you",
+      "Support changed the status to Waiting on you",
     );
   });
 

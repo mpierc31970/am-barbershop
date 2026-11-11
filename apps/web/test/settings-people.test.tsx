@@ -270,7 +270,7 @@ describe("/hub/settings?tab=people", () => {
     const c = await openPeople();
     const panel = c.querySelector("[data-people-panel]")!;
     expect(panel.textContent).toContain(
-      "You're viewing as CDS staff, so changes to people are turned off.",
+      "You're viewing as support staff, so changes to people are turned off.",
     );
     expect(button(panel, "Invite someone")).toBeNull();
   });
@@ -329,7 +329,7 @@ describe("people actions", () => {
     expect(res).toMatchObject({
       ok: false,
       message:
-        "You're viewing as CDS staff, so changes to people are turned off.",
+        "You're viewing as support staff, so changes to people are turned off.",
     });
     expect(db.removePerson).not.toHaveBeenCalled();
   });

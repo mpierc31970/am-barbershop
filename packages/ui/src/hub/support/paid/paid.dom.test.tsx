@@ -94,7 +94,7 @@ describe("PaidServicePanel (owner)", () => {
       paid: paid({ quote_requested_at: "2026-10-12T15:00:00Z" }),
     });
     expect(root.textContent).toContain(
-      "Quote requested 12 Oct. CDS will send it here.",
+      "Quote requested 12 Oct. Support will send it here.",
     );
     expect(button(root, "Get a quote")).toBeNull();
     expect(
@@ -128,7 +128,7 @@ describe("PaidServicePanel (owner)", () => {
     });
     const { root } = panel({ paid: p, careUsage: CARE });
     expect(root.textContent).toContain(
-      "You accepted the quote on 13 Oct. CDS has started.",
+      "You accepted the quote on 13 Oct. Support has started.",
     );
     expect(root.querySelector("a[href^='/hub/settings/quotes']")).toBeNull();
     expect(button(root, "Use my Care hour")).toBeNull();
@@ -175,7 +175,7 @@ describe("PaidServicePanel (owner)", () => {
       careUsage: CARE,
     });
     expect(root.textContent).toContain(
-      "You chose your Care hour on 12 Oct. CDS has started.",
+      "You chose your Care hour on 12 Oct. Support has started.",
     );
     expect(button(root, "Get a quote")).toBeNull();
     expect(button(root, "Use my Care hour")).toBeNull();
@@ -189,7 +189,7 @@ describe("PaidServicePanel (admin, editor)", () => {
       expect(root.textContent).toContain(SUPPORT_COPY.PAID_ASK_OWNER);
       expect(button(root, "Get a quote")).toBeNull();
       expect(button(root, "Use my Care hour")).toBeNull();
-      expect(root.textContent).not.toContain("Have CDS do it");
+      expect(root.textContent).not.toContain("Have Support do it");
       expect(root.querySelector('a[href="/hub/help/care-plan"]')).toBeNull();
       expect(button(root, "Show me how")).not.toBeNull();
       expect(isPrimaryChoice(paid(), role)).toBe(false);

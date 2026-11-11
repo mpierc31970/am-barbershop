@@ -75,7 +75,7 @@ export class RateLimited extends CdsError {
 export class TargetLocked extends CdsError {
   override readonly code = "target_locked";
   constructor(
-    message = "You can look around, but changes are paused so nothing clashes with CDS's fix.",
+    message = "You can look around, but changes are paused so nothing clashes with Support's fix.",
   ) {
     super(message);
   }

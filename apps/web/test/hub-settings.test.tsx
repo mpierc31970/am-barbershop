@@ -734,7 +734,7 @@ describe("/hub/settings", () => {
     });
   });
 
-  it("Legal: no signings shows EMPTY-AGR; Review and sign only after Send to CDS", async () => {
+  it("Legal: no signings shows EMPTY-AGR; Review and sign only after Send to Support", async () => {
     load();
     const { container: c } = await openSettings("legal");
     expect(c.textContent).toContain("No signed agreements yet");
@@ -781,7 +781,7 @@ describe("/hub/settings", () => {
     const { container: c } = await openSettings("legal");
     const text = c.textContent ?? "";
     expect(text).toContain("Your site's policy pages");
-    expect(text).toContain("CDS is not a law firm");
+    expect(text).toContain("We are not a law firm");
     expect(text).toContain("Privacy policy");
     expect(text).toContain("Covers: Contact forms · Analytics");
     const box = c.querySelector<HTMLInputElement>(
@@ -794,7 +794,7 @@ describe("/hub/settings", () => {
   it("Legal section 2: an Admin reads the owner-only line, no box", async () => {
     load({ role: "admin" });
     const { container: c } = await openSettings("legal");
-    expect(c.textContent).toContain("CDS is not a law firm");
+    expect(c.textContent).toContain("We are not a law firm");
     expect(c.textContent).toContain(
       "Only the site owner can publish these pages.",
     );
@@ -952,7 +952,7 @@ describe("Settings › Billing (10-29)", () => {
       "What you pay for",
       "Care Plan",
       "Media storage",
-      "Quotes from CDS",
+      "Quotes from Support",
       "Invoices",
     ]);
     expect(panel.textContent).toContain("You're all paid up.");
@@ -988,7 +988,7 @@ describe("Settings › Billing (10-29)", () => {
       ok: true,
       preview: {
         title: "Add the Care Plan?",
-        what: "1 hour a month of changes made for you by CDS.",
+        what: "1 hour a month of changes made for you by Support.",
         todayCents: 4150,
         todayLabel: "For the rest of October",
         thenText: "$99/mo on your monthly bill from 1 Nov",
@@ -1042,7 +1042,7 @@ describe("Settings › Billing (10-29)", () => {
     });
     loadBilling();
     const { container: c } = await openSettings("billing");
-    expect(c.textContent).toContain("You're viewing as CDS staff");
+    expect(c.textContent).toContain("You're viewing as support staff");
     expect(button(c, "Add the Care Plan, $99/mo")).toBeNull();
   });
 });

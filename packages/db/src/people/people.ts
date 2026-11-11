@@ -131,7 +131,7 @@ async function otherMember(
   });
   if (row.user === ctx.actor || row.role === "owner") {
     throw new InvalidInput(
-      "the owner's own access is changed by CDS support, not here",
+      "the owner's own access is changed by Support, not here",
     );
   }
   return row;

@@ -39,7 +39,7 @@ export const REVIEW_STATUS_COPY = Object.freeze({
   marked: (title: string) => `Marked ${title} as looks good.`,
   done: "All pages looked over. Back to your review.",
   phone: "Thanks. Phone check done.",
-  sent: "Sent. CDS will make the change and tell you.",
+  sent: "Sent. Support will make the change and tell you.",
   error: P14_COPY.ERR_SEND_STRIP,
   test: "Test message sent. It's in your Inbox.",
 });
@@ -49,8 +49,8 @@ export const REVIEW_NOTE_COPY = Object.freeze({
   heading: (title: string) => `What should change on ${title}?`,
   label: "Your note",
   helper:
-    'Be specific, like "Change the phone number in the footer." CDS sees the page with your note.',
-  send: "Send to CDS",
+    'Be specific, like "Change the phone number in the footer." Support sees the page with your note.',
+  send: "Send to Support",
   back: P14_COPY.BTN_BACK_TO_PAGE,
   short: P14_COPY.NOTE_SHORT,
   error: P14_COPY.ERR_SEND_STRIP,

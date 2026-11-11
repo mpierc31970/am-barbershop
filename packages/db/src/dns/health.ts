@@ -382,7 +382,7 @@ async function ownerLostDelegation(
       type: "domain.lost_delegation",
       sourceKey: `domain:health:lost:${now.toISOString().slice(0, 10)}`,
       title: P14_COPY.LOST_T({ domain: site.domain }) || c.title,
-      safeTitle: "Your domain no longer points to CDS",
+      safeTitle: "Your domain no longer points to us",
       href: HUB_DOMAIN,
       actionLabel: c.action,
     },
@@ -791,7 +791,7 @@ export async function runDomainHealth(
           em.change === "opened" ? "open" : "close",
           "Domain email records",
           em.change === "opened"
-            ? "email records changed outside CDS"
+            ? "email records changed outside this site"
             : "email records match again",
           "warn any change since the accepted state",
           em.since,

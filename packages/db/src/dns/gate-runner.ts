@@ -35,7 +35,7 @@ import {
 /** The CDS nameservers could not be reached by IP (no address for any of them). */
 export class ReadBackUnavailable extends Error {
   constructor() {
-    super("The CDS nameservers could not be reached");
+    super("Our nameservers could not be reached");
     this.name = "ReadBackUnavailable";
   }
 }
@@ -118,7 +118,7 @@ export async function runGate(
   if (!latest) throw new NotFound();
   const { snapshot, row } = latest;
   if (!row.providerZoneId || row.nameservers.length === 0) {
-    throw new InvalidInput("The CDS zone does not exist yet");
+    throw new InvalidInput("The DNS zone does not exist yet");
   }
   const resolver = deps.resolver ?? getDnsResolver();
   const info = await (deps.registry ?? getRegistryLookup()).lookup(

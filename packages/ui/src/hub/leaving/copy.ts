@@ -3,8 +3,8 @@
 // lines). Every string with a copy id comes from P14_COPY in @cds/core/dns (14-03's file).
 
 export const LEAVING_UI_COPY = Object.freeze({
-  title: "Leaving CDS",
-  region: "Leaving CDS",
+  title: "Moving away",
+  region: "Moving away",
   /** Start page, the ordered five lines (UI-SPEC "/hub/leaving before starting"). */
   lineDns:
     "First, your DNS moves back to you, so your email keeps working. Nothing else can start until it's done.",
@@ -55,7 +55,7 @@ export const LEAVING_UI_COPY = Object.freeze({
   whoseRegistrar: (registrar: string) => `${registrar}'s`,
   whoseOther: "your new DNS host's",
   destinationNs: "Your new nameservers",
-  cdsNs: "CDS's nameservers",
+  cdsNs: "our nameservers",
   waitingTitle: "Waiting for the change",
   doneTitle: "DNS moved back",
   missingRecords: "Records not found yet",

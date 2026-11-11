@@ -51,7 +51,7 @@ const GSC_MAX = 200;
 const ORG_RE = /^[a-z0-9]{15}$/;
 
 export const ANALYTICS_COPY = Object.freeze({
-  notConnected: "Connects when CDS finishes setup",
+  notConnected: "Connects when Support finishes setup",
 });
 
 /** The stored shape of `organizations.analytics` (snake_case, 11-03). */

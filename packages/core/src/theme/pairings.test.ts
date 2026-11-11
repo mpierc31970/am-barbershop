@@ -5,7 +5,7 @@ import { findFont } from "./fonts";
 import { FONT_PAIRINGS, findPairing } from "./pairings";
 
 const EXPECTED: [string, string][] = [
-  ["cds-choose", "Let CDS choose"],
+  ["cds-choose", "Let Support choose"],
   ["warm-classic", "Warm and classic"],
   ["calm-bookish", "Calm and bookish"],
   ["bold-clear", "Bold and clear"],
@@ -19,7 +19,7 @@ describe("FONT_PAIRINGS (CONTEXT A4-Q4)", () => {
     expect(FONT_PAIRINGS.map((p) => [p.id, p.label])).toEqual(EXPECTED);
   });
 
-  it("Let CDS choose comes first with null faces and its helper", () => {
+  it("Let Support choose comes first with null faces and its helper", () => {
     const first = FONT_PAIRINGS[0]!;
     expect(first.heading).toBeNull();
     expect(first.body).toBeNull();
@@ -42,7 +42,7 @@ describe("FONT_PAIRINGS (CONTEXT A4-Q4)", () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it("findPairing returns the match, and Let CDS choose for anything unknown", () => {
+  it("findPairing returns the match, and Let Support choose for anything unknown", () => {
     expect(findPairing("bold-clear").heading).toBe("Archivo");
     expect(findPairing("nope").id).toBe("cds-choose");
     expect(findPairing(undefined).id).toBe("cds-choose");

@@ -191,7 +191,7 @@ describe("/report", () => {
     expect(document.activeElement).toBe(h1);
     expect(root.querySelector("strong")?.textContent).toBe("R-32");
     expect(root.textContent).toContain(
-      "Your report number is R-32. We sent a copy to ana@example.org. CDS reviews reports within 2 business days.",
+      "Your report number is R-32. We sent a copy to ana@example.org. Support reviews reports within 2 business days.",
     );
     const again = root.querySelector('a[href="/report"]');
     expect(again?.textContent).toBe("Report something else");

@@ -10,7 +10,7 @@ export const RATING_CARD_COPY = Object.freeze({
   no: P13_COPY.RATING_NO,
   yesName: "Yes, resolved well",
   noName: "No, not resolved well",
-  thanks: "Thanks. CDS reads every rating.",
+  thanks: "Thanks. Support reads every rating.",
   comment: "Anything to add?",
   saveComment: "Save comment",
   savingComment: "Saving…",
@@ -18,7 +18,7 @@ export const RATING_CARD_COPY = Object.freeze({
   saveRating: "Save rating",
   savingRating: "Saving…",
   ratingSaved: "Thanks. Your rating is saved.",
-  impersonating: "Ratings are turned off while viewing as CDS staff.",
+  impersonating: "Ratings are turned off while viewing as support staff.",
   rated: (choice: RatingChoice) =>
     `You rated this ${choice === "up" ? P13_COPY.RATING_YES : P13_COPY.RATING_NO}.`,
   notRated: "Not rated yet.",

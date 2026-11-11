@@ -159,7 +159,7 @@ describe("stand-in (no credentials)", () => {
 
   it("has the locked not-connected copy", () => {
     expect(ANALYTICS_COPY.notConnected).toBe(
-      "Connects when CDS finishes setup",
+      "Connects when Support finishes setup",
     );
   });
 });

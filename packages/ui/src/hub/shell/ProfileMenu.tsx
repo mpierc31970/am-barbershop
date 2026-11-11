@@ -5,7 +5,10 @@
 // line "Owner at Rivera Bakery"), then a menu with "Your profile and alerts" and
 // "Sign out". Arrow keys move, Esc closes and returns focus. Sign out is a prop so the app
 // can run it through its nav guard.
-import { CircleUserRound, LogOut, UserRound } from "lucide-react";
+// A&M fork: `links` replaces the default profile link with the person's own items, and
+// `photoSeatId` adds "Take a photo" (the phone camera) that posts straight to that seat's
+// gallery through /hub/api/studio/photo (a plain multipart form, submitted on pick).
+import { Camera, CircleUserRound, LogOut, UserRound } from "lucide-react";
 import { useEffect, useRef, type KeyboardEvent } from "react";
 import type { HubLinkComponent } from "../AddonCard";
 import { IconButton } from "../IconButton";
@@ -20,6 +23,10 @@ export interface ProfileMenuProps {
   onSignOut: () => void;
   profileHref?: string;
   LinkComponent?: HubLinkComponent;
+  /** The person's own items; when given, they replace the default profile link. */
+  links?: readonly { href: string; label: string }[];
+  /** Their own seat: adds "Take a photo" (uploads to that seat's gallery). */
+  photoSeatId?: string;
 }
 
 const ITEM =
@@ -33,9 +40,12 @@ export function ProfileMenu({
   onSignOut,
   profileHref = SHELL_COPY.profileHref,
   LinkComponent,
+  links,
+  photoSeatId,
 }: ProfileMenuProps) {
   const { open, setOpen, close, anchorRef } = usePopover();
   const menuRef = useRef<HTMLDivElement | null>(null);
+  const fileRef = useRef<HTMLInputElement | null>(null);
   const Link = LinkComponent ?? "a";
 
   const items = () =>
@@ -110,16 +120,56 @@ export function ProfileMenu({
             onKeyDown={onKeyDown}
             className="py-1"
           >
-            <Link
-              role="menuitem"
-              tabIndex={-1}
-              href={profileHref}
-              className={ITEM}
-              onClick={() => close(false)}
-            >
-              <UserRound aria-hidden="true" size={16} strokeWidth={2} />
-              {SHELL_COPY.profileLink}
-            </Link>
+            {(
+              links ?? [{ href: profileHref, label: SHELL_COPY.profileLink }]
+            ).map((l) => (
+              <Link
+                key={l.href}
+                role="menuitem"
+                tabIndex={-1}
+                href={l.href}
+                className={ITEM}
+                onClick={() => close(false)}
+              >
+                {links ? null : (
+                  <UserRound aria-hidden="true" size={16} strokeWidth={2} />
+                )}
+                {l.label}
+              </Link>
+            ))}
+            {photoSeatId ? (
+              <form
+                method="post"
+                action="/hub/api/studio/photo"
+                encType="multipart/form-data"
+              >
+                <input type="hidden" name="seatId" value={photoSeatId} />
+                <input type="hidden" name="target" value="gallery" />
+                <input
+                  ref={fileRef}
+                  type="file"
+                  name="file"
+                  accept="image/*"
+                  capture="environment"
+                  hidden
+                  onChange={(e) => {
+                    if (e.currentTarget.files?.length) {
+                      e.currentTarget.form?.requestSubmit();
+                    }
+                  }}
+                />
+                <button
+                  type="button"
+                  role="menuitem"
+                  tabIndex={-1}
+                  className={ITEM}
+                  onClick={() => fileRef.current?.click()}
+                >
+                  <Camera aria-hidden="true" size={16} strokeWidth={2} />
+                  Take a photo
+                </button>
+              </form>
+            ) : null}
             <button
               type="button"
               role="menuitem"

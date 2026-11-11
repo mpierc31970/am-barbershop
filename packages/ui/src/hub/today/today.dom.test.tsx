@@ -148,7 +148,7 @@ describe("BuildTracker", () => {
     const current = root.querySelectorAll('[aria-current="step"]');
     expect(current).toHaveLength(1);
     expect(current[0]!.getAttribute("data-step")).toBe("polishing");
-    expect(current[0]!.textContent).toContain("CDS polishing");
+    expect(current[0]!.textContent).toContain("Support polishing");
     expect(current[0]!.textContent).toContain("Now");
     // Status words, never colour alone.
     expect(items[0]!.textContent).toContain("Done");
@@ -156,7 +156,7 @@ describe("BuildTracker", () => {
     expect(items[4]!.textContent).toContain("Not started");
     // No note: the step's default line; TRACK-EDIT always.
     expect(root.textContent).toContain(
-      "What CDS is doing now: CDS is refining your pages, photos and wording.",
+      "What Support is doing now: Support is refining your pages, photos and wording.",
     );
     expect(root.textContent).toContain(TODAY_COPY.trackEdit);
     expect(root.textContent).not.toMatch(/%/);
@@ -173,7 +173,7 @@ describe("BuildTracker", () => {
     );
     const text = mounted.container.textContent ?? "";
     expect(text).toContain(
-      "What CDS is doing now: Choosing photos for your services page.",
+      "What Support is doing now: Choosing photos for your services page.",
     );
     expect(text).toContain("Updated 9 Oct");
   });
@@ -258,7 +258,7 @@ describe("LaunchReviewCard", () => {
     );
     const root = mounted.container;
     expect(root.querySelector("h2")!.textContent).toBe(
-      "CDS is giving it a final look.",
+      "Support is giving it a final look.",
     );
     expect(root.querySelector("a")).toBeNull();
     expect(root.querySelector("[data-submitted]")).not.toBeNull();

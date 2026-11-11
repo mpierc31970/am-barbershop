@@ -244,7 +244,7 @@ export function TheRestStage({ data, readOnly }: StageFormProps) {
             id="field-domain_ideas"
             label="Ideas for your address"
             labelExtra={OPTIONAL}
-            helper="CDS will suggest a few that are free to register."
+            helper="Support will suggest a few that are free to register."
             maxLength={300}
             value={ideas}
             disabled={readOnly}

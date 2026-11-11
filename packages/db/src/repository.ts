@@ -350,7 +350,7 @@ function normalizeHostField(
     throw new InvalidInput("hostname is not a valid tenant host");
   }
   if (isReservedHost(cls.host, platform)) {
-    throw new InvalidInput("hostname is reserved by CDS");
+    throw new InvalidInput("hostname is reserved");
   }
   data.hostname = cls.host;
 }

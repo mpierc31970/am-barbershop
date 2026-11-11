@@ -307,7 +307,7 @@ describe("routes and hrefs", () => {
       "Website inquiries",
       "Newsletter",
       "Your main address",
-      "Billing from CDS",
+      "Billing from Support",
     ]);
   });
   it("hrefs are fixed paths with encoded ids", () => {

@@ -234,6 +234,8 @@ export async function removeTimeOffAction(form: FormData): Promise<void> {
 }
 
 const STATUS_DONE: Record<string, string> = {
+  confirmed: "Approved. The client was emailed.",
+  declined: "Declined. The client was emailed.",
   completed: "Marked done.",
   no_show: "Marked as a no-show.",
   cancelled: "Booking cancelled. The client was emailed.",
@@ -241,8 +243,11 @@ const STATUS_DONE: Record<string, string> = {
 
 export async function bookingStatusAction(form: FormData): Promise<void> {
   const status = field(form, "status");
+  // The Alerts screen acts in place; only that one other screen is a valid way back.
   await act(
-    `${STUDIO_BASE}/bookings`,
+    field(form, "back") === "/hub/alerts"
+      ? "/hub/alerts"
+      : `${STUDIO_BASE}/bookings`,
     STATUS_DONE[status] ?? "Saved.",
     async ({ ctx }) => {
       await setBookingStatus(ctx, idField(form, "bookingId"), status);

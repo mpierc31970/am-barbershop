@@ -37,7 +37,7 @@ export const TRACKER_LABELS: Readonly<Record<TrackerStepId, string>> =
   Object.freeze({
     received: "Received",
     assembled: "Site assembled",
-    polishing: "CDS polishing",
+    polishing: "Support polishing",
     review: "Your review",
     live: "Live",
   });
@@ -46,10 +46,10 @@ export const TRACKER_LABELS: Readonly<Record<TrackerStepId, string>> =
 export const TRACK_DEFAULT: Readonly<Record<TrackerStepId, string>> =
   Object.freeze({
     received:
-      "We have your answers and your payment. CDS starts on your site next.",
+      "We have your answers and your payment. Support starts on your site next.",
     assembled:
-      "Your pages are set up from your answers. CDS is checking them over.",
-    polishing: "CDS is refining your pages, photos and wording.",
+      "Your pages are set up from your answers. Support is checking them over.",
+    polishing: "Support is refining your pages, photos and wording.",
     review: "Your turn: look over your site.",
     live: "Your site is live.",
   });

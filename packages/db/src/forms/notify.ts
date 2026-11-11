@@ -11,6 +11,7 @@ import type PocketBase from "pocketbase";
 import { withSuperuser } from "../client";
 import { platformUrl } from "../email/env";
 import { sendEmail } from "../email/send";
+import { orgOwnerEmails } from "../members";
 import type { EmailTransport } from "../email/transport";
 import { systemCtx } from "./shared";
 
@@ -103,18 +104,22 @@ export async function sendAutoReply(
   deps: { transport?: EmailTransport } = {},
 ): Promise<"sent" | "suppressed" | "held" | "skipped" | "failed"> {
   try {
-    const orgName = await withSuperuser(async (pb) => {
+    // Replies go to the shop owner(s), not the site's routed address (the website admin).
+    const { orgName, owners } = await withSuperuser(async (pb) => {
       const org = await pb
         .collection("organizations")
         .getOne(orgId, { fields: "name" });
-      return String(org.name ?? "");
+      return {
+        orgName: String(org.name ?? ""),
+        owners: await orgOwnerEmails(pb, orgId),
+      };
     });
     const res = await sendEmail(
       { kind: "org", ctx: systemCtx("form.submit"), orgId },
       "form.auto_reply",
       reply.to,
       { orgName, subject: reply.subject, body: reply.body },
-      { transport: deps.transport },
+      { transport: deps.transport, replyTo: owners },
     );
     return res.status;
   } catch {

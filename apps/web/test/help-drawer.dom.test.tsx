@@ -220,7 +220,7 @@ describe("GET /hub/api/help/<id> (T-11-47-01)", () => {
   });
 });
 
-describe("Still stuck? Ask CDS (12-20; COMM-06)", () => {
+describe("Still stuck? Ask Support (12-20; COMM-06)", () => {
   function stubAsk(askCds: boolean) {
     vi.stubGlobal(
       "fetch",
@@ -233,7 +233,7 @@ describe("Still stuck? Ask CDS (12-20; COMM-06)", () => {
     );
   }
 
-  it("a writer gets the CDS line: a question about this screen, from here", async () => {
+  it("a writer gets the Support line: a question about this screen, from here", async () => {
     window.history.replaceState(null, "", "/hub/website?tab=footer&help=today");
     stubAsk(true);
     mounted = mount(
@@ -244,7 +244,7 @@ describe("Still stuck? Ask CDS (12-20; COMM-06)", () => {
     await flush();
     const line = openDialog()?.querySelector("[data-ask-cds]");
     expect(line?.hasAttribute("data-cds-identity")).toBe(true);
-    expect(line?.textContent).toBe("Still stuck? Ask CDS");
+    expect(line?.textContent).toBe("Still stuck? Ask Support");
     expect(line?.querySelector("a")?.getAttribute("href")).toBe(
       "/hub/support/tickets/new?type=question&target=part%3Afooter&from=%2Fhub%2Fwebsite%3Ftab%3Dfooter",
     );

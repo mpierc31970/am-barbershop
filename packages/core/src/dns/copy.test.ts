@@ -30,10 +30,10 @@ describe("P14_COPY (UI-SPEC Copywriting Contract)", () => {
       "We found your email at Google Workspace. We'll copy these 7 records exactly before anything changes.",
     );
     expect(P14_COPY.DOM_OWN).toBe(
-      "Your domain stays registered in your name. CDS never buys or transfers domains.",
+      "Your domain stays registered in your name. Support never buys or transfers domains.",
     );
     expect(P14_COPY.CONNECTED_READY(at)).toBe(
-      "Ready. Goes live at riverabakery.com when CDS approves your launch.",
+      "Ready. Goes live at riverabakery.com when Support approves your launch.",
     );
     expect(P14_COPY.EXPIRY_7({ ...at, date: "3 Mar" })).toBe(
       "Renew riverabakery.com at GoDaddy, or your site and email stop on 3 Mar.",
@@ -42,22 +42,22 @@ describe("P14_COPY (UI-SPEC Copywriting Contract)", () => {
       "Emails now send from hello@riverabakery.com.",
     );
     expect(P14_COPY.BANNER({ days: 23, next: "move your DNS" })).toBe(
-      "Leaving CDS · 23 days left · Next: move your DNS",
+      "Moving away · 23 days left · Next: move your DNS",
     );
     expect(P14_COPY.CANCEL_DELEGATED).toBe(
-      "Their DNS now lives at CDS. Hand it back first. The zone is kept; cancelling only stops the site steps.",
+      "Their DNS now lives with us. Hand it back first. The zone is kept; cancelling only stops the site steps.",
     );
   });
 
   it("fills the UI-SPEC examples to the exact sentences", () => {
     expect(P14_COPY.MISMATCH_B({ count: 1, registrar: "GoDaddy" })).toBe(
-      "After the switch, 1 email record didn't match the copy. Your email keeps working at GoDaddy, because CDS never changed anything there. Change your nameservers back now. CDS has been alerted and will contact you today.",
+      "After the switch, 1 email record didn't match the copy. Your email keeps working at GoDaddy, because Support never changed anything there. Change your nameservers back now. Support has been alerted and will contact you today.",
     );
     expect(P14_COPY.HANDBACK_MISMATCH({ count: 1 })).toBe(
-      "1 email record is missing at your new DNS. Switch your nameservers back to CDS's until it's added: your email keeps working there.",
+      "1 email record is missing at your new DNS. Switch your nameservers back to ours until it's added: your email keeps working there.",
     );
     expect(P14_COPY.FIND_CDS_T({ count: 1 })).toBe(
-      "CDS is reviewing 1 record with you.",
+      "Support is reviewing 1 record with you.",
     );
     expect(P14_COPY.ZONE_ADDED({ count: 3 })).toBe(
       "Zone file added. We found 3 more records and added them to the copy.",
@@ -71,14 +71,14 @@ describe("P14_COPY (UI-SPEC Copywriting Contract)", () => {
     expect(
       P14_COPY.APPROVE_B({ business: "Rivera Bakery", domain: at.domain }),
     ).toBe(
-      "Make Rivera Bakery live at riverabakery.com? CDS runs the last five domain steps (records, edge, HTTPS, switch, search). It takes a few minutes. Live is final once the switch finishes.",
+      "Make Rivera Bakery live at riverabakery.com? Support runs the last five domain steps (records, edge, HTTPS, switch, search). It takes a few minutes. Live is final once the switch finishes.",
     );
     expect(P14_COPY.CHECK_FAILED(at)).toBe(
       "We couldn't read riverabakery.com's records just now. We'll try again in a few minutes; nothing has changed.",
     );
     expect(P14_COPY.TEST_DNS_STRIP).toBe("Test DNS page. No real DNS changes.");
     expect(P14_COPY.DOM_CLOSED).toBe(
-      "Domain connection opens soon. CDS will email you when you can connect yours.",
+      "Domain connection opens soon. Support will email you when you can connect yours.",
     );
   });
 

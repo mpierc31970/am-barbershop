@@ -10,7 +10,7 @@ These steps are the recording script for the Remotion + Venice AI how-to videos 
 
 The site's **Owner** can download a copy of everything on the site at any time (LIFE-04, D284): one zip with a spreadsheet (CSV) for each kind of record (pages, blocks, contacts, form messages, team, services, invoices, signed agreements and more), a **media** folder with the original photos, videos and audio, and a **README.txt** that says what each file holds. Passwords, card details and security keys are never included. It is part of every site (no add-on to buy) and needs no setup.
 
-Rules: **Owner only** (Admins, Editors and Viewers see "Only the site owner can download the site's data."); **one download every 24 hours**; each link works for **7 days**; CDS staff viewing your site can't download it. Until real email is connected (SES), the "ready" email is logged, not sent (GO-LIVE); the alert in the hub always shows.
+Rules: **Owner only** (Admins, Editors and Viewers see "Only the site owner can download the site's data."); **one download every 24 hours**; each link works for **7 days**; support staff viewing your site can't download it. Until real email is connected (SES), the "ready" email is logged, not sent (GO-LIVE); the alert in the hub always shows.
 
 ## Activate
 
@@ -30,11 +30,11 @@ Rules: **Owner only** (Admins, Editors and Viewers see "Only the site owner can 
 | 5 | Your computer | Open the zip | Inside: one `.csv` per kind of record (for example `pages.csv`, `contacts.csv`), a `media/` folder with your original files and `README.txt` listing what each file holds. CSVs open in Excel, Numbers or Google Sheets |
 | 6 | **Your data** (same day) | Click **Ask for a new download** | Nothing starts; the line under it reads "You can ask for a new download after {date and time}." (24 hours after your last request; a failed build doesn't count) |
 | 7 | The email link, after 7 days | Click it | The page **This download link has expired** says "Ask for a new one from Settings › Business info." with **Go to your hub** |
-| 8 | **Your data** (a build that failed) | Read the section | "We couldn't build your download, and nothing was lost. Try again, or contact CDS Support if it keeps happening." with **Try again**, which starts a new build straight away |
+| 8 | **Your data** (a build that failed) | Read the section | "We couldn't build your download, and nothing was lost. Try again, or contact Support if it keeps happening." with **Try again**, which starts a new build straight away |
 
 ## Good to know
 
 - **Who sees what:** Admins, Editors and Viewers see the **Your data** section with "Only the site owner can download the site's data." and no button.
-- **Very large media libraries:** a zip is capped just under 4 GB. If a site goes over, the build fails with the message in step 8; contact CDS Support for a copy.
+- **Very large media libraries:** a zip is capped just under 4 GB. If a site goes over, the build fails with the message in step 8; contact Support for a copy.
 - **The link only works for you:** it opens only when you are signed in as the Owner of that site. If you run more than one site, switch to this site first (top bar), then open the link.
 - **Logins aren't in the download:** the people on your team keep their own sign-ins; see [People & roles](people-and-roles.md).

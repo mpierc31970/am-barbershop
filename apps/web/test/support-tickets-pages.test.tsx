@@ -215,7 +215,7 @@ describe("/hub/support/tickets/new (COMM-06, COMM-08)", () => {
     const c = await renderNew();
     expect(c.querySelector("h1")?.textContent).toBe("Get help");
     expect(c.querySelector('a[href="/hub/support"]')?.textContent).toContain(
-      "CDS Support",
+      "Support",
     );
     expect(typeCards(c)).toEqual([
       "problem",
@@ -256,7 +256,7 @@ describe("/hub/support/tickets/new (COMM-06, COMM-08)", () => {
     useRole("impersonating");
     c = await renderNew();
     expect(c.querySelector("form")).toBeNull();
-    expect(c.textContent).toContain("You're viewing as CDS staff");
+    expect(c.textContent).toContain("You're viewing as support staff");
     expect(db.ticketTargets).not.toHaveBeenCalled();
   });
 
@@ -270,12 +270,12 @@ describe("/hub/support/tickets/new (COMM-06, COMM-08)", () => {
     );
     expect(rule?.closest("[data-cds-identity]")).not.toBeNull();
     expect(c.querySelector("[data-ticket-reply-line]")?.textContent).toBe(
-      "CDS replies here and lets you know by email.",
+      "Support replies here and lets you know by email.",
     );
     click(c.querySelector('input[value="problem"]'));
     expect(c.querySelector("[data-paid-rule]")).toBeNull();
     expect(c.querySelector("[data-ticket-reply-line]")?.textContent).toBe(
-      "CDS replies within 2 business days.",
+      "Support replies within 2 business days.",
     );
     expect(c.textContent).toContain(
       "What did you expect, and what happened instead?",
@@ -328,7 +328,7 @@ describe("/hub/support/tickets/new (COMM-06, COMM-08)", () => {
     expect(ticketActions.fileTicketAction).not.toHaveBeenCalled();
   });
 
-  it("Send to CDS files the ticket with from, no org, then opens it with a toast", async () => {
+  it("Send to Support files the ticket with from, no org, then opens it with a toast", async () => {
     const c = await renderNew({ from: "/hub/website?tab=pages" });
     click(c.querySelector('input[value="problem"]'));
     typeInto(c.querySelector("#ticket-subject"), "Contact form is broken");
@@ -352,7 +352,7 @@ describe("/hub/support/tickets/new (COMM-06, COMM-08)", () => {
     expect(Object.keys(input)).not.toContain("orgId");
     expect(nav.push).toHaveBeenCalledWith("/hub/support/tickets/1042");
     expect(document.body.textContent).toContain(
-      "Ticket #1042 sent. CDS replies within 2 business days.",
+      "Ticket #1042 sent. Support replies within 2 business days.",
     );
   });
 
@@ -543,7 +543,7 @@ describe("/hub/support/tickets/<number> (COMM-07, COMM-09)", () => {
     expect(c.querySelector("[data-ticket-meta]")).not.toBeNull();
     expect(c.textContent).toContain("It shows an error.");
     expect(buttonNamed(c, "Send reply")).toBeDefined();
-    expect(c.textContent).toContain("CDS replies within 2 business days.");
+    expect(c.textContent).toContain("Support replies within 2 business days.");
     expect(
       c.querySelector('a[href="/hub/support?tab=tickets"]')?.textContent,
     ).toContain("Tickets");
@@ -555,7 +555,7 @@ describe("/hub/support/tickets/<number> (COMM-07, COMM-09)", () => {
     ticketActions.replyTicketAction.mockResolvedValue(update("in_progress"));
     const c = await renderTicket("1042");
     expect(c.querySelector("[data-ticket-waiting]")?.textContent).toBe(
-      "CDS is waiting for your reply.",
+      "Support is waiting for your reply.",
     );
     typeInto(c.querySelector("[data-composer] textarea"), "Here is more.");
     click(buttonNamed(c, "Send reply"));
@@ -608,7 +608,7 @@ describe("/hub/support/tickets/<number> (COMM-07, COMM-09)", () => {
     useRole("impersonating");
     const c = await renderTicket("1042");
     expect(buttonNamed(c, "This is solved")).toBeUndefined();
-    expect(c.textContent).toContain("You're viewing as CDS staff");
+    expect(c.textContent).toContain("You're viewing as support staff");
     expect(ticketActions.markTicketReadAction).not.toHaveBeenCalled();
   });
 
@@ -661,7 +661,7 @@ describe("IN-C07: ticket poll announces only rows not already shown", () => {
     }
   });
 
-  it("a re-delivered CDS row is not announced again; a new one is", async () => {
+  it("a re-delivered Support row is not announced again; a new one is", async () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,
@@ -677,7 +677,7 @@ describe("IN-C07: ticket poll announces only rows not already shown", () => {
       await vi.advanceTimersByTimeAsync(20_000);
       await flush();
       expect(fetchMock).toHaveBeenCalledTimes(1);
-      expect(c.textContent).not.toContain("new message from CDS");
+      expect(c.textContent).not.toContain("new message from Support");
       expect(c.textContent?.split("Looking into it.").length).toBe(2);
 
       fetchMock.mockResolvedValue({
@@ -694,7 +694,7 @@ describe("IN-C07: ticket poll announces only rows not already shown", () => {
       await vi.advanceTimersByTimeAsync(20_000);
       await flush();
       expect(c.textContent).toContain("Fixed now.");
-      expect(c.textContent).toContain("1 new message from CDS");
+      expect(c.textContent).toContain("1 new message from Support");
     } finally {
       vi.unstubAllGlobals();
     }

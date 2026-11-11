@@ -22,8 +22,8 @@ export const TICKETS_COPY = Object.freeze({
       ? "1 help article might answer this"
       : `${n} help articles might answer this`,
   newReply: "New reply",
-  newReplySr: "New reply from CDS",
-  openedByCds: "Opened by CDS",
+  newReplySr: "New reply from Support",
+  openedByCds: "Opened by Support",
   updated: (age: string) => `Updated ${age}`,
   closedEmpty: "No closed tickets.",
   listLabel: "Your tickets",
@@ -35,7 +35,7 @@ export const TICKETS_COPY = Object.freeze({
     lastUpdate: "Last update",
   },
   openedBy: (day: string, who: string) => `${day} by ${who}`,
-  firstReplied: (day: string) => `CDS first replied ${day}.`,
+  firstReplied: (day: string) => `Support first replied ${day}.`,
 });
 
 /** List and rail type words (UI-SPEC line 362: "Problem · Whole site"). */

@@ -94,7 +94,7 @@ describe("/test-dns layout (T-14-44-01)", () => {
     expect(() => Layout({ children: null })).toThrow("NOT_FOUND");
   });
 
-  it("404s with CDS_DNS_PROVIDER=cloudflare", () => {
+  it("404s with us_DNS_PROVIDER=cloudflare", () => {
     db.dnsProviderMode.mockReturnValue("cloudflare");
     expect(() => Layout({ children: null })).toThrow("NOT_FOUND");
   });
@@ -123,7 +123,7 @@ describe("/test-dns page", () => {
     expect(html).toContain("riverabakery.com · Rivera Bakery · zone pending");
     expect(html).toContain("GoDaddy");
     expect(html).toContain("The old host");
-    expect(html).toContain("Change nameservers to CDS");
+    expect(html).toContain("Change nameservers to ours");
     expect(html).toContain("Turn DNSSEC on");
     expect(html).toContain("Make HTTPS work");
     expect(html).toContain("npm run domains:run");
@@ -151,7 +151,7 @@ describe("/test-dns page", () => {
 
   it("shows the Done copy after an action", async () => {
     const html = await render({ domain: MINE, done: "ns_cds" });
-    expect(html).toContain("Done: nameservers now point to CDS.");
+    expect(html).toContain("Done: nameservers now point to us.");
   });
 
   it("404s in production", async () => {

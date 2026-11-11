@@ -180,12 +180,12 @@ describe("test-pay layout (Pitfall 4, D-UI-P10-8)", () => {
     expect(() => Layout({ children: null })).toThrow("NOT_FOUND");
   });
 
-  it("puts the TestModeStrip first and the non-CDS wordmark on the frame", () => {
+  it("puts the TestModeStrip first and the non-Support wordmark on the frame", () => {
     const html = renderToStaticMarkup(Layout({ children: <p>body</p> }));
     expect(html.indexOf('role="note"')).toBeGreaterThan(-1);
     expect(html.indexOf('role="note"')).toBeLessThan(html.indexOf("<main"));
     expect(html).toContain("Test payment page. No real money moves.");
-    expect(html).toContain("CDS test payments");
+    expect(html).toContain("Test payments");
     expect(html).toContain("max-w-[480px]");
   });
 
@@ -210,7 +210,7 @@ describe("/test-pay/<id> page", () => {
       "Pay $1,539.00 (test)",
       "Decline card",
       "Card fails later",
-      "Back to CDS",
+      "Back to the hub",
     ].map((t) => html.indexOf(t));
     expect(order.every((i) => i > -1)).toBe(true);
     expect([...order].sort((a, b) => a - b)).toEqual(order);
@@ -234,7 +234,7 @@ describe("/test-pay/<id> page", () => {
     expect(html).toContain(
       "This test session has expired. Go back and start again.",
     );
-    expect(html).toContain("Back to CDS");
+    expect(html).toContain("Back to the hub");
     expect(html).not.toContain("Decline card");
   });
 
@@ -310,7 +310,7 @@ describe("payTestSession / payTestInvoice", () => {
     expect(db.fakeCompleteSession).not.toHaveBeenCalled();
   });
 
-  it("only the owner pays a CDS checkout", async () => {
+  it("only the owner pays a Support checkout", async () => {
     const admin = { ...CTX, role: "admin" };
     sess.getHubSession.mockResolvedValue({ ctx: admin });
     db.readFakeObject.mockResolvedValue(session());
@@ -385,7 +385,7 @@ describe("/test-pay/portal", () => {
     const order = [
       "Save test card",
       "Use a card that fails",
-      "Back to CDS",
+      "Back to the hub",
     ].map((t) => html.indexOf(t));
     expect(order.every((i) => i > -1)).toBe(true);
     expect([...order].sort((a, b) => a - b)).toEqual(order);
@@ -453,7 +453,7 @@ describe("/test-pay/connect", () => {
       "Connect test account",
       "Connect with setup not finished",
       "Connect a restricted account",
-      "Back to CDS",
+      "Back to the hub",
     ].map((t) => html.indexOf(t));
     expect(order.every((i) => i > -1)).toBe(true);
     expect([...order].sort((a, b) => a - b)).toEqual(order);

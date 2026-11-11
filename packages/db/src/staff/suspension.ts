@@ -442,7 +442,7 @@ async function notify(
       title: alert.title,
       safeTitle: alert.safeTitle,
       href: CONVERSATION_HREF,
-      actionLabel: "Open CDS Support",
+      actionLabel: "Open Support",
       at: now,
     },
     {
@@ -602,7 +602,8 @@ export async function staffSendSuspensionNotice(
     org,
     { type: "site.suspension_notice", fixBy, whatToFix: message },
     {
-      title: "CDS found something on your site that breaks the hosting rules",
+      title:
+        "Support found something on your site that breaks the hosting rules",
       safeTitle: "Action needed on your site",
     },
     deps,
@@ -681,7 +682,7 @@ export async function staffMarkFixed(
           meta: { mode: "notice", category: str(s.category) },
           note: {
             title: "Hosting rules notice closed",
-            body: "Thanks. CDS checked your site and the notice is closed. Nothing else to do.",
+            body: "Thanks. Support checked your site and the notice is closed. Nothing else to do.",
           },
         },
       );

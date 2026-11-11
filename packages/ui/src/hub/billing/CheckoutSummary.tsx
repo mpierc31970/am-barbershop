@@ -22,8 +22,8 @@ export const CHECKOUT_COPY = {
   promoLine: "Have a promotion code? Enter it on the payment page.",
   feesLine: "You pay your own payment processor's fees. We take no cut.",
   secureLine:
-    "You pay on Stripe's secure page. CDS never sees your card number.",
-  secureLineTest: "You'll pay on a CDS test page. No card is needed.",
+    "You pay on Stripe's secure page. Support never sees your card number.",
+  secureLineTest: "You'll pay on a test page. No card is needed.",
 } as const;
 
 export interface CheckoutSummaryProps {

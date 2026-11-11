@@ -181,7 +181,7 @@ async function carePreview(ctx: OrgContext): Promise<ChargePreview> {
     data,
     {
       title: "Add the Care Plan?",
-      what: "1 hour a month of changes made for you by CDS.",
+      what: "1 hour a month of changes made for you by Support.",
       confirmLabel: `Add and pay ${formatCentsExact(data.todayCents)}`,
     },
     new Date(),

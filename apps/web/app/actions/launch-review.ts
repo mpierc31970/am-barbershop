@@ -20,7 +20,7 @@ import { runAction, type ActionResult } from "../../lib/action";
 const COPY = {
   forbidden: "Only the owner can approve the launch.",
   impersonation:
-    "You're viewing as CDS staff, so this is turned off. Only the owner can approve the launch.",
+    "You're viewing as support staff, so this is turned off. Only the owner can approve the launch.",
 };
 
 function revalidate(): void {

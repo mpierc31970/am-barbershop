@@ -8,7 +8,7 @@ route: /hub/profile
 
 These steps are the recording script for the Remotion + Venice AI how-to videos (D110), so write every step precisely enough to record from.
 
-Each person on a site chooses how their own alerts reach them. Nobody else, CDS staff included, can change them. The list only shows alerts your role covers: billing alerts are the owner's, and viewers get the monthly summary only. The sensitive-practice switch is in Settings (owner or admin).
+Each person on a site chooses how their own alerts reach them. Nobody else, support staff included, can change them. The list only shows alerts your role covers: billing alerts are the owner's, and viewers get the monthly summary only. The sensitive-practice switch is in Settings (owner or admin).
 
 ## Activate
 
@@ -21,7 +21,7 @@ Each person on a site chooses how their own alerts reach them. Nobody else, CDS 
 
 | # | Screen / route | Action | Expected result |
 |---|---|---|---|
-| 1 | `/hub/profile` › **You** | Read the section | Your sign-in email, "Your role at {business} · {role}", and "To change your sign-in email, ask CDS Support." |
+| 1 | `/hub/profile` › **You** | Read the section | Your sign-in email, "Your role at {business} · {role}", and "To change your sign-in email, ask Support." |
 | 2 | `/hub/profile` › **Alerts** | Find **New form message** in the **Normal** group and switch **Email** off | "Saving…" then **Saved** shows next to the **Alerts** heading; new form messages still appear in the bell but no longer email you |
 | 3 | `/hub/profile` › **Alerts** | Look at the **Bell** column | Every Bell switch is on and greyed out: the bell always shows everything |
 | 4 | `/hub/profile` › **Alerts** | Look at a **Summary** row such as **New contacts and subscribers** | Its **Phone** cell shows "—": summaries arrive as one email at 7am, never as a phone alert |

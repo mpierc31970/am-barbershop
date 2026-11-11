@@ -148,7 +148,9 @@ describe("StillNeededList", () => {
       <StillNeededList required={[]} optional={[]} footer={null} />,
     );
     expect(mounted.container.textContent).toContain(NOTHING_LEFT_COPY);
-    expect(NOTHING_LEFT_COPY).toBe("Everything's in. CDS has what it needs.");
+    expect(NOTHING_LEFT_COPY).toBe(
+      "Everything's in. Support has what it needs.",
+    );
   });
 });
 

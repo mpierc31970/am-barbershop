@@ -116,7 +116,7 @@ export default async function TestPayPage({
         ) : null}
       </form>
       <a href={view.backHref} className={buttonClasses("ghost")}>
-        Back to CDS
+        Back to the hub
       </a>
     </>
   );

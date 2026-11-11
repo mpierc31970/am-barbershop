@@ -34,13 +34,13 @@ import { reinsertAt } from "./list-helpers";
 
 export const MOODBOARD_MAX = 3;
 export const MOODBOARD_INTRO =
-  "A photo, a flyer, a screenshot of a site you love. We pull colours from the first one so you can see a first look. CDS designs your full theme from all of them.";
+  "A photo, a flyer, a screenshot of a site you love. We pull colours from the first one so you can see a first look. Support designs your full theme from all of them.";
 export const MOODBOARD_EMPTY = "Add a photo to see a first look.";
 export const MOODBOARD_FIRST = "Colours come from this one";
 export const MOODBOARD_WARNING =
-  "We couldn't read colours from this image. Try another one; CDS will still see it.";
+  "We couldn't read colours from this image. Try another one; Support will still see it.";
 export const MOODBOARD_HELPER =
-  "Up to 3 photos. Drag one to the front to take colours from it. Leave empty and CDS picks colours with you.";
+  "Up to 3 photos. Drag one to the front to take colours from it. Leave empty and Support picks colours with you.";
 
 export interface MoodBoardProps {
   initial: MediaAssetView[];

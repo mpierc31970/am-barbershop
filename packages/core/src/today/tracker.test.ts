@@ -21,7 +21,7 @@ describe("deriveTracker", () => {
     expect(steps.map((s) => s.label)).toEqual([
       "Received",
       "Site assembled",
-      "CDS polishing",
+      "Support polishing",
       "Your review",
       "Live",
     ]);
@@ -121,7 +121,7 @@ describe("deriveTracker", () => {
       buildStartedAt: null,
     });
     expect(steps[2]?.defaultLine).toBe(
-      "CDS is refining your pages, photos and wording.",
+      "Support is refining your pages, photos and wording.",
     );
   });
 });

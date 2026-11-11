@@ -11,7 +11,7 @@ export function TestPayExpired({ title }: { title: string }) {
       </h1>
       <InlineAlert tone="warning">{TEST_PAY_EXPIRED}</InlineAlert>
       <a href={TEST_PAY_HOME} className={buttonClasses("ghost")}>
-        Back to CDS
+        Back to the hub
       </a>
     </>
   );

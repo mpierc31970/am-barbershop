@@ -4,25 +4,26 @@ export const PAID_COPY = Object.freeze({
   heading: "This is a paid service",
   diyTitle: "Do it yourself",
   diyLine: "Most changes like this take a few minutes in your dashboard.",
-  cdsTitle: "Have CDS do it",
+  cdsTitle: "Have Support do it",
   cdsLine: "We'll send you a price first. Nothing starts until you accept.",
-  requested: (day: string) => `Quote requested ${day}. CDS will send it here.`,
+  requested: (day: string) =>
+    `Quote requested ${day}. Support will send it here.`,
   sent: (day: string, amount: string) =>
     amount ? `Sent ${day} · ${amount}` : `Sent ${day}`,
   accepted: (day: string) =>
-    `You accepted the quote on ${day}. CDS has started.`,
+    `You accepted the quote on ${day}. Support has started.`,
   careTitle: "Use my Care hour",
   careLeft: (left: number, total: number, month: string) =>
     `You have ${left} of ${total} minutes left in ${month}.`,
   careNone: (month: string) => `No Care minutes left in ${month}.`,
   careChosen: (day: string) =>
-    `You chose your Care hour on ${day}. CDS has started.`,
+    `You chose your Care hour on ${day}. Support has started.`,
   careUpsell:
     "With the Care Plan, small jobs like this use your monthly Care hour.",
   aboutCare: "About the Care Plan",
   dialogTitle: "Use your Care hour on this?",
   dialogBody: (left: number, month: string) =>
-    `CDS works on it using this month's Care Plan time and tells you how many minutes it took. You have ${left} minutes left in ${month}.`,
+    `Support works on it using this month's Care Plan time and tells you how many minutes it took. You have ${left} minutes left in ${month}.`,
   saving: "Saving…",
   incidentHeading: (title: string) => `Known problem: ${title}`,
   incidentOpen: "Being fixed",

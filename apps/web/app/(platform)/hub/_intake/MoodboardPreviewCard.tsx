@@ -22,7 +22,7 @@ import {
 } from "@cds/core/theme";
 
 export const PREVIEW_CAPTION =
-  "This is a first look. CDS designs your full theme from your mood board.";
+  "This is a first look. Support designs your full theme from your mood board.";
 export const PREVIEW_FALLBACK_TAGLINE = "Welcome in";
 export const PREVIEW_BUTTON = "Book a visit";
 export const PREVIEW_STRIP_LINE =

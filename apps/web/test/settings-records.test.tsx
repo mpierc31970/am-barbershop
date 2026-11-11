@@ -182,7 +182,7 @@ beforeEach(() => {
 });
 
 describe("records-view", () => {
-  it("apex shows as @; Remove on removable Yours, Ask on other Yours, none on CDS/email", () => {
+  it("apex shows as @; Remove on removable Yours, Ask on other Yours, none on Support/email", () => {
     expect(relativeName(DOMAIN, DOMAIN)).toBe("@");
     const groups = recordGroups(recordsView(), { canEdit: true });
     const rows = groups.flatMap((g) => g.records);
@@ -484,13 +484,13 @@ describe("email setup actions", () => {
     });
   });
 
-  it("a refused SPF merge asks for CDS Support", async () => {
+  it("a refused SPF merge asks for Support", async () => {
     db.ownerEmailSetupPreview.mockRejectedValue(
       new SpfMergeError("too_many_lookups"),
     );
     const res = await A.emailSetupPreviewAction({ preset: "zoho", values: {} });
     expect(res).toMatchObject({ ok: false, code: "EMAIL-SPF" });
-    if (!res.ok) expect(res.message).toContain("Ask CDS to set it up");
+    if (!res.ok) expect(res.message).toContain("Ask Support to set it up");
   });
 
   it("apply passes replaceConfirmed only when exactly true", async () => {
@@ -571,7 +571,7 @@ describe("Ask to change", () => {
     expect(db.fileTicket).not.toHaveBeenCalled();
   });
 
-  it("Ask CDS to set it up files the email setup change ticket", async () => {
+  it("Ask Support to set it up files the email setup change ticket", async () => {
     db.fileTicket.mockResolvedValue({ number: 7, id: "t7" });
     expect(await A.askEmailSetupAction()).toEqual({
       ok: true,

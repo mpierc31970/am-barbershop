@@ -38,11 +38,11 @@ import {
 } from "../../../actions/dns-records";
 
 export const DNS_CONTROLS_COPY = Object.freeze({
-  askTitle: "Ask CDS to change this record?",
+  askTitle: "Ask Support to change this record?",
   askBody:
-    "CDS Support gets a change request with this record. You can follow it in CDS Support.",
+    "Support gets a change request with this record. You can follow it in Support.",
   sending: "Sending…",
-  asked: (n: number) => `Sent to CDS Support as request #${n}.`,
+  asked: (n: number) => `Sent to Support as request #${n}.`,
 });
 
 const C = DNS_CONTROLS_COPY;

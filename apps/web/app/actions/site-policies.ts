@@ -27,7 +27,7 @@ import * as hubSession from "../../lib/session";
 const PUBLISH_COPY = {
   forbidden: "Only the site owner can publish these pages.",
   impersonation:
-    "You're viewing as CDS staff, so publishing is turned off. Only the owner can publish these pages.",
+    "You're viewing as support staff, so publishing is turned off. Only the owner can publish these pages.",
 };
 const ERR_PUBLISH =
   "We couldn't publish your policy pages. Nothing changed on your site. Try again in a minute.";

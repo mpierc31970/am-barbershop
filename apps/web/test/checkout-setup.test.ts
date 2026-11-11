@@ -51,7 +51,7 @@ describe("checkoutSetupItem", () => {
     );
     expect(item?.state).toBe("held");
     expect(item?.label).toBe(
-      "Checkout opens once CDS has checked your details, usually within 2 business days.",
+      "Checkout opens once Support has checked your details, usually within 2 business days.",
     );
     expect(item?.canPay).toBe(false);
   });
@@ -106,7 +106,7 @@ describe("checkoutSetupItem", () => {
     expect(item?.canPay).toBe(false);
   });
 
-  it("not shown before Send to CDS, once closed, or when the state is unread", () => {
+  it("not shown before Send to Support, once closed, or when the state is unread", () => {
     expect(checkoutSetupItem(input({ stage: "intake" }))).toBeNull();
     expect(checkoutSetupItem(input({ stage: "" }))).toBeNull();
     expect(

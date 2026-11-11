@@ -77,17 +77,17 @@ describe("TicketList", () => {
     );
   });
 
-  it("marks an unread CDS reply with a New reply badge and sr text", () => {
+  it("marks an unread Support reply with a New reply badge and sr text", () => {
     mounted = mount(
       <TicketList tickets={[ticket({ unread: true })]} show="all" now={NOW} />,
     );
     const a = mounted.container.querySelector("a[data-ticket-row]")!;
     expect(a.textContent).toContain("New reply");
     const sr = a.querySelector(".sr-only");
-    expect(sr?.textContent).toBe("New reply from CDS");
+    expect(sr?.textContent).toBe("New reply from Support");
   });
 
-  it("adds Opened by CDS and labels suggestions as Feature idea", () => {
+  it("adds Opened by Support and labels suggestions as Feature idea", () => {
     mounted = mount(
       <TicketList
         tickets={[
@@ -99,7 +99,7 @@ describe("TicketList", () => {
       />,
     );
     const rows = mounted.container.querySelectorAll("a[data-ticket-row]");
-    expect(rows[0]!.textContent).toContain("· Opened by CDS");
+    expect(rows[0]!.textContent).toContain("· Opened by Support");
     expect(rows[1]!.textContent).toContain("Feature idea · Whole site");
   });
 
@@ -346,7 +346,7 @@ describe("HelpDeflect", () => {
 });
 
 describe("TicketMeta", () => {
-  it("shows SLA-LINE before the first CDS reply and the solved button for writers", () => {
+  it("shows SLA-LINE before the first Support reply and the solved button for writers", () => {
     const onSolved = vi.fn();
     mounted = mount(
       <TicketMeta
@@ -382,8 +382,8 @@ describe("TicketMeta", () => {
       />,
     );
     const text = mounted.container.textContent ?? "";
-    expect(text).toContain("CDS first replied 10 Oct.");
-    expect(text).toContain("9 Oct by CDS");
+    expect(text).toContain("Support first replied 10 Oct.");
+    expect(text).toContain("9 Oct by Support");
     expect(text).not.toContain(SUPPORT_COPY.SLA_LINE);
     expect(text).not.toMatch(/missed|met\b|overdue/i);
   });

@@ -292,11 +292,13 @@ describe("CDS identity allowlist (COMM-05, 12-06)", () => {
       endsAt: new Date(Date.now() + 52 * 60_000).toISOString(),
     });
     const banner = document.querySelector(
-      'section[role="region"][aria-label="CDS staff session"]',
+      'section[role="region"][aria-label="Support staff session"]',
     );
     expect(banner).not.toBeNull();
     expect(banner!.hasAttribute("data-cds-identity")).toBe(true);
-    expect(banner!.textContent).toContain("Viewing Rivera Bakery as CDS staff");
+    expect(banner!.textContent).toContain(
+      "Viewing Rivera Bakery as support staff",
+    );
     expect(cdsLeaks(document.body)).toEqual([]);
     expect(orphanMarks(document.body)).toEqual([]);
     const skip = Array.from(document.querySelectorAll("a")).find(
@@ -316,7 +318,7 @@ describe("CDS identity allowlist (COMM-05, 12-06)", () => {
   it("no impersonation: no banner", () => {
     mounted = fullShell();
     expect(
-      document.querySelector('[aria-label="CDS staff session"]'),
+      document.querySelector('[aria-label="Support staff session"]'),
     ).toBeNull();
   });
 
@@ -332,9 +334,9 @@ describe("CDS identity allowlist (COMM-05, 12-06)", () => {
     );
     const orphans = orphanMarks(document.body);
     expect(orphans).toHaveLength(1);
-    expect(orphans[0]!.getAttribute("aria-label")).toBe("CDS");
+    expect(orphans[0]!.getAttribute("aria-label")).toBe("Support");
     // The author chip's "CDS" text sits inside the identity container.
-    expect(cdsLeaks(document.body)).toEqual(["aria-label: CDS"]);
+    expect(cdsLeaks(document.body)).toEqual([]);
   });
 
   it("--cds-* appears in no hub source outside the allowlist, and never as an action", () => {

@@ -48,7 +48,7 @@ const WRONG_ACCOUNT =
 const ACCOUNT_EXISTS =
   "You already have an account. Reload this page and sign in to accept.";
 const STAFF_REFUSED =
-  "CDS staff accounts can't join a site. Ask for the invite to go to a different email.";
+  "Support staff accounts can't join a site. Ask for the invite to go to a different email.";
 const NAME_TOO_LONG = "Use at most 80 characters for your name.";
 const PASSWORD_TOO_LONG = "Use at most 72 characters for your password.";
 

@@ -16,7 +16,7 @@ export const BILLING_HREF = "/hub/settings?tab=billing";
 /** UI-SPEC "Setup item" labels, by state. */
 export const CHECKOUT_ITEM_COPY = {
   after_sign: "After you sign your agreement.",
-  held: "Checkout opens once CDS has checked your details, usually within 2 business days.",
+  held: "Checkout opens once Support has checked your details, usually within 2 business days.",
   ready: "Your build fee and first month. About 2 minutes.",
   not_owner: "Only the site owner can pay.",
   open_soon: "Checkout opens soon. We'll email you the moment it does.",

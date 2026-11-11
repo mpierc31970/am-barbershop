@@ -37,6 +37,7 @@ export { addTimeOff, getSchedule, removeTimeOff, saveHours } from "./schedule";
 export type { ScheduleView, TimeOffView } from "./schedule";
 export {
   BOOKING_STATUSES,
+  bookingTransition,
   SLOT_TAKEN_COPY,
   createPublicBooking,
   listBookings,

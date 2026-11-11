@@ -24,7 +24,7 @@ export class ProviderIdConflict extends CdsError {
   override readonly code = "provider_id_conflict";
   constructor() {
     super(
-      "This payment account is linked to another site. CDS has been told and will sort it out.",
+      "This payment account is linked to another site. Support has been told and will sort it out.",
     );
   }
 }

@@ -8,7 +8,7 @@ route: /hub/marketing?tab=social
 
 These steps are the recording script for the Remotion + Venice AI how-to videos (D110), so write every step precisely enough to record from.
 
-Social accounts are part of every site (no add-on to buy). They show as icons in the site's footer, feed the Social block, and each one gets a short **bio link** (`/ig`, `/fb`, `/go/<name>`) that sends visitors to your home page and counts the visit as social in **Reports › Social**. CDS never posts for you and never shows follower counts.
+Social accounts are part of every site (no add-on to buy). They show as icons in the site's footer, feed the Social block, and each one gets a short **bio link** (`/ig`, `/fb`, `/go/<name>`) that sends visitors to your home page and counts the visit as social in **Reports › Social**. Support never posts for you and never shows follower counts.
 
 ## Activate
 

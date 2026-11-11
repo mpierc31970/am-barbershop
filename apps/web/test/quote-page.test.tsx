@@ -99,7 +99,7 @@ function view(over: Record<string, unknown> = {}) {
     id: ID,
     title: "Homepage design polish",
     status: "sent",
-    metaLine: "Quote from CDS · Sent 8 Oct 2026 · Valid until 7 Nov 2026",
+    metaLine: "Quote from Support · Sent 8 Oct 2026 · Valid until 7 Nov 2026",
     scopeHtml: "<p>Tighten the hero.</p>",
     kind: "polish",
     priceRows: [
@@ -174,7 +174,7 @@ describe("quote page", () => {
     );
     const html = await render();
     expect(html).toContain(
-      "You&#x27;re viewing as CDS staff, so payment is turned off.",
+      "You&#x27;re viewing as support staff, so payment is turned off.",
     );
     expect(html).not.toContain("Accept and pay");
     expect(html).not.toContain("Decline this quote");
@@ -225,7 +225,7 @@ describe("quote page", () => {
       view({ status: "deposit_paid", kind: "private_addon" }),
     );
     expect(await render()).toContain(
-      "CDS has started the work and will message you when it&#x27;s ready.",
+      "Support has started the work and will message you when it&#x27;s ready.",
     );
   });
 
@@ -240,7 +240,7 @@ describe("quote page", () => {
       }),
     );
     const html = await render();
-    expect(html).toContain("CDS delivered this work on 20 Oct.");
+    expect(html).toContain("Support delivered this work on 20 Oct.");
     expect(html).toContain("Pay the balance $2,000");
     expect(html).toContain('href="https://invoice.example/i_2"');
   });
@@ -254,7 +254,7 @@ describe("quote page", () => {
       view({ status: "expired", statusDateLabel: "7 Nov" }),
     );
     expect(await render()).toContain(
-      "This quote expired on 7 Nov. Ask CDS Support for a new one.",
+      "This quote expired on 7 Nov. Ask Support for a new one.",
     );
   });
 });
@@ -304,19 +304,19 @@ describe("acceptQuoteAction", () => {
     expect(await acceptQuoteAction(ID)).toEqual({
       ok: false,
       message:
-        "You're viewing as CDS staff, so payment is turned off. Only the owner can pay.",
+        "You're viewing as support staff, so payment is turned off. Only the owner can pay.",
     });
     expect(db.acceptWorkOrder).not.toHaveBeenCalled();
   });
 
   it("a chokepoint refusal keeps its copy (expired)", async () => {
     db.acceptWorkOrder.mockRejectedValue(
-      new InvalidInput("This quote expired. Ask CDS Support for a new one."),
+      new InvalidInput("This quote expired. Ask Support for a new one."),
     );
     db.readWorkOrder.mockResolvedValue(view({ status: "expired" }));
     expect(await acceptQuoteAction(ID)).toEqual({
       ok: false,
-      message: "This quote expired. Ask CDS Support for a new one.",
+      message: "This quote expired. Ask Support for a new one.",
     });
   });
 

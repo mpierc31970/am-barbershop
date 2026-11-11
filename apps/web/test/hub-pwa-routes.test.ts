@@ -94,7 +94,7 @@ describe("/hub/manifest.webmanifest", () => {
     expect(body).toMatchObject({
       name: "Rivera Family Bakery",
       short_name: "Rivera",
-      start_url: "/hub/today",
+      start_url: "/hub/alerts",
       scope: "/hub/",
       display: "standalone",
       background_color: "#FFFFFF",

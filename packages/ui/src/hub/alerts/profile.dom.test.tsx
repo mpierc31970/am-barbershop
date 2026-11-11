@@ -110,11 +110,11 @@ describe("AlertPrefsTable", () => {
 
   it("the five support types show only with support:read (12-29)", () => {
     const SUPPORT_LABELS = [
-      "CDS replies to your tickets",
+      "Support replies to your tickets",
       "Ticket status changes",
-      "Messages from CDS",
-      "Notes from CDS",
-      "Documents from CDS",
+      "Messages from Support",
+      "Notes from Support",
+      "Documents from Support",
     ];
     // A grants-only role has no support:read (P12-P11); the server filters by eligibleFor.
     const grantsOnly = CORE_ALERT_TYPES.filter((t) =>

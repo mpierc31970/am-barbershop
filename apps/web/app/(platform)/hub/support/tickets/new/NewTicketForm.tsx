@@ -100,7 +100,7 @@ export const NEW_TICKET_COPY = Object.freeze({
   subject: "Subject",
   body: "Tell us more",
   files: "Screenshots or files",
-  replyByEmail: "CDS replies here and lets you know by email.",
+  replyByEmail: "Support replies here and lets you know by email.",
   ideasHref: "/hub/support?tab=ideas",
   /** Where Post idea lands: Ideas → Suggested, the new row highlighted when it is listed. */
   ideaPostedHref: (id: string | null) =>

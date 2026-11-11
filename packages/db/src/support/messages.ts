@@ -366,7 +366,7 @@ export async function staffPostConversationMessage(
           orgId,
           as: ctx,
           type: "cds.message",
-          title: "New message from CDS",
+          title: "New message from Support",
           href: CONVERSATION_HREF,
           excerpt: body.slice(0, 300),
           authorFirstName: posted.authorName,

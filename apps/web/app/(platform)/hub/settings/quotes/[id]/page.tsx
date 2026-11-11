@@ -32,7 +32,7 @@ import {
 } from "../../tabs";
 import { QuotePanel } from "./QuotePanel";
 
-export const metadata: Metadata = { title: "Quote from CDS" };
+export const metadata: Metadata = { title: "Quote from Support" };
 
 export const dynamic = "force-dynamic";
 

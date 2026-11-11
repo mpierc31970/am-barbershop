@@ -25,7 +25,7 @@ import { ClientResponseError } from "pocketbase";
 import { loadIntake } from "./snapshot";
 
 export const INTAKE_INCOMPLETE_COPY =
-  "A few things are still needed before CDS can start. Finish the items marked Needed.";
+  "A few things are still needed before Support can start. Finish the items marked Needed.";
 
 /** Send to CDS was refused: `missing` lists the required field ids still empty. */
 export class IntakeIncomplete extends InvalidInput {
@@ -37,7 +37,7 @@ export class IntakeIncomplete extends InvalidInput {
   }
 }
 
-export const ALREADY_SENT_COPY = "This site has already been sent to CDS.";
+export const ALREADY_SENT_COPY = "This site has already been sent to Support.";
 
 export async function sendToCds(
   ctx: OrgContext,

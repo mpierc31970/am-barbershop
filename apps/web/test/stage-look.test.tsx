@@ -341,7 +341,7 @@ describe("MoodBoard", () => {
     await flush();
     expect(c.textContent).toContain(MOODBOARD_WARNING);
     expect(c.textContent).toContain(
-      "We couldn't read colours from this image. Try another one; CDS will still see it.",
+      "We couldn't read colours from this image. Try another one; Support will still see it.",
     );
     expect(FakeXHR.last).not.toBeNull();
   });

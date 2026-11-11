@@ -273,7 +273,7 @@ describe("1 · Your business", () => {
     });
   });
 
-  it("seven style cards, Let CDS choose checked, each with a [data-site] sample", async () => {
+  it("seven style cards, Let Support choose checked, each with a [data-site] sample", async () => {
     load({});
     mounted = await open("business");
     const c = mounted.container;
@@ -291,7 +291,7 @@ describe("1 · Your business", () => {
     const labels = Array.from(
       c.querySelectorAll("#field-font_pairing label"),
     ).map((l) => l.textContent ?? "");
-    expect(labels[0]).toContain("Let CDS choose");
+    expect(labels[0]).toContain("Let Support choose");
     expect(labels[0]).toContain("We'll pick fonts that fit your mood board.");
     expect(labels[1]).toContain("Warm and classic");
   });

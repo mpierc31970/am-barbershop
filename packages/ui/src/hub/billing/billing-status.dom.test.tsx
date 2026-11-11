@@ -114,7 +114,9 @@ describe("BillingStatusStrip", () => {
         })}
       />,
     );
-    expect(text(mounted)).toContain("CDS sent you a quote: Homepage polish.");
+    expect(text(mounted)).toContain(
+      "Support sent you a quote: Homepage polish.",
+    );
     const a = links(mounted).find((l) => l.textContent === "Review quote");
     expect(a?.getAttribute("href")).toBe("/hub/quotes/q1");
     expect(a?.className).not.toContain("bg-hub-accent");
@@ -180,7 +182,7 @@ describe("PlanSummary", () => {
     expect(t).toContain("8 Nov 2026 · $39.00 plus sales tax");
     expect(t).toContain("Visa ending 4242, expires 08/28");
     expect(t).toContain(
-      "Want to switch between monthly and yearly billing? Ask CDS Support",
+      "Want to switch between monthly and yearly billing? Ask Support",
     );
     expect(t).not.toContain("Price lock");
     const a = links(mounted).find((l) => l.textContent === "Update card");
@@ -249,7 +251,7 @@ const invoices = (n: number): InvoiceRow[] =>
   Array.from({ length: n }, (_, i) => ({
     id: `in_${i}`,
     date: `${i + 1} Oct 2026`,
-    number: `CDS-${String(42 - i).padStart(4, "0")}`,
+    number: `Support-${String(42 - i).padStart(4, "0")}`,
     whatFor: "Monthly plan, November",
     amountCents: 153900,
     taxCents: 0,
@@ -298,11 +300,11 @@ describe("InvoiceTable", () => {
       mounted.container.querySelectorAll("table a"),
     );
     expect(tableLinks[0]?.getAttribute("aria-label")).toBe(
-      "View invoice CDS-0042 from 1 Oct 2026 (opens Stripe)",
+      "View invoice Support-0042 from 1 Oct 2026 (opens Stripe)",
     );
     expect(tableLinks[0]?.getAttribute("rel")).toBe("noopener noreferrer");
     expect(tableLinks[1]?.getAttribute("aria-label")).toBe(
-      "View invoice CDS-0041 from 2 Oct 2026",
+      "View invoice Support-0041 from 2 Oct 2026",
     );
   });
 

@@ -330,7 +330,7 @@ export const HUB_SECTIONS: Readonly<Record<HubSectionKey, HubSection>> =
     support: {
       key: "support",
       href: "/hub/support",
-      label: "CDS Support",
+      label: "Support",
       iconKey: "LifeBuoy",
       helpId: "support",
       tabs: supportTabs,

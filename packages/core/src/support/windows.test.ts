@@ -99,15 +99,15 @@ describe("lockCovers", () => {
 describe("noticeText", () => {
   it("active organization window ending 16:00 today", () => {
     const t = noticeText(w({ message: "Fixing your menu." }), {}, now);
-    expect(t).toContain("CDS is working on your site until 4:00 pm");
+    expect(t).toContain("Support is working on your site until 4:00 pm");
     expect(t).toBe(
-      "CDS is working on your site until 4:00 pm. Fixing your menu.",
+      "Support is working on your site until 4:00 pm. Fixing your menu.",
     );
   });
 
   it("names the target in owner words", () => {
     expect(noticeText(w({ scope: "platform" }), {}, now)).toContain(
-      "on the CDS platform until",
+      "on the platform until",
     );
     expect(
       noticeText(
@@ -176,7 +176,7 @@ describe("noticeText", () => {
         now,
       ),
     ).toBe(
-      "CDS is working on your A $& {end} page page until 4:00 pm. Prices drop $' tomorrow.",
+      "Support is working on your A $& {end} page page until 4:00 pm. Prices drop $' tomorrow.",
     );
     expect(
       noticeText(

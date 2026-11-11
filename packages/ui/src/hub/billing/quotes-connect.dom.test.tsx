@@ -59,7 +59,7 @@ function deferred<T>() {
 }
 
 const FEES =
-  "You own this account, you are the seller, and you pay Stripe's fees directly (for example 2.9% + 30¢ online). CDS takes no cut.";
+  "You own this account, you are the seller, and you pay Stripe's fees directly (for example 2.9% + 30¢ online). Support takes no cut.";
 
 function connectView(over: Partial<ConnectPanelView> = {}): ConnectPanelView {
   return {
@@ -131,7 +131,7 @@ describe("StripeConnectPanel", () => {
         "Take payments on your site",
       );
       expect(body()).toContain(
-        "Money goes straight to your Stripe account, never through CDS.",
+        "Money goes straight to your Stripe account, never through Support.",
       );
       const fees = document.querySelector("[data-fees-box]");
       expect(fees?.textContent).toBe(FEES);
@@ -253,7 +253,7 @@ describe("StripeConnectPanel", () => {
     renderPanel(connectView({ impersonating: true, state: "restricted" }));
     expect(document.querySelectorAll("button")).toHaveLength(0);
     expect(body()).toContain(
-      "You're viewing as CDS staff, so Stripe changes are turned off.",
+      "You're viewing as support staff, so Stripe changes are turned off.",
     );
   });
 
@@ -383,7 +383,7 @@ function quote(over: Partial<QuoteView> = {}): QuoteView {
   return {
     title: "Homepage design polish",
     status: "sent",
-    metaLine: "Quote from CDS · Sent 8 Oct 2026 · Valid until 7 Nov 2026",
+    metaLine: "Quote from Support · Sent 8 Oct 2026 · Valid until 7 Nov 2026",
     scopeHtml: "<p>Tighten the hero.</p><ul><li>New photo crop</li></ul>",
     kind: "polish",
     priceRows: [
@@ -429,8 +429,8 @@ describe("QuoteDetail", () => {
       "Homepage design polish",
     );
     expect(body()).toContain("Waiting for you");
-    expect(body()).toContain("Quote from CDS · Sent 8 Oct 2026");
-    expect(body()).toContain("What CDS will do");
+    expect(body()).toContain("Quote from Support · Sent 8 Oct 2026");
+    expect(body()).toContain("What Support will do");
     expect(document.querySelector("[data-quote-scope] li")?.textContent).toBe(
       "New photo crop",
     );
@@ -526,7 +526,7 @@ describe("QuoteDetail", () => {
     expect(dialog?.hasAttribute("open")).toBe(true);
     expect(dialog?.textContent).toContain("Decline this quote?");
     expect(dialog?.textContent).toContain(
-      "CDS is told, and no work starts. You can ask for a new quote any time.",
+      "Support is told, and no work starts. You can ask for a new quote any time.",
     );
     expect(document.activeElement?.textContent).toBe("Keep quote");
     click(button(dialog!, "Decline quote"));
@@ -570,7 +570,7 @@ describe("QuoteDetail", () => {
   it.each(["deposit_paid", "paid"] as const)("%s: QUOTE-STARTED", (status) => {
     renderQuote(quote({ status, statusDateLabel: "9 Oct" }));
     expect(body()).toContain(
-      "Paid on 9 Oct. CDS has started the work and will message you when it's ready.",
+      "Paid on 9 Oct. Support has started the work and will message you when it's ready.",
     );
     expect(document.querySelectorAll("button")).toHaveLength(0);
   });
@@ -585,7 +585,7 @@ describe("QuoteDetail", () => {
       }),
     );
     expect(body()).toContain(
-      "CDS delivered this work on 20 Oct. Pay the balance to finish; your monthly maintenance starts with your next bill.",
+      "Support delivered this work on 20 Oct. Pay the balance to finish; your monthly maintenance starts with your next bill.",
     );
     const pay = Array.from(document.querySelectorAll("a")).find(
       (a) => a.textContent === "Pay the balance $2,000",
@@ -600,14 +600,14 @@ describe("QuoteDetail", () => {
     document.body.innerHTML = "";
     renderQuote(quote({ status: "expired", statusDateLabel: "7 Nov" }));
     expect(body()).toContain(
-      "This quote expired on 7 Nov. Ask CDS Support for a new one.",
+      "This quote expired on 7 Nov. Ask Support for a new one.",
     );
   });
 
   it("impersonating: read-only with IMPERSONATING-PAY", () => {
     renderQuote(quote({ impersonating: true, canAct: false }));
     expect(body()).toContain(
-      "You're viewing as CDS staff, so payment is turned off. Only the owner can pay.",
+      "You're viewing as support staff, so payment is turned off. Only the owner can pay.",
     );
     expect(document.querySelectorAll("button")).toHaveLength(0);
     expect(document.querySelector("input[type=checkbox]")).toBeNull();

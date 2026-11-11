@@ -50,8 +50,8 @@ export const REVIEW_UI_COPY = Object.freeze({
   progressLabel: "Launch review progress",
   ownerOnly: "Only the owner can approve the launch.",
   impersonating:
-    "You're viewing as CDS staff, so this is turned off. Only the owner can approve the launch.",
-  notAvailable: "CDS will email you when your review is ready to start.",
+    "You're viewing as support staff, so this is turned off. Only the owner can approve the launch.",
+  notAvailable: "Support will email you when your review is ready to start.",
   newTab: "(opens in a new tab)",
   open: "Open",
   pageStatus: {
@@ -69,8 +69,9 @@ export const REVIEW_UI_COPY = Object.freeze({
     `${title} changed after you approved it. Look at it again.`,
   noPages: "Your pages appear here once they're published.",
   changesNone: "None asked for",
-  changesSent: (n: number) => `${n} sent to CDS`,
-  changesWaiting: (sent: number, of: number) => `${sent} of ${of} sent to CDS`,
+  changesSent: (n: number) => `${n} sent to Support`,
+  changesWaiting: (sent: number, of: number) =>
+    `${sent} of ${of} sent to Support`,
   factsLine: "Business name, phone, email, address and hours",
   confirmedOn: (day: string) => (day ? `Confirmed ${day}` : "Confirmed"),
   phoneLine: "Scan a code with your phone and look around",
@@ -78,7 +79,7 @@ export const REVIEW_UI_COPY = Object.freeze({
   testFormLine: "Send a test message from your Contact page",
   testFormWaiting: "Waiting for your test message…",
   openRequests: (n: number) =>
-    `${n} change ${n === 1 ? "request" : "requests"} open. CDS is working on it.`,
+    `${n} change ${n === 1 ? "request" : "requests"} open. Support is working on it.`,
   noOpenRequests: "No open change requests",
   // Key facts (?step=facts).
   backToReview: "Review your site",
@@ -112,7 +113,7 @@ export const REVIEW_UI_COPY = Object.freeze({
   linkCopied: "Review link copied.",
   copyLinkAria: "Copy the review link",
   phoneCheckedToast: "Phone check done.",
-  noLink: "Your preview address isn't ready yet. CDS is setting it up.",
+  noLink: "Your preview address isn't ready yet. Support is setting it up.",
   // Submit panel.
   readyToLaunch: "Ready to launch",
   sending: "Sending…",

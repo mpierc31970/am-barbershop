@@ -22,21 +22,21 @@ export const WHAT_SUPPORT_INCLUDES_HREF = "/hub/help/what-support-includes";
 export const NEW_TICKET_HREF = "/hub/support/tickets/new";
 
 export const SUPPORT_COPY = Object.freeze({
-  title: "CDS Support",
-  byline: "From the Connections Design Studios team",
+  title: "Support",
+  byline: "From the support team",
   care: "Care Plan",
   careOff: "Not on your plan",
   billingLink: "Settings › Billing",
   aboutCare: "About the Care Plan",
-  tabsLabel: "CDS Support sections",
+  tabsLabel: "Support sections",
   /** Messages tab (UI-SPEC lines 283-289). */
-  conversationHeading: "Messages with CDS",
-  composerLabel: "Write to CDS",
+  conversationHeading: "Messages with us",
+  composerLabel: "Write to Support",
   composerFooter:
-    "CDS usually replies within 2 business days. For something broken on your site, Get help opens a ticket we track.",
+    "Support usually replies within 2 business days. For something broken on your site, Get help opens a ticket we track.",
   /** Polling (UI-SPEC lines 294-297). */
   newMessages: (n: number) =>
-    n === 1 ? "1 new message from CDS" : `${n} new messages from CDS`,
+    n === 1 ? "1 new message from Support" : `${n} new messages from Support`,
   newMessagesButton: (n: number) =>
     n === 1 ? "1 new message" : `${n} new messages`,
   /** Tickets tab (12-25; UI-SPEC lines 355-372). */
@@ -44,7 +44,7 @@ export const SUPPORT_COPY = Object.freeze({
   ticketsShowLabel: "Show tickets",
   ticketsShow: Object.freeze({ open: "Open", closed: "Closed", all: "All" }),
   /** TICKETS-EMPTY body for read-only roles (no Get help link). */
-  ticketsEmptyReadOnly: "Tickets your team sends to CDS will appear here.",
+  ticketsEmptyReadOnly: "Tickets your team sends to Support will appear here.",
   yourSupport: "Your support",
   supportRow: "Support",
   supportIncluded: "Included in your plan",

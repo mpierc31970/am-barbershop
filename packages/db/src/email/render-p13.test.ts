@@ -134,7 +134,7 @@ describe("P13 templates", () => {
     expect(ctWeekdayDate(new Date("2026-10-16T17:00:00Z"))).toBe("Fri 16 Oct");
     expect(m.subject).toBe("Action needed on Rivera Bakery by Fri 16 Oct");
     expect(m.text).toContain(
-      "CDS found something on your site that breaks the hosting rules. Fix it by Fri 16 Oct or your site goes offline.",
+      "Support found something on your site that breaks the hosting rules. Fix it by Fri 16 Oct or your site goes offline.",
     );
     expect(m.text).toContain("Remove the copied photos on the Gallery page.");
     expect(m.text).toContain(P13_COPY.MAIL_MISTAKE_LINE);
@@ -145,9 +145,9 @@ describe("P13 templates", () => {
     const s = render("site.suspended");
     expect(s.subject).toBe("Rivera Bakery is offline");
     expect(s.text).toContain(
-      "Your site is offline. CDS suspended it on 16 Oct.",
+      "Your site is offline. Support suspended it on 16 Oct.",
     );
-    expect(s.text).toContain("Open CDS Support");
+    expect(s.text).toContain("Open Support");
     const l = render("site.suspension_lifted");
     expect(l.subject).toBe("Rivera Bakery is back online");
     expect(l.text).toContain(P13_COPY.MAIL_BACK_ONLINE);

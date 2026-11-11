@@ -32,15 +32,15 @@ describe("CdsMark", () => {
     expect(svg.hasAttribute("aria-label")).toBe(false);
   });
 
-  it("label=true is an image named CDS", () => {
+  it("label=true is an image named Support", () => {
     mounted = mount(<CdsMark size={20} label />);
     const svg = mounted.container.querySelector("svg")!;
     expect(svg.getAttribute("role")).toBe("img");
-    expect(svg.getAttribute("aria-label")).toBe("CDS");
+    expect(svg.getAttribute("aria-label")).toBe("Support");
     expect(svg.hasAttribute("aria-hidden")).toBe(false);
   });
 
-  it("fills its tile with the CDS mark token and draws white on it", () => {
+  it("fills its tile with the Support mark token and draws white on it", () => {
     mounted = mount(<CdsMark size={16} />);
     const rect = mounted.container.querySelector("rect")!;
     expect(rect.getAttribute("fill")).toBe("var(--cds-mark)");
@@ -50,28 +50,28 @@ describe("CdsMark", () => {
 });
 
 describe("CdsAuthor", () => {
-  it('"Mara" reads "Mara from CDS"', () => {
+  it('"Mara" reads "Mara from Support"', () => {
     mounted = mount(<CdsAuthor firstName="Mara" />);
     const chip = mounted.container.firstElementChild as HTMLElement;
     const sr = chip.querySelector(".sr-only")!;
-    expect(sr.textContent).toBe("Mara from CDS");
+    expect(sr.textContent).toBe("Mara from Support");
     const visible = chip.querySelector('[aria-hidden="true"]:not(svg)')!;
-    expect(visible.textContent).toBe("Mara · CDS");
+    expect(visible.textContent).toBe("Mara · Support");
     expect(chip.querySelector("svg")!.getAttribute("width")).toBe("16");
     // "CDS" carries the mark colour; the name stays ink.
-    expect(chip.querySelector(".text-cds-mark")!.textContent).toBe("CDS");
+    expect(chip.querySelector(".text-cds-mark")!.textContent).toBe("Support");
   });
 
-  it("no name reads CDS alone", () => {
+  it("no name reads Support alone", () => {
     mounted = mount(<CdsAuthor />);
     const chip = mounted.container.firstElementChild as HTMLElement;
-    expect(chip.textContent).toBe("CDS");
-    expect(chip.querySelector(".text-cds-mark")!.textContent).toBe("CDS");
+    expect(chip.textContent).toBe("Support");
+    expect(chip.querySelector(".text-cds-mark")!.textContent).toBe("Support");
   });
 
-  it("a blank name falls back to CDS", () => {
+  it("a blank name falls back to Support", () => {
     mounted = mount(<CdsAuthor firstName="  " />);
-    expect(mounted.container.textContent).toBe("CDS");
+    expect(mounted.container.textContent).toBe("Support");
   });
 });
 

@@ -10,7 +10,7 @@ import { formatDomainDate } from "./domain-view";
 
 export const INTEGRATIONS_COPY = Object.freeze({
   heading: "Search engines and analytics",
-  intro: "CDS sets these up. Ask CDS Support to change them.",
+  intro: "Support sets these up. Ask Support to change them.",
   ga: "Google Analytics",
   gsc: "Google Search Console",
   bing: "Bing Webmaster Tools",

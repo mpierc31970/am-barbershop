@@ -35,7 +35,7 @@ const MAX_IDS = 100;
 
 /** 11-19: the layout sheet's refusal for impersonating staff (UI-SPEC IMPERSONATING pattern). */
 const IMPERSONATING_LAYOUT_COPY =
-  "You're viewing as CDS staff, so changes to Today are turned off. Only the person can change their own Today.";
+  "You're viewing as support staff, so changes to Today are turned off. Only the person can change their own Today.";
 
 function idList(v: unknown): string[] | null {
   if (!Array.isArray(v) || v.length > MAX_IDS) return null;

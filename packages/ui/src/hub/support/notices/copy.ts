@@ -21,17 +21,17 @@ export const NOTICES_COPY = Object.freeze({
   /** The expander under two strips. */
   more: (n: number) => (n === 1 ? "1 more notice" : `${n} more notices`),
   /** The region name the strips sit in. */
-  regionLabel: "Notices from CDS",
+  regionLabel: "Notices from Support",
   /** The What happened dialog title. */
   incidentTitle: "What happened",
   lockedHeading: (target: string) =>
-    `Editing is paused while CDS works on this ${target}`,
+    `Editing is paused while Support works on this ${target}`,
   until: (end: string) => `Until ${end}`,
   /** "Saved at 2:14 pm" today; "Saved yesterday at 2:14 pm" / "Saved Thu 9 Oct at 2:14 pm" before. */
   savedAt: (time: string, day = "") =>
     day ? `Saved ${day} at ${time}` : `Saved at ${time}`,
   heldFinished: (time: string) =>
     time
-      ? `CDS has finished. Your changes from ${time} are waiting.`
-      : "CDS has finished. Your changes are waiting.",
+      ? `Support has finished. Your changes from ${time} are waiting.`
+      : "Support has finished. Your changes are waiting.",
 });

@@ -8,15 +8,15 @@ route: /hub/agreement?mode=reaccept
 
 These steps are the recording script for the Remotion + Venice AI how-to videos (D110), so write every step precisely enough to record from.
 
-When CDS publishes a new version of a policy the owner has already signed, the owner is asked to accept it the next time they open the hub. Only the changed policies are shown, each with a one-line "What changed". The site stays live the whole time, and sign-out always works.
+When Support publishes a new version of a policy the owner has already signed, the owner is asked to accept it the next time they open the hub. Only the changed policies are shown, each with a one-line "What changed". The site stays live the whole time, and sign-out always works.
 
-Only the owner is asked. Admins, editors and viewers keep working; an admin sees the note "CDS updated its terms. Your site owner needs to accept them; nothing changes for you or your site meanwhile." at the top of the hub. Staff viewing the hub as the owner are never redirected and can't sign.
+Only the owner is asked. Admins, editors and viewers keep working; an admin sees the note "Support updated its terms. Your site owner needs to accept them; nothing changes for you or your site meanwhile." at the top of the hub. Staff viewing the hub as the owner are never redirected and can't sign.
 
 ## Activate
 
 | # | Screen / route | Action | Expected result |
 |---|---|---|---|
-| 1 | CDS repo (staff) | Publish a new version of a policy (for example Terms of Service v2, with a `changes` line) and deploy | Every org that signed version 1 now has an outdated agreement. Orgs that never signed are not affected |
+| 1 | Support repo (staff) | Publish a new version of a policy (for example Terms of Service v2, with a `changes` line) and deploy | Every org that signed version 1 now has an outdated agreement. Orgs that never signed are not affected |
 
 ## Use
 
@@ -30,4 +30,4 @@ Only the owner is asked. Admins, editors and viewers keep working; an admin sees
 | 6 | `/hub/agreement?mode=reaccept`, **Sign your agreement** | Tick the electronic signature consent box (it is asked again every time) and type your full legal name | **Sign and accept** is no longer faded; the line reads "{Name}, you're signing for {business} on {today}…" |
 | 7 | `/hub/agreement?mode=reaccept` | Click **Sign and accept** | **Signing…**, then `/hub/agreement/signed/{id}` opens: "Your agreement is signed" with **Download your signed copy** and **Continue to your hub** |
 | 8 | `/hub/agreement/signed/{id}` | Click **Continue to your hub** | The page you were going to before the update opens, with the normal sidebar |
-| 9 | `/hub` (as an admin, before the owner signs) | Sign in as an admin | The hub opens as usual with the note "CDS updated its terms. Your site owner needs to accept them…". Opening `/hub/agreement` shows the cards read-only with "Only the site owner can sign this agreement." and no **Sign and accept** button |
+| 9 | `/hub` (as an admin, before the owner signs) | Sign in as an admin | The hub opens as usual with the note "Support updated its terms. Your site owner needs to accept them…". Opening `/hub/agreement` shows the cards read-only with "Only the site owner can sign this agreement." and no **Sign and accept** button |

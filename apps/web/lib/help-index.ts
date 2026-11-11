@@ -127,7 +127,7 @@ export const HELP_EXTRAS: readonly HelpExtra[] = Object.freeze([
   },
   {
     id: "quotes",
-    title: "Accept a quote from CDS",
+    title: "Accept a quote from Support",
     howTo: "docs/how-to/accept-a-quote.md",
     group: "site",
   },
@@ -179,7 +179,7 @@ export const HELP_EXTRAS: readonly HelpExtra[] = Object.freeze([
   {
     // 11-50: the public policy pages, readable without signing in.
     id: "cds-policies",
-    title: "Read CDS policies",
+    title: "Read the policies",
     howTo: "docs/how-to/read-cds-policies.md",
     group: "site",
   },

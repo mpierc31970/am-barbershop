@@ -17,7 +17,7 @@ import {
 } from "../../../lib/agreement-setup";
 
 export const EXISTING_OWNER_COPY =
-  "You already have a site with us, so we signed you in to it. We kept your new quote, and CDS will be in touch about it.";
+  "You already have a site with us, so we signed you in to it. We kept your new quote, and Support will be in touch about it.";
 
 const NOTICES: Readonly<Record<string, string>> = Object.freeze({
   "existing-owner": EXISTING_OWNER_COPY,

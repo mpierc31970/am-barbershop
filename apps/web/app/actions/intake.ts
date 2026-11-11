@@ -29,10 +29,10 @@ import { contentDeps } from "../../lib/content";
 import { ANSWER_KEYS, PROFILE_KEYS, pickKeys } from "../../lib/intake";
 
 const SEND_COPY = {
-  forbidden: "Only the site owner can send this to CDS.",
-  impersonation: "Sending to CDS is the owner's step.",
+  forbidden: "Only the site owner can send this to Support.",
+  impersonation: "Sending to Support is the owner's step.",
 };
-const SEND_UNLOCK = "Send to CDS unlocks when the must-haves are in.";
+const SEND_UNLOCK = "Send to Support unlocks when the must-haves are in.";
 const SEND_FAILED =
   "Sending didn't finish. Your answers are saved. Try again in a minute.";
 

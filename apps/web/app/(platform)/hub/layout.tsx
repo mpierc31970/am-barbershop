@@ -90,6 +90,7 @@ import {
   ALL_NEEDS_YOU_FAILED,
   composeHubNav,
   inSetup,
+  profileMenuLinks,
   type HubNeedsYou,
 } from "./nav";
 import { composeSectionTabs } from "./sections";
@@ -113,7 +114,7 @@ export const dynamic = "force-dynamic";
 const DEFAULT_SUPPORT_EMAIL = "support@connectionsdesignstudios.com";
 
 export const DECLINED_LOAD_FAILED =
-  "We couldn't load the details right now. Reload the page, or contact CDS Support.";
+  "We couldn't load the details right now. Reload the page, or contact Support.";
 
 /** 10-32: the focused declined frame for any member of a declined site (T-10-32-02). */
 async function declinedFrame(
@@ -350,10 +351,17 @@ export default async function HubLayout({ children }: { children: ReactNode }) {
   }).filter((e) => isHubHref(e.href));
   const businessName = session.org.name || "Your site";
   // A&M fork: a barber seat's sidebar link opens their own public profile, not the site.
+  // Anyone with their own seat (barbers, the owner) gets a profile menu of their own items.
   let profileUrl: string | null = null;
-  if (host && (ctx.role === "renter" || ctx.role === "staff")) {
+  const ownSeatId = session.impersonation
+    ? null
+    : await Promise.resolve()
+        .then(() => mySeatId(ctx))
+        .then((id) => id ?? null)
+        .catch(() => null);
+  if (host && ownSeatId && (ctx.role === "renter" || ctx.role === "staff")) {
     try {
-      const seatId = await mySeatId(ctx);
+      const seatId = ownSeatId;
       const seat = seatId ? await getSeat(ctx, seatId) : null;
       if (seat?.isPublished && seat.slug) {
         profileUrl = `https://${host}/barbers/${seat.slug}`;
@@ -387,6 +395,8 @@ export default async function HubLayout({ children }: { children: ReactNode }) {
           name: session.email,
           email: "",
           roleLine: `${roleLabel(ctx.role)} at ${businessName}`,
+          links: profileMenuLinks(ownSeatId, ctx.role),
+          ...(ownSeatId ? { photoSeatId: ownSeatId } : {}),
         }}
         alerts={alerts}
         banner={bannerView ? <BillingBanner {...bannerView} /> : null}

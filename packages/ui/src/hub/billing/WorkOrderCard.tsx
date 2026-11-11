@@ -21,7 +21,7 @@ export const QUOTE_STATUS_BADGE: Record<
 };
 
 export const QUOTES_EMPTY =
-  "No quotes yet. When you ask CDS for paid work, the quote shows here for you to accept.";
+  "No quotes yet. When you ask Support for paid work, the quote shows here for you to accept.";
 
 /** Waiting quotes first; otherwise the server's order is kept. */
 export function sortWorkOrders<T extends { status: WorkOrderStatus }>(

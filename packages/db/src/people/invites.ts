@@ -544,7 +544,10 @@ export async function acceptInvite(
       throw new Forbidden("this invite is for a different email address");
     }
     if (rec.staff_role) {
-      throw new InviteRefused("staff", "CDS staff cannot be tenant members");
+      throw new InviteRefused(
+        "staff",
+        "Support staff cannot be tenant members",
+      );
     }
     const member = await pb.collection("memberships").getList(1, 1, {
       filter: pb.filter("organization = {:o} && user = {:u}", {
