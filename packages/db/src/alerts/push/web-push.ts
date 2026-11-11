@@ -116,6 +116,7 @@ export function webPushSender(vapid: VapidConfig): PushSender {
         body: payload.body,
         href: payload.href,
         tag: payload.tag,
+        ...(payload.badge !== undefined ? { badge: payload.badge } : {}),
       });
       try {
         await webpush.sendNotification(

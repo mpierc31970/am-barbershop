@@ -31,6 +31,8 @@ export type PushPayload = {
   href: string;
   tag: string;
   urgency: "high" | "normal";
+  /** Unread alerts for the app-icon badge (the service worker calls setAppBadge). */
+  badge?: number;
 };
 
 /** "gone" = the endpoint no longer exists (404/410); "error" = anything else. */

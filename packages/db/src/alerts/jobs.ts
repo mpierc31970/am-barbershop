@@ -64,6 +64,7 @@ import {
   getPushSender,
   recordOutcome,
   subscriptionsForUsers,
+  unreadForBadge,
   type PushPayload,
   type PushSender,
 } from "./push";
@@ -368,7 +369,11 @@ function groupPayload(
       org: orgId,
       body,
       href: newestHref || "/hub/today",
-      tag: str(r.type),
+      // A no-collapse type (booking request) keeps its own tag, as raiseAlert sent it.
+      tag:
+        spec?.collapse === false
+          ? `${str(r.type)}:${str(r.source_key)}`
+          : str(r.type),
       urgency,
     };
   }
@@ -490,7 +495,11 @@ async function pushRows(
         if (mode === "release") {
           const byType = groupBy(ready, (r) => str(r.type));
           for (const [type, list] of byType) {
-            if (await lastSameTypePushOpen(c.pb, orgId, user, type, c.now)) {
+            const spec = c.types.find((s) => s.type === type);
+            if (
+              spec?.collapse !== false &&
+              (await lastSameTypePushOpen(c.pb, orgId, user, type, c.now))
+            ) {
               c.result.heldCollapse += list.length;
             } else {
               send.push(...list);
@@ -513,7 +522,12 @@ async function pushRows(
         if (drop.length > 0) await setState(c.pb, drop, "skipped", c.now);
         if (send.length === 0) continue;
         if (mode === "retry") c.result.retried += 1;
-        const payload = groupPayload(orgId, send, view.facts, c.types);
+        const payload = {
+          ...groupPayload(orgId, send, view.facts, c.types),
+          badge: await unreadForBadge(c.pb, orgId, user, c.now).catch(
+            () => undefined,
+          ),
+        };
         const outcome = await sendGroup(
           c.pb,
           orgId,
@@ -787,7 +801,7 @@ async function runOnce(opts: AlertJobOptions): Promise<AlertJobResult> {
           filter: pb.filter("push_state = {:s} && read_at = ''", { s: "held" }),
           sort: "created",
           fields:
-            "id,organization,user,type,level,title,safe_title,href,section,created",
+            "id,organization,user,type,level,title,safe_title,href,section,source_key,created",
         });
         await pushRows(pushCtx, held.items, "release", handled);
       });
@@ -802,7 +816,7 @@ async function runOnce(opts: AlertJobOptions): Promise<AlertJobResult> {
           }),
           sort: "created",
           fields:
-            "id,organization,user,type,level,title,safe_title,href,section,created",
+            "id,organization,user,type,level,title,safe_title,href,section,source_key,created",
         });
         const fresh = failed.items.filter((r) => !handled.has(r.id));
         await pushRows(pushCtx, fresh, "retry", new Set<string>());

@@ -136,3 +136,25 @@ export async function recordOutcome(
     console.error("[alerts] push subscription bookkeeping failed");
   }
 }
+
+/**
+ * The app-icon badge sent with a push: the person's unread alerts from the bell's 30 days.
+ * ponytail: ignores Needs-you clearing (needs the request's keys); the hub resets the badge to
+ * the exact bell count on its next load.
+ */
+export async function unreadForBadge(
+  pb: PocketBase,
+  org: string,
+  user: string,
+  now: Date,
+): Promise<number> {
+  const since = new Date(now.getTime() - 30 * 86_400_000);
+  const res = await pb.collection("alerts").getList(1, 1, {
+    filter: pb.filter(
+      "organization = {:org} && user = {:u} && read_at = '' && created >= {:since}",
+      { org, u: user, since },
+    ),
+    fields: "id",
+  });
+  return res.totalItems;
+}

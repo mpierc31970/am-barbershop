@@ -192,7 +192,17 @@ self.addEventListener("push", function (event) {
     icon: "/hub/icon/icon-180.png",
     data: { href: safeHref(data.href), org: org }
   };
-  event.waitUntil(self.registration.showNotification(title, options));
+  var jobs = [self.registration.showNotification(title, options)];
+  // The home-screen app's red number: the unread count the server sent (Badging API).
+  var badge = data.badge;
+  if (typeof badge === "number" && badge >= 0 && self.navigator && "setAppBadge" in self.navigator) {
+    jobs.push(
+      (badge > 0 ? self.navigator.setAppBadge(Math.floor(badge)) : self.navigator.clearAppBadge()).catch(
+        function () {}
+      )
+    );
+  }
+  event.waitUntil(Promise.all(jobs));
 });
 
 self.addEventListener("notificationclick", function (event) {

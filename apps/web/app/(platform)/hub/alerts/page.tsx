@@ -21,6 +21,7 @@ import { bellKeysFrom } from "../../../../lib/bell";
 import { getNeedsYou } from "../../../../lib/needs-you";
 import { requireHubSession } from "../../../../lib/session";
 import { readStudioNote } from "../../../../lib/studio";
+import { ClearAppBadge } from "../app-badge";
 import { GuardedLink } from "../GuardedLink";
 import { ALL_NEEDS_YOU_FAILED } from "../nav";
 import { alertActions, type ContactLink } from "./alert-actions";
@@ -119,6 +120,7 @@ export default async function AlertsPage() {
 
   return (
     <div className="flex w-full max-w-[720px] flex-col gap-6 font-hub text-hub-ink">
+      <ClearAppBadge />
       <ScreenHeader title="Alerts" helpId="profile" LinkComponent={GuardedLink}>
         <GuardedLink
           href="/hub/profile#alerts"

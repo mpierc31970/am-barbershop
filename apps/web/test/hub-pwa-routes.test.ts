@@ -260,6 +260,43 @@ describe("/hub/sw.js", () => {
       "https://cds.example.com/hub/switch?org=aaaaaaaaaaaaaaa&next=%2Fhub%2Ftoday",
     ]);
   });
+
+  it("push sets the app badge from the payload where the Badging API exists", async () => {
+    const listeners: Record<string, (e: unknown) => void> = {};
+    const badges: (number | "clear")[] = [];
+    const waits: Promise<unknown>[] = [];
+    const reg = { showNotification: () => Promise.resolve() };
+    const self = {
+      addEventListener: (t: string, fn: (e: unknown) => void) => {
+        listeners[t] = fn;
+      },
+      registration: reg,
+      navigator: {
+        setAppBadge: (n: number) => (badges.push(n), Promise.resolve()),
+        clearAppBadge: () => (badges.push("clear"), Promise.resolve()),
+      },
+    };
+    runInNewContext(HUB_SERVICE_WORKER, { self, URL });
+    const push = (data: unknown) =>
+      listeners.push!({
+        data: { json: () => data },
+        waitUntil: (p: Promise<unknown>) => waits.push(p),
+      });
+    push({ title: "A", tag: "x", badge: 3 });
+    push({ title: "A", tag: "x", badge: 0 });
+    push({ title: "A", tag: "x" });
+    await Promise.all(waits);
+    expect(badges).toEqual([3, "clear"]);
+
+    // No Badging API: the notification still shows, nothing throws.
+    const plain = {
+      addEventListener: self.addEventListener,
+      registration: reg,
+    };
+    runInNewContext(HUB_SERVICE_WORKER, { self: plain, URL });
+    push({ title: "A", tag: "x", badge: 2 });
+    await Promise.all(waits);
+  });
 });
 
 describe("/hub/icon/<file>", () => {

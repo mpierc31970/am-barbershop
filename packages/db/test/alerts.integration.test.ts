@@ -5,6 +5,7 @@
 // and never throws. The bell reads are per person and clear themselves against Needs you.
 import { randomBytes } from "node:crypto";
 import { NotFound } from "@cds/core";
+import { CORE_ALERT_TYPES } from "@cds/core/alerts";
 import type PocketBase from "pocketbase";
 import {
   afterAll,
@@ -433,6 +434,38 @@ describe("raiseAlert delivery (DASH-35, DASH-36, DASH-37)", () => {
       transport,
     });
     expect(push.sent).toHaveLength(2);
+  });
+
+  it("a collapse: false type pushes every alert at once, each with its own tag and the badge", async (t) => {
+    if (!inst) return t.skip();
+    const o = await newOrg();
+    await subscribe(o.org, o.owner);
+    const types = CORE_ALERT_TYPES.map((s) =>
+      s.type === "form.message" ? { ...s, collapse: false } : s,
+    );
+    const transport = captureTransport();
+    const clock = fakeNow(AT_1000);
+    const a = message();
+    await raiseAlert(o.ctx(o.owner, "owner"), a, {
+      now: clock.now(),
+      transport,
+      types,
+    });
+    clock.advance(2 * MINUTE_MS);
+    const b = message();
+    await raiseAlert(o.ctx(o.owner, "owner"), b, {
+      now: clock.now(),
+      transport,
+      types,
+    });
+    expect(push.sent).toHaveLength(2);
+    expect(push.sent.map((p) => p.payload.tag)).toEqual([
+      `form.message:${a.sourceKey}`,
+      `form.message:${b.sourceKey}`,
+    ]);
+    expect(push.sent[1]!.payload.badge).toBe(2);
+    const own = await rows(o.org, pb.filter("user = {:u}", { u: o.owner }));
+    expect(own.map((r) => r.push_state)).toEqual(["sent", "sent"]);
   });
 
   it("a failed push is marked failed; no subscription is skipped", async (t) => {

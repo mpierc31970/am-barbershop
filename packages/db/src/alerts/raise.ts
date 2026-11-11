@@ -14,7 +14,8 @@
 // 4. After the batch, best effort per recipient: email urgent/normal at once when the
 //    person's email channel is on (alert.notify, safe title in sensitive mode); push at once
 //    unless the channel is off (skipped), quiet hours or a same-type push within 10 minutes
-//    (held: the 11-23 job sends the release / collapsed push).
+//    (held: the 11-23 job sends the release / collapsed push). A `collapse: false` type
+//    (booking requests) is only held by quiet hours.
 //
 // 12-05 (support, RESEARCH Pattern 4) adds three opt-ins; absent, behaviour is unchanged:
 // - input.audience: recipients = eligible members ∩ (named users ∪ members with a listed role).
@@ -57,6 +58,7 @@ import {
   getPushSender,
   recordOutcome,
   subscriptionsForUsers,
+  unreadForBadge,
   type PushSender,
 } from "./push";
 
@@ -465,8 +467,11 @@ async function pushOne(
       facts.sensitive,
     ),
     href: input.href,
-    tag: spec.type,
+    // A no-collapse type gets its own tag (and push Topic), so the next one never replaces it.
+    tag:
+      spec.collapse === false ? `${spec.type}:${input.sourceKey}` : spec.type,
     urgency: spec.level === "urgent" ? ("high" as const) : ("normal" as const),
+    badge: await unreadForBadge(pb, orgId, user, now).catch(() => undefined),
   };
   let ok = false;
   let error = false;
@@ -527,7 +532,8 @@ async function deliver(
         if (inQuietHours(now, facts.timeZone, recipient.quiet)) {
           state = "held";
         } else if (
-          await recentSameTypePush(pb, orgId, recipient.user, spec.type, now)
+          spec.collapse !== false &&
+          (await recentSameTypePush(pb, orgId, recipient.user, spec.type, now))
         ) {
           state = "held";
         } else {

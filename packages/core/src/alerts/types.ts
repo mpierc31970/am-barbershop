@@ -35,6 +35,12 @@ export type AlertTypeSpec = {
    * e.g. `reports.monthly`). Defaults to true.
    */
   digest?: boolean;
+  /**
+   * false: every alert of this type pushes at once with its own notification (a booking
+   * request is a different client each time), never held by the 10-minute same-type
+   * collapse. Quiet hours still hold it. Defaults to true.
+   */
+  collapse?: boolean;
 };
 
 /** A person's channel overrides, keyed by alert type (member_prefs). */

@@ -14,11 +14,12 @@ import {
   type BellRow,
 } from "@cds/ui/hub/alerts";
 import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   markAlertReadAction,
   markAllAlertsReadAction,
 } from "../../actions/alerts";
+import { syncAppBadge } from "./app-badge";
 import { useNavGuard } from "./nav-guard";
 
 export const BELL_ROWS_URL = "/hub/api/alerts";
@@ -75,6 +76,8 @@ export function HubBell({ initialCount, initialUrgent }: HubBellProps) {
     refreshKey: pathname,
   });
   const { set: setCounts } = bell;
+  // Keep the home-screen app's badge in step with the bell.
+  useEffect(() => syncAppBadge(bell.count), [bell.count]);
   const [open, setOpen] = useState(false);
   // The drawer mounts on first open (no closed dialog in every page's HTML), then stays.
   const [opened, setOpened] = useState(false);

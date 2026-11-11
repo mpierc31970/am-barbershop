@@ -45,6 +45,7 @@ export default defineAddon({
       access: "read",
       section: "addon:studio-booking",
       defaultChannels: { email: true, push: true },
+      collapse: false,
     },
     {
       type: "studio-booking.lease_overdue",
