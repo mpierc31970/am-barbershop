@@ -67,6 +67,16 @@ function isMarketingPath(pathname: string): boolean {
   );
 }
 
+// A&M fork (single-site): CDS marketing, signup and billing answer 404. /report, /privacy and
+// /unsubscribe stay (tenant footer and email links point at them).
+const CDS_ONLY_KEEP = new Set(["/report", "/privacy", "/unsubscribe"]);
+const CDS_ONLY_EXTRA = ["/start", "/hub/checkout", "/hub/settings/billing"];
+function isCdsOnlyPath(pathname: string): boolean {
+  const under = (p: string) => pathname === p || pathname.startsWith(`${p}/`);
+  if ([...CDS_ONLY_KEEP].some(under)) return false;
+  return isMarketingPath(pathname) || CDS_ONLY_EXTRA.some(under);
+}
+
 function secured(
   res: NextResponse,
   kind: "platform" | "tenant" | "invalid",
@@ -167,6 +177,10 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
         ),
         c.kind,
       );
+    }
+    // A&M fork: CDS-only surfaces (marketing hub, signup/quote flow, CDS billing) are off.
+    if (isCdsOnlyPath(pathname)) {
+      return secured(new NextResponse(null, { status: 404 }), c.kind);
     }
     // 15-22 (HUB-03, P15-P11, A1-Q5): old archived URLs answer from the fixed table, on platform
     // hosts only (a tenant's own /services or /book page is rewritten below, never redirected).

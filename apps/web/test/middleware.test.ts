@@ -94,7 +94,7 @@ describe("middleware hostname routing (PLAT-02, D4)", () => {
 
   it("passes platform hosts through", async () => {
     const res = await middleware(
-      req("http://cds.needtobeedgy.com/", "cds.needtobeedgy.com"),
+      req("http://cds.needtobeedgy.com/hub", "cds.needtobeedgy.com"),
     );
     expect(res.headers.get("x-middleware-rewrite")).toBeNull();
     expect(res.headers.get("x-middleware-next")).toBe("1");
@@ -150,7 +150,7 @@ describe("middleware hostname routing (PLAT-02, D4)", () => {
   });
 
   it("strips a client-sent tenant header on platform hosts (WR-02)", async () => {
-    const r = new NextRequest("http://localhost:3000/", {
+    const r = new NextRequest("http://localhost:3000/hub", {
       headers: { host: "localhost:3000", "x-cds-tenant-host": "victim.com" },
     });
     const res = await middleware(r);
@@ -849,10 +849,25 @@ describe("old URLs on platform hosts (15-22, HUB-03)", () => {
   });
 
   it("hub pages that exist pass through (no redirect)", async () => {
-    for (const path of ["/", "/about", "/work", "/contact", "/unsubscribe"]) {
+    for (const path of ["/privacy", "/unsubscribe", "/report"]) {
       const res = await hub(path);
       expect(res.status, path).toBe(200);
       expect(res.headers.get("x-middleware-next"), path).toBe("1");
+    }
+  });
+
+  it("A&M fork: CDS-only surfaces 404 on platform hosts", async () => {
+    for (const path of [
+      "/",
+      "/about",
+      "/pricing",
+      "/studio",
+      "/add-ons/x",
+      "/start",
+      "/hub/checkout",
+      "/hub/settings/billing",
+    ]) {
+      expect((await hub(path)).status, path).toBe(404);
     }
   });
 
@@ -896,7 +911,7 @@ describe("marketing noindex header (15-22, A3-Q4)", () => {
 
   it("outside production every marketing path carries noindex, nofollow", async () => {
     vi.stubEnv("CDS_ENV", "dev");
-    for (const path of ["/", "/pricing", "/add-ons", "/add-ons/credentials"]) {
+    for (const path of ["/privacy", "/report"]) {
       expect(await robots(path), path).toBe("noindex, nofollow");
     }
     expect(await robots("/sign-in")).toBeNull();
@@ -989,7 +1004,7 @@ describe("www → apex (15-22, HUB-04, P15-P17)", () => {
       CDS_PLATFORM_URL: `https://${APEX}`,
     });
     const res = await mw(
-      new NextRequest(`http://${APEX}/pricing`, { headers: { host: APEX } }),
+      new NextRequest(`http://${APEX}/sign-in`, { headers: { host: APEX } }),
     );
     expect(res.headers.get("x-middleware-next")).toBe("1");
   });
@@ -997,7 +1012,7 @@ describe("www → apex (15-22, HUB-04, P15-P17)", () => {
   it("no apex configured → no www redirect", async () => {
     const mw = await load({ PLATFORM_HOSTS: HOSTS, CDS_PLATFORM_URL: "" });
     const res = await mw(
-      new NextRequest(`http://www.${APEX}/pricing`, {
+      new NextRequest(`http://www.${APEX}/sign-in`, {
         headers: { host: `www.${APEX}` },
       }),
     );
