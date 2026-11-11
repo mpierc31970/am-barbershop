@@ -42,7 +42,7 @@ import { createForm, listForms, saveForm } from "../src/forms/forms";
 import { saveBusinessProfile } from "../src/intake/business-profile";
 import { sendToCds } from "../src/intake/send";
 import { listServices, saveService } from "../src/intake/services";
-import { listMedia, uploadImage } from "../src/media/assets";
+import { listMedia, removeMedia, uploadImage } from "../src/media/assets";
 import { setOrgStage } from "../src/org-stage";
 import { newRecordId } from "../src/repository";
 import { queueDesignWrite } from "../src/theme";
@@ -620,6 +620,19 @@ async function afterAssembly(
   if (cRes.status !== "published") throw new Error("Contact publish held");
   await addPageToNav(ctx, pdeps, contact.id);
   log("PASS pages: Home (hero), Contact published; Contact in the menu");
+
+  // Only the colour logo is ever used: retire any other logo / hero / share image rows (the
+  // first black-background logo). Runs after the pages point at the new ids.
+  let retired = 0;
+  for (const kind of ["logo", "hero", "moodboard"] as const) {
+    for (const m of await listMedia(ctx, kind)) {
+      if (m.id !== heroId && m.id !== share && m.alt !== LOGO_ALT) {
+        await removeMedia(ctx, m.id, { invalidator: pdeps.invalidator });
+        retired++;
+      }
+    }
+  }
+  if (retired > 0) log(`PASS retired ${retired} old logo image(s)`);
 
   // Live.
   await setOrgStage(mintSystemContext({ job: "am-seed" }), orgId, "live");
