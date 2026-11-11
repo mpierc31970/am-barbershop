@@ -94,9 +94,6 @@ export async function updateSeatAction(form: FormData): Promise<void> {
       bio: field(form, "bio"),
       brandName: field(form, "brandName"),
       licenseNumber: field(form, "licenseNumber"),
-      socials: Object.fromEntries(
-        SEAT_SOCIALS.map((p) => [p, field(form, `social_${p}`)]),
-      ),
       ...(form.has("email")
         ? {
             email: field(form, "email"),
@@ -107,6 +104,22 @@ export async function updateSeatAction(form: FormData): Promise<void> {
         : {}),
     });
   });
+}
+
+/** My Social (A&M fork): the barber's social links, from their own tab. */
+export async function saveSocialAction(form: FormData): Promise<void> {
+  const seatId = idField(form, "seatId");
+  await act(
+    `${STUDIO_BASE}/social?seat=${seatId}`,
+    "Social links saved.",
+    async ({ ctx }) => {
+      await updateSeat(ctx, seatId, {
+        socials: Object.fromEntries(
+          SEAT_SOCIALS.map((p) => [p, field(form, `social_${p}`)]),
+        ),
+      });
+    },
+  );
 }
 
 export async function removeSeatAction(form: FormData): Promise<void> {
@@ -134,22 +147,30 @@ export async function inviteSeatAction(form: FormData): Promise<void> {
 
 export async function saveServiceAction(form: FormData): Promise<void> {
   const seatId = idField(form, "seatId");
-  await act(seatHref(seatId) + "#menu", "Service saved.", async ({ ctx }) => {
-    await saveSeatService(ctx, seatId, {
-      id: idField(form, "serviceId"),
-      name: field(form, "name"),
-      description: field(form, "description"),
-      durationMinutes: field(form, "duration"),
-      priceCents: cents(field(form, "price")),
-    });
-  });
+  await act(
+    `${STUDIO_BASE}/services?seat=${seatId}`,
+    "Service saved.",
+    async ({ ctx }) => {
+      await saveSeatService(ctx, seatId, {
+        id: idField(form, "serviceId"),
+        name: field(form, "name"),
+        description: field(form, "description"),
+        durationMinutes: field(form, "duration"),
+        priceCents: cents(field(form, "price")),
+      });
+    },
+  );
 }
 
 export async function removeServiceAction(form: FormData): Promise<void> {
   const seatId = idField(form, "seatId");
-  await act(seatHref(seatId) + "#menu", "Service removed.", async ({ ctx }) => {
-    await removeSeatService(ctx, seatId, idField(form, "serviceId"));
-  });
+  await act(
+    `${STUDIO_BASE}/services?seat=${seatId}`,
+    "Service removed.",
+    async ({ ctx }) => {
+      await removeSeatService(ctx, seatId, idField(form, "serviceId"));
+    },
+  );
 }
 
 export async function removePhotoAction(form: FormData): Promise<void> {

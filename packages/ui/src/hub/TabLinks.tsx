@@ -1,9 +1,9 @@
 // Hub TabLinks (03-UI-SPEC "Hub shell" Website page; D311 DCR-Website admin pattern, donor
 // SiteContent.tsx tabs from one array). Each tab is a real link (`?tab=`), so tabs are
 // shareable, work without JS and keep browser history. The active tab carries
-// aria-current="page" and a 2px accent underline. Min height 48px; the bar scrolls
-// horizontally on narrow screens. Server-safe. Pass `LinkComponent` (next/link) from the
-// app for client-side navigation; the default is a plain <a>.
+// aria-current="page" and a 2px accent underline. Min height 48px; on narrow screens the
+// tabs wrap onto a second line (A&M fork: never a sideways scroll). Server-safe. Pass
+// `LinkComponent` (next/link) from the app for client-side navigation; the default is <a>.
 import type { AnchorHTMLAttributes, ComponentType } from "react";
 
 export interface TabLink {
@@ -30,11 +30,8 @@ export function TabLinks({
 }: TabLinksProps) {
   const Link = LinkComponent ?? "a";
   return (
-    <nav
-      aria-label={label}
-      className="overflow-x-auto border-b border-hub-border font-hub"
-    >
-      <ul className="flex min-w-max gap-2">
+    <nav aria-label={label} className="border-b border-hub-border font-hub">
+      <ul className="flex flex-wrap gap-x-2">
         {tabs.map((tab) => {
           const active = tab.id === activeId;
           return (

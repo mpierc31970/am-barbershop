@@ -83,6 +83,8 @@ const FRAMES: Readonly<Record<string, readonly string[]>> = {
   "setup/page.tsx": ["setup/SetupOverview.tsx"],
   "setup/[stage]/page.tsx": ["setup/[stage]/StageFrame.tsx"],
   "support/page.tsx": ["support/SupportFrame.tsx"],
+  "studio-booking/services/page.tsx": ["studio-booking/SeatTabFrame.tsx"],
+  "studio-booking/social/page.tsx": ["studio-booking/SeatTabFrame.tsx"],
   "help/[id]/page.tsx": [
     "../../../../../packages/ui/src/hub/help/HelpArticle.tsx",
   ],

@@ -6,8 +6,6 @@ import {
   getSchedule,
   getSeat,
   GALLERY_MAX,
-  SEAT_SOCIALS,
-  socialName,
   type ScheduleView,
   type SeatView,
 } from "@cds/db";
@@ -27,18 +25,10 @@ import {
   inviteSeatAction,
   removePhotoAction,
   removeSeatAction,
-  removeServiceAction,
-  saveServiceAction,
   updateSeatAction,
 } from "../../../../../actions/studio";
 import { requireHubSession } from "../../../../../../lib/session";
-import {
-  duration,
-  money,
-  priceField,
-  readStudioNote,
-  STUDIO_BASE,
-} from "../../../../../../lib/studio";
+import { readStudioNote, STUDIO_BASE } from "../../../../../../lib/studio";
 import { GuardedLink } from "../../../GuardedLink";
 import { StudioTabs } from "../../StudioTabs";
 import { ScheduleSection } from "./ScheduleSection";
@@ -126,7 +116,7 @@ export default async function SeatPage({ params }: Props) {
   const owner = ctx.role === "owner";
 
   return (
-    <div className="flex w-full max-w-[880px] flex-col gap-8 font-hub text-hub-ink">
+    <div className="flex w-full max-w-[1120px] flex-col gap-8 font-hub text-hub-ink">
       {seat.canManage ? (
         <Link href={STUDIO_BASE} className="text-sm underline">
           ← All barbers
@@ -161,114 +151,131 @@ export default async function SeatPage({ params }: Props) {
         </p>
       ) : null}
 
-      <section aria-labelledby="page-h" className="flex flex-col gap-3">
-        <h2 id="page-h" className={H2}>
-          Page
-        </h2>
-        <form action={updateSeatAction} className={CARD}>
-          <input type="hidden" name="seatId" value={seat.id} />
-          <TextField
-            id="s-name"
-            name="name"
-            label="Name"
-            defaultValue={seat.name}
-            required
-            maxLength={80}
-          />
-          <TextField
-            id="s-headline"
-            name="headline"
-            label="Headline"
-            helper="One line under your name, for example: Fades, tapers and beard work."
-            defaultValue={seat.headline}
-            maxLength={120}
-          />
-          <TextArea
-            id="s-bio"
-            name="bio"
-            label="Bio"
-            rows={6}
-            defaultValue={seat.bio}
-            maxLength={2000}
-          />
-          <TextField
-            id="s-brand"
-            name="brandName"
-            label="Shop or chair name"
-            helper="Your own brand, if you have one. Shows on your page only."
-            defaultValue={seat.brandName}
-            maxLength={80}
-          />
-          <TextField
-            id="s-license"
-            name="licenseNumber"
-            label="Texas barber license number"
-            helper="Optional. Shows on your page so clients can look you up with TDLR."
-            defaultValue={seat.licenseNumber}
-            maxLength={20}
-          />
-          <fieldset className="flex flex-col gap-3">
-            <legend className="mb-1 font-semibold">Social links</legend>
-            <p className="text-sm text-hub-ink-muted">
-              A link or an @handle. Leave blank to hide. Shows on your page
-              only.
-            </p>
-            {SEAT_SOCIALS.map((p) => (
-              <TextField
-                key={p}
-                id={`s-social-${p}`}
-                name={`social_${p}`}
-                label={socialName(p)}
-                defaultValue={
-                  seat.socials.find((s) => s.platform === p)?.url ?? ""
-                }
-                maxLength={300}
-              />
-            ))}
-          </fieldset>
-          {seat.canManage ? (
-            <>
-              <TextField
-                id="s-email"
-                name="email"
-                type="email"
-                label="Sign-in email"
-                defaultValue={seat.email}
-                maxLength={254}
-              />
-              <Select
-                id="s-kind"
-                name="kind"
-                label="Seat"
-                options={KIND_OPTIONS}
-                defaultValue={seat.kind}
-              />
-              <TextField
-                id="s-slug"
-                name="slug"
-                label="Web address"
-                helper={`Lowercase letters, numbers and dashes: /barbers/${seat.slug}`}
-                defaultValue={seat.slug}
-                maxLength={60}
-              />
-              <label className="flex items-center gap-2 text-base">
-                <input
-                  type="checkbox"
-                  name="isPublished"
-                  defaultChecked={seat.isPublished}
-                  className="h-5 w-5"
+      {/* A&M fork: info on the left, the profile picture on the right (stacked on phones). */}
+      <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-2">
+        <section aria-labelledby="page-h" className="flex flex-col gap-3">
+          <h2 id="page-h" className={H2}>
+            Page
+          </h2>
+          <form action={updateSeatAction} className={CARD}>
+            <input type="hidden" name="seatId" value={seat.id} />
+            <TextField
+              id="s-name"
+              name="name"
+              label="Name"
+              defaultValue={seat.name}
+              required
+              maxLength={80}
+            />
+            <TextField
+              id="s-headline"
+              name="headline"
+              label="Headline"
+              helper="One line under your name, for example: Fades, tapers and beard work."
+              defaultValue={seat.headline}
+              maxLength={120}
+            />
+            <TextArea
+              id="s-bio"
+              name="bio"
+              label="Bio"
+              rows={6}
+              defaultValue={seat.bio}
+              maxLength={2000}
+            />
+            <TextField
+              id="s-brand"
+              name="brandName"
+              label="Shop or chair name"
+              helper="Your own brand, if you have one. Shows on your page only."
+              defaultValue={seat.brandName}
+              maxLength={80}
+            />
+            <TextField
+              id="s-license"
+              name="licenseNumber"
+              label="Texas barber license number"
+              helper="Optional. Shows on your page so clients can look you up with TDLR."
+              defaultValue={seat.licenseNumber}
+              maxLength={20}
+            />
+            {seat.canManage ? (
+              <>
+                <TextField
+                  id="s-email"
+                  name="email"
+                  type="email"
+                  label="Sign-in email"
+                  defaultValue={seat.email}
+                  maxLength={254}
                 />
-                Show this barber on the site
-              </label>
-            </>
-          ) : null}
-          <div>
-            <Button type="submit" variant="primary">
-              Save
-            </Button>
+                <Select
+                  id="s-kind"
+                  name="kind"
+                  label="Seat"
+                  options={KIND_OPTIONS}
+                  defaultValue={seat.kind}
+                />
+                <TextField
+                  id="s-slug"
+                  name="slug"
+                  label="Web address"
+                  helper={`Lowercase letters, numbers and dashes: /barbers/${seat.slug}`}
+                  defaultValue={seat.slug}
+                  maxLength={60}
+                />
+                <label className="flex items-center gap-2 text-base">
+                  <input
+                    type="checkbox"
+                    name="isPublished"
+                    defaultChecked={seat.isPublished}
+                    className="h-5 w-5"
+                  />
+                  Show this barber on the site
+                </label>
+              </>
+            ) : null}
+            <div>
+              <Button type="submit" variant="primary">
+                Save
+              </Button>
+            </div>
+          </form>
+        </section>
+        <section
+          id="portrait"
+          aria-labelledby="portrait-h"
+          className="flex flex-col gap-3"
+        >
+          <h2 id="portrait-h" className={H2}>
+            Profile picture
+          </h2>
+          <div className={CARD}>
+            {seat.photo ? (
+              <div className="flex items-end gap-3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={photoSrc(seat, seat.photo)}
+                  alt=""
+                  width={120}
+                  height={180}
+                  className="h-[180px] w-[120px] object-cover"
+                />
+                <RemovePhoto seat={seat} mediaId={seat.photo} />
+              </div>
+            ) : (
+              <p className="text-hub-ink-muted">No profile picture yet.</p>
+            )}
+            <UploadForm
+              seat={seat}
+              target="photo"
+              label={
+                seat.photo ? "Replace profile picture" : "Add a profile picture"
+              }
+            />
           </div>
-        </form>
-      </section>
+        </section>
+      </div>
 
       <section
         id="photos"
@@ -279,27 +286,6 @@ export default async function SeatPage({ params }: Props) {
           Photos
         </h2>
         <div className={CARD}>
-          <h3 className="font-semibold">Portrait</h3>
-          {seat.photo ? (
-            <div className="flex items-end gap-3">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={photoSrc(seat, seat.photo)}
-                alt=""
-                width={120}
-                height={180}
-                className="h-[180px] w-[120px] object-cover"
-              />
-              <RemovePhoto seat={seat} mediaId={seat.photo} />
-            </div>
-          ) : (
-            <p className="text-hub-ink-muted">No portrait yet.</p>
-          )}
-          <UploadForm
-            seat={seat}
-            target="photo"
-            label={seat.photo ? "Replace portrait" : "Add a portrait"}
-          />
           <h3 className="font-semibold">Logo</h3>
           {seat.logo ? (
             <div className="flex items-end gap-3">
@@ -355,120 +341,21 @@ export default async function SeatPage({ params }: Props) {
         </div>
       </section>
 
-      <section
-        id="menu"
-        aria-labelledby="menu-h"
-        className="flex flex-col gap-3"
-      >
+      <section aria-labelledby="menu-h" className="flex flex-col gap-3">
         <h2 id="menu-h" className={H2}>
-          Services and prices
+          Services &amp; Pricing
         </h2>
-        {seat.services.map((s) => (
-          <form
-            key={s.id}
-            action={saveServiceAction}
-            className={`${CARD} sm:grid sm:grid-cols-[2fr_1fr_1fr]`}
+        <p className="text-hub-ink-muted">
+          {seat.services.length === 0
+            ? "No services yet."
+            : `${seat.services.length} service${seat.services.length === 1 ? "" : "s"} on this page.`}{" "}
+          <Link
+            className="underline"
+            href={`${STUDIO_BASE}/services?seat=${seat.id}`}
           >
-            <input type="hidden" name="seatId" value={seat.id} />
-            <input type="hidden" name="serviceId" value={s.id} />
-            <TextField
-              id={`n-${s.id}`}
-              name="name"
-              label="Service"
-              defaultValue={s.name}
-              required
-              maxLength={80}
-            />
-            <TextField
-              id={`d-${s.id}`}
-              name="duration"
-              label="Minutes"
-              type="number"
-              min={5}
-              max={480}
-              step={5}
-              defaultValue={s.durationMinutes}
-              required
-            />
-            <TextField
-              id={`p-${s.id}`}
-              name="price"
-              label="Price ($)"
-              inputMode="decimal"
-              defaultValue={priceField(s.priceCents)}
-              helper="Blank: ask for a price"
-            />
-            <div className="sm:col-span-3">
-              <TextField
-                id={`x-${s.id}`}
-                name="description"
-                label="Description"
-                defaultValue={s.description}
-                maxLength={300}
-              />
-            </div>
-            <div className="flex gap-2 sm:col-span-3">
-              <Button type="submit" size="sm">
-                Save
-              </Button>
-              <Button
-                type="submit"
-                size="sm"
-                variant="ghost"
-                formAction={removeServiceAction}
-              >
-                Remove
-              </Button>
-              <span className="self-center text-sm text-hub-ink-muted">
-                {duration(s.durationMinutes)} · {money(s.priceCents)}
-              </span>
-            </div>
-          </form>
-        ))}
-        <form
-          action={saveServiceAction}
-          className={`${CARD} sm:grid sm:grid-cols-[2fr_1fr_1fr]`}
-        >
-          <input type="hidden" name="seatId" value={seat.id} />
-          <TextField
-            id="n-new"
-            name="name"
-            label="New service"
-            required
-            maxLength={80}
-          />
-          <TextField
-            id="d-new"
-            name="duration"
-            label="Minutes"
-            type="number"
-            min={5}
-            max={480}
-            step={5}
-            defaultValue={30}
-            required
-          />
-          <TextField
-            id="p-new"
-            name="price"
-            label="Price ($)"
-            inputMode="decimal"
-            helper="Blank: ask for a price"
-          />
-          <div className="sm:col-span-3">
-            <TextField
-              id="x-new"
-              name="description"
-              label="Description"
-              maxLength={300}
-            />
-          </div>
-          <div>
-            <Button type="submit" size="sm" variant="primary">
-              Add service
-            </Button>
-          </div>
-        </form>
+            Edit services &amp; pricing
+          </Link>
+        </p>
       </section>
 
       <ScheduleSection seatId={seat.id} schedule={schedule} />
