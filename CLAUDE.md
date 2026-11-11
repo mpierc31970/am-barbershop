@@ -18,9 +18,10 @@ copied once on 2026-11-10 and owned here from now on. CDS changes are **not** sy
 - CDS staff jobs (fit review, decline, prices, demo reset, indexing) are not scheduled.
 - Sign-ins (`npm run am:roles`, passwords in `.env.local` `AM_*`): website admin
   matthew@metaphysicalevents.com = staff super_admin (`/staff/sign-in`, password + emailed
-  code), not a shop member; shop owner Miguel = shopowner@example.com (`/sign-in`), owns the
+  code), not a shop member; shop owner Miguel = pierce1970+BarberOwner@gmail.com (`/sign-in`), owns the
   shop and his own Employee seat; barbers barber1-4@example.com (renter seats, own seat only).
-  Public contact email stays matthew@metaphysicalevents.com.
+  Public contact email (site, privacy, form notifications) is the owner's, pierce1970+BarberOwner@gmail.com;
+  matthew@ is only the admin sign-in and technical contact.
 
 `PLATFORM-DESIGN.md` documents the inherited engine (decisions `D<n>`). Treat it as
 reference, not as a roadmap for this site.
@@ -99,7 +100,7 @@ Git Bash). Secrets live in `.env.local` only, never in chat.
 ## Seeding the site
 
 `npm run am:seed` (`packages/db/scripts/seed-am-barber.ts`) is idempotent: org, owner
-(`AM_OWNER_EMAIL`, default shopowner@example.com), theme, intake, assembly, Builder Pro, booking form, pages,
+(`AM_OWNER_EMAIL`, default pierce1970+BarberOwner@gmail.com), theme, intake, assembly, Builder Pro, booking form, pages,
 service rows, primary host, stage live. Run against prod with
 `CDS_ENV=production CDS_STORAGE_DIR=<dir>/storage CDS_PUBLIC_STORAGE_DIR=<dir>/storage-public
 CDS_EMAIL_TRANSPORT= PLATFORM_HOSTS=admin.barber.needtobeedgy.com npm run am:seed`, then tar

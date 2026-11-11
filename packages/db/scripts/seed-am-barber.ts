@@ -53,14 +53,14 @@ import { queueDesignWrite } from "../src/theme";
 
 const SLUG = "am-barber";
 const NAME = "A&M Barber Studio";
-// The shop owner's hub sign-in (password or emailed code). matthew@ is the site's staff
-// super_admin (npm run am:roles) and the public contact address; staff and shop members
+// The shop owner's hub sign-in (password or emailed code), also the public contact address.
+// matthew@ is the site's staff super_admin only (npm run am:roles); staff and shop members
 // never share an account (invariant 7).
 const OWNER_EMAIL = (
-  process.env.AM_OWNER_EMAIL || "shopowner@example.com"
+  process.env.AM_OWNER_EMAIL || "pierce1970+BarberOwner@gmail.com"
 ).toLowerCase();
 const OWNER_NAME = "Shop owner";
-const CONTACT_EMAIL = "matthew@metaphysicalevents.com";
+const CONTACT_EMAIL = "pierce1970+BarberOwner@gmail.com";
 const HOST = (process.env.AM_HOST || "barber.needtobeedgy.com").toLowerCase();
 const PHONE = "(214) 518-6852";
 const TEL = "tel:+12145186852";
