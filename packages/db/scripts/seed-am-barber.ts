@@ -53,8 +53,14 @@ import { queueDesignWrite } from "../src/theme";
 
 const SLUG = "am-barber";
 const NAME = "A&M Barber Studio";
-const OWNER_EMAIL = "matthew@metaphysicalevents.com";
-const OWNER_NAME = "Matthew";
+// The shop owner's hub sign-in (password or emailed code). matthew@ is the site's staff
+// super_admin (npm run am:roles) and the public contact address; staff and shop members
+// never share an account (invariant 7).
+const OWNER_EMAIL = (
+  process.env.AM_OWNER_EMAIL || "shopowner@example.com"
+).toLowerCase();
+const OWNER_NAME = "Shop owner";
+const CONTACT_EMAIL = "matthew@metaphysicalevents.com";
 const HOST = (process.env.AM_HOST || "barber.needtobeedgy.com").toLowerCase();
 const PHONE = "(214) 518-6852";
 const TEL = "tel:+12145186852";
@@ -153,7 +159,7 @@ async function ensureOrg(): Promise<{ orgId: string; ownerId: string }> {
         business_type: "barbershop",
         description:
           "Barbershop in Grand Prairie, Texas. Cuts, fades, beards and shaves.",
-        public_email: OWNER_EMAIL,
+        public_email: CONTACT_EMAIL,
       });
       batch.collection("org_intake").create({
         organization: orgId,
@@ -167,7 +173,7 @@ async function ensureOrg(): Promise<{ orgId: string; ownerId: string }> {
       batch.collection("org_email_routes").create({
         organization: orgId,
         purpose: "default",
-        address: OWNER_EMAIL,
+        address: CONTACT_EMAIL,
         confirmed_at: new Date().toISOString(),
       });
       batch.collection("audit_log").create(
@@ -314,7 +320,7 @@ async function main(): Promise<void> {
     tagline: "Est. 2020",
     font_pairing: "bold-clear",
     phone: PHONE,
-    public_email: OWNER_EMAIL,
+    public_email: CONTACT_EMAIL,
     address: ADDRESS,
     service_area: "Grand Prairie and the DFW Mid-Cities",
     time_zone: "America/Chicago",
@@ -323,7 +329,7 @@ async function main(): Promise<void> {
     mission: "Leave sharper than you came in.",
     headline: "Sharp cuts. Clean fades. Since 2020.",
     legal_name: NAME,
-    privacy_contact: OWNER_EMAIL,
+    privacy_contact: CONTACT_EMAIL,
     legal_region: "Texas",
   });
   if ((await listServices(ctx)).length === 0) {
@@ -693,7 +699,7 @@ async function afterAssembly(
       row_layout: "full",
       content: {
         heading: "Book a chair",
-        text: `<p>Tell us what you need and when. We'll call or text to confirm. In a hurry? <a href="${TEL}">Call ${PHONE}</a>.</p><p>2505 S Carrier Pkwy, Grand Prairie, TX 75052 · <a href="${DIRECTIONS}">Get directions</a> · <a href="mailto:${OWNER_EMAIL}">${OWNER_EMAIL}</a></p>`,
+        text: `<p>Tell us what you need and when. We'll call or text to confirm. In a hurry? <a href="${TEL}">Call ${PHONE}</a>.</p><p>2505 S Carrier Pkwy, Grand Prairie, TX 75052 · <a href="${DIRECTIONS}">Get directions</a> · <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a></p>`,
       },
     },
     ...copy.map((s) => ({
