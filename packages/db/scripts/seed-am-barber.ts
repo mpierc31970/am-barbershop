@@ -442,7 +442,7 @@ async function afterAssembly(
       field("name", "name", "Name"),
       field("phone", "phone", "Phone"),
       field("email", "email", "Email", {
-        help: "We send your confirmation here.",
+        placeholder: "We send your confirmation here",
       }),
       field("service", "dropdown", "Service", {
         options: [...SERVICES.map(([n]) => n), "Not sure yet"],
@@ -503,19 +503,25 @@ async function afterAssembly(
       },
     });
   }
-  // Book now moves to the first block under the logo.
+  // The block under the logo: heading, the intro paragraph, then Book Now / Get Directions /
+  // More About Us (am-barber.css lays the three out as one equal-width row). Owner-editable
+  // in the page builder like any columns block.
   // TODO(owner): swap TEL for the booking tool link when there is one.
   const intro = homeSections.find(
     (s) =>
       s.section_type === "columns" &&
-      JSON.stringify(s.content).includes("More about us"),
+      JSON.stringify(s.content).includes('"link":"/about"'),
   );
   if (intro) {
     const content = intro.content as {
       columns: { id: string; items: Record<string, unknown>[] }[];
     };
-    const button = (id: string, text: string, link: string, style: string) => ({
-      id,
+    const col = content.columns[content.columns.length - 1]!;
+    const keep = (kind: string) => col.items.find((it) => it.kind === kind);
+    const button = (n: number, text: string, link: string, style: string) => ({
+      ...(col.items.find((it) => it.kind === "button" && it.link === link) ??
+        {}),
+      id: `a3b00000-0000-4000-8000-00000000000${n}`,
       kind: "button",
       action: "link",
       text,
@@ -523,41 +529,28 @@ async function afterAssembly(
       style,
       popup_id: "",
     });
-    const columns = content.columns.map((c) => ({
-      ...c,
-      items: [
-        ...c.items
-          .filter((it) => it.kind !== "button" || it.text === "More about us")
-          .map((it) =>
-            it.kind === "heading"
-              ? { ...it, text: "Sharp cuts. Clean fades. Est. 2020." }
-              : it,
-          ),
-      ],
-    }));
-    const first = columns[columns.length - 1]!;
-    first.items = [
-      ...first.items.filter((it) => it.kind !== "button"),
-      button(
-        "a3b00000-0000-4000-8000-000000000001",
-        "Book now",
-        TEL,
-        "primary",
-      ),
-      button(
-        "a3b00000-0000-4000-8000-000000000002",
-        "Get directions",
-        DIRECTIONS,
-        "secondary",
-      ),
-      ...first.items.filter((it) => it.kind === "button"),
+    col.items = [
+      {
+        ...keep("heading"),
+        kind: "heading",
+        level: 2,
+        text: "Sharp cuts. Clean fades. Est. 2020.",
+      },
+      {
+        ...keep("text"),
+        kind: "text",
+        html: "<p>A&amp;M Barber Studio has been cutting hair on South Carrier Parkway in Grand Prairie since 2020. Classic cuts, sharp fades, clean beards and straight-razor shaves, done right the first time.</p>",
+      },
+      button(1, "Book Now", TEL, "primary"),
+      button(2, "Get Directions", DIRECTIONS, "secondary"),
+      button(3, "More About Us", "/about", "secondary"),
     ];
     await saveSection(ctx, sections, {
       id: intro.id,
       pageId: home.id,
       section_type: "columns",
       row_layout: intro.row_layout,
-      content: { ...content, columns },
+      content,
     });
   }
   await updatePage(ctx, home.id, {
