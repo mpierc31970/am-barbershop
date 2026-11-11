@@ -94,9 +94,9 @@ export function layout(opts: LayoutOptions): { html: string; text: string } {
     `<div style="display:none;max-height:0;max-width:0;overflow:hidden;opacity:0;mso-hide:all">${escapeHtml(opts.preheader)}</div>\n` +
     `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${EMAIL_COLORS.ground}"><tr><td align="center" style="padding:32px 8px">\n` +
     `<table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:600px">\n` +
-    `<tr><td style="padding:0 0 16px"><a href="${EMAIL_LOGO.href}" style="text-decoration:none">` +
+    `<tr><td align="center" style="padding:0 0 16px;text-align:center"><a href="${EMAIL_LOGO.href}" style="text-decoration:none">` +
     `<img src="${EMAIL_LOGO.src}" alt="${escapeHtml(EMAIL_LOGO.alt)}" width="${EMAIL_LOGO.width}" ` +
-    `style="display:block;width:${EMAIL_LOGO.width}px;max-width:100%;height:auto;border:0"></a></td></tr>\n` +
+    `style="display:block;margin:0 auto;width:${EMAIL_LOGO.width}px;max-width:100%;height:auto;border:0"></a></td></tr>\n` +
     `<tr><td class="cds-card" style="background:${EMAIL_COLORS.card};border-radius:8px;padding:32px">\n` +
     opts.bodyHtml +
     button +
