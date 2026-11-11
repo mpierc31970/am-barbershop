@@ -142,7 +142,7 @@ describe("senderFor Support no-reply (P12, D97, T-12-05-01)", () => {
         { ...env, supportEmail: "help@connectionsdesignstudios.com" },
       ),
     ).toEqual({
-      fromName: "Support",
+      fromName: "A&M Barber Studio Support",
       fromAddress: "no-reply@send.connectionsdesignstudios.com",
       replyTo: null,
     });

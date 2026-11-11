@@ -42,7 +42,7 @@ export function isSendingLocalPart(v: unknown): v is string {
   );
 }
 const CDS_NAME = "A&M Barber Studio";
-const CDS_SUPPORT_NAME = "Support";
+const CDS_SUPPORT_NAME = "A&M Barber Studio Support";
 
 function mailDomainOf(env: { mailDomain: string }): string {
   const d = env.mailDomain.trim().toLowerCase();
