@@ -98,6 +98,24 @@
 }
 [data-site="am-barber"]
   main
+  > section:first-child:has(h1):has(.order-first img)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%239a9aa3%22%20stroke-width%3D%221%22%3E%3Cpolygon%20points%3D%2222.89%2C10%2041.11%2C10%2054%2C22.89%2054%2C41.11%2041.11%2C54%2022.89%2C54%2010%2C41.11%2010%2C22.89%22%2F%3E%3Cpath%20d%3D%22M32%200V10M32%2054V64M0%2032H10M54%2032H64%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")
+    center / clamp(44px, 6vw, 72px) repeat;
+  opacity: 0.16;
+  -webkit-mask-image: radial-gradient(
+    ellipse at 50% 45%,
+    #000 35%,
+    transparent 85%
+  );
+  mask-image: radial-gradient(ellipse at 50% 45%, #000 35%, transparent 85%);
+  pointer-events: none;
+}
+[data-site="am-barber"]
+  main
   > section:first-child:has(h1):has(.order-first img)
   .grid {
   grid-template-columns: 1fr;
