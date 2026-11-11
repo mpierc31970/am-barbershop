@@ -2,7 +2,7 @@
 // site's sign-in frame (logo, night look) with a link home; the CDS marketing not-found is gone.
 //
 // Tenant hosts keep their own 404: the middleware rewrites every tenant request to
-// /tenant/<host>/…, whose notFound() renders app/tenant/[host]/not-found.tsx. Next still
+// /tenant/<host>/â€¦, whose notFound() renders app/tenant/[host]/not-found.tsx. Next still
 // renders this root boundary into every response's RSC payload, so on a tenant request
 // (TENANT_HOST_HEADER, set only by the middleware) it returns the neutral tenant default
 // words instead.
