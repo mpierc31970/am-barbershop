@@ -53,6 +53,9 @@ export type OrgSeed = {
   /** One Testimonials add-on row (05-07; ADDON-03 isolation). */
   testimonial: string;
   credential: string;
+  /** Studio Booking seat and its one service (step 1). */
+  studioSeat: string;
+  studioService: string;
   /** P6 intake rows (06-05; ONB-01, ONB-04, ONB-09, ONB-13, EMAIL-01). */
   businessProfile: string;
   media: string;
@@ -191,6 +194,26 @@ async function seedOrg(pb: PocketBase, key: "a" | "b"): Promise<OrgSeed> {
       credential_number: `NUM-${key.toUpperCase()}`,
       show_number: false,
       is_published: true,
+      sort_order: 1,
+    })
+  ).id;
+  const studioSeat = (
+    await pb.collection("studio_seats").create({
+      organization: org,
+      name: `Barber ${key.toUpperCase()}`,
+      slug: `barber-${key}`,
+      kind: "renter",
+      is_published: true,
+      sort_order: 1,
+    })
+  ).id;
+  const studioService = (
+    await pb.collection("studio_services").create({
+      organization: org,
+      seat: studioSeat,
+      name: `Cut ${key.toUpperCase()}`,
+      duration_minutes: 30,
+      price_cents: 3000,
       sort_order: 1,
     })
   ).id;
@@ -346,6 +369,8 @@ async function seedOrg(pb: PocketBase, key: "a" | "b"): Promise<OrgSeed> {
     addon,
     testimonial,
     credential,
+    studioSeat,
+    studioService,
     businessProfile,
     media,
     teamMember,

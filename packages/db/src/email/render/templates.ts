@@ -241,6 +241,14 @@ export type EmailData = {
     href: string;
   };
   "data_export.ready": { business: string; href: string; expiresOn: string };
+  /** Studio Booking: a booking confirmation, reminder or cancellation to the client. */
+  "booking.notice": {
+    subject: string;
+    lead: string;
+    facts: [string, string][];
+    why: string;
+    button?: { label: string; href: string };
+  };
   "support.notify": SupportEmailVars;
   "support.sla_risk": {
     ticketNumber: number;
@@ -1395,6 +1403,22 @@ function dataExportReady(
   };
 }
 
+function bookingNotice(
+  d: EmailData["booking.notice"],
+  o: RenderOptions,
+): RenderedParts {
+  const { html, text } = layout({
+    brand: o.brand,
+    preheader: d.lead,
+    bodyHtml: paragraph(escapeHtml(d.lead)) + factsTable(d.facts),
+    bodyText: [d.lead, "", ...factsText(d.facts)].join("\n"),
+    ...(d.button ? { button: d.button } : {}),
+    footerHtml: paragraph(escapeHtml(d.why), true),
+    footerText: d.why,
+  });
+  return { subject: headerValue(d.subject), preheader: d.lead, html, text };
+}
+
 /** "an Editor", "an Admin", "a Viewer". */
 function withArticle(role: string): string {
   const r = role.trim();
@@ -2158,6 +2182,7 @@ const RENDERERS: Renderers = {
   "alerts.digest": alertsDigest,
   "reports.monthly": reportsMonthly,
   "data_export.ready": dataExportReady,
+  "booking.notice": bookingNotice,
   "member.invite": memberInvite,
   "support.notify": supportNotify,
   "support.sla_risk": supportSlaRisk,

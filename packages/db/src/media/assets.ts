@@ -452,13 +452,28 @@ export async function readMediaVariant(
   if (!isMediaVariant(variant)) throw new NotFound();
   assertId(id);
   const row = await runRead(ctx, (pb) => scopedGet(pb, ctx, COLLECTION, id));
+  return readVariantOfRow(ctx.orgId, row, variant, opts);
+}
+
+/**
+ * The bytes of one variant of an org's media row, with no permission check: for chokepoint
+ * modules that proved access their own way (Studio Booking seat photos). Not in the barrel.
+ */
+export async function readVariantOfRow(
+  orgId: string,
+  row: RecordModel,
+  variant: MediaVariant,
+  opts: { store?: ObjectStore } = {},
+): Promise<{ bytes: Uint8Array; mime: string }> {
+  if (!isMediaVariant(variant)) throw new NotFound();
+  if (str(row.organization) !== orgId) throw new NotFound();
   const ext = str(row.original_ext);
   if (variant === "original" && !["jpg", "png", "webp"].includes(ext)) {
     throw new NotFound();
   }
   const store = opts.store ?? getObjectStore();
   const bytes = await store.get(
-    tenantMediaKey(ctx.orgId, row.id, objectNames(ext || "png")[variant]),
+    tenantMediaKey(orgId, row.id, objectNames(ext || "png")[variant]),
   );
   if (!bytes) throw new NotFound();
   const mime =

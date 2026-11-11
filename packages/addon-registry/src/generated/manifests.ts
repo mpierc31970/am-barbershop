@@ -2,6 +2,7 @@
 import type { AddonManifest } from "@cds/core/addons";
 import addon_builder_pro from "@cds/addon-builder-pro";
 import addon_credentials from "@cds/addon-credentials";
+import addon_studio_booking from "@cds/addon-studio-booking";
 import addon_testimonials from "@cds/addon-testimonials";
 
-export const MANIFESTS: readonly AddonManifest[] = Object.freeze([addon_builder_pro, addon_credentials, addon_testimonials]);
+export const MANIFESTS: readonly AddonManifest[] = Object.freeze([addon_builder_pro, addon_credentials, addon_studio_booking, addon_testimonials]);

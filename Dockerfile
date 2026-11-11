@@ -24,6 +24,7 @@ COPY packages/addon-registry/package.json packages/addon-registry/
 COPY packages/addons/testimonials/package.json packages/addons/testimonials/
 COPY packages/addons/credentials/package.json packages/addons/credentials/
 COPY packages/addons/builder-pro/package.json packages/addons/builder-pro/
+COPY packages/addons/studio-booking/package.json packages/addons/studio-booking/
 RUN npm ci
 
 FROM base AS builder

@@ -117,6 +117,7 @@ import {
   seedP14Domains,
   type P14DomainSeed,
 } from "./attacks/p14-domains";
+import { attacks as p15Studio } from "./attacks/p15-studio";
 import { seedBilling, type BillingSeed } from "./billing-seed";
 import { seedP11, type P11Seed } from "./p11-seed";
 
@@ -237,6 +238,16 @@ function seedRecordFor(name: string): Seeded {
     credentials: () => ({
       a: seed.A.credential,
       b: seed.B.credential,
+      create: {},
+    }),
+    studio_seats: () => ({
+      a: seed.A.studioSeat,
+      b: seed.B.studioSeat,
+      create: {},
+    }),
+    studio_services: () => ({
+      a: seed.A.studioService,
+      b: seed.B.studioService,
       create: {},
     }),
     // P6 intake collections (06-05). Their writers arrive in 06-11/12/13; until then the
@@ -659,6 +670,8 @@ describe("TEN-03 cross-tenant isolation (release gate)", () => {
     // 14-50: the function-level attacks for the rest of the P14 owner surface read the
     // seeded domain world (org A's move, zone, record, offboarding).
     ["p14-domains", (e) => p14Domains(e, () => p14)],
+    // Studio Booking: cross-org attacks on seats, menus and photos.
+    ["p15-studio", p15Studio],
   ];
 
   const baseWriters: AttackMap = {

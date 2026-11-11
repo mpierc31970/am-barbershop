@@ -46,6 +46,7 @@ describe("EMAIL_TYPES (EMAIL-01)", () => {
         "alerts.digest",
         "reports.monthly",
         "data_export.ready",
+        "booking.notice",
         "member.invite",
         "support.notify",
         "support.sla_risk",

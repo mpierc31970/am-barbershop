@@ -52,6 +52,9 @@ export const RESERVED_SLUGS: readonly string[] = Object.freeze([
   // P9 system routes (AGR-08, D217): tenant policy pages.
   "privacy",
   "terms",
+  // Studio Booking public routes: the barber pages and online booking.
+  "barbers",
+  "book",
   // P11 bio short links (11-35; DASH-15, D199): the ten preset codes and /go/<code>. New
   // pages may not take them; an existing page keeps its slug (WR-A06: an unchanged slug is
   // never re-checked) and wins, so that account's link falls back to /go/<code> (Pitfall 19).

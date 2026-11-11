@@ -308,6 +308,37 @@ export const BROWSER_FIELDS: Readonly<Record<string, BrowserFieldSpec>> = {
     serverOnly: [],
   },
 
+  // ---- Studio Booking ------------------------------------------------------------------
+  studio_seats: {
+    allow: [
+      "organization",
+      "user",
+      "email",
+      "name",
+      "slug",
+      "kind",
+      "headline",
+      "bio",
+      "photo",
+      "gallery",
+      "is_published",
+      "sort_order",
+    ],
+    serverOnly: [],
+  },
+  studio_services: {
+    allow: [
+      "organization",
+      "seat",
+      "name",
+      "description",
+      "duration_minutes",
+      "price_cents",
+      "sort_order",
+    ],
+    serverOnly: [],
+  },
+
   // ---- P6 forms, contacts, email -----------------------------------------------------
   forms: {
     allow: [

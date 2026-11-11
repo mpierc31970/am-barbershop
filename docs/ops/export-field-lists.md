@@ -677,6 +677,42 @@ Public (visitor-readable) fields: `banner`, `nav`, `footer`, `seo`, `settings`, 
 
 Restore mode: replace.
 
+## studio_seats
+
+- `id`
+- `organization`
+- `user`
+- `email`
+- `name`
+- `slug`
+- `kind`
+- `headline`
+- `bio`
+- `photo`
+- `gallery`
+- `is_published`
+- `sort_order`
+- `created`
+- `updated`
+
+Restore mode: replace.
+Owner field: `user`.
+
+## studio_services
+
+- `id`
+- `organization`
+- `seat`
+- `name`
+- `description`
+- `duration_minutes`
+- `price_cents`
+- `sort_order`
+- `created`
+- `updated`
+
+Restore mode: replace.
+
 ## support_files
 
 - `id`

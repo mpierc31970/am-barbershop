@@ -75,6 +75,7 @@
     "tenants:restore": "node --env-file-if-exists=.env.local --experimental-strip-types --no-warnings=ExperimentalWarning --import ./packages/db/scripts/register-ts.mjs packages/db/scripts/tenants-restore.ts",
     "tenants:seed-dev": "node --env-file-if-exists=.env.local --experimental-strip-types --no-warnings=ExperimentalWarning --import ./packages/db/scripts/register-ts.mjs packages/db/scripts/seed-dev-tenant.ts",
     "am:seed": "node --env-file-if-exists=.env.local --experimental-strip-types --no-warnings=ExperimentalWarning --import ./packages/db/scripts/register-ts.mjs packages/db/scripts/seed-am-barber.ts",
+    "am:studio-seed": "node --env-file-if-exists=.env.local --experimental-strip-types --no-warnings=ExperimentalWarning --import ./packages/db/scripts/register-ts.mjs packages/db/scripts/seed-am-studio.ts",
     "lighthouse": "node --experimental-strip-types --no-warnings=ExperimentalWarning --import ./packages/db/scripts/register-ts.mjs packages/db/scripts/lighthouse.ts"
   },
   "devDependencies": {

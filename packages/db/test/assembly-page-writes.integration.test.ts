@@ -630,7 +630,7 @@ describe("ensureAssemblyNav / ensureFooterDefaults (08-15 choice 4)", () => {
     if (!inst) return t.skip();
     const ctx = await freshOrg();
     const d = deps();
-    const book = await createPage(ctx, { title: "Book", slug: "book" });
+    const book = await createPage(ctx, { title: "Book", slug: "appointments" });
     await addPageToNav(ctx, d, book.id);
     const home = await createPage(ctx, { title: "Home", slug: "home" });
     const about = await createPage(ctx, { title: "About", slug: "about" });

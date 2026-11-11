@@ -157,6 +157,12 @@ export const EMAIL_TYPES = {
     description:
       "The owner's data download is ready; the link works for 7 days (LIFE-04).",
   },
+  "booking.notice": {
+    class: "transactional",
+    owner: "core",
+    description:
+      "Studio Booking: a client's booking confirmation, reminder or cancellation, sent as the shop.",
+  },
   "member.invite": {
     class: "transactional",
     owner: "core",

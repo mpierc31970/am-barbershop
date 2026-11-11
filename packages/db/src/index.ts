@@ -708,3 +708,4 @@ export * from "./content/sitemap-submit";
 export * from "./launch-review";
 export * from "./offboarding";
 export * from "./jobs/domains";
+export * from "./studio";

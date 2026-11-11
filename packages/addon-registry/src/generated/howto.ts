@@ -108,6 +108,48 @@ export const HOWTO_STEPS: Readonly<Record<string, readonly HowToStep[]>> = Objec
         "expected": "The dialog asked \"Delete RN License?\". The row is gone and a toast reads \"Credential deleted.\" To bring it back, restore a backup from **More** → **Backups**"
       }
     ],
+    "docs/how-to/addon-studio-booking.md": [
+      {
+        "screen": "`/hub/studio-booking`",
+        "action": "Under **Add a barber**, type the **Name** and **Email**, pick **Seat** (Chair renter or Employee) and click **Add barber**",
+        "expected": "The barber's seat screen opens and reads \"Barber added. Fill in their page, then send the invite.\""
+      },
+      {
+        "screen": "`/hub/studio-booking/seats/<id>`",
+        "action": "Fill **Headline** and **Bio**, tick **Show this barber on the site** and click **Save**",
+        "expected": "\"Saved.\" shows and the badge reads **On the site**"
+      },
+      {
+        "screen": "Seat screen, **Photos**",
+        "action": "Under **Add a portrait** pick a photo and click **Upload**",
+        "expected": "\"Photo added.\" shows with the portrait. Gallery photos work the same way (up to 8)"
+      },
+      {
+        "screen": "Seat screen, **Services and prices**",
+        "action": "Fill **New service**, **Minutes** and **Price ($)** (blank shows \"Ask\"), click **Add service**",
+        "expected": "\"Service saved.\" shows and the service is listed with its length and price"
+      },
+      {
+        "screen": "Seat screen, **Sign-in and removal**",
+        "action": "Click **Send invite**",
+        "expected": "\"Invite sent. The link works for 7 days.\" The barber gets an email; after joining, their badge reads **Signed in**"
+      },
+      {
+        "screen": "Barber's own sign-in, `/hub/studio-booking`",
+        "action": "The barber signs in on the hub and clicks **Barbers**",
+        "expected": "Their own seat opens. They can edit their page, photos and menu, nothing else"
+      },
+      {
+        "screen": "Seat screen",
+        "action": "Click **Remove barber…**, then **Remove <name>**",
+        "expected": "\"Barber removed. Their sign-in to this site is closed.\" Their page is gone from the site"
+      },
+      {
+        "screen": "Your site, `/barbers`",
+        "action": "Open the page",
+        "expected": "Every barber shown on the site, each with **Book** and **About**"
+      }
+    ],
     "docs/how-to/addon-testimonials.md": [
       {
         "screen": "`/hub/website?tab=testimonials`",

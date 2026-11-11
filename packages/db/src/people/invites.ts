@@ -228,8 +228,26 @@ export async function inviteMember(
   if (typeof input !== "object" || input === null) {
     throw new InvalidInput("invite input must be an object");
   }
+  return createInvite(ctx, { ...input, role: hubRole(input.role) }, deps);
+}
+
+/**
+ * The invite write behind inviteMember and the Studio Booking seat invite (inviteSeat), which
+ * invites a barber as `renter` or `staff` with the studio grant. Owner only, like inviteMember.
+ */
+export async function createInvite(
+  ctx: OrgContext,
+  input: {
+    email: string;
+    role: HubAssignableRole | "staff" | "renter";
+    grants: string[];
+  },
+  deps: InviteDeps = {},
+): Promise<{ inviteId: string }> {
+  assertOwnerNotImpersonating(ctx);
+  requirePermission(ctx, "members", "write");
   const email = normEmail(input.email);
-  const role = hubRole(input.role);
+  const role = hubRoleOrStored(String(input.role));
   const grants = grantList(input.grants ?? []);
   const now = (deps.now ?? Date.now)();
   const id = newRecordId();

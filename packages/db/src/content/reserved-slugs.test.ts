@@ -20,6 +20,9 @@ describe("RESERVED_SLUGS", () => {
         "system-404",
         "privacy",
         "terms",
+        // Studio Booking public routes
+        "barbers",
+        "book",
         // 11-35: bio short links
         "ig",
         "fb",
