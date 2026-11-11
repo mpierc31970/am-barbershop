@@ -18,6 +18,8 @@ export type SiteThemeScopeProps = {
   className?: string;
   lang?: string;
   inert?: boolean;
+  /** Site key for site-scoped CSS (`[data-site="<key>"]`); default "". */
+  site?: string;
   children?: ReactNode;
 };
 
@@ -27,13 +29,14 @@ export function SiteThemeScope({
   className,
   lang,
   inert,
+  site = "",
   children,
 }: SiteThemeScopeProps) {
   const As = as;
   const hash = HASH8.test(theme.hash) ? theme.hash : NEUTRAL;
   return (
     <As
-      data-site=""
+      data-site={site}
       data-theme={hash}
       className={className}
       lang={lang}

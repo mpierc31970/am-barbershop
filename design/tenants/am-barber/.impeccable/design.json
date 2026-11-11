@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-10T00:00:00Z",
+  "title": "Design System: Night Shift",
+  "extensions": {
+    "colorMeta": {
+      "black-glass": { "role": "neutral", "displayName": "Black Glass" },
+      "steel-chair": { "role": "neutral", "displayName": "Steel Chair" },
+      "chrome-white": { "role": "neutral", "displayName": "Chrome White" },
+      "smoke": { "role": "neutral", "displayName": "Smoke" },
+      "neon-red": { "role": "primary", "displayName": "Neon Red" },
+      "sign-white": { "role": "neutral", "displayName": "Sign White" },
+      "pole-blue": { "role": "tertiary", "displayName": "Pole Blue" },
+      "seam": { "role": "neutral", "displayName": "Seam" }
+    },
+    "roles": {
+      "surface": "black-glass",
+      "surface-raised": "steel-chair",
+      "text": "chrome-white",
+      "text-muted": "smoke",
+      "primary": "neon-red",
+      "primary-contrast": "sign-white",
+      "accent": "pole-blue",
+      "border": "seam"
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The hero heading only."
+      },
+      "heading": {
+        "displayName": "Headline",
+        "purpose": "Section headings (h2)."
+      },
+      "subhead": {
+        "displayName": "Title",
+        "purpose": "Card and column titles (h3)."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "All reading text, capped at 68ch."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "State changes."
+      },
+      {
+        "name": "duration-quick",
+        "value": "160ms",
+        "purpose": "Button hover and focus."
+      }
+    ]
+  },
+  "components": [],
+  "narrative": {
+    "northStar": "The Window at 10 p.m.",
+    "overview": "A barbershop seen from the street after dark: black glass, a red neon sign, a blue tube along the edge, chrome and steel inside. Heavy, square, loud where it counts.",
+    "keyCharacteristics": [
+      "Near-black grounds, chrome-white type, one red for action, one blue for edges.",
+      "Archivo 800-900 headings over Public Sans.",
+      "Square corners; octagon cuts on media and badges.",
+      "Neon glow only on the hero heading and the primary button."
+    ],
+    "rules": [
+      {
+        "name": "The Two Tubes Rule",
+        "body": "Red and blue are the only colours with light in them. Nothing else glows.",
+        "section": "colors"
+      }
+    ],
+    "dos": [
+      "Do keep Black Glass (#0A0A0C) as the ground for most of every page.",
+      "Do keep Neon Red (#E0242B) for things a visitor can press."
+    ],
+    "donts": ["Don't round corners.", "Don't use gradients on text."]
+  }
+}

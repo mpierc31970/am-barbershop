@@ -1,0 +1,173 @@
+/*
+ * A&M Barber Studio: site-scoped finish (octagons + red/blue neon). Everything here is
+ * scoped to [data-site="am-barber"] (SiteThemeScope's site key), so the hub and theme
+ * previews never pick it up. Colours come from the theme tokens (design/tenants/am-barber);
+ * the only literals are the two neon tubes and the deep button red.
+ *
+ * Contrast: the theme's primary (#EE3637) passes as link text on black but cannot also carry
+ * white text (no red does both, WCAG AA). Filled red surfaces (buttons, banner) use the deeper
+ * --am-red-fill with white (5.9:1); links keep the brighter token.
+ */
+[data-site="am-barber"] {
+  --am-red-glow: #ff2a33;
+  --am-blue-glow: #2f6bff;
+  --am-red-fill: #c8161d;
+  --am-red-fill-hover: #a80f15;
+  --am-cut: 22px;
+  --am-octagon: polygon(
+    29.3% 0,
+    70.7% 0,
+    100% 29.3%,
+    100% 70.7%,
+    70.7% 100%,
+    29.3% 100%,
+    0 70.7%,
+    0 29.3%
+  );
+  --am-chamfer: polygon(
+    var(--am-cut) 0,
+    calc(100% - var(--am-cut)) 0,
+    100% var(--am-cut),
+    100% calc(100% - var(--am-cut)),
+    calc(100% - var(--am-cut)) 100%,
+    var(--am-cut) 100%,
+    0 calc(100% - var(--am-cut)),
+    0 var(--am-cut)
+  );
+  --site-radius-button: 0px;
+  --site-radius-media: 0px;
+  --site-focus: var(--am-blue-glow);
+  color-scheme: dark;
+  scrollbar-color: var(--site-border) var(--site-surface);
+}
+
+[data-site="am-barber"] ::selection {
+  background: var(--am-red-fill);
+  color: #fff;
+}
+
+/* ---- Type: heavy, square, condensed feel ---- */
+[data-site="am-barber"] h1,
+[data-site="am-barber"] h2 {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+[data-site="am-barber"] h3 {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* Section badge: a small red octagon with a blue halo before every section heading. */
+[data-site="am-barber"] main h2::before {
+  content: "";
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  margin-right: 0.4em;
+  vertical-align: 0.12em;
+  background: var(--am-red-glow);
+  clip-path: var(--am-octagon);
+  filter: drop-shadow(0 0 6px var(--am-blue-glow));
+}
+
+/* ---- Header: a blue tube along the bottom edge ---- */
+[data-site="am-barber"] [data-site-header] {
+  border-bottom-color: var(--am-blue-glow);
+  box-shadow: 0 1px 14px -2px rgb(47 107 255 / 0.55);
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- Hero: neon heading, octagon-cut sign ---- */
+[data-site="am-barber"] main > section:first-child h1 {
+  font-size: clamp(2.75rem, 6vw + 1rem, 5.5rem);
+  line-height: 0.95;
+  color: #fff;
+  text-shadow:
+    0 0 2px #fff,
+    0 0 10px var(--am-red-glow),
+    0 0 24px var(--am-red-glow),
+    0 0 44px rgb(47 107 255 / 0.65);
+}
+[data-site="am-barber"] main > section:first-child h1 + p {
+  color: var(--site-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  font-size: 1rem;
+}
+[data-site="am-barber"] main > section:first-child .order-first {
+  filter: drop-shadow(0 0 14px rgb(255 42 51 / 0.55))
+    drop-shadow(0 0 30px rgb(47 107 255 / 0.4));
+}
+[data-site="am-barber"] main > section:first-child img {
+  clip-path: var(--am-octagon);
+}
+
+/* ---- Media, team photos, cards: octagon cuts ---- */
+[data-site="am-barber"] main img.rounded-site-media,
+[data-site="am-barber"] main li.rounded-site-media,
+[data-site="am-barber"] [data-cds-consent-frame] > div {
+  clip-path: var(--am-chamfer);
+}
+[data-site="am-barber"] main li.rounded-site-media {
+  border-top: 2px solid var(--site-primary);
+}
+
+/* ---- Buttons: deep red fill, white label, red glow ---- */
+[data-site="am-barber"] .bg-site-primary {
+  --site-primary-contrast: #fff;
+  background-color: var(--am-red-fill);
+  color: #fff;
+}
+[data-site="am-barber"] a.bg-site-primary,
+[data-site="am-barber"] button.bg-site-primary {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  box-shadow:
+    0 0 0 1px rgb(255 42 51 / 0.9),
+    0 0 18px rgb(255 42 51 / 0.55);
+  transition:
+    background-color 160ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-site="am-barber"] a.bg-site-primary:hover,
+[data-site="am-barber"] button.bg-site-primary:hover {
+  background-color: var(--am-red-fill-hover);
+  box-shadow:
+    0 0 0 1px rgb(255 42 51 / 1),
+    0 0 26px rgb(255 42 51 / 0.75),
+    0 0 40px rgb(47 107 255 / 0.35);
+}
+[data-site="am-barber"] a.border-site-text:not([href^="mailto:"]) {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+[data-site="am-barber"] a.border-site-text:hover {
+  border-color: var(--am-blue-glow);
+  box-shadow: 0 0 14px rgb(47 107 255 / 0.45);
+}
+
+/* The banner sits on a red ground: its ring turns white. */
+[data-site="am-barber"] [data-site-banner] {
+  --site-focus: #fff;
+}
+
+/* Form fields: dark wells, blue focus. */
+[data-site="am-barber"] input:not([type="hidden"]),
+[data-site="am-barber"] select,
+[data-site="am-barber"] textarea {
+  background-color: var(--site-surface);
+  color: var(--site-text);
+  border-radius: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-site="am-barber"] a.bg-site-primary,
+  [data-site="am-barber"] button.bg-site-primary {
+    transition: none;
+  }
+}

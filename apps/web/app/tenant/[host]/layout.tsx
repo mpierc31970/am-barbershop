@@ -110,8 +110,12 @@ import {
   ReviewBar,
   type ReviewBarProps,
 } from "./_chrome/ReviewBar";
+import "./am-barber.css";
 
 type Props = { children: ReactNode; params: Promise<{ host: string }> };
+
+/** A&M fork: the one site's key for its scoped CSS (am-barber.css) and first-visit intro. */
+const AM_SITE = "am-barber";
 
 const NO_CONSENT: ConsentNeeds = {
   needed: false,
@@ -314,6 +318,7 @@ export default async function TenantLayout({ children, params }: Props) {
       ) : null}
       {strip}
       <SiteThemeScope
+        site={AM_SITE}
         theme={theme}
         lang={live.settings.language}
         className={
