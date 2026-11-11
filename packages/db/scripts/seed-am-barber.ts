@@ -570,8 +570,8 @@ async function afterAssembly(
       content,
     });
   }
-  // Services: a heading block, then one 40-60 row per service (photo left, name /
-  // description / price right; am-barber.css crops the photo to the hexagon frame). Plain
+  // Services: a heading block, then 50-50 rows of two services (photo on top, name /
+  // description / price under it; am-barber.css crops the photo). Plain
   // columns blocks, so the owner edits text and swaps photos in the builder. Rows are found
   // again by their fixed column ids; the generic Services list block is removed.
   // TODO(owner): real descriptions and prices.
@@ -599,6 +599,7 @@ async function afterAssembly(
     ...headSpec,
   });
   after = headRow.id;
+  const svcCols: { id: string; items: Record<string, unknown>[] }[] = [];
   for (let n = 0; n < SERVICES.length; n++) {
     const [name, description] = SERVICES[n]!;
     const [file, alt] = SERVICE_PHOTOS[n]!;
@@ -614,37 +615,51 @@ async function afterAssembly(
           { alt, filename: file },
         )
       ).asset.id;
-    const existingRow = current.find(
+    svcCols.push({
+      id: svcId(n, 1),
+      items: [
+        { id: svcId(n, 2), kind: "image", url: "", alt, asset },
+        { id: svcId(n, 4), kind: "heading", text: name, level: 3 },
+        {
+          id: svcId(n, 5),
+          kind: "text",
+          html: `<p>${description}</p><p><strong>Ask for a price</strong></p>`,
+        },
+      ],
+    });
+  }
+  // Two services per 50-50 row (photo on top). A row is found by its first service's column
+  // id; an older one-per-row layout's leftover rows are removed.
+  const rowWith = (colId: string) =>
+    current.find(
       (s) =>
         s.section_type === "columns" &&
-        JSON.stringify(s.content).includes(svcId(n, 1)),
+        JSON.stringify(s.content).includes(colId),
     );
+  const kept = new Set<string>();
+  for (let n = 0; n < svcCols.length; n += 2) {
+    const existingRow = rowWith(svcCols[n]!.id);
     const row = await saveSection(ctx, sections, {
       ...(existingRow ? { id: existingRow.id } : { afterId: after }),
       pageId: home.id,
       section_type: "columns",
-      row_layout: "40-60",
+      row_layout: "50-50",
       content: {
         columns: [
-          {
-            id: svcId(n, 1),
-            items: [{ id: svcId(n, 2), kind: "image", url: "", alt, asset }],
-          },
-          {
-            id: svcId(n, 3),
-            items: [
-              { id: svcId(n, 4), kind: "heading", text: name, level: 3 },
-              {
-                id: svcId(n, 5),
-                kind: "text",
-                html: `<p>${description}</p><p><strong>Ask for a price</strong></p>`,
-              },
-            ],
-          },
+          svcCols[n]!,
+          svcCols[n + 1] ?? { id: svcId(n + 1, 1), items: [] },
         ],
       },
     });
+    kept.add(row.id);
     after = row.id;
+  }
+  for (const c of svcCols) {
+    const stale = rowWith(c.id);
+    if (stale && !kept.has(stale.id)) {
+      await deleteSection(ctx, stale.id);
+      kept.add(stale.id);
+    }
   }
   const oldList = current.find((s) => s.section_type === "services");
   if (oldList) await deleteSection(ctx, oldList.id);

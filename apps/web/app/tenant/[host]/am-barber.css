@@ -251,6 +251,17 @@
   object-position: center;
 }
 
+/* ---- Service cards (two per row): the photo sits on top of its text, short and wide ---- */
+[data-site="am-barber"]
+  main
+  [data-column]
+  > img.rounded-site-media:first-child:not(:only-child) {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
+}
+
 /* ---- Media, team photos, cards: hexagon cuts ---- */
 [data-site="am-barber"] main img.rounded-site-media,
 [data-site="am-barber"] main li.rounded-site-media,
