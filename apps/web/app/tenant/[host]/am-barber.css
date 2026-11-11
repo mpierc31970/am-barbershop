@@ -237,6 +237,15 @@
   object-position: center;
 }
 
+/* A logo in a photo row (About) keeps its own shape: never cropped to the photo frame. */
+[data-site="am-barber"]
+  main
+  [data-column]
+  > img.rounded-site-media[alt*="logo" i] {
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
 /* ---- Service cards (two per row): the photo sits on top of its text, short and wide ---- */
 [data-site="am-barber"]
   main

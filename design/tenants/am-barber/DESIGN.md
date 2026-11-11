@@ -13,13 +13,13 @@ colors:
 typography:
   display:
     fontFamily: "Archivo, system-ui, sans-serif"
-    fontSize: "clamp(2.75rem, 6vw + 1rem, 5.5rem)"
+    fontSize: "clamp(2.25rem, 4vw + 1rem, 4rem)"
     fontWeight: 900
     lineHeight: 0.95
     letterSpacing: "-0.01em"
   heading:
     fontFamily: "Archivo, system-ui, sans-serif"
-    fontSize: "44px"
+    fontSize: "clamp(1.75rem, 2vw + 1rem, 2.5rem)"
     fontWeight: 800
     lineHeight: 1.05
   subhead:
@@ -108,8 +108,8 @@ glows.
 
 ### Hierarchy
 
-- **Display** (900, clamp(2.75rem, 6vw + 1rem, 5.5rem), 0.95): the hero heading only.
-- **Headline** (800, 44px, 1.05): section headings.
+- **Display** (900, clamp(2.25rem, 4vw + 1rem, 4rem), 0.95): the hero heading only.
+- **Headline** (800, clamp(1.75rem, 2vw + 1rem, 2.5rem), 1.05): section headings.
 - **Title** (800, 24px, 1.2): card and column titles.
 - **Body** (400, 18px, 1.6): reading text, capped at 68ch.
 

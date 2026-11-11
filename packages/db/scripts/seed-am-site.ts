@@ -1,14 +1,16 @@
-// A&M Barber Studio: the Gallery page and the Home photo slider. Idempotent, and touches
-// nothing else (unlike seed-am-barber.ts, it never rewrites pages the owner may have edited).
+// A&M Barber Studio site updates after the first seed. Idempotent, and touches nothing else
+// (unlike seed-am-barber.ts, it never rewrites pages the owner may have edited).
 //
-//   npm run am:gallery
+//   npm run am:site
 //
+// - Theme: writes design/tenants/am-barber when its source changed (type scale etc.).
 // - /gallery: heading, a photo grid of every "gallery" photo in the media library, then
 //   "On TikTok" with four empty columns: the owner drops a TikTok video item into each
 //   from the builder (a video item can't be saved without a link).
 // - Home: services two per row (photo on top), and a slider of the same photos just
 //   above Opening hours.
-// - Gallery goes in the menu; both pages are published.
+// - About: title "About The Studio"; the "Our mission" row becomes 50-50, logo left.
+// - Gallery goes in the menu; the pages are published.
 // Re-runs refresh the photo lists and keep everything else as the owner left it.
 //
 // Storage: like am:seed, run it against a copy of the live object store and copy the
@@ -16,6 +18,7 @@
 import "@cds/addon-registry/server";
 import { ADDON_REGISTRY } from "@cds/addon-registry/server";
 import { composeSectionRegistry, CORE_SECTIONS } from "@cds/core/content";
+import { importThemeDir } from "@cds/core/theme/import";
 import { withSuperuser } from "../src/client";
 import { addPageToNav } from "../src/content/chrome/nav";
 import { createPage, listPages, updatePage } from "../src/content/pages";
@@ -31,11 +34,12 @@ import {
   saveSection,
   setSectionHidden,
 } from "../src/content/sections";
-import { mintOrgContext } from "../src/context";
+import { mintOrgContext, mintSystemContext } from "../src/context";
+import { queueDesignWrite } from "../src/theme";
 import { listMedia } from "../src/media/assets";
 
 const SLUG = "am-barber";
-const IP = "am-gallery";
+const IP = "am-site";
 const ID = (n: number) =>
   `a3b00000-0000-4000-9000-0000000000${String(n).padStart(2, "0")}`;
 
@@ -94,6 +98,30 @@ async function main(): Promise<void> {
     show_captions: false,
     lightbox: true,
     images,
+  });
+
+  // ---- Theme (only when the authored source changed)
+  const theme = importThemeDir("design/tenants/am-barber", {
+    root: process.cwd(),
+  });
+  await withSuperuser(async (pb) => {
+    const org = await pb.collection("organizations").getOne(orgId);
+    const stored = org.design as { sourceHash?: string } | null;
+    if (stored?.sourceHash === theme.design.sourceHash) {
+      log("PASS theme unchanged");
+      return;
+    }
+    const batch = pb.createBatch();
+    queueDesignWrite(
+      batch,
+      mintSystemContext({ job: "am-site" }),
+      orgId,
+      org.design,
+      theme.design,
+      "import",
+    );
+    await batch.send();
+    log(`PASS theme ${theme.report.hash8} written`);
   });
 
   // ---- Gallery page
@@ -260,6 +288,66 @@ async function main(): Promise<void> {
   const hRes = await publishPage(ctx, home.id, pdeps);
   if (hRes.status !== "published") throw new Error("Home publish held");
   log("PASS home slider above Opening hours");
+
+  // ---- About: title, and "Our mission" as a 50-50 row with the logo on the left
+  const about = pages.find((p) => p.slug === "about");
+  if (about) {
+    await updatePage(ctx, about.id, {
+      title: "About The Studio",
+      seo: {
+        meta_title: "About The Studio | A&M Barber Studio, Grand Prairie, TX",
+      },
+    });
+    const aboutSections = await listSections(ctx, about.id);
+    const mission = aboutSections.find(
+      (s) =>
+        s.section_type === "text-only" &&
+        (s.content as { heading?: string }).heading === "Our mission",
+    );
+    const logo = (await listMedia(ctx, "logo"))[0];
+    if (mission && logo) {
+      const c = mission.content as { heading?: string; text?: string };
+      await saveSection(ctx, sections, {
+        afterId: mission.id,
+        pageId: about.id,
+        section_type: "columns",
+        row_layout: "50-50",
+        content: {
+          columns: [
+            {
+              id: ID(20),
+              items: [
+                {
+                  id: ID(21),
+                  kind: "image",
+                  url: "",
+                  alt: "A&M Barber Studio logo",
+                  asset: logo.id,
+                },
+              ],
+            },
+            {
+              id: ID(22),
+              items: [
+                {
+                  id: ID(23),
+                  kind: "heading",
+                  text: c.heading ?? "Our mission",
+                  level: 2,
+                },
+                { id: ID(24), kind: "text", html: c.text ?? "" },
+              ],
+            },
+          ],
+        },
+      });
+      await deleteSection(ctx, mission.id);
+      log("PASS about: mission row 50-50 with the logo");
+    }
+    const aRes = await publishPage(ctx, about.id, pdeps);
+    if (aRes.status !== "published") throw new Error("About publish held");
+    log("PASS about: title About The Studio");
+  }
 }
 
 main().catch((err: unknown) => {

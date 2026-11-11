@@ -102,6 +102,11 @@ CDS_EMAIL_TRANSPORT= PLATFORM_HOSTS=admin.barber.needtobeedgy.com npm run am:see
 `<dir>` and extract it into the volume's `_data` on the Coolify VPS (`chown -R 1001:1001`).
 Live caches catch up within 5 minutes. Local dev: `AM_HOST=am-barber.localhost`.
 
+Later site updates go through `npm run am:site` (`packages/db/scripts/seed-am-site.ts`): theme,
+Gallery page, Home services/slider, About. Same env, but point the storage dirs at a fresh copy
+of the live volume and copy back only the changed files (a fresh empty dir would overwrite the
+live `published/index.json`).
+
 ## Git
 
 `C:\Users\guypa` is itself a git repo. **Never use worktrees.** Run git with
