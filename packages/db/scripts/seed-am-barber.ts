@@ -708,6 +708,13 @@ async function afterAssembly(
   const cRes = await publishPage(ctx, contact.id, pdeps);
   if (cRes.status !== "published") throw new Error("Contact publish held");
   await addPageToNav(ctx, pdeps, contact.id);
+  // Every other page (About, ...) is republished too, so a fresh object store (a new volume,
+  // another CDS_ENV prefix) always holds the whole site.
+  for (const p of await listPages(ctx)) {
+    if (p.slug === "home" || p.slug === "contact") continue;
+    const r = await publishPage(ctx, p.id, pdeps);
+    if (r.status !== "published") throw new Error(`${p.slug} publish held`);
+  }
   log("PASS pages: Home (hero), Contact published; Contact in the menu");
 
   // Only the colour logo is ever used: retire any other logo / hero / share image rows (the
