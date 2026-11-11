@@ -47,6 +47,11 @@ COPY --from=builder --chown=nextjs:nodejs /app/apps/web/public ./apps/web/public
 # video compression (07-13, D220): ffmpeg + ffprobe from Alpine, never an npm binary (CONTEXT decision 3)
 # 07-30: fontconfig + ttf-dejavu so sharp/librsvg can draw the wordmark site icon text.
 RUN apk add --no-cache ffmpeg fontconfig ttf-dejavu
+# A&M: the local-disk ObjectStore (published pages, media) lives on the /data volume
+# (Coolify persistent storage), owned by nextjs so the app can write to it. Without a
+# volume it would vanish on every redeploy.
+ENV CDS_STORAGE_DIR=/data/storage CDS_PUBLIC_STORAGE_DIR=/data/storage-public
+RUN mkdir -p /data/storage /data/storage-public && chown -R nextjs:nodejs /data
 USER nextjs
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
