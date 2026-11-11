@@ -231,7 +231,8 @@
   column-gap: clamp(24px, 4vw, 56px);
 }
 [data-site="am-barber"] main [data-column] > img.rounded-site-media:only-child {
-  --am-cut: 12%;
+  /* Own polygon: --am-hex-wide resolves --am-cut on the site root, not here. */
+  clip-path: polygon(14% 0, 86% 0, 100% 50%, 86% 100%, 14% 100%, 0 50%);
   width: 100%;
   max-width: none;
   aspect-ratio: 4 / 3;
