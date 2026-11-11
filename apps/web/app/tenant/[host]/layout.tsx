@@ -345,7 +345,7 @@ export default async function TenantLayout({ children, params }: Props) {
           logo={
             chrome.header.brand.logo
               ? {
-                  src: chrome.header.brand.logo.src,
+                  ...chrome.header.brand.logo,
                   alt: chrome.footer.name || "Home",
                 }
               : null

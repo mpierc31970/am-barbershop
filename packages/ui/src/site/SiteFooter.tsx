@@ -26,8 +26,8 @@ import type { ReactNode } from "react";
 import type { ChromeLayout } from "./client/NavDisclosure";
 import { BrandIcon } from "./icons/BrandIcon";
 import { brandForPlatform } from "./icons/brands";
-import { mediaSrc } from "./items/media";
-import { BODY_CLASS } from "./types";
+import { mediaSrc, mediaSrcSet } from "./items/media";
+import { BODY_CLASS, type ResolvedMedia } from "./types";
 import { telHref, text } from "./urls";
 
 export interface SiteFooterProps {
@@ -41,7 +41,7 @@ export interface SiteFooterProps {
   /** A&M fork: a small lock icon to the owner hub sign-in, last in the bottom row. */
   ownerSignInHref?: string;
   /** A&M fork: the header logo, shown above the business name. */
-  logo?: { src: unknown; alt: string } | null;
+  logo?: (ResolvedMedia & { alt: string }) | null;
 }
 
 const FOCUS =
@@ -107,6 +107,7 @@ export function SiteFooter({
 }: SiteFooterProps) {
   const name = text(footer.name);
   const logoSrc = logo ? mediaSrc(logo.src) : "";
+  const logoSrcSet = logo ? mediaSrcSet(logo.srcSet) : "";
   const phoneHref = telHref(footer.phone);
   const email = text(footer.email);
   const hours = footer.hours
@@ -140,6 +141,11 @@ export function SiteFooter({
                   <a href="/" className={`mb-2 inline-flex w-fit ${FOCUS}`}>
                     <img
                       src={logoSrc}
+                      {...(logoSrcSet !== ""
+                        ? { srcSet: logoSrcSet, sizes: "200px" }
+                        : {})}
+                      {...(logo.width ? { width: logo.width } : {})}
+                      {...(logo.height ? { height: logo.height } : {})}
                       alt={logo.alt}
                       loading="lazy"
                       className="block h-auto max-h-20 w-auto max-w-[200px] object-contain"
