@@ -66,6 +66,8 @@ const DIRECTIONS =
     "A&M Barber Studio, 2505 S Carrier Pkwy, Grand Prairie, TX 75052",
   );
 const LOGO = "apps/web/public/am-barber/logo.png";
+const LOGO_ALT =
+  "A&M Barber Studio logo: a red A and a blue M over Barber Studio, with a straight razor, est. 2020";
 const IP = "am-seed";
 
 // TODO(owner): replace with the real menu and prices ("ask" shows "Ask for a price").
@@ -230,13 +232,13 @@ async function orgRow(
 // ------------------------------------------------------------------ images
 async function ogImage(): Promise<Uint8Array> {
   const logo = await sharp(readFileSync(LOGO))
-    .resize(560, 560)
+    .resize(760, 520, { fit: "contain", background: "#00000000" })
     .png()
     .toBuffer();
   const buf = await sharp({
     create: { width: 1200, height: 630, channels: 3, background: "#0a0a0c" },
   })
-    .composite([{ input: logo, top: 35, left: 320 }])
+    .composite([{ input: logo, top: 55, left: 220 }])
     .jpeg({ quality: 88 })
     .toBuffer();
   return new Uint8Array(buf);
@@ -319,30 +321,37 @@ async function main(): Promise<void> {
       });
     }
   }
+  // Media are keyed by their alt text: a new logo gets a new alt, so a re-run uploads it once
+  // (the newest logo row is the site logo and drives the favicon set).
   const logoBytes = new Uint8Array(readFileSync(LOGO));
-  if ((await listMedia(ctx, "logo")).length === 0) {
-    await uploadImage(ctx, logoBytes, "logo", {
-      alt: "A&M Barber Studio logo",
-      filename: "logo.png",
-      invalidator: pdeps.invalidator,
-    });
-  }
-  if ((await listMedia(ctx, "hero")).length === 0) {
-    await uploadImage(ctx, logoBytes, "hero", {
-      alt: "A&M Barber Studio neon sign: A and M with a straight razor, est. 2020",
-      filename: "hero.png",
-    });
-  }
-  // Moodboard kind: an image row the template never places on a page (only the share card).
-  const boards = await listMedia(ctx, "moodboard");
-  const share =
-    boards[0]?.id ??
+  const ensureImage = async (
+    kind: "logo" | "hero" | "moodboard",
+    alt: string,
+    bytes: () => Promise<Uint8Array>,
+    filename: string,
+  ): Promise<string> =>
+    (await listMedia(ctx, kind)).find((m) => m.alt === alt)?.id ??
     (
-      await uploadImage(ctx, await ogImage(), "moodboard", {
-        alt: "A&M Barber Studio logo on black",
-        filename: "share.jpg",
+      await uploadImage(ctx, await bytes(), kind, {
+        alt,
+        filename,
+        ...(kind === "logo" ? { invalidator: pdeps.invalidator } : {}),
       })
     ).asset.id;
+  await ensureImage("logo", LOGO_ALT, async () => logoBytes, "logo.png");
+  const heroId = await ensureImage(
+    "hero",
+    LOGO_ALT,
+    async () => logoBytes,
+    "hero.png",
+  );
+  // Moodboard kind: an image row the template never places on a page (only the share card).
+  const share = await ensureImage(
+    "moodboard",
+    "A&M Barber Studio colour logo on black",
+    ogImage,
+    "share.jpg",
+  );
   log("PASS intake: profile, services, logo, hero, share image");
 
   if ((await orgRow(orgId)).stage === "intake") {
@@ -357,7 +366,7 @@ async function main(): Promise<void> {
   if (!(await listPages(ctx)).some((p) => p.slug === "home")) {
     await assemble(orgId, sections, pdeps);
   }
-  await afterAssembly(ctx, orgId, sections, pdeps, share);
+  await afterAssembly(ctx, orgId, sections, pdeps, share, heroId);
 }
 
 async function assemble(
@@ -388,6 +397,7 @@ async function afterAssembly(
   sections: PublishDeps["sections"],
   pdeps: PublishDeps,
   share: string,
+  heroId: string,
 ): Promise<void> {
   // Builder Pro (free before checkout).
   const addons = await listOrgAddons(ctx);
@@ -465,7 +475,7 @@ async function afterAssembly(
   });
   log(`PASS form ${formId} (Book a chair, auto-reply on)`);
 
-  // Home hero: logo, Est. 2020, Book now -> phone until the booking link exists.
+  // Home hero: the logo alone (the h1 stays for screen readers; am-barber.css hides it).
   const pages = await listPages(ctx);
   const home = pages.find((p) => p.slug === "home");
   if (!home) throw new Error("assembly made no Home page");
@@ -479,14 +489,75 @@ async function afterAssembly(
       row_layout: hero.row_layout,
       content: {
         ...(hero.content as Record<string, unknown>),
-        tagline: "Est. 2020 · Grand Prairie, TX",
         heading: NAME,
-        // TODO(owner): swap for the booking tool link when there is one.
-        cta_primary_text: "Book now",
-        cta_primary_link: TEL,
-        cta_secondary_text: "Get directions",
-        cta_secondary_link: DIRECTIONS,
+        heading_accent: "",
+        tagline: "",
+        subtitle: "",
+        trust_text: "",
+        cta_primary_text: "",
+        cta_primary_link: "",
+        cta_secondary_text: "",
+        cta_secondary_link: "",
+        image_asset: heroId,
+        image_alt: LOGO_ALT,
       },
+    });
+  }
+  // Book now moves to the first block under the logo.
+  // TODO(owner): swap TEL for the booking tool link when there is one.
+  const intro = homeSections.find(
+    (s) =>
+      s.section_type === "columns" &&
+      JSON.stringify(s.content).includes("More about us"),
+  );
+  if (intro) {
+    const content = intro.content as {
+      columns: { id: string; items: Record<string, unknown>[] }[];
+    };
+    const button = (id: string, text: string, link: string, style: string) => ({
+      id,
+      kind: "button",
+      action: "link",
+      text,
+      link,
+      style,
+      popup_id: "",
+    });
+    const columns = content.columns.map((c) => ({
+      ...c,
+      items: [
+        ...c.items
+          .filter((it) => it.kind !== "button" || it.text === "More about us")
+          .map((it) =>
+            it.kind === "heading"
+              ? { ...it, text: "Sharp cuts. Clean fades. Est. 2020." }
+              : it,
+          ),
+      ],
+    }));
+    const first = columns[columns.length - 1]!;
+    first.items = [
+      ...first.items.filter((it) => it.kind !== "button"),
+      button(
+        "a3b00000-0000-4000-8000-000000000001",
+        "Book now",
+        TEL,
+        "primary",
+      ),
+      button(
+        "a3b00000-0000-4000-8000-000000000002",
+        "Get directions",
+        DIRECTIONS,
+        "secondary",
+      ),
+      ...first.items.filter((it) => it.kind === "button"),
+    ];
+    await saveSection(ctx, sections, {
+      id: intro.id,
+      pageId: home.id,
+      section_type: "columns",
+      row_layout: intro.row_layout,
+      content: { ...content, columns },
     });
   }
   await updatePage(ctx, home.id, {

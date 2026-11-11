@@ -81,30 +81,82 @@
   z-index: 1;
 }
 
-/* ---- Hero: neon heading, octagon-cut sign ---- */
-[data-site="am-barber"] main > section:first-child h1 {
-  font-size: clamp(2.75rem, 6vw + 1rem, 5.5rem);
-  line-height: 0.95;
-  color: #fff;
-  text-shadow:
-    0 0 2px #fff,
-    0 0 10px var(--am-red-glow),
-    0 0 24px var(--am-red-glow),
-    0 0 44px rgb(47 107 255 / 0.65);
+/* ---- Front-page hero: the logo alone, centred on the first screen ----
+ * Scoped to the hero (the first section with an h1 and a hero image). The h1 stays in the
+ * markup for screen readers and search, visually hidden. Behind the logo: a faint lattice of
+ * connected octagons (the shop's ceiling LED tubes, one inline SVG tile) and the logo's own
+ * neon spilling onto the wall, red behind the A, blue behind the M, tinting the lines near it. */
+[data-site="am-barber"]
+  main
+  > section:first-child:has(h1):has(.order-first img) {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  align-items: center;
+  min-height: calc(100svh - 81px);
 }
-[data-site="am-barber"] main > section:first-child h1 + p {
-  color: var(--site-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-weight: 700;
-  font-size: 1rem;
+[data-site="am-barber"]
+  main
+  > section:first-child:has(h1):has(.order-first img)
+  .grid {
+  grid-template-columns: 1fr;
+  justify-items: center;
 }
-[data-site="am-barber"] main > section:first-child .order-first {
-  filter: drop-shadow(0 0 14px rgb(255 42 51 / 0.55))
-    drop-shadow(0 0 30px rgb(47 107 255 / 0.4));
+[data-site="am-barber"]
+  main
+  > section:first-child:has(h1):has(.order-first img)
+  .grid
+  > :not(.order-first) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
-[data-site="am-barber"] main > section:first-child img {
-  clip-path: var(--am-octagon);
+[data-site="am-barber"]
+  main
+  > section:first-child:has(h1):has(.order-first img)
+  .order-first {
+  position: relative;
+}
+/* The neon spill: above the lattice (so it tints it), behind the logo. */
+[data-site="am-barber"]
+  main
+  > section:first-child:has(h1):has(.order-first img)
+  .order-first::before {
+  content: "";
+  position: absolute;
+  inset: -22% -30%;
+  z-index: -1;
+  background:
+    radial-gradient(
+      closest-side at 30% 46%,
+      rgb(255 42 51 / 0.36),
+      transparent
+    ),
+    radial-gradient(
+      closest-side at 70% 46%,
+      rgb(47 107 255 / 0.36),
+      transparent
+    );
+  filter: blur(30px);
+  pointer-events: none;
+}
+[data-site="am-barber"]
+  main
+  > section:first-child:has(h1):has(.order-first img)
+  .order-first
+  img {
+  width: auto;
+  max-width: min(88vw, 760px);
+  max-height: calc(100svh - 220px);
+  margin-inline: auto;
+  clip-path: none;
+  filter: drop-shadow(0 0 2px rgb(255 255 255 / 0.25))
+    drop-shadow(0 0 18px rgb(255 42 51 / 0.3))
+    drop-shadow(0 0 30px rgb(47 107 255 / 0.25));
 }
 
 /* ---- Media, team photos, cards: octagon cuts ---- */
