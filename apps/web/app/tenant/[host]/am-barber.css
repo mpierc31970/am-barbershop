@@ -499,3 +499,9 @@
     animation: none;
   }
 }
+
+/* The long owner email breaks inside its chip instead of pushing the page wider. */
+[data-site="am-barber"] a[href^="mailto:"] {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
