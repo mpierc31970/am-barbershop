@@ -126,9 +126,8 @@ function isOneOf(list: readonly string[], value: unknown): value is string {
 }
 
 function frameOf(node: Record<string, unknown>): ConsentFrameUse | null {
-  if (node.section_type === "map") {
-    return { kind: "map", provider: MAP_PROVIDER };
-  }
+  // A&M fork: the map block renders MapLibre + OpenFreeMap (no third-party cookies), so it
+  // no longer needs consent.
   const kind = node.kind;
   if (kind === "video" && node.source === "link") {
     return isOneOf(VIDEO_PROVIDERS, node.provider)

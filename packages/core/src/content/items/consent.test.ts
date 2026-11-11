@@ -54,7 +54,8 @@ describe("framesIn / consentNeeds", () => {
     ).toBe(false);
   });
 
-  it("maps audio, embed and map sections to their kinds, in a stable order", () => {
+  // A&M fork: map sections render MapLibre + OpenFreeMap (no cookies), so they need no consent.
+  it("maps audio and embed items to their kinds in a stable order; map sections need none", () => {
     const frames = framesIn([
       { section_type: "map", content: {} },
       columns(
@@ -67,7 +68,6 @@ describe("framesIn / consentNeeds", () => {
       { kind: "video", provider: "vimeo" },
       { kind: "audio", provider: "spotify" },
       { kind: "booking", provider: "calendly" },
-      { kind: "map", provider: "google-maps" },
     ]);
   });
 

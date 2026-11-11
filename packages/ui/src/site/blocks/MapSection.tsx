@@ -1,4 +1,6 @@
 // MapSection (07-24; CONT-24, D230, D279, D281; 07-UI-SPEC "Map" + Consent; T-07-24-02/-03).
+// A&M fork: the Google frame behind consent is replaced by LocationMap (MapLibre +
+// OpenFreeMap, no key, no cookies); the notes below on ConsentFrame are historical.
 //
 // The place query is the block's own location (a parsed address or Maps link), else the
 // business address from coreData.business (live, D253). No address anywhere renders
@@ -13,7 +15,7 @@ import {
   type MapBlockContent,
 } from "@cds/core/content";
 import { ExternalLink } from "lucide-react";
-import { ConsentFrame } from "../ConsentFrame";
+import { LocationMap } from "../client/LocationMap";
 import { RowRenderer } from "../RowRenderer";
 import {
   BODY_CLASS,
@@ -22,6 +24,11 @@ import {
 } from "../types";
 import { text } from "../urls";
 import { readBusiness } from "./business";
+
+// A&M fork: the shop's position, looked up once (Nominatim, 2026-11-10; the street segment
+// holding 2505 S Carrier Pkwy). ponytail: one fixed point for the one site; store lat/lng on
+// the block (geocoded at save) if this ever serves another address.
+const SHOP = { lat: 32.6845009, lng: -97.0099349 };
 
 export function MapSection({
   content,
@@ -36,17 +43,16 @@ export function MapSection({
   if (query === "") return null;
   const heading = text(c.heading);
   const directions = c.show_directions !== false ? mapDirectionsUrl(query) : "";
-  const key = typeof coreData?.mapKey === "string" ? coreData.mapKey : "";
 
   return (
     <RowRenderer layout={layout} background={background}>
       <div className="flex flex-col gap-4">
         {heading && <h2 className={HEADING_CLASSES[2]}>{heading}</h2>}
-        <ConsentFrame
-          source={{ kind: "map", query, ...(key ? { key } : {}) }}
-          kind="map"
+        <LocationMap
+          lat={SHOP.lat}
+          lng={SHOP.lng}
+          label={query}
           title={heading || "Map"}
-          address={query}
         />
         <div className="flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4">
           <p className={`${BODY_CLASS} text-site-text`}>{query}</p>

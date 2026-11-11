@@ -198,11 +198,10 @@ describe("SocialSection", () => {
 describe("MapSection", () => {
   const ADDRESS = "12 Main St, Austin, TX 78701";
 
-  it("uses the business address through the consent placeholder", () => {
+  it("uses the business address; the MapLibre map loads client-side, no frame", () => {
     const html = map({}, data());
     expect(html).toContain("Find us</h2>");
     expect(html).toContain(ADDRESS);
-    expect(html).toContain("Show map");
     expect(html).not.toContain("<iframe");
     expect(thirdPartyLoads(html)).toEqual([]);
   });

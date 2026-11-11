@@ -480,7 +480,7 @@ describe("getConsentNeeds (CONT-34, 07-14 choice 3)", () => {
       frames: [
         { kind: "video", provider: "youtube" },
         { kind: "audio", provider: "spotify" },
-        { kind: "map", provider: "google-maps" },
+        // A&M fork: the map page adds nothing (MapLibre + OpenFreeMap, no consent).
       ],
       analytics: false,
     });
@@ -548,12 +548,17 @@ describe("getConsentNeeds (CONT-34, 07-14 choice 3)", () => {
     });
     db.readPublishedPage.mockImplementation(async (_s: unknown, id: string) => {
       if (id === "p1") throw new Error("boom p1");
-      return page([{ section_type: "map", content: {} }]);
+      return page([
+        {
+          section_type: "columns",
+          content: { columns: [{ items: [video] }] },
+        },
+      ]);
     });
     db.readPublicPopups.mockResolvedValue([]);
     await expect(getConsentNeeds(site)).resolves.toMatchObject({
       needed: true,
-      frames: [{ kind: "map", provider: "google-maps" }],
+      frames: [{ kind: "video", provider: "youtube" }],
     });
     expect(log).toHaveBeenCalledWith("[site] consent page read failed");
     expect(JSON.stringify(log.mock.calls)).not.toContain("p1");
