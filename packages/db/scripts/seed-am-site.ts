@@ -269,6 +269,29 @@ async function main(): Promise<void> {
   }
 
   const homeSections = await listSections(ctx, home.id);
+  // Home "Book Now" (the intro row) goes to /barbers, not a tel: link.
+  for (const s of homeSections) {
+    if (s.section_type !== "columns") continue;
+    const c = s.content as { columns: { items: Record<string, unknown>[] }[] };
+    const btn = c.columns
+      .flatMap((col) => col.items)
+      .find(
+        (it) =>
+          it.kind === "button" &&
+          /^book now$/i.test(String(it.text)) &&
+          String(it.link).startsWith("tel:"),
+      );
+    if (!btn) continue;
+    btn.link = "/barbers";
+    await saveSection(ctx, sections, {
+      id: s.id,
+      pageId: home.id,
+      section_type: "columns",
+      row_layout: s.row_layout,
+      content: c,
+    });
+    log("PASS home Book Now -> /barbers");
+  }
   const slider = homeSections.find((s) => s.section_type === "gallery");
   const hoursAt = homeSections.findIndex((s) => s.section_type === "hours");
   const before =

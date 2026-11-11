@@ -529,7 +529,7 @@ async function afterAssembly(
   // The block under the logo: heading, the intro paragraph, then Book Now / Get Directions /
   // More About Us (am-barber.css lays the three out as one equal-width row). Owner-editable
   // in the page builder like any columns block.
-  // TODO(owner): swap TEL for the booking tool link when there is one.
+  // Book Now goes to /barbers, where each barber has a Book button.
   const intro = homeSections.find(
     (s) =>
       s.section_type === "columns" &&
@@ -564,7 +564,7 @@ async function afterAssembly(
         kind: "text",
         html: "<p>A&amp;M Barber Studio has been cutting hair on South Carrier Parkway in Grand Prairie since 2020. Classic cuts, sharp fades, clean beards and straight-razor shaves, done right the first time.</p>",
       },
-      button(1, "Book Now", TEL, "primary"),
+      button(1, "Book Now", "/barbers", "primary"),
       button(2, "Get Directions", DIRECTIONS, "secondary"),
       button(3, "More About Us", "/about", "secondary"),
     ];
