@@ -87,6 +87,20 @@ Git Bash). Secrets live in `.env.local` only, never in chat.
   `/root/pocketbase-ambarber/pb_data/pb_migrations/` and `packages/db/pb_hooks` into
   `/root/pocketbase-ambarber/pb_hooks/`, `docker restart pocketbase-ambarber`, check `_migrations`.
 - Deploy: push `main`, then `POST /api/v1/deploy?uuid=<app>&force=true`.
+- Storage: the app's local-disk object store (published pages, media) lives on the Coolify
+  volume `nimbbo698focxngxsvbxiqoi-am-barbershop-data` mounted at `/data`
+  (`CDS_STORAGE_DIR=/data/storage`, `CDS_PUBLIC_STORAGE_DIR=/data/storage-public`, set in the
+  Dockerfile).
+
+## Seeding the site
+
+`npm run am:seed` (`packages/db/scripts/seed-am-barber.ts`) is idempotent: org, owner
+(matthew@, emailed-code sign-in), theme, intake, assembly, Builder Pro, booking form, pages,
+service rows, primary host, stage live. Run against prod with
+`CDS_ENV=production CDS_STORAGE_DIR=<dir>/storage CDS_PUBLIC_STORAGE_DIR=<dir>/storage-public
+CDS_EMAIL_TRANSPORT= PLATFORM_HOSTS=admin.barber.needtobeedgy.com npm run am:seed`, then tar
+`<dir>` and extract it into the volume's `_data` on the Coolify VPS (`chown -R 1001:1001`).
+Live caches catch up within 5 minutes. Local dev: `AM_HOST=am-barber.localhost`.
 
 ## Git
 
