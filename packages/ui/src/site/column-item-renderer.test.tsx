@@ -6,7 +6,7 @@ import { join } from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { COLUMN_ITEM_KINDS, type ColumnItem } from "@cds/core/content";
-import { ColumnItemRenderer } from "./ColumnItemRenderer";
+import { ColumnItemRenderer, columnImageSizes } from "./ColumnItemRenderer";
 import { SiteButton } from "./SiteButton";
 import * as site from "./index";
 import * as siteClient from "./client/index";
@@ -316,5 +316,19 @@ describe("image stock credit (07-30, CONT-28)", () => {
         },
       }),
     ).toMatch(/^<img /);
+  });
+});
+
+describe("columnImageSizes", () => {
+  it("sizes an image to its column's share of the row", () => {
+    expect(columnImageSizes("40-60", 0)).toBe(
+      "(min-width: 1120px) 423px, (min-width: 768px) 40vw, 100vw",
+    );
+    expect(columnImageSizes("full", 0)).toBe(
+      "(min-width: 1120px) 1056px, 100vw",
+    );
+    expect(columnImageSizes("50-50", 5)).toBe(
+      "(min-width: 1120px) 1056px, 100vw",
+    );
   });
 });

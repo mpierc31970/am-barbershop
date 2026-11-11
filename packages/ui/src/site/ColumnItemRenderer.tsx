@@ -55,6 +55,20 @@ export interface ColumnItemRendererProps {
   media?: Readonly<Record<string, ResolvedMedia>>;
   /** Public form projections keyed by form id, filled by 07-19's loader. */
   forms?: Readonly<Record<string, unknown>>;
+  /** `sizes` for a library image (columnImageSizes for a column of a row layout). */
+  imageSizes?: string;
+}
+
+/**
+ * The image `sizes` hint for column `index` of a row layout ("40-60" -> 40% of the
+ * 1056px content box from 768px up, full width below). Unknown -> full width.
+ */
+export function columnImageSizes(layout: string, index: number): string {
+  const pct = Number(String(layout).split("-")[index]);
+  if (!Number.isFinite(pct) || pct <= 0 || pct >= 100) {
+    return "(min-width: 1120px) 1056px, 100vw";
+  }
+  return `(min-width: 1120px) ${Math.ceil(10.56 * pct)}px, (min-width: 768px) ${pct}vw, 100vw`;
 }
 
 const SPACER: Record<string, string> = {
@@ -114,6 +128,7 @@ export function ColumnItemRenderer({
   openablePopups,
   media,
   forms,
+  imageSizes = "(min-width: 768px) 50vw, 100vw",
 }: ColumnItemRendererProps) {
   switch (item.kind) {
     case "heading": {
@@ -163,7 +178,7 @@ export function ColumnItemRenderer({
           <img
             src={assetSrc}
             srcSet={srcSet || undefined}
-            sizes={srcSet ? "(min-width: 768px) 50vw, 100vw" : undefined}
+            sizes={srcSet ? imageSizes : undefined}
             width={asset.width}
             height={asset.height}
             alt={clean(item.alt) || clean(asset.alt) || clean(fallbackAlt)}

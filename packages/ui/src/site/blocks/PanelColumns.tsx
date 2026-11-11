@@ -13,7 +13,7 @@ import {
   type ColumnItem,
   type SliderSlide,
 } from "@cds/core/content";
-import { ColumnItemRenderer } from "../ColumnItemRenderer";
+import { ColumnItemRenderer, columnImageSizes } from "../ColumnItemRenderer";
 import { rowGridClass } from "../RowRenderer";
 import type { CoreBoundData } from "../types";
 
@@ -60,7 +60,7 @@ export function PanelColumns({
 
   return (
     <div data-panel-row="" className={grid || undefined}>
-      {columns.map((column) => {
+      {columns.map((column, ci) => {
         const headingItem = column.items.find(isHeading);
         return (
           <div
@@ -81,6 +81,7 @@ export function PanelColumns({
                 openablePopups={openablePopups}
                 media={coreData?.media}
                 forms={coreData?.forms}
+                imageSizes={columnImageSizes(panel.row_layout, ci)}
               />
             ))}
           </div>

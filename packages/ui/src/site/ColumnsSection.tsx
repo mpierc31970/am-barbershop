@@ -11,7 +11,7 @@ import {
   type ColumnItem,
   type ColumnsContent,
 } from "@cds/core/content";
-import { ColumnItemRenderer } from "./ColumnItemRenderer";
+import { ColumnItemRenderer, columnImageSizes } from "./ColumnItemRenderer";
 import { RowRenderer } from "./RowRenderer";
 import type { SectionComponentProps } from "./types";
 
@@ -42,7 +42,7 @@ export function ColumnsSection({
 
   return (
     <RowRenderer layout={layout} background={background}>
-      {columns.map((column) => {
+      {columns.map((column, ci) => {
         // No section-level heading exists for a blank image alt to fall back to; the
         // column's own first heading item is the closest equivalent.
         const headingItem = column.items.find(isHeading);
@@ -65,6 +65,7 @@ export function ColumnsSection({
                 openablePopups={openablePopups}
                 media={coreData?.media}
                 forms={coreData?.forms}
+                imageSizes={columnImageSizes(layout, ci)}
               />
             ))}
           </div>
