@@ -284,7 +284,7 @@ async function main(): Promise<void> {
         orgId,
         before.design,
         theme.design,
-        "am-seed",
+        "import",
       );
       await batch.send();
     });
