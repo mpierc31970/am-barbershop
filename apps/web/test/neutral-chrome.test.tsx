@@ -240,7 +240,7 @@ describe("neutral chrome (DASH-09)", () => {
     expect(rows.length).toBeGreaterThan(0);
     for (const row of rows) {
       expect(row.hasAttribute("data-cds-identity")).toBe(true);
-      expect(row.textContent).toContain("CDS Support");
+      expect(row.textContent).toContain("Support");
     }
     expect(orphanMarks(document.body)).toEqual([]);
     // No other row carries the identity marker.

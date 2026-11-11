@@ -44,7 +44,7 @@ import type { Metadata } from "next";
 import { Suspense, type ReactNode } from "react";
 import { requireHubSession } from "../../../../lib/session";
 import { GuardedLink } from "../GuardedLink";
-import type { FromCdsData, TodayCardsData } from "./cards";
+import type { TodayCardsData } from "./cards";
 import {
   CardsSkeleton,
   NeedsYouSkeleton,
@@ -52,7 +52,7 @@ import {
   StageSkeleton,
 } from "./skeletons";
 import { PhoneAlertsPanel } from "./PhoneAlertsPanel";
-import { FromCdsPanel, TodayCardsPanel } from "./TodayCardsPanel";
+import { TodayCardsPanel } from "./TodayCardsPanel";
 import {
   startTodayLoads,
   type Section,
@@ -234,25 +234,6 @@ async function WeekSection({ load }: { load: Promise<Section<ThisWeekData>> }) {
   );
 }
 
-async function FromCdsSection({
-  load,
-  impersonating,
-}: {
-  load: Promise<Section<FromCdsData | null>>;
-  impersonating: boolean;
-}) {
-  const res = await load;
-  // An optional card: when it can't load (or there is none) the rail simply ends.
-  if (!res.ok || !res.data) return null;
-  return (
-    <FromCdsPanel
-      card={res.data.card}
-      steps={res.data.steps}
-      impersonating={impersonating}
-    />
-  );
-}
-
 /** Seen flag set by the card's Not now (apps/web/app/actions/push.ts). */
 const PHONE_ALERTS_FLAG = "phone_alerts";
 
@@ -326,12 +307,6 @@ export default async function TodayPage() {
           ) : null}
           <Suspense fallback={null}>
             <PhoneAlertsSection ctx={ctx} />
-          </Suspense>
-          <Suspense fallback={null}>
-            <FromCdsSection
-              load={loads.fromCds}
-              impersonating={loads.impersonating}
-            />
           </Suspense>
         </div>
       </div>

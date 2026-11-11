@@ -633,9 +633,11 @@ describe("hub layout (T-03-42)", () => {
     expect(html).toContain("Open menu");
     expect(html).toContain("Skip to content");
     expect(html).toContain("<p>inner</p>");
-    // A&M fork: no "CDS Support" row, so the sidebar never names CDS.
-    expect(html).not.toContain("CDS Support");
-    expect(html).not.toMatch(/CDS|Connections Design/);
+    // 11-14 (D83, DASH-09): the pinned "CDS Support" row is the one sidebar row that names CDS.
+    expect(html).toContain("Support");
+    expect(html.replaceAll("Support", "")).not.toMatch(
+      /CDS|Connections Design/,
+    );
     // Owner: the pinned Get add-ons item (05-11, D311), not active on /hub/website.
     expect(html).toMatch(/<a[^>]*href="\/hub\/add-ons"[^>]*>.*Get add-ons/);
     expect(html).not.toMatch(/href="\/hub\/add-ons"[^>]*aria-current/);

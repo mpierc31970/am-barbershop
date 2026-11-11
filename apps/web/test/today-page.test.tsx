@@ -461,7 +461,8 @@ describe("/hub/today", () => {
 });
 
 describe("/hub/today, second half (11-19)", () => {
-  it("main column + rail: cards after Needs you; This week and From CDS in the rail", async () => {
+  // A&M fork: no From CDS panel on Today.
+  it.skip("main column + rail: cards after Needs you; This week and From CDS in the rail", async () => {
     const root = await render();
     const main = root.querySelector("[data-today-main]")!;
     const rail = root.querySelector("[data-today-rail]")!;
@@ -518,14 +519,14 @@ describe("/hub/today, second half (11-19)", () => {
     expect(root.querySelector("[data-this-week]")).toBeNull();
   });
 
-  it("impersonating staff: From CDS has no Dismiss", async () => {
+  it.skip("impersonating staff: From CDS has no Dismiss", async () => {
     useRole("impersonating");
     const root = await render();
     expect(root.querySelector("[data-from-cds]")).not.toBeNull();
     expect(root.querySelector('[aria-label="Dismiss this card"]')).toBeNull();
   });
 
-  it("a pinned CDS note leads From CDS over the announcement; a failed read falls back (12-29)", async () => {
+  it.skip("a pinned CDS note leads From CDS over the announcement; a failed read falls back (12-29)", async () => {
     db.activeAnnouncement.mockResolvedValue({
       id: "a1",
       title: "Planned upgrade",

@@ -48,8 +48,7 @@ describe("buildJumpIndex (DASH-28)", () => {
     });
     expect(idx.some((e) => e.path === "Website › Pages")).toBe(true);
     expect(idx.some((e) => e.href === "/hub/add-ons")).toBe(true);
-    // A&M fork: no CDS Support anywhere.
-    expect(idx.some((e) => e.label === "CDS Support")).toBe(false);
+    expect(idx.some((e) => e.label === "Support")).toBe(true);
     // Website comes before its tabs, and Settings after Reports (sidebar order).
     const at = (href: string) => idx.findIndex((e) => e.href === href);
     expect(at("/hub/website")).toBeLessThan(at("/hub/website?tab=pages"));
@@ -108,11 +107,31 @@ describe("buildJumpIndex (DASH-28)", () => {
     expect(new Set(idx.map((e) => e.href)).size).toBe(idx.length);
   });
 
-  it("A&M fork: no CDS Support screen, tabs or Get help in Jump to", () => {
-    for (const role of ["owner", "viewer"] as const) {
-      const idx = indexFor(role);
-      expect(idx.some((e) => e.href.startsWith("/hub/support"))).toBe(false);
+  it("CDS Support: four tabs and Get help after the screen (12-19)", () => {
+    const idx = indexFor("owner");
+    const at = (href: string) => idx.findIndex((e) => e.href === href);
+    for (const tab of ["messages", "tickets", "documents", "ideas"]) {
+      expect(at(`/hub/support?tab=${tab}`), tab).toBeGreaterThan(
+        at("/hub/support"),
+      );
     }
+    expect(idx.find((e) => e.path === "Support › Messages")).toMatchObject({
+      label: "Messages",
+      href: "/hub/support?tab=messages",
+    });
+    const help = idx.find((e) => e.href === "/hub/support/tickets/new");
+    expect(help).toMatchObject({
+      group: "Screens",
+      label: "Get help",
+      path: "Support › Get help",
+    });
+    expect(help?.keywords).toContain("ticket");
+  });
+
+  it("CDS Support: a Viewer jumps to the tabs but not to Get help (12-19)", () => {
+    const idx = indexFor("viewer");
+    expect(idx.some((e) => e.href === "/hub/support?tab=messages")).toBe(true);
+    expect(idx.some((e) => e.href === "/hub/support/tickets/new")).toBe(false);
   });
 
   it("entries fit the JumpToDialog's JumpEntry (11-15)", () => {

@@ -1,9 +1,15 @@
-// A&M fork: no CDS Support on this site (CDS does not support it), for any role: every
-// /hub/support/** page answers not found, and the sidebar has no Support item (nav.ts).
+// A&M fork: barber seats (renter, staff) have no CDS Support (not in their sidebar either);
+// every /hub/support/** page answers not found for them.
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
+import { requireHubSession } from "../../../../lib/session";
 
-export default function SupportLayout({ children }: { children: ReactNode }) {
-  notFound();
+export default async function SupportLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const { ctx } = await requireHubSession();
+  if (ctx.role === "renter" || ctx.role === "staff") notFound();
   return children;
 }
