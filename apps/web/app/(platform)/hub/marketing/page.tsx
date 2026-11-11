@@ -65,6 +65,8 @@ export default async function MarketingPage({
 }) {
   const session = await requireHubSession();
   const { ctx } = session;
+  // A&M fork: barber seats see only their own setup (no Marketing, as in the sidebar).
+  if (ctx.role === "renter" || ctx.role === "staff") notFound();
   const allowed = readableMarketingTabs(ctx);
   if (allowed.length === 0) notFound();
   const sp = await searchParams;

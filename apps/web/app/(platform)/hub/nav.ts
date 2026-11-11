@@ -269,14 +269,13 @@ export function composeHubNav(input: {
         : sectionBadge(["inbox"], needsYou);
     items.push(withBadge(INBOX_NAV, badge));
   }
-  const grantedActive = activeManifests.some((m) => grants.includes(m.slug));
-  if (readsContent || grantedActive) {
-    const parts = [
-      "website",
-      ...tabAddonSlugs(registry, input.active, "website")
-        .filter(readable)
-        .map((s) => `addon:${s}`),
-    ];
+  // A&M fork: a grant-only member (a barber) sees Website only when it has a tab for them; a
+  // granted add-on with its own sidebar item (Studio Booking's "Barbers") never adds it.
+  const websiteTabs = tabAddonSlugs(registry, input.active, "website").filter(
+    readable,
+  );
+  if (readsContent || websiteTabs.length > 0) {
+    const parts = ["website", ...websiteTabs.map((s) => `addon:${s}`)];
     items.push(withBadge(WEBSITE_NAV, sectionBadge(parts, needsYou)));
   }
   for (const m of activeManifests) {
@@ -291,7 +290,9 @@ export function composeHubNav(input: {
       ),
     );
   }
-  if (can(subject, "contacts", "read") || readsContent) {
+  // A&M fork: barber seats (renter, staff) see only their own setup, so no Marketing.
+  const seatOnly = role === "renter" || role === "staff";
+  if ((can(subject, "contacts", "read") && !seatOnly) || readsContent) {
     const parts = [
       "marketing",
       ...tabAddonSlugs(registry, input.active, "marketing")

@@ -44,6 +44,7 @@ import { HUB_SECTIONS } from "../sections";
 import { pagesPackPriceLabel } from "../../../../lib/billing-view";
 import { serviceView, type ServiceView } from "../../../../lib/intake";
 import { CARD_HREF } from "../settings/billing-copy";
+import { notFound } from "next/navigation";
 import { requireHubSession } from "../../../../lib/session";
 import { ServicesSection } from "../_intake/ServicesSection";
 import { AddonPanel } from "./AddonPanel";
@@ -246,6 +247,8 @@ export default async function WebsitePage({
     registry: ADDON_REGISTRY,
   });
   const tabs = sectionTabs.map((t) => ({ id: t.id, label: t.label }));
+  // A&M fork: nothing here for this person (a barber seat): same as the sidebar, no Website.
+  if (tabs.length === 0) notFound();
   // Only public add-ons that are off can explain a missing tab (no private-name oracle).
   const offSlugs = ADDON_REGISTRY.publicList()
     .filter((m) => isWebsiteTab(m) && !on.has(m.slug))

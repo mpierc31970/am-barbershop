@@ -164,7 +164,7 @@ describe("/hub/marketing?tab=social (DASH-14..16)", () => {
     expect(boxes.every((b) => b.disabled)).toBe(true);
   });
 
-  it("admin edits, editor reads only (UI-SPEC, 11-50); staff (contacts only) gets Contacts and no Social", async () => {
+  it("admin edits, editor reads only (UI-SPEC, 11-50)", async () => {
     const ad = await render("admin", { tab: "social" });
     expect(
       ad.querySelector('[aria-label="More for Instagram"]'),
@@ -173,10 +173,7 @@ describe("/hub/marketing?tab=social (DASH-14..16)", () => {
     mounted = null;
     const ed = await render("editor", { tab: "social" });
     expect(ed.querySelector('[aria-label="More for Instagram"]')).toBeNull();
-    (mounted as Mounted | null)?.unmount();
-    mounted = null;
-    const st = await render("staff", { tab: "social" });
-    expect(tabIds(st)).toEqual(["contacts"]);
+    // A&M fork: staff seats get no Marketing page at all (hub-nav.test).
     expect(db.listSocialAccounts).toHaveBeenCalledTimes(2);
   });
 

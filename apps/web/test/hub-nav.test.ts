@@ -267,14 +267,14 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
     expect(viewer.pinned).toEqual([HELP, SUPPORT]);
   });
 
-  it("a grant-only staff member: Today, Website for an active granted add-on, Marketing; no Reports", () => {
+  it("a grant-only staff member: Today, Website for an active granted add-on; no Marketing (A&M: seats see their setup only), no Reports", () => {
     const nav = composeHubNav({
       role: "staff",
       grants: ["fixture-quote"],
       active: ["fixture-quote"],
       registry,
     });
-    expect(nav.items).toEqual([TODAY, WEBSITE, MARKETING]);
+    expect(nav.items).toEqual([TODAY, WEBSITE]);
     expect(nav.pinned).toEqual([HELP, SUPPORT]);
     const off = composeHubNav({
       role: "staff",
@@ -282,7 +282,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
       active: [],
       registry,
     });
-    expect(off.items).toEqual([TODAY, MARKETING]);
+    expect(off.items).toEqual([TODAY]);
   });
 
   it("an active sidebar add-on sits between Website and Marketing; an inactive one is absent", () => {
@@ -375,11 +375,10 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
       active: ["fixture-side"],
       registry,
     });
+    // A&M fork: a sidebar add-on adds no empty Website item, and a seat gets no Marketing.
     expect(withGrant.items.map((i) => i.href)).toEqual([
       "/hub/today",
-      "/hub/website",
       "/hub/fixture-side",
-      "/hub/marketing",
     ]);
   });
 });
@@ -811,11 +810,15 @@ describe("Marketing page (07-03)", () => {
     expect(html).not.toContain(SHELL_PANEL_BODY.replace("'", "&#x27;"));
   });
 
-  it("admin, staff and renter (contacts read) get the page; an unknown tab lands on Contacts", async () => {
-    for (const role of ["admin", "staff", "renter"]) {
+  it("admin gets the page (an unknown tab lands on Contacts); staff and renter seats get 404 (A&M)", async () => {
+    asRole("admin");
+    const html = await renderPage(MarketingPage, { tab: "bogus" });
+    expect(currentTab(html)).toBe("contacts");
+    for (const role of ["staff", "renter"]) {
       asRole(role);
-      const html = await renderPage(MarketingPage, { tab: "bogus" });
-      expect(currentTab(html)).toBe("contacts");
+      await expect(renderPage(MarketingPage, { tab: "bogus" })).rejects.toThrow(
+        "NEXT_NOT_FOUND",
+      );
     }
   });
 
