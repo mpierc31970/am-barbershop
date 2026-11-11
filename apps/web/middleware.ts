@@ -267,6 +267,7 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
 // Exclusions are exact paths (or the /_next/static/ directory), never prefixes: a path
 // that skips the middleware also skips the TENANT_HOST_HEADER strip, so /api/healthz or
 // /favicon-ico must still run it (IN-01). Tested with Next's own matcher.
+// am-barber/ (A&M fork): the static intro logo in public/, served as-is on every host.
 // api/jobs/quotes$ (06-09, RESEARCH Pitfall 5): the Coolify scheduled task calls it on
 // 127.0.0.1, which host routing would reject with 400. The route guards itself (bearer).
 // api/jobs/media$ (07-27; 07-02, Finding 5): the hourly media job, called on 127.0.0.1 by the
@@ -312,6 +313,6 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
 export const config = {
   runtime: "nodejs",
   matcher: [
-    "/((?!api/health$|api/jobs/quotes$|api/jobs/media$|api/jobs/assembly$|api/jobs/retention$|api/jobs/billing$|api/jobs/alerts$|api/jobs/reports$|api/jobs/support$|api/jobs/indexing$|api/jobs/review$|api/jobs/demo$|api/monitor/status$|api/jobs/health$|api/edge/ask$|api/edge/routes$|api/jobs/domains$|api/jobs/exports$|_next/static/|_next/image$|favicon\\.ico$).*)",
+    "/((?!api/health$|api/jobs/quotes$|api/jobs/media$|api/jobs/assembly$|api/jobs/retention$|api/jobs/billing$|api/jobs/alerts$|api/jobs/reports$|api/jobs/support$|api/jobs/indexing$|api/jobs/review$|api/jobs/demo$|api/monitor/status$|api/jobs/health$|api/edge/ask$|api/edge/routes$|api/jobs/domains$|api/jobs/exports$|_next/static/|_next/image$|favicon\\.ico$|am-barber/).*)",
   ],
 };

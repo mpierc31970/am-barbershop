@@ -110,6 +110,7 @@ import {
   ReviewBar,
   type ReviewBarProps,
 } from "./_chrome/ReviewBar";
+import { AmIntro } from "./_chrome/AmIntro";
 import "./am-barber.css";
 
 type Props = { children: ReactNode; params: Promise<{ host: string }> };
@@ -347,6 +348,7 @@ export default async function TenantLayout({ children, params }: Props) {
             initialChoice={choice}
           />
         ) : null}
+        {review ? null : <AmIntro />}
         {site.hostKind === "preview" ? null : <Beacon />}
         {site.hostKind !== "preview" && ga4Id ? (
           <GaLoader measurementId={ga4Id} />
