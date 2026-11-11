@@ -87,7 +87,18 @@
   overflow: hidden;
   display: grid;
   align-items: center;
-  min-height: calc(100svh - 81px);
+  min-height: min(calc(100svh - 81px), 52rem);
+}
+/* Tall or portrait screens (tablets, phones): no vertical centring in a tall box; the logo
+ * sits near the top and the next section starts right after it. */
+@media (orientation: portrait) {
+  [data-site="am-barber"]
+    main
+    > section:first-child:has(h1):has(.order-first img) {
+    min-height: 0;
+    align-items: start;
+    padding-block: clamp(1.5rem, 6vh, 4rem);
+  }
 }
 [data-site="am-barber"]
   main
