@@ -570,7 +570,7 @@ async function afterAssembly(
       content,
     });
   }
-  // Services: a heading block, then one 50-50 row per service (photo left, name /
+  // Services: a heading block, then one 40-60 row per service (photo left, name /
   // description / price right; am-barber.css crops the photo to the hexagon frame). Plain
   // columns blocks, so the owner edits text and swaps photos in the builder. Rows are found
   // again by their fixed column ids; the generic Services list block is removed.
@@ -623,7 +623,7 @@ async function afterAssembly(
       ...(existingRow ? { id: existingRow.id } : { afterId: after }),
       pageId: home.id,
       section_type: "columns",
-      row_layout: "50-50",
+      row_layout: "40-60",
       content: {
         columns: [
           {
