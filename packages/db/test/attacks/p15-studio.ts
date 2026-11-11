@@ -5,7 +5,13 @@
 import { NotFound } from "@cds/core";
 import { expect } from "vitest";
 import {
+  addTimeOff,
+  getSchedule,
   getSeat,
+  listBookings,
+  removeTimeOff,
+  saveHours,
+  setBookingStatus,
   readSeatPhoto,
   removeSeat,
   removeSeatPhoto,
@@ -19,6 +25,33 @@ export function attacks(env: AttackEnv): AttackMap {
   return {
     studio_seats: readOnlyAttack(env, "studio_seats"),
     studio_services: readOnlyAttack(env, "studio_services"),
+    studio_time_off: readOnlyAttack(env, "studio_time_off"),
+    studio_bookings: readOnlyAttack(env, "studio_bookings"),
+    "studio_time_off:module": async () => {
+      const { A, ctxB } = env.seed();
+      await expect(getSchedule(ctxB, A.studioSeat)).rejects.toThrow(NotFound);
+      await expect(saveHours(ctxB, A.studioSeat, {})).rejects.toThrow();
+      await expect(
+        addTimeOff(ctxB, A.studioSeat, {
+          start: "2030-02-01",
+          end: "2030-02-01",
+        }),
+      ).rejects.toThrow();
+      await expect(
+        removeTimeOff(ctxB, A.studioSeat, A.studioTimeOff),
+      ).rejects.toThrow();
+    },
+    "studio_bookings:module": async () => {
+      const { A, ctxB } = env.seed();
+      await expect(
+        listBookings(ctxB, { seatId: A.studioSeat }),
+      ).rejects.toThrow(NotFound);
+      const mine = await listBookings(ctxB, { from: "2029-12-01" });
+      expect(mine.bookings.map((b) => b.id)).not.toContain(A.studioBooking);
+      await expect(
+        setBookingStatus(ctxB, A.studioBooking, "cancelled"),
+      ).rejects.toThrow();
+    },
     "studio_seats:module": async () => {
       const { A, ctxB } = env.seed();
       await expect(getSeat(ctxB, A.studioSeat)).rejects.toThrow(NotFound);

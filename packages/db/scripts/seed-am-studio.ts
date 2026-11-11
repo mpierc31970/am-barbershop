@@ -23,7 +23,9 @@ import { mintOrgContext } from "../src/context";
 import { newRecordId } from "../src/repository";
 import {
   createSeat,
+  getSchedule,
   listSeats,
+  saveHours,
   saveSeatService,
   updateSeat,
   uploadSeatPhoto,
@@ -131,6 +133,42 @@ async function main(): Promise<void> {
       });
     }
     log(`PASS seat ${name} (placeholder)`);
+  }
+
+  // Step 2: every seat without hours gets the shop's opening hours (TODO(owner): each
+  // barber's own hours), so the placeholder seats can be booked.
+  const shopHours = await withSuperuser(async (pb) => {
+    const p = await pb
+      .collection("business_profile")
+      .getFirstListItem(pb.filter("organization = {:o}", { o: orgId }), {
+        fields: "hours",
+      })
+      .catch(() => null);
+    return p?.hours ?? null;
+  });
+  const fallback = Object.fromEntries(
+    ["mon", "tue", "wed", "thu", "fri", "sat", "sun"].map((d) => [
+      d,
+      d === "sun" || d === "mon"
+        ? { open: false, ranges: [] }
+        : { open: true, ranges: [{ start: "10:00", end: "19:00" }] },
+    ]),
+  );
+  for (const seat of await listSeats(ctx)) {
+    const schedule = await getSchedule(ctx, seat.id);
+    if (schedule.hours) continue;
+    try {
+      const anyOpen =
+        shopHours !== null &&
+        typeof shopHours === "object" &&
+        Object.values(shopHours as Record<string, { open?: boolean }>).some(
+          (d) => d?.open === true,
+        );
+      await saveHours(ctx, seat.id, anyOpen ? shopHours : fallback);
+    } catch {
+      await saveHours(ctx, seat.id, fallback);
+    }
+    log(`PASS hours for ${seat.name}`);
   }
 
   const url = `https://${HOST}/barbers`;

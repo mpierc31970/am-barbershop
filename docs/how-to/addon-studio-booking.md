@@ -28,6 +28,12 @@ Studio Booking gives every barber a seat: their own public page at `/barbers/<na
 | 6 | Barber's own sign-in, `/hub/studio-booking` | The barber signs in on the hub and clicks **Barbers** | Their own seat opens. They can edit their page, photos and menu, nothing else |
 | 7 | Seat screen | Click **Remove barber…**, then **Remove <name>** | "Barber removed. Their sign-in to this site is closed." Their page is gone from the site |
 | 8 | Your site, `/barbers` | Open the page | Every barber shown on the site, each with **Book** and **About** |
+| 9 | Seat screen, **Hours and time off** | Tick **Working** for each day, set **From** and **To** (15-minute steps) and click **Save hours** | "Hours saved." Clients can now book this barber inside those hours |
+| 10 | Seat screen, **Time off** | Pick **First day off** (and **Last day off** for more than one day), click **Add time off** | "Time off added." Those days show no open times on the site |
+| 11 | Your site, `/book` | Pick a barber, a service, a day and a time, fill **Your name** and **Email**, click **Book it** | "You're booked" with the booking number. The client gets a confirmation email; the barber and the owner get a hub alert (bell and email) |
+| 12 | `/hub/studio-booking/bookings` | Open **Bookings** (a barber sees **My bookings**) | Upcoming bookings by day. The owner can filter by barber |
+| 13 | Bookings, one booking | Click **Done**, **No-show** or **Cancel and email client** | The badge changes. Cancel emails the client that the shop cancelled |
+| 14 | (automatic) | Every 15 minutes the shop's job runs | Each client gets one reminder email about a day before their booking |
 
 ## Decisions
 
@@ -35,3 +41,7 @@ Studio Booking gives every barber a seat: their own public page at `/barbers/<na
 - Barber photos are plain 2:3 rectangles (no hexagon). The five seeded seats are placeholders with AI-generated photos (`apps/web/public/am-barber/staff/CREDITS.md`), TODO(owner).
 - Barber text is not run through the content scanner; the owner controls **Show this barber on the site**.
 - Not premium (no D154 monitoring stack) and no fail-safe capture: single shop, free path.
+- Booking times: one working range per day per barber, 15-minute steps, no booking within 1 hour of now, up to 30 days ahead (the page shows 14). Two clients can't take the same time: the slot is re-checked under a lock.
+- Clients pay in the shop (no payment processor). No client self-cancel link: the confirmation says to call the shop.
+- Reminders and new-booking alerts use the existing email transport (SMTP in production, the logged stand-in elsewhere). Job: `POST /api/jobs/studio` with the `CDS_JOB_TOKEN` bearer, a Coolify scheduled task every 15 minutes.
+- Removing a barber removes their bookings and time off too.

@@ -323,6 +323,7 @@ describe("middleware hostname routing (PLAT-02, D4)", () => {
       "/api/jobs/domains?x=1",
       "/api/jobs/exports",
       "/api/jobs/exports?x=1",
+      "/api/jobs/studio",
       "/favicon.ico",
       "/_next/static/chunks/a.js",
       "/_next/image",

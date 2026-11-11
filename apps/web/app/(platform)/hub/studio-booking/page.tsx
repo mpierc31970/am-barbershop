@@ -45,7 +45,7 @@ export default async function StudioBookingPage() {
         helpId="addon-studio-booking"
         LinkComponent={GuardedLink}
       />
-      {manager ? <StudioTabs active="barbers" /> : null}
+      {manager ? <StudioTabs active="barbers" manager /> : null}
       {note ? (
         <InlineAlert tone={note.tone === "success" ? "success" : "error"}>
           {note.text}

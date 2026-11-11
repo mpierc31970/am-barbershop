@@ -35,13 +35,20 @@ async function back(
     maxAge: 15,
     secure: process.env.NODE_ENV === "production",
   });
-  return Response.redirect(new URL(to, req.url), 303);
+  // Relative Location: behind the proxy req.url may carry an internal host.
+  void req;
+  return new Response(null, { status: 303, headers: { Location: to } });
 }
 
 export async function POST(req: Request): Promise<Response> {
   if (!sameOrigin(req)) return new Response("Forbidden", { status: 403 });
   const ctx = await mediaContext();
-  if (!ctx) return Response.redirect(new URL("/sign-in", req.url), 303);
+  if (!ctx) {
+    return new Response(null, {
+      status: 303,
+      headers: { Location: "/sign-in" },
+    });
+  }
   if (ctx instanceof Response) return ctx;
 
   const declared = Number(req.headers.get("content-length"));

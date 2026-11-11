@@ -56,6 +56,9 @@ export type OrgSeed = {
   /** Studio Booking seat and its one service (step 1). */
   studioSeat: string;
   studioService: string;
+  /** Studio Booking step 2: a day off and a booking on the seat. */
+  studioTimeOff: string;
+  studioBooking: string;
   /** P6 intake rows (06-05; ONB-01, ONB-04, ONB-09, ONB-13, EMAIL-01). */
   businessProfile: string;
   media: string;
@@ -217,6 +220,29 @@ async function seedOrg(pb: PocketBase, key: "a" | "b"): Promise<OrgSeed> {
       sort_order: 1,
     })
   ).id;
+  const studioTimeOff = (
+    await pb.collection("studio_time_off").create({
+      organization: org,
+      seat: studioSeat,
+      start_date: "2030-01-01",
+      end_date: "2030-01-02",
+    })
+  ).id;
+  const studioBooking = (
+    await pb.collection("studio_bookings").create({
+      organization: org,
+      seat: studioSeat,
+      reference: `AM-${key.toUpperCase()}AAAAA`,
+      service_name: "Cut",
+      duration_minutes: 30,
+      price_cents: 3000,
+      starts_at: "2030-01-03T15:00:00.000Z",
+      ends_at: "2030-01-03T15:30:00.000Z",
+      client_name: `Client ${key.toUpperCase()}`,
+      client_email: `client-${key}@cds.test`,
+      status: "confirmed",
+    })
+  ).id;
   const businessProfile = (
     await pb.collection("business_profile").create({
       organization: org,
@@ -371,6 +397,8 @@ async function seedOrg(pb: PocketBase, key: "a" | "b"): Promise<OrgSeed> {
     credential,
     studioSeat,
     studioService,
+    studioTimeOff,
+    studioBooking,
     businessProfile,
     media,
     teamMember,

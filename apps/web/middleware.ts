@@ -284,6 +284,8 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
 // api/jobs/alerts, exact path (11-23): every-5-minutes alert job (held push release, collapse,
 // 7am summary), Coolify scheduled task on 127.0.0.1; route guards itself with the
 // CDS_JOB_TOKEN bearer.
+// api/jobs/studio, exact path (Studio Booking): every-15-minutes booking reminders and
+// overdue chair rent alerts, Coolify scheduled task on 127.0.0.1; CDS_JOB_TOKEN bearer.
 // api/jobs/reports, exact path (11-34): daily trigger of the monthly "Your site this month"
 // email job, Coolify scheduled task on 127.0.0.1; route guards itself with the CDS_JOB_TOKEN
 // bearer.
@@ -313,6 +315,6 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
 export const config = {
   runtime: "nodejs",
   matcher: [
-    "/((?!api/health$|api/jobs/quotes$|api/jobs/media$|api/jobs/assembly$|api/jobs/retention$|api/jobs/billing$|api/jobs/alerts$|api/jobs/reports$|api/jobs/support$|api/jobs/indexing$|api/jobs/review$|api/jobs/demo$|api/monitor/status$|api/jobs/health$|api/edge/ask$|api/edge/routes$|api/jobs/domains$|api/jobs/exports$|_next/static/|_next/image$|favicon\\.ico$|am-barber/).*)",
+    "/((?!api/health$|api/jobs/quotes$|api/jobs/media$|api/jobs/assembly$|api/jobs/retention$|api/jobs/billing$|api/jobs/alerts$|api/jobs/reports$|api/jobs/support$|api/jobs/indexing$|api/jobs/review$|api/jobs/demo$|api/monitor/status$|api/jobs/health$|api/edge/ask$|api/edge/routes$|api/jobs/domains$|api/jobs/exports$|api/jobs/studio$|_next/static/|_next/image$|favicon\\.ico$|am-barber/).*)",
   ],
 };

@@ -1,13 +1,28 @@
-// The Studio Booking tab bar (owner and admin). Each tab is its own route.
+// The Studio Booking tab bar. The owner (and Admins): Barbers, Bookings. A barber: their own
+// page and their own bookings. Each tab is its own route.
 import { TabLinks } from "@cds/ui/hub";
 import { STUDIO_BASE } from "../../../../lib/studio";
 
-const TABS = [{ id: "barbers", label: "Barbers", href: STUDIO_BASE }] as const;
+export type StudioTab = "barbers" | "bookings";
 
 export function StudioTabs({
   active,
+  manager,
 }: {
-  active: (typeof TABS)[number]["id"];
+  active: StudioTab;
+  manager: boolean;
 }) {
-  return <TabLinks tabs={TABS} activeId={active} label="Studio Booking" />;
+  const tabs = [
+    {
+      id: "barbers",
+      label: manager ? "Barbers" : "My page",
+      href: STUDIO_BASE,
+    },
+    {
+      id: "bookings",
+      label: manager ? "Bookings" : "My bookings",
+      href: `${STUDIO_BASE}/bookings`,
+    },
+  ];
+  return <TabLinks tabs={tabs} activeId={active} label="Studio Booking" />;
 }

@@ -4,12 +4,16 @@
 // re-checks who may touch which seat (a barber only their own). Each action answers with a
 // redirect back to the screen and a one-time note (studioNote cookie) the page shows.
 import {
+  addTimeOff,
   createSeat,
   inviteSeat,
   removeSeat,
   removeSeatPhoto,
   removeSeatService,
+  removeTimeOff,
+  saveHours,
   saveSeatService,
+  setBookingStatus,
   updateSeat,
 } from "@cds/db";
 import { revalidatePath } from "next/cache";
@@ -144,4 +148,67 @@ export async function removePhotoAction(form: FormData): Promise<void> {
   await act(seatHref(seatId) + "#photos", "Photo removed.", async ({ ctx }) => {
     await removeSeatPhoto(ctx, seatId, idField(form, "mediaId"));
   });
+}
+
+// ---------------------------------------------------------------- step 2: schedules, bookings
+
+const DAY_KEYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"] as const;
+
+export async function saveHoursAction(form: FormData): Promise<void> {
+  const seatId = idField(form, "seatId");
+  const hours: Record<
+    string,
+    { open: boolean; ranges: { start: string; end: string }[] }
+  > = {};
+  for (const d of DAY_KEYS) {
+    const open = field(form, `open_${d}`) === "on";
+    hours[d] = {
+      open,
+      ranges: open
+        ? [{ start: field(form, `start_${d}`), end: field(form, `end_${d}`) }]
+        : [],
+    };
+  }
+  await act(seatHref(seatId) + "#hours", "Hours saved.", async ({ ctx }) => {
+    await saveHours(ctx, seatId, hours);
+  });
+}
+
+export async function addTimeOffAction(form: FormData): Promise<void> {
+  const seatId = idField(form, "seatId");
+  await act(seatHref(seatId) + "#hours", "Time off added.", async ({ ctx }) => {
+    await addTimeOff(ctx, seatId, {
+      start: field(form, "start"),
+      end: field(form, "end"),
+      note: field(form, "note"),
+    });
+  });
+}
+
+export async function removeTimeOffAction(form: FormData): Promise<void> {
+  const seatId = idField(form, "seatId");
+  await act(
+    seatHref(seatId) + "#hours",
+    "Time off removed.",
+    async ({ ctx }) => {
+      await removeTimeOff(ctx, seatId, idField(form, "timeOffId"));
+    },
+  );
+}
+
+const STATUS_DONE: Record<string, string> = {
+  completed: "Marked done.",
+  no_show: "Marked as a no-show.",
+  cancelled: "Booking cancelled. The client was emailed.",
+};
+
+export async function bookingStatusAction(form: FormData): Promise<void> {
+  const status = field(form, "status");
+  await act(
+    `${STUDIO_BASE}/bookings`,
+    STATUS_DONE[status] ?? "Saved.",
+    async ({ ctx }) => {
+      await setBookingStatus(ctx, idField(form, "bookingId"), status);
+    },
+  );
 }

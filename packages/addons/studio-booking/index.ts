@@ -33,6 +33,20 @@ export default defineAddon({
   install: INSTALL,
   uninstall: UNINSTALL,
   training: TRAINING,
+  // Hub bell + email. A new booking reaches its barber and the owner (raised with an
+  // audience); members without the add-on grant never see these types.
+  alerts: [
+    {
+      type: "studio-booking.new",
+      level: "normal",
+      label: "New booking",
+      example: "A client booked online",
+      feature: "addon:studio-booking",
+      access: "read",
+      section: "addon:studio-booking",
+      defaultChannels: { email: true, push: true },
+    },
+  ],
   privacyClauses: [
     {
       id: "studio-booking",

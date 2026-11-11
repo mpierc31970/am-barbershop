@@ -29,3 +29,20 @@ export type {
 export { getPublicSeat, listPublicSeats, readPublicSeatPhoto } from "./public";
 export type { PublicSeat, PublicSeatService } from "./public";
 export { isManager as isStudioManager, STUDIO_SLUG } from "./shared";
+export { addTimeOff, getSchedule, removeTimeOff, saveHours } from "./schedule";
+export type { ScheduleView, TimeOffView } from "./schedule";
+export {
+  BOOKING_STATUSES,
+  SLOT_TAKEN_COPY,
+  createPublicBooking,
+  listBookings,
+  publicAvailability,
+  runStudioReminders,
+  setBookingStatus,
+} from "./bookings";
+export type {
+  BookingInput,
+  BookingStatus,
+  BookingView,
+  PublicDay,
+} from "./bookings";

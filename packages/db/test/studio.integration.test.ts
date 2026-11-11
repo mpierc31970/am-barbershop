@@ -12,6 +12,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { resetClientForTests, superuser } from "../src/client";
 import { siteContextForHost } from "../src/content/site-context";
 import { mintOrgContext, type OrgContext } from "../src/context";
+import { captureTransport } from "../src/email";
 import { tenantRepo } from "../src/repository";
 import { clearResolverCache } from "../src/resolve";
 import {
@@ -22,7 +23,15 @@ import {
   listPublicSeats,
   listSeats,
   mySeatId,
+  createPublicBooking,
+  listBookings,
+  publicAvailability,
   removeSeat,
+  runStudioReminders,
+  saveHours,
+  getSchedule,
+  setBookingStatus,
+  SLOT_TAKEN_COPY,
   removeSeatService,
   saveSeatService,
   updateSeat,
@@ -207,6 +216,104 @@ describe("Studio Booking seat isolation", () => {
     expect(Object.keys(pub[0]!)).not.toContain("email");
     expect(await getPublicSeat(site, "ana")).toBeNull();
     expect(await getPublicSeat(site, "barber-b")).toBeNull();
+  });
+
+  it("schedules and bookings stay with their own barber", async (t) => {
+    if (!inst) return t.skip();
+    const allDays = Object.fromEntries(
+      ["mon", "tue", "wed", "thu", "fri", "sat", "sun"].map((d) => [
+        d,
+        { open: true, ranges: [{ start: "09:00", end: "17:00" }] },
+      ]),
+    );
+    await saveHours(barber1, seat1, allDays);
+    await expect(saveHours(barber2, seat1, allDays)).rejects.toThrow(NotFound);
+    await expect(getSchedule(barber2, seat1)).rejects.toThrow(NotFound);
+    await updateSeat(seed.ctxA, seat1, { isPublished: true });
+    const svc = (
+      await saveSeatService(barber1, seat1, {
+        name: "Cut",
+        durationMinutes: 30,
+        priceCents: 3000,
+      })
+    ).id;
+    clearResolverCache();
+    const site = await siteContextForHost(
+      String((await pb.collection("org_hosts").getOne(seed.A.host)).hostname),
+    );
+    if (!site) throw new Error("no site");
+    // Monday 2030-01-07 6:00 am Chicago; book Tuesday 10:00.
+    const now = Date.parse("2030-01-07T12:00:00Z");
+    const avail = await publicAvailability(
+      site,
+      { barber: "ana", service: svc, date: "2030-01-08" },
+      now,
+    );
+    expect(avail.slots.map((s) => s.time)).toContain("10:00");
+    const mail = captureTransport();
+    const input = {
+      barber: "ana",
+      service: svc,
+      date: "2030-01-08",
+      time: "10:00",
+      name: "Client One",
+      email: "one@cds.test",
+    };
+    const made = await createPublicBooking(site, input, "203.0.113.1", {
+      now,
+      transport: mail,
+    });
+    expect(made.reference).toMatch(/^AM-/);
+    // The client's confirmation, plus the hub alert email to the barber and the owner.
+    const to = mail.sent.map((m) => m.to);
+    expect(to).toContain("one@cds.test");
+    expect(to).toContain("ana@cds.test");
+    expect(to).not.toContain("beto@cds.test");
+    expect(mail.sent.find((m) => m.to === "one@cds.test")?.type).toBe(
+      "booking.notice",
+    );
+    await expect(
+      createPublicBooking(
+        site,
+        { ...input, email: "two@cds.test" },
+        "203.0.113.2",
+        { now },
+      ),
+    ).rejects.toThrow(SLOT_TAKEN_COPY);
+    const after = await publicAvailability(
+      site,
+      { barber: "ana", service: svc, date: "2030-01-08" },
+      now,
+    );
+    expect(after.slots.map((s) => s.time)).not.toContain("10:00");
+
+    const own = await listBookings(barber1, { from: "2030-01-07" }, now);
+    expect(own.bookings.map((b) => b.reference)).toEqual([made.reference]);
+    const id = own.bookings[0]!.id;
+    const other = await listBookings(barber2, { from: "2030-01-07" }, now);
+    expect(other.bookings).toHaveLength(0);
+    await expect(
+      listBookings(barber2, { from: "2030-01-07", seatId: seat1 }, now),
+    ).rejects.toThrow(NotFound);
+    await expect(setBookingStatus(barber2, id, "cancelled")).rejects.toThrow(
+      NotFound,
+    );
+    const owner = await listBookings(seed.ctxA, { from: "2030-01-07" }, now);
+    expect(owner.bookings.map((b) => b.id)).toContain(id);
+
+    const r1 = await runStudioReminders({
+      now: Date.parse("2030-01-07T18:00:00Z"),
+      transport: mail,
+    });
+    expect(r1.reminded).toBe(1);
+    const r2 = await runStudioReminders({
+      now: Date.parse("2030-01-07T18:15:00Z"),
+    });
+    expect(r2.reminded).toBe(0);
+    await setBookingStatus(barber1, id, "completed");
+    expect((await pb.collection("studio_bookings").getOne(id)).status).toBe(
+      "completed",
+    );
   });
 
   it("removing a barber closes their sign-in", async (t) => {

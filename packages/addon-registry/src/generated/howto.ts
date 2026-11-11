@@ -148,6 +148,36 @@ export const HOWTO_STEPS: Readonly<Record<string, readonly HowToStep[]>> = Objec
         "screen": "Your site, `/barbers`",
         "action": "Open the page",
         "expected": "Every barber shown on the site, each with **Book** and **About**"
+      },
+      {
+        "screen": "Seat screen, **Hours and time off**",
+        "action": "Tick **Working** for each day, set **From** and **To** (15-minute steps) and click **Save hours**",
+        "expected": "\"Hours saved.\" Clients can now book this barber inside those hours"
+      },
+      {
+        "screen": "Seat screen, **Time off**",
+        "action": "Pick **First day off** (and **Last day off** for more than one day), click **Add time off**",
+        "expected": "\"Time off added.\" Those days show no open times on the site"
+      },
+      {
+        "screen": "Your site, `/book`",
+        "action": "Pick a barber, a service, a day and a time, fill **Your name** and **Email**, click **Book it**",
+        "expected": "\"You're booked\" with the booking number. The client gets a confirmation email; the barber and the owner get a hub alert (bell and email)"
+      },
+      {
+        "screen": "`/hub/studio-booking/bookings`",
+        "action": "Open **Bookings** (a barber sees **My bookings**)",
+        "expected": "Upcoming bookings by day. The owner can filter by barber"
+      },
+      {
+        "screen": "Bookings, one booking",
+        "action": "Click **Done**, **No-show** or **Cancel and email client**",
+        "expected": "The badge changes. Cancel emails the client that the shop cancelled"
+      },
+      {
+        "screen": "(automatic)",
+        "action": "Every 15 minutes the shop's job runs",
+        "expected": "Each client gets one reminder email about a day before their booking"
       }
     ],
     "docs/how-to/addon-testimonials.md": [

@@ -250,6 +250,16 @@ function seedRecordFor(name: string): Seeded {
       b: seed.B.studioService,
       create: {},
     }),
+    studio_time_off: () => ({
+      a: seed.A.studioTimeOff,
+      b: seed.B.studioTimeOff,
+      create: {},
+    }),
+    studio_bookings: () => ({
+      a: seed.A.studioBooking,
+      b: seed.B.studioBooking,
+      create: {},
+    }),
     // P6 intake collections (06-05). Their writers arrive in 06-11/12/13; until then the
     // generic repo is read-only and the customWriters attack proves it.
     business_profile: () => ({

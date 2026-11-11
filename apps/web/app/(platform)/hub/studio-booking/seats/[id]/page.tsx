@@ -1,7 +1,13 @@
 // /hub/studio-booking/seats/<id>: one barber's seat. The owner edits everything; the barber
 // edits their own page (name, headline, bio, photos, menu). getSeat (@cds/db) answers
 // NotFound for another barber's seat, so a barber can never open one by changing the URL.
-import { getSeat, GALLERY_MAX, type SeatView } from "@cds/db";
+import {
+  getSchedule,
+  getSeat,
+  GALLERY_MAX,
+  type ScheduleView,
+  type SeatView,
+} from "@cds/db";
 import {
   Badge,
   Button,
@@ -31,6 +37,8 @@ import {
   STUDIO_BASE,
 } from "../../../../../../lib/studio";
 import { GuardedLink } from "../../../GuardedLink";
+import { StudioTabs } from "../../StudioTabs";
+import { ScheduleSection } from "./ScheduleSection";
 
 export const metadata: Metadata = { title: "Barber" };
 export const dynamic = "force-dynamic";
@@ -101,8 +109,12 @@ export default async function SeatPage({ params }: Props) {
   const { id } = await params;
   const { ctx, org } = await requireHubSession();
   let seat: SeatView;
+  let schedule: ScheduleView;
   try {
-    seat = await getSeat(ctx, id);
+    [seat, schedule] = await Promise.all([
+      getSeat(ctx, id),
+      getSchedule(ctx, id),
+    ]);
   } catch {
     notFound();
   }
@@ -126,6 +138,7 @@ export default async function SeatPage({ params }: Props) {
           {seat.isPublished ? "On the site" : "Hidden"}
         </Badge>
       </ScreenHeader>
+      {seat.canManage ? null : <StudioTabs active="barbers" manager={false} />}
       {note ? (
         <InlineAlert tone={note.tone === "success" ? "success" : "error"}>
           {note.text}
@@ -396,6 +409,8 @@ export default async function SeatPage({ params }: Props) {
           </div>
         </form>
       </section>
+
+      <ScheduleSection seatId={seat.id} schedule={schedule} />
 
       {seat.canManage ? (
         <section aria-labelledby="access-h" className="flex flex-col gap-3">
