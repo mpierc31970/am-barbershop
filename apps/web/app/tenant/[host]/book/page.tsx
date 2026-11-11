@@ -332,7 +332,7 @@ export default async function BookPage({ params, searchParams }: Props) {
                                 aria-current={
                                   s.time === q.time ? "time" : undefined
                                 }
-                                className={`${CHIP} w-full ${s.time === q.time ? CHIP_ON : ""}`}
+                                className={`${CHIP} w-full whitespace-nowrap px-2 ${s.time === q.time ? CHIP_ON : ""}`}
                               >
                                 {time12(s.time)}
                               </a>
