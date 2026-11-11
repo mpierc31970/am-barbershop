@@ -188,7 +188,7 @@ function item(
 }
 
 describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marketing, Reports, Settings)", () => {
-  it("owner on a live org: the full list in D311 order; Get add-ons, Help and CDS Support pinned", () => {
+  it("owner on a live org: the full list in D311 order; Get add-ons and Help pinned (A&M: no CDS Support)", () => {
     const nav = composeHubNav({
       role: "owner",
       grants: [],
@@ -204,7 +204,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
       REPORTS,
       SETTINGS,
     ]);
-    expect(nav.pinned).toEqual([GET_ADDONS, HELP, SUPPORT]);
+    expect(nav.pinned).toEqual([GET_ADDONS, HELP]);
     expect(GET_ADDONS).toEqual({
       href: "/hub/add-ons",
       label: "Get add-ons",
@@ -237,7 +237,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
       REPORTS,
       SETTINGS,
     ]);
-    expect(nav.pinned).toEqual([GET_ADDONS, HELP, SUPPORT]);
+    expect(nav.pinned).toEqual([GET_ADDONS, HELP]);
   });
 
   it("editor and viewer: no Get add-ons; only the editor sees Settings; both see Marketing (Social, 11-37) and Reports (D310)", () => {
@@ -255,7 +255,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
       REPORTS,
       SETTINGS,
     ]);
-    expect(editor.pinned).toEqual([HELP, SUPPORT]);
+    expect(editor.pinned).toEqual([HELP]);
     const viewer = composeHubNav({
       role: "viewer",
       grants: [],
@@ -264,7 +264,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
     });
     expect(viewer.items).toEqual([TODAY, INBOX, WEBSITE, MARKETING, REPORTS]);
     expect(viewer.items.map((i) => i.href)).not.toContain("/hub/settings");
-    expect(viewer.pinned).toEqual([HELP, SUPPORT]);
+    expect(viewer.pinned).toEqual([HELP]);
   });
 
   it("a grant-only staff member: Today, Website for an active granted add-on; no Marketing (A&M: seats see their setup only), no Reports", () => {

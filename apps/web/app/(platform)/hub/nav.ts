@@ -253,7 +253,7 @@ export function composeHubNav(input: {
   const readsBusiness = can(subject, "business", "read");
   const readable = (slug: string) => can(subject, `addon:${slug}`, "read");
   // A&M fork: barber seats (renter, staff) see only their own setup: Today, My profile
-  // (Studio Booking opens their own seat), Help. No Marketing, no CDS Support.
+  // (Studio Booking opens their own seat), Help. No Marketing.
   const seatOnly = role === "renter" || role === "staff";
 
   const items: HubNavItem[] = [];
@@ -315,7 +315,7 @@ export function composeHubNav(input: {
   }
   const pinned: HubNavItem[] = [];
   if (can(subject, "addons", "read")) pinned.push({ ...GET_ADDONS });
+  // A&M fork: no CDS Support for anyone (CDS does not support this site).
   pinned.push({ ...HELP_NAV });
-  if (!seatOnly) pinned.push({ ...SUPPORT_NAV });
   return { items, pinned };
 }

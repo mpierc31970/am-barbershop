@@ -170,7 +170,8 @@ describe("hub layout: header props (DASH-18, DASH-28)", () => {
     expect(row(html, "/hub/today")).toContain("<svg");
     expect(row(html, "/hub/reports")).toContain("<svg");
     expect(row(html, "/hub/help")).toContain("<svg");
-    expect(row(html, "/hub/support")).toContain("<svg");
+    // A&M fork: no CDS Support row.
+    expect(html).not.toContain('href="/hub/support"');
   });
 });
 
