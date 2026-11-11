@@ -138,7 +138,9 @@ export default async function BookPage({ params, searchParams }: Props) {
 
   return (
     <main id="content" tabIndex={-1} className="outline-none" data-book-page="">
-      <PageTitleHeader title="Book a chair" />
+      <PageTitleHeader
+        title={seat ? `Book with ${seat.name}` : "Book a chair"}
+      />
       <div className="mx-auto flex max-w-[1120px] flex-col gap-10 px-6 pb-16 md:px-8">
         {error ? (
           <p role="alert" className="border border-site-primary px-4 py-3">
@@ -146,8 +148,23 @@ export default async function BookPage({ params, searchParams }: Props) {
           </p>
         ) : null}
 
-        <Step n={1} title="Pick your barber">
-          {seats.length === 0 ? (
+        <Step n={1} title={seat ? "Your barber" : "Pick your barber"}>
+          {seat ? (
+            <div className="flex flex-col gap-3">
+              <div
+                className="w-40 border-2 border-site-primary"
+                data-chosen-barber=""
+              >
+                <Portrait seat={seat} />
+                <p className="px-2 py-2 font-semibold">{seat.name}</p>
+              </div>
+              {seats.length > 1 ? (
+                <a href="/book" className="text-site-text underline">
+                  Pick a different barber
+                </a>
+              ) : null}
+            </div>
+          ) : seats.length === 0 ? (
             <p className={MUTED}>
               Online booking opens soon. Call the shop to book.
             </p>
