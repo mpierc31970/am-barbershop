@@ -1,6 +1,6 @@
 "use client";
-// A&M first-visit intro: a black overlay where the logo fades in, then a red and a blue neon
-// octagon "turn on" around it (flicker, then a steady glow with a slow hum). Decoration only:
+// A&M first-visit intro: a black overlay where the logo fades in, then its red "A" and blue "M"
+// "turn on" like neon (flicker, then a steady glow with a slow hum). Decoration only:
 // the page renders underneath as normal, the overlay mounts after hydration (never SSR, so it
 // gates nothing and shifts nothing), and its logo is drawn smaller than the hero image so it
 // never becomes the LCP element.
@@ -19,19 +19,13 @@ const FADE_MS = 400;
 
 let shownThisLoad = false;
 
-// Regular octagon points on a 200 x 200 box, radius r, flat top.
-function octagon(r: number): string {
-  const pts: string[] = [];
-  for (let i = 0; i < 8; i++) {
-    const a = ((22.5 + i * 45) * Math.PI) / 180;
-    pts.push(
-      `${(100 + r * Math.cos(a)).toFixed(2)},${(100 + r * Math.sin(a)).toFixed(2)}`,
-    );
-  }
-  return pts.join(" ");
-}
-const RED = octagon(96);
-const BLUE = octagon(86);
+// The colour logo plus two same-size layers holding only its red "A" and blue "M"
+// (public/am-barber/logo-red.png, logo-blue.png); the glow drop-shadows follow those shapes.
+const LAYERS = [
+  ["/am-barber/logo.png", "am-intro__logo"],
+  ["/am-barber/logo-red.png", "am-intro__neon am-intro__neon--red"],
+  ["/am-barber/logo-blue.png", "am-intro__neon am-intro__neon--blue"],
+] as const;
 
 type Phase = "off" | "on" | "leaving";
 
@@ -87,25 +81,18 @@ export function AmIntro() {
   return (
     <div className="am-intro" data-leaving={phase === "leaving" || undefined}>
       <div className="am-intro__stage" aria-hidden="true">
-        <svg className="am-intro__tubes" viewBox="0 0 200 200">
-          <polygon
-            className="am-intro__tube am-intro__tube--red"
-            points={RED}
+        {LAYERS.map(([src, cls]) => (
+          // eslint-disable-next-line @next/next/no-img-element -- static public asset, decoration
+          <img
+            key={src}
+            className={cls}
+            src={src}
+            alt=""
+            width={647}
+            height={472}
+            decoding="async"
           />
-          <polygon
-            className="am-intro__tube am-intro__tube--blue"
-            points={BLUE}
-          />
-        </svg>
-        {/* eslint-disable-next-line @next/next/no-img-element -- static public asset, decoration */}
-        <img
-          className="am-intro__logo"
-          src="/am-barber/logo-transparent.png"
-          alt=""
-          width={474}
-          height={474}
-          decoding="async"
-        />
+        ))}
       </div>
       <button
         ref={skip}

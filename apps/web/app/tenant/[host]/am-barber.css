@@ -179,6 +179,7 @@
   z-index: 1000;
   display: grid;
   place-items: center;
+  overflow: hidden;
   background: #000;
   opacity: 1;
   transition: opacity 400ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -187,48 +188,68 @@
   opacity: 0;
   pointer-events: none;
 }
-/* Kept smaller than the hero image so it never becomes the LCP element. */
+/* Kept smaller than the hero logo so it never becomes the LCP element. */
 [data-site="am-barber"] .am-intro__stage {
   position: relative;
-  width: min(56vw, 56vh, 380px);
-  aspect-ratio: 1;
+  isolation: isolate;
+  width: min(64vw, 480px);
+  aspect-ratio: 647 / 472;
 }
-[data-site="am-barber"] .am-intro__tubes {
+[data-site="am-barber"] .am-intro__stage img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  overflow: visible;
 }
-[data-site="am-barber"] .am-intro__tube {
-  fill: none;
-  stroke-width: 2.6;
-  stroke-linejoin: miter;
+/* The wall the sign hangs on: red spill left, blue spill right, lit with the tubes. */
+[data-site="am-barber"] .am-intro__stage::before,
+[data-site="am-barber"] .am-intro__stage::after {
+  content: "";
+  position: absolute;
+  inset: -45% -40%;
+  z-index: -1;
+  filter: blur(36px);
   opacity: 0;
   animation:
     am-tube-on 900ms steps(1, end) forwards,
     am-tube-hum 2.6s ease-in-out infinite alternate;
 }
-[data-site="am-barber"] .am-intro__tube--red {
-  stroke: #ff3b43;
-  filter: drop-shadow(0 0 2px #ff2a33) drop-shadow(0 0 8px #ff2a33)
-    drop-shadow(0 0 18px rgb(255 42 51 / 0.7));
+[data-site="am-barber"] .am-intro__stage::before {
+  background: radial-gradient(
+    closest-side at 32% 48%,
+    rgb(255 42 51 / 0.42),
+    transparent
+  );
   animation-delay: 1000ms, 1900ms;
 }
-[data-site="am-barber"] .am-intro__tube--blue {
-  stroke: #5a8bff;
-  filter: drop-shadow(0 0 2px #2f6bff) drop-shadow(0 0 8px #2f6bff)
-    drop-shadow(0 0 18px rgb(47 107 255 / 0.7));
+[data-site="am-barber"] .am-intro__stage::after {
+  background: radial-gradient(
+    closest-side at 68% 48%,
+    rgb(47 107 255 / 0.42),
+    transparent
+  );
   animation-delay: 1350ms, 2250ms;
 }
 [data-site="am-barber"] .am-intro__logo {
-  position: absolute;
-  inset: 12%;
-  width: 76%;
-  height: 76%;
-  object-fit: contain;
   opacity: 0;
   animation: am-logo-in 1000ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+/* The red A and blue M layers: the same pixels as the logo, plus their own glow. */
+[data-site="am-barber"] .am-intro__neon {
+  opacity: 0;
+  animation:
+    am-tube-on 900ms steps(1, end) forwards,
+    am-tube-hum 2.6s ease-in-out infinite alternate;
+}
+[data-site="am-barber"] .am-intro__neon--red {
+  filter: drop-shadow(0 0 3px #ff2a33) drop-shadow(0 0 12px #ff2a33)
+    drop-shadow(0 0 28px rgb(255 42 51 / 0.75));
+  animation-delay: 1000ms, 1900ms;
+}
+[data-site="am-barber"] .am-intro__neon--blue {
+  filter: drop-shadow(0 0 3px #2f6bff) drop-shadow(0 0 12px #2f6bff)
+    drop-shadow(0 0 28px rgb(47 107 255 / 0.75));
+  animation-delay: 1350ms, 2250ms;
 }
 [data-site="am-barber"] .am-intro__skip {
   position: fixed;
@@ -237,7 +258,7 @@
   min-height: 44px;
   padding: 0 20px;
   border: 1px solid var(--site-text-muted);
-  background: transparent;
+  background: #000;
   color: var(--site-text);
   font-weight: 700;
   text-transform: uppercase;
@@ -255,11 +276,9 @@
   }
   to {
     opacity: 1;
-    filter: drop-shadow(0 0 10px rgb(255 42 51 / 0.45))
-      drop-shadow(0 0 22px rgb(47 107 255 / 0.35));
   }
 }
-/* A tube striking: two stutters, then on. */
+/* A tube striking: stutters, then on. */
 @keyframes am-tube-on {
   0% {
     opacity: 0;
@@ -287,23 +306,22 @@
     opacity: 1;
   }
 }
+/* Hum: once the strike ends, a slow slight dimming (it takes over the opacity). */
 @keyframes am-tube-hum {
   from {
-    stroke-opacity: 1;
+    opacity: 1;
   }
   to {
-    stroke-opacity: 0.78;
+    opacity: 0.8;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-site="am-barber"] .am-intro__tube,
-  [data-site="am-barber"] .am-intro__logo {
+  [data-site="am-barber"] .am-intro__logo,
+  [data-site="am-barber"] .am-intro__neon,
+  [data-site="am-barber"] .am-intro__stage::before,
+  [data-site="am-barber"] .am-intro__stage::after {
     animation: none !important;
     opacity: 1;
-  }
-  [data-site="am-barber"] .am-intro__logo {
-    filter: drop-shadow(0 0 10px rgb(255 42 51 / 0.45))
-      drop-shadow(0 0 22px rgb(47 107 255 / 0.35));
   }
 }
