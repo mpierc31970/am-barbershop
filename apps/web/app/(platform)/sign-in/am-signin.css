@@ -1,0 +1,40 @@
+/* A&M fork: the sign-in screens wear the site's night look (black glass, the logo, Archivo
+ * headings) over the hub's own forms, by re-pointing the hub tokens. Red fills keep white
+ * text (5.9:1); text that would use the accent reads in a lighter red (6.6:1 on the card). */
+.am-signin {
+  --hub-surface: #141418;
+  --hub-surface-2: #0a0a0c;
+  --hub-accent: #c8161d;
+  --hub-accent-hover: #a80f15;
+  --hub-accent-tint: #2a1416;
+  --hub-danger: #ff7a7a;
+  --hub-danger-tint: #2a1214;
+  --hub-ink: #f2f2f2;
+  --hub-ink-muted: #a8a8b0;
+  --hub-border: #26262c;
+  --hub-border-strong: #6e6e78;
+  --hub-success: #5ad18a;
+  --hub-success-tint: #10241a;
+  --hub-warning: #f2b84b;
+  --hub-warning-tint: #2a2210;
+  --hub-font: "Public Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  color-scheme: dark;
+  accent-color: var(--hub-accent);
+  caret-color: var(--hub-ink);
+}
+.am-signin h1 {
+  font-family: "Archivo Variable", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.am-signin .text-hub-accent,
+.am-signin a:not([class*="bg-"]) {
+  color: #ff8a8f;
+}
+.am-signin input,
+.am-signin select,
+.am-signin textarea {
+  background-color: #0a0a0c;
+  color: var(--hub-ink);
+}

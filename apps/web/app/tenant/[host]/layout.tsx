@@ -116,7 +116,7 @@ type Props = { children: ReactNode; params: Promise<{ host: string }> };
 
 /** A&M fork: the one site's key for its scoped CSS (am-barber.css). */
 const AM_SITE = "am-barber";
-const AM_OWNER_SIGN_IN = "https://admin.barber.needtobeedgy.com/sign-in";
+const AM_OWNER_SIGN_IN = "/sign-in";
 
 const NO_CONSENT: ConsentNeeds = {
   needed: false,

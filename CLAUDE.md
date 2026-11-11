@@ -29,8 +29,8 @@ reference, not as a roadmap for this site.
 
 | Host | Serves |
 |---|---|
-| `barber.needtobeedgy.com` | The public site (the org's primary custom host) |
-| `admin.barber.needtobeedgy.com` | Owner hub `/hub/*` and `/sign-in` (`PLATFORM_HOSTS`) |
+| `barber.needtobeedgy.com` | The public site, plus `/sign-in`, `/hub/*`, `/staff/*`, `/invite/*` (`SITE_ADMIN_HOST`, middleware `SITE_ADMIN_PATHS`); `CDS_PLATFORM_URL` points here |
+| `admin.barber.needtobeedgy.com` | `PLATFORM_HOSTS` (must stay set); its pages 301 to the site host, `/api/*` still answers |
 | `api.barber.needtobeedgy.com` | PocketBase (admin `/_/`) |
 | `am-barber.localhost:3000` | Local dev host for the site |
 

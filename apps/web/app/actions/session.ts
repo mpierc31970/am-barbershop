@@ -3,8 +3,8 @@
 // "Sign-in" copy; T-03-43, T-03-45, T-03-47). Public POST endpoints: they take only the
 // email and password. Site access is looked up from the token, never from the form.
 // signInMember applies the per-IP and per-account rate limits with the real client IP.
-// Staff accounts (MfaRequired) and accounts with no active site get the no-site copy and
-// no cookie. No forgot-password link in P3 (D-UI-9).
+// Staff accounts (MfaRequired, right password) go on to /staff/sign-in (A&M fork); accounts
+// with no active site get the no-site copy and no cookie. No forgot-password link in P3 (D-UI-9).
 //
 // Sign in with an emailed code (06-17; D-UI-P6-3; T-06-82, T-06-83): owners created at
 // Submit have no password. requestMemberCodeAction sends a code (requestMemberCode never
@@ -79,7 +79,12 @@ export async function signInAction(
     ({ token } = await signInMember(email, password, await clientIp()));
   } catch (err) {
     if (err instanceof RateLimited) return { error: RATE_LIMITED };
-    if (err instanceof MfaRequired) return { error: NO_SITE };
+    // A&M fork: one sign-in screen. MfaRequired comes only after the right password for a
+    // staff account (the website admin): hand over to the staff flow (password again, then
+    // the emailed code), email prefilled.
+    if (err instanceof MfaRequired) {
+      redirect(`/staff/sign-in?email=${encodeURIComponent(email)}`);
+    }
     // Forbidden (and any other refusal): one message, never the reason (enumeration).
     if (err instanceof CdsError) return { error: WRONG_CREDENTIALS };
     console.error("[sign-in] failed", err);

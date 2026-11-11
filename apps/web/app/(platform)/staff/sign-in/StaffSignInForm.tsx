@@ -57,6 +57,8 @@ export interface StaffSignInFormProps {
   next?: string;
   /** `?ended=1`: the session ended (idle / absolute / revoked). */
   ended?: boolean;
+  /** Prefilled email (A&M fork: /sign-in hands a website-admin account over here). */
+  email?: string;
 }
 
 /** Next's redirect / notFound travel as thrown errors with a NEXT_ digest. */
@@ -72,8 +74,12 @@ function logRequestFailure(what: string, err: unknown): void {
   );
 }
 
-export function StaffSignInForm({ next, ended = false }: StaffSignInFormProps) {
-  const [email, setEmail] = useState("");
+export function StaffSignInForm({
+  next,
+  ended = false,
+  email: initialEmail = "",
+}: StaffSignInFormProps) {
+  const [email, setEmail] = useState(initialEmail);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [pending, setPending] = useState(false);

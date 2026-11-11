@@ -303,9 +303,9 @@ describe("sign-in referrer guard (RESEARCH Pitfall 2)", () => {
     const mod = await import("../app/(platform)/staff/sign-in/page");
     expect(mod.metadata.robots).toEqual({ index: false, follow: false });
     const out = await html(mod.default({}));
-    expect(out).toContain(">Staff sign-in</h1>");
+    expect(out).toContain(">Website admin</h1>");
     expect(out).toContain('href="/sign-in"');
-    expect(out).toContain("data-cds-identity");
+    expect(out).toContain("am-signin");
   });
 
   it("a signed-in staff member is sent on to a safe next", async () => {

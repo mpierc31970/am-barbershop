@@ -1038,3 +1038,44 @@ describe("www → apex (15-22, HUB-04, P15-P17)", () => {
     );
   });
 });
+
+describe("A&M fork: the admin area on the site's own host (SITE_ADMIN_HOST)", () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+    vi.resetModules();
+  });
+  const SITE = "barber.example.com";
+  const ADMIN = "admin.barber.example.com";
+  async function load() {
+    vi.resetModules();
+    vi.stubEnv("PLATFORM_HOSTS", ADMIN);
+    vi.stubEnv("SITE_ADMIN_HOST", SITE);
+    return (await import("../middleware")).middleware;
+  }
+
+  it("serves sign-in, hub and staff on the site host from the platform group", async () => {
+    const mw = await load();
+    for (const path of ["/sign-in", "/hub/website", "/staff/sign-in"]) {
+      const res = await mw(req(`http://${SITE}${path}`, SITE));
+      expect(res.headers.get("x-middleware-rewrite")).toBeNull();
+      expect(res.status).toBe(200);
+    }
+  });
+
+  it("keeps every other path on the public site", async () => {
+    const mw = await load();
+    const res = await mw(req(`http://${SITE}/about`, SITE));
+    expect(res.headers.get("x-middleware-rewrite")).toContain(
+      `/tenant/${SITE}/about`,
+    );
+  });
+
+  it("301s the old admin host's pages to the site host, but not its /api", async () => {
+    const mw = await load();
+    const res = await mw(req(`http://${ADMIN}/hub/website?x=1`, ADMIN));
+    expect(res.status).toBe(301);
+    expect(res.headers.get("location")).toBe(`https://${SITE}/hub/website?x=1`);
+    const api = await mw(req(`http://${ADMIN}/api/email/x`, ADMIN));
+    expect(api.status).not.toBe(301);
+  });
+});

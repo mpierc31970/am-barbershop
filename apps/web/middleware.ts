@@ -77,6 +77,34 @@ function isCdsOnlyPath(pathname: string): boolean {
   return isMarketingPath(pathname) || CDS_ONLY_EXTRA.some(under);
 }
 
+// A&M fork: the admin area lives on the site's own host. On SITE_ADMIN_HOST these paths are
+// served by the platform route group (sign-in, owner hub, staff console, invites, CDS legal
+// and report pages) instead of the tenant site; every other path stays the public site. A
+// platform host (admin.<site>) then 301s its pages there (GET only; /api/* stays put for
+// webhooks and email links already sent).
+const SITE_ADMIN_PATHS = [
+  "/sign-in",
+  "/hub",
+  "/staff",
+  "/invite",
+  "/legal",
+  "/report",
+  "/unsubscribe",
+  "/download-expired",
+  "/support-file-expired",
+];
+let siteAdminHostValue: string | null | undefined;
+function siteAdminHost(): string | null {
+  siteAdminHostValue ??=
+    normalizeHost(process.env.SITE_ADMIN_HOST?.trim() || null) ?? null;
+  return siteAdminHostValue;
+}
+function isSiteAdminPath(pathname: string): boolean {
+  return SITE_ADMIN_PATHS.some(
+    (p) => pathname === p || pathname.startsWith(`${p}/`),
+  );
+}
+
 function secured(
   res: NextResponse,
   kind: "platform" | "tenant" | "invalid",
@@ -160,10 +188,27 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
   headers.delete(TENANT_PATH_HEADER);
 
   const { pathname } = req.nextUrl;
-  if (c.kind === "platform") {
+  const adminHost = siteAdminHost();
+  if (
+    c.kind === "platform" &&
+    adminHost &&
+    (req.method === "GET" || req.method === "HEAD") &&
+    !pathname.startsWith("/api/")
+  ) {
+    return secured(
+      NextResponse.redirect(
+        new URL(pathname + req.nextUrl.search, `https://${adminHost}`),
+        301,
+      ),
+      c.kind,
+    );
+  }
+  const onSiteAdmin =
+    c.kind === "tenant" && c.host === adminHost && isSiteAdminPath(pathname);
+  if (c.kind === "platform" || onSiteAdmin) {
     // Second layer: the tenant page also 404s without the header.
     if (pathname === "/tenant" || pathname.startsWith("/tenant/")) {
-      return secured(new NextResponse(null, { status: 404 }), c.kind);
+      return secured(new NextResponse(null, { status: 404 }), "platform");
     }
     // 15-22 (HUB-04, P15-P17): www.<apex> → https://<apex> + path + query. The host is the
     // configured apex, never the request's (a spoofed X-Forwarded-Host changes nothing).
@@ -175,12 +220,12 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
           new URL(pathname + req.nextUrl.search, `https://${a}`),
           301,
         ),
-        c.kind,
+        "platform",
       );
     }
     // A&M fork: CDS-only surfaces (marketing hub, signup/quote flow, CDS billing) are off.
     if (isCdsOnlyPath(pathname)) {
-      return secured(new NextResponse(null, { status: 404 }), c.kind);
+      return secured(new NextResponse(null, { status: 404 }), "platform");
     }
     // 15-22 (HUB-03, P15-P11, A1-Q5): old archived URLs answer from the fixed table, on platform
     // hosts only (a tenant's own /services or /book page is rewritten below, never redirected).
@@ -189,14 +234,20 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
       if (old.status === 301 && old.location) {
         return secured(
           NextResponse.redirect(new URL(old.location, req.nextUrl), 301),
-          c.kind,
+          "platform",
         );
       }
-      return secured(new NextResponse(null, { status: old.status }), c.kind);
+      return secured(
+        new NextResponse(null, { status: old.status }),
+        "platform",
+      );
     }
     const path = pathname + req.nextUrl.search;
     if (path.length <= MAX_PATH_HEADER) headers.set(PATH_HEADER, path);
-    const res = secured(NextResponse.next({ request: { headers } }), c.kind);
+    const res = secured(
+      NextResponse.next({ request: { headers } }),
+      "platform",
+    );
     // 13-25 (P13-P33, T-13-25-02): the staff console is never indexed. Set here, on platform
     // hosts only, so a tenant's own /staff page keeps its normal indexing.
     // 15 WR-A02: /report is never indexed either. It is crawlable (not in robots.txt) so a

@@ -4,12 +4,12 @@
 // "Signing in…" and the fields are disabled. An error renders in one InlineAlert above the
 // button (role=alert) and focus moves to it. No forgot-password link in P3 (D-UI-9).
 // P6 (06-17, D-UI-P6-3): under the form, an "or" divider and a secondary full-width
-// "Email me a sign-in code" swap the card to CodeSignIn; "Use a password instead" returns.
+// /sign-in?method=code opens CodeSignIn; "Use a password instead" returns (A&M fork: no button).
 // Staff MFA sign-in is untouched (staff sign in on the staff flows, never here).
 import { Button, InlineAlert, TextField } from "@cds/ui/hub";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { signInAction, type SignInState } from "../../actions/session";
-import { CODE_SIGN_IN_LABEL, CodeSignIn } from "./CodeSignIn";
+import { CodeSignIn } from "./CodeSignIn";
 
 const INITIAL: SignInState = { error: null };
 const CODE_BUTTON_ID = "sign-in-with-code";
@@ -107,20 +107,8 @@ export function SignInForm({
           Sign in
         </Button>
       </form>
-      <div className="flex items-center gap-3" aria-hidden>
-        <span className="h-px flex-1 bg-hub-border" />
-        <span className="text-sm text-hub-ink-muted">or</span>
-        <span className="h-px flex-1 bg-hub-border" />
-      </div>
-      <Button
-        id={CODE_BUTTON_ID}
-        variant="secondary"
-        className="w-full"
-        disabled={pending}
-        onClick={() => setMode("code")}
-      >
-        {CODE_SIGN_IN_LABEL}
-      </Button>
+      {/* A&M fork: no "Email me a sign-in code" button (the team signs in with a password);
+          /sign-in?method=code still opens the code form for emailed links. */}
     </div>
   );
 }

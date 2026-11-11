@@ -31,16 +31,11 @@ afterEach(() => {
 });
 
 describe("sign in with a code", () => {
-  it("offers the code path under the password form, then returns", () => {
+  it("A&M fork: no code button under the password form; ?method=code still reaches it", () => {
     mounted = mount(<SignInForm />);
     const root = mounted.container;
-    expect(root.textContent).toContain("or");
-    click(button(root, "Email me a sign-in code"));
-    expect(root.querySelector('input[type="password"]')).toBeNull();
-    expect(button(root, "Email me a code")).not.toBeNull();
-    click(button(root, "Use a password instead"));
     expect(root.querySelector('input[type="password"]')).not.toBeNull();
-    expect(document.activeElement?.textContent).toBe("Email me a sign-in code");
+    expect(root.textContent).not.toContain("Email me a sign-in code");
   });
 
   it("?method=code opens the code form and the code carries the invite to return to (WR-E02)", async () => {
@@ -84,9 +79,8 @@ describe("sign in with a code", () => {
       email: "a@b.c",
       error: "That code didn't match.",
     });
-    mounted = mount(<SignInForm />);
+    mounted = mount(<SignInForm startWithCode />);
     const root = mounted.container;
-    click(button(root, "Email me a sign-in code"));
     typeInto(root.querySelector('input[name="email"]'), "a@b.c");
     submit(root.querySelector("form"));
     await flush();

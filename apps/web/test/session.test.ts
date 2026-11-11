@@ -632,11 +632,10 @@ describe("signInAction (T-03-45, T-03-47)", () => {
     expect(r.error).toBe("Too many attempts. Wait 15 minutes, then try again.");
   });
 
-  it("shows the no-site copy for staff (MfaRequired) and sets no cookie", async () => {
+  it("hands a staff account (MfaRequired) on to /staff/sign-in, no cookie (A&M fork)", async () => {
     db.signInMember.mockRejectedValue(new MfaRequired("staff"));
-    const r = await signInAction(initial, form("staff@cds", "x"));
-    expect(r.error).toBe(
-      "This account isn't linked to an active site. Ask the site owner to invite you.",
+    await expect(signInAction(initial, form("staff@cds", "x"))).rejects.toThrow(
+      "REDIRECT:/staff/sign-in?email=staff%40cds",
     );
     expect(state.sets).toHaveLength(0);
   });
