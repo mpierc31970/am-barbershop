@@ -36,7 +36,11 @@ import {
   getContentScanner,
   getSearchPinger,
 } from "../src/content/scan-standin";
-import { listSections, saveSection } from "../src/content/sections";
+import {
+  deleteSection,
+  listSections,
+  saveSection,
+} from "../src/content/sections";
 import { mintOrgContext, mintSystemContext } from "../src/context";
 import { createForm, listForms, saveForm } from "../src/forms/forms";
 import { saveBusinessProfile } from "../src/intake/business-profile";
@@ -80,6 +84,19 @@ const SERVICES = [
   ["Beard trim and line-up", "Shape, line and condition."],
   ["Hot towel shave", "Straight-razor shave with hot towels."],
   ["Kids cut", "For the young ones, 12 and under."],
+] as const;
+
+// One photo per service, same order (Unsplash License; apps/web/public/am-barber/services/
+// CREDITS.md). Uploaded to the media library so the owner can swap them in the builder.
+const SERVICE_PHOTOS = [
+  ["haircut.webp", "A barber cutting a client's hair with scissors"],
+  ["skin-fade.webp", "A barber taking a skin fade down with clippers"],
+  ["beard-trim.webp", "A barber trimming a full beard with scissors"],
+  [
+    "hot-towel-shave.webp",
+    "A client under a hot towel for a straight-razor shave",
+  ],
+  ["kids-cut.webp", "A young boy in the barber's chair after his cut"],
 ] as const;
 
 function log(line: string): void {
@@ -553,6 +570,85 @@ async function afterAssembly(
       content,
     });
   }
+  // Services: a heading block, then one 50-50 row per service (photo left, name /
+  // description / price right; am-barber.css crops the photo to the hexagon frame). Plain
+  // columns blocks, so the owner edits text and swaps photos in the builder. Rows are found
+  // again by their fixed column ids; the generic Services list block is removed.
+  // TODO(owner): real descriptions and prices.
+  const gallery = await listMedia(ctx, "gallery");
+  const svcId = (n: number, part: number) =>
+    `a3b00000-0000-4000-8${part}00-0000000000${String(n).padStart(2, "0")}`;
+  let after = intro?.id;
+  const headSpec = {
+    section_type: "text-only",
+    row_layout: "full",
+    content: {
+      heading: "Services",
+      text: `<p>Walk in or call ahead: ${PHONE}. Ask about prices in the shop.</p>`,
+    },
+  };
+  const current = await listSections(ctx, home.id);
+  const head = current.find(
+    (s) =>
+      s.section_type === "text-only" &&
+      (s.content as { heading?: string }).heading === "Services",
+  );
+  const headRow = await saveSection(ctx, sections, {
+    ...(head ? { id: head.id } : after ? { afterId: after } : {}),
+    pageId: home.id,
+    ...headSpec,
+  });
+  after = headRow.id;
+  for (let n = 0; n < SERVICES.length; n++) {
+    const [name, description] = SERVICES[n]!;
+    const [file, alt] = SERVICE_PHOTOS[n]!;
+    const asset =
+      gallery.find((m) => m.alt === alt)?.id ??
+      (
+        await uploadImage(
+          ctx,
+          new Uint8Array(
+            readFileSync(`apps/web/public/am-barber/services/${file}`),
+          ),
+          "gallery",
+          { alt, filename: file },
+        )
+      ).asset.id;
+    const existingRow = current.find(
+      (s) =>
+        s.section_type === "columns" &&
+        JSON.stringify(s.content).includes(svcId(n, 1)),
+    );
+    const row = await saveSection(ctx, sections, {
+      ...(existingRow ? { id: existingRow.id } : { afterId: after }),
+      pageId: home.id,
+      section_type: "columns",
+      row_layout: "50-50",
+      content: {
+        columns: [
+          {
+            id: svcId(n, 1),
+            items: [{ id: svcId(n, 2), kind: "image", url: "", alt, asset }],
+          },
+          {
+            id: svcId(n, 3),
+            items: [
+              { id: svcId(n, 4), kind: "heading", text: name, level: 3 },
+              {
+                id: svcId(n, 5),
+                kind: "text",
+                html: `<p>${description}</p><p><strong>Ask for a price</strong></p>`,
+              },
+            ],
+          },
+        ],
+      },
+    });
+    after = row.id;
+  }
+  const oldList = current.find((s) => s.section_type === "services");
+  if (oldList) await deleteSection(ctx, oldList.id);
+
   await updatePage(ctx, home.id, {
     seo: {
       meta_title: "A&M Barber Studio | Barbershop in Grand Prairie, TX",

@@ -222,6 +222,23 @@
   }
 }
 
+/* ---- Photo rows (the service rows): photo fills its half, cut to the hexagon frame ----
+ * Any columns block whose column holds just one image: the image covers the whole column at
+ * 4:3, cropped by a wide hexagon, and the text beside it centres on it. Stacks on phones
+ * (photo first) with the platform grid. */
+[data-site="am-barber"] main .grid:has(> [data-column] > img:only-child) {
+  align-items: center;
+  column-gap: clamp(24px, 4vw, 56px);
+}
+[data-site="am-barber"] main [data-column] > img.rounded-site-media:only-child {
+  --am-cut: 12%;
+  width: 100%;
+  max-width: none;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+}
+
 /* ---- Media, team photos, cards: hexagon cuts ---- */
 [data-site="am-barber"] main img.rounded-site-media,
 [data-site="am-barber"] main li.rounded-site-media,
