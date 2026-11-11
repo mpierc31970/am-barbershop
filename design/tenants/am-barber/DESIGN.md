@@ -1,6 +1,6 @@
 ---
 name: Night Shift
-description: "A&M Barber Studio. A late-night barbershop window: black glass, one red neon sign, one blue, cut into octagons."
+description: "A&M Barber Studio. A late-night barbershop window: black glass, one red neon sign, one blue, cut into hexagons."
 colors:
   black-glass: "#0A0A0C"
   steel-chair: "#141418"
@@ -67,14 +67,14 @@ components:
 
 A barbershop seen from the street after dark: black glass, a red neon sign that says the
 chair is open, a blue tube along the edge, chrome and steel inside. The page is heavy,
-square and loud where it counts, quiet everywhere else. The octagon from the shop's mark
+square and loud where it counts, quiet everywhere else. The hexagon from the shop's ceiling lights
 is the one shape that repeats.
 
 **Key Characteristics:**
 
 - Near-black grounds, chrome-white type, one red for action, one blue for edges.
 - Archivo at 800-900 for every heading, Public Sans for reading text.
-- Square corners everywhere. Octagon cuts on photos, team portraits and badges.
+- Square corners everywhere. Hexagon cuts on photos, team portraits and badges.
 - Neon glow only on the hero heading and the primary button.
 
 ## Colors
@@ -85,7 +85,7 @@ is the one shape that repeats.
 
 ### Tertiary
 
-- **Pole Blue** (#2F6BFF): the accent. Octagon frames, focus rings, the second glow tube.
+- **Pole Blue** (#2F6BFF): the accent. Focus rings, hover edges, the second glow tube.
 
 ### Neutral
 
@@ -123,7 +123,7 @@ Flat. Depth comes from the two black tones and the neon light, never from soft s
 
 ## Shapes
 
-Radius 0. Media, team photos and section badges are cut as octagons (clip-path). Dividers
+Radius 0. Media, team photos and section badges are cut as hexagons (clip-path). Dividers
 are 1px Seam hairlines.
 
 ## Components

@@ -1,5 +1,5 @@
 /*
- * A&M Barber Studio: site-scoped finish (octagons + red/blue neon). Everything here is
+ * A&M Barber Studio: site-scoped finish (hexagons + red/blue neon). Everything here is
  * scoped to [data-site="am-barber"] (SiteThemeScope's site key), so the hub and theme
  * previews never pick it up. Colours come from the theme tokens (design/tenants/am-barber);
  * the only literals are the two neon tubes and the deep button red.
@@ -14,25 +14,15 @@
   --am-red-fill: #c8161d;
   --am-red-fill-hover: #a80f15;
   --am-cut: 22px;
-  --am-octagon: polygon(
-    29.3% 0,
-    70.7% 0,
-    100% 29.3%,
-    100% 70.7%,
-    70.7% 100%,
-    29.3% 100%,
-    0 70.7%,
-    0 29.3%
-  );
-  --am-chamfer: polygon(
+  --am-hex: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  /* Wide hexagon for media and cards: pointed left and right ends. */
+  --am-hex-wide: polygon(
     var(--am-cut) 0,
     calc(100% - var(--am-cut)) 0,
-    100% var(--am-cut),
-    100% calc(100% - var(--am-cut)),
+    100% 50%,
     calc(100% - var(--am-cut)) 100%,
     var(--am-cut) 100%,
-    0 calc(100% - var(--am-cut)),
-    0 var(--am-cut)
+    0 50%
   );
   --site-radius-button: 0px;
   --site-radius-media: 0px;
@@ -60,7 +50,7 @@
   letter-spacing: 0.02em;
 }
 
-/* Section badge: a small red octagon with a blue halo before every section heading. */
+/* Section badge: a small red hexagon with a blue halo before every section heading. */
 [data-site="am-barber"] main h2::before {
   content: "";
   display: inline-block;
@@ -69,7 +59,7 @@
   margin-right: 0.4em;
   vertical-align: 0.12em;
   background: var(--am-red-glow);
-  clip-path: var(--am-octagon);
+  clip-path: var(--am-hex);
   filter: drop-shadow(0 0 6px var(--am-blue-glow));
 }
 
@@ -83,8 +73,8 @@
 
 /* ---- Front-page hero: the logo alone, centred on the first screen ----
  * Scoped to the hero (the first section with an h1 and a hero image). The h1 stays in the
- * markup for screen readers and search, visually hidden. Behind the logo: a faint cross of five
- * connected octagon tube lights (the shop's ceiling; one inline SVG, centred) and the logo's own
+ * markup for screen readers and search, visually hidden. Behind the logo: a loose honeycomb
+ * of same-size hexagon outlines (one inline SVG, centred, thin gray) and the logo's own
  * neon spilling onto the wall, red behind the A, blue behind the M, tinting the lines near it. */
 [data-site="am-barber"]
   main
@@ -105,9 +95,9 @@
   left: 50%;
   translate: -50% -50%;
   z-index: -2;
-  width: min(96vw, 860px);
-  aspect-ratio: 1;
-  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20306%20306%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23c8c8d0%22%20stroke-width%3D%222%22%20vector-effect%3D%22non-scaling-stroke%22%3E%3Cpolygon%20points%3D%22132.9%2C8.0%20172.9%2C8.0%20201.1%2C36.3%20201.1%2C76.3%20172.9%2C104.6%20132.9%2C104.6%20104.6%2C76.3%20104.6%2C36.3%22%2F%3E%3Cpolygon%20points%3D%2236.3%2C104.6%2076.3%2C104.6%20104.6%2C132.9%20104.6%2C172.9%2076.3%2C201.1%2036.3%2C201.1%208.0%2C172.9%208.0%2C132.9%22%2F%3E%3Cpolygon%20points%3D%22132.9%2C104.6%20172.9%2C104.6%20201.1%2C132.9%20201.1%2C172.9%20172.9%2C201.1%20132.9%2C201.1%20104.6%2C172.9%20104.6%2C132.9%22%2F%3E%3Cpolygon%20points%3D%22229.4%2C104.6%20269.4%2C104.6%20297.7%2C132.9%20297.7%2C172.9%20269.4%2C201.1%20229.4%2C201.1%20201.1%2C172.9%20201.1%2C132.9%22%2F%3E%3Cpolygon%20points%3D%22132.9%2C201.1%20172.9%2C201.1%20201.1%2C229.4%20201.1%2C269.4%20172.9%2C297.7%20132.9%2C297.7%20104.6%2C269.4%20104.6%2C229.4%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")
+  width: min(96vw, 980px);
+  aspect-ratio: 423 / 284;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20423%20284%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23c8c8d0%22%20stroke-width%3D%222%22%20vector-effect%3D%22non-scaling-stroke%22%3E%3Cpolygon%20points%3D%22118.9%2C7.0%20153.6%2C27.0%20153.6%2C67.0%20118.9%2C87.0%2084.3%2C67.0%2084.3%2C27.0%22%2F%3E%3Cpolygon%20points%3D%22193.3%2C7.0%20227.9%2C27.0%20227.9%2C67.0%20193.3%2C87.0%20158.6%2C67.0%20158.6%2C27.0%22%2F%3E%3Cpolygon%20points%3D%22345.9%2C4.0%20380.5%2C24.0%20380.5%2C64.0%20345.9%2C84.0%20311.2%2C64.0%20311.2%2C24.0%22%2F%3E%3Cpolygon%20points%3D%2281.8%2C71.3%20116.4%2C91.3%20116.4%2C131.3%2081.8%2C151.3%2047.2%2C131.3%2047.2%2C91.3%22%2F%3E%3Cpolygon%20points%3D%22156.1%2C71.3%20190.7%2C91.3%20190.7%2C131.3%20156.1%2C151.3%20121.5%2C131.3%20121.5%2C91.3%22%2F%3E%3Cpolygon%20points%3D%22230.4%2C71.3%20265.0%2C91.3%20265.0%2C131.3%20230.4%2C151.3%20195.8%2C131.3%20195.8%2C91.3%22%2F%3E%3Cpolygon%20points%3D%22304.7%2C71.3%20339.3%2C91.3%20339.3%2C131.3%20304.7%2C151.3%20270.1%2C131.3%20270.1%2C91.3%22%2F%3E%3Cpolygon%20points%3D%22115.9%2C137.7%20150.6%2C157.7%20150.6%2C197.7%20115.9%2C217.7%2081.3%2C197.7%2081.3%2C157.7%22%2F%3E%3Cpolygon%20points%3D%22267.6%2C135.7%20302.2%2C155.7%20302.2%2C195.7%20267.6%2C215.7%20232.9%2C195.7%20232.9%2C155.7%22%2F%3E%3Cpolygon%20points%3D%22341.9%2C135.7%20376.5%2C155.7%20376.5%2C195.7%20341.9%2C215.7%20307.2%2C195.7%20307.2%2C155.7%22%2F%3E%3Cpolygon%20points%3D%22230.4%2C200.0%20265.0%2C220.0%20265.0%2C260.0%20230.4%2C280.0%20195.8%2C260.0%20195.8%2C220.0%22%2F%3E%3Cpolygon%20points%3D%22384.0%2C75.3%20418.7%2C95.3%20418.7%2C135.3%20384.0%2C155.3%20349.4%2C135.3%20349.4%2C95.3%22%2F%3E%3Cpolygon%20points%3D%2238.6%2C138.7%2073.3%2C158.7%2073.3%2C198.7%2038.6%2C218.7%204.0%2C198.7%204.0%2C158.7%22%2F%3E%3Cpolygon%20points%3D%22379.0%2C200.0%20413.7%2C220.0%20413.7%2C260.0%20379.0%2C280.0%20344.4%2C260.0%20344.4%2C220.0%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")
     center / contain no-repeat;
   opacity: 0.2;
   pointer-events: none;
@@ -175,11 +165,11 @@
     drop-shadow(0 0 30px rgb(47 107 255 / 0.25));
 }
 
-/* ---- Media, team photos, cards: octagon cuts ---- */
+/* ---- Media, team photos, cards: hexagon cuts ---- */
 [data-site="am-barber"] main img.rounded-site-media,
 [data-site="am-barber"] main li.rounded-site-media,
 [data-site="am-barber"] [data-cds-consent-frame] > div {
-  clip-path: var(--am-chamfer);
+  clip-path: var(--am-hex-wide);
 }
 [data-site="am-barber"] main li.rounded-site-media {
   border-top: 2px solid var(--site-primary);
