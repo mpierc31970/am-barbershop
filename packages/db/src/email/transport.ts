@@ -99,11 +99,15 @@ export function captureTransport(): EmailTransport & { sent: RenderedEmail[] } {
  * Temporary SMTP transport (Titan mailbox) until SES (P12). The mailbox only lets its own address
  * send, so From is always SMTP_FROM; the original sender becomes Reply-To.
  */
-export function smtpTransport(env: NodeJS.ProcessEnv = process.env): EmailTransport {
+export function smtpTransport(
+  env: NodeJS.ProcessEnv = process.env,
+): EmailTransport {
   const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD } = env;
   const from = env.SMTP_FROM || SMTP_USER;
   if (!SMTP_HOST || !SMTP_USER || !SMTP_PASSWORD || !from) {
-    throw new Error("CDS_EMAIL_TRANSPORT=smtp needs SMTP_HOST, SMTP_USER, SMTP_PASSWORD");
+    throw new Error(
+      "CDS_EMAIL_TRANSPORT=smtp needs SMTP_HOST, SMTP_USER, SMTP_PASSWORD",
+    );
   }
   const port = Number(SMTP_PORT || 465);
   const mailer = createTransport({
@@ -117,13 +121,17 @@ export function smtpTransport(env: NodeJS.ProcessEnv = process.env): EmailTransp
       await mailer.sendMail({
         from: { name: msg.fromName, address: from },
         to: msg.to,
-        replyTo: msg.replyTo ?? (msg.fromAddress !== from ? msg.fromAddress : undefined),
+        replyTo:
+          msg.replyTo ??
+          (msg.fromAddress !== from ? msg.fromAddress : undefined),
         subject: msg.subject,
         html: msg.html,
         text: msg.text,
         headers: msg.headers,
       });
-      console.info(`[email-smtp] ${headerValue(msg.type)} to=${recipientHash(msg.to)} sent`);
+      console.info(
+        `[email-smtp] ${headerValue(msg.type)} to=${recipientHash(msg.to)} sent`,
+      );
     },
   };
 }
