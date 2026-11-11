@@ -26,6 +26,7 @@ import type { ReactNode } from "react";
 import type { ChromeLayout } from "./client/NavDisclosure";
 import { BrandIcon } from "./icons/BrandIcon";
 import { brandForPlatform } from "./icons/brands";
+import { mediaSrc } from "./items/media";
 import { BODY_CLASS } from "./types";
 import { telHref, text } from "./urls";
 
@@ -39,6 +40,8 @@ export interface SiteFooterProps {
   layout?: ChromeLayout;
   /** A&M fork: a small lock icon to the owner hub sign-in, last in the bottom row. */
   ownerSignInHref?: string;
+  /** A&M fork: the header logo, shown above the business name. */
+  logo?: { src: unknown; alt: string } | null;
 }
 
 const FOCUS =
@@ -100,8 +103,10 @@ export function SiteFooter({
   policyLinks,
   layout = "auto",
   ownerSignInHref,
+  logo = null,
 }: SiteFooterProps) {
   const name = text(footer.name);
+  const logoSrc = logo ? mediaSrc(logo.src) : "";
   const phoneHref = telHref(footer.phone);
   const email = text(footer.email);
   const hours = footer.hours
@@ -126,11 +131,21 @@ export function SiteFooter({
       data-site-footer=""
       className={`border-t border-site-border bg-site-surface-raised py-12 text-site-text ${BODY_CLASS}`}
     >
-      <div className="mx-auto max-w-[1120px] px-6">
+      <div className="mx-auto max-w-[1120px] px-6 md:px-8">
         {columns > 0 ? (
           <div className={gridClass(layout, columns)}>
             {hasBusiness ? (
               <div className="flex flex-col gap-2">
+                {logo && logoSrc !== "" ? (
+                  <a href="/" className={`mb-2 inline-flex w-fit ${FOCUS}`}>
+                    <img
+                      src={logoSrc}
+                      alt={logo.alt}
+                      loading="lazy"
+                      className="block h-auto max-h-20 w-auto max-w-[200px] object-contain"
+                    />
+                  </a>
+                ) : null}
                 {name !== "" ? <h2 className={COL_HEADING}>{name}</h2> : null}
                 {footer.addressLines.length > 0 ? (
                   <address className="not-italic">

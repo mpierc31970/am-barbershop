@@ -342,6 +342,14 @@ export default async function TenantLayout({ children, params }: Props) {
           policyLinks={chrome.policyLinks}
           cookieChoices={needs.needed ? <CookieChoicesLink /> : null}
           ownerSignInHref={AM_OWNER_SIGN_IN}
+          logo={
+            chrome.header.brand.logo
+              ? {
+                  src: chrome.header.brand.logo.src,
+                  alt: chrome.footer.name || "Home",
+                }
+              : null
+          }
         />
         {needs.needed ? (
           <ConsentController

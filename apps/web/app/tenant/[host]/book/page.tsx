@@ -56,6 +56,30 @@ const CHIP =
   "no-underline text-site-text hover:border-site-primary";
 const CHIP_ON =
   "border-site-primary bg-site-primary text-site-primary-contrast";
+const DAY =
+  "flex aspect-square min-h-11 w-full items-center justify-center border no-underline tabular-nums";
+const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+/** 0 = Sunday, from a "YYYY-MM-DD" calendar date. */
+function weekday(date: string): number {
+  return new Date(`${date}T12:00:00Z`).getUTCDay();
+}
+
+/** "November 2026" or "November – December 2026" for the days shown. */
+function monthLabel(days: { date: string }[]): string {
+  const f = (d: string, o: Intl.DateTimeFormatOptions) =>
+    new Date(`${d}T12:00:00Z`).toLocaleDateString("en-US", {
+      timeZone: "UTC",
+      ...o,
+    });
+  const first = days[0]!.date;
+  const last = days[days.length - 1]!.date;
+  const year = f(last, { year: "numeric" });
+  return first.slice(0, 7) === last.slice(0, 7)
+    ? `${f(first, { month: "long" })} ${year}`
+    : `${f(first, { month: "long" })} – ${f(last, { month: "long" })} ${year}`;
+}
+
 const FIELD =
   "w-full border border-site-border bg-site-surface px-3 py-2 text-site-text";
 
@@ -127,6 +151,7 @@ export default async function BookPage({ params, searchParams }: Props) {
       avail = await publicAvailability(site, {
         barber: seat.slug,
         service: service.id,
+        days: 30,
         ...(q.date ? { date: q.date } : {}),
       });
     } catch {
@@ -227,62 +252,98 @@ export default async function BookPage({ params, searchParams }: Props) {
               </p>
             ) : avail.days.every((d) => !d.open) ? (
               <p className={MUTED}>
-                {seat.name} has no open times in the next two weeks. Pick
-                another barber or call the shop.
+                {seat.name} has no open times in the next month. Pick another
+                barber or call the shop.
               </p>
             ) : (
-              <>
-                <ul className="flex flex-wrap gap-2">
-                  {avail.days
-                    .filter((d) => d.open)
-                    .map((d) => (
-                      <li key={d.date}>
-                        <a
-                          href={href({
-                            barber: seat.slug,
-                            service: service.id,
-                            date: d.date,
-                          })}
-                          aria-current={d.date === q.date ? "date" : undefined}
-                          className={`${CHIP} ${d.date === q.date ? CHIP_ON : ""}`}
-                        >
-                          {d.label}
-                        </a>
+              <div className="grid gap-8 md:grid-cols-2">
+                <div data-book-calendar="">
+                  <p className="mb-3 font-semibold">{monthLabel(avail.days)}</p>
+                  <ol className="grid grid-cols-7 gap-1 text-center">
+                    {WEEKDAYS.map((w) => (
+                      <li
+                        key={w}
+                        aria-hidden
+                        className={`pb-1 text-sm ${MUTED}`}
+                      >
+                        {w}
                       </li>
                     ))}
-                </ul>
-                {day ? (
-                  avail.slots.length === 0 ? (
-                    <p className={MUTED}>
-                      No open times left that day. Pick another day.
-                    </p>
-                  ) : (
-                    <ul
-                      className="flex flex-wrap gap-2"
-                      aria-label={`Open times, ${day.label}`}
-                    >
-                      {avail.slots.map((s) => (
-                        <li key={s.time}>
+                    {Array.from({ length: weekday(avail.days[0]!.date) }).map(
+                      (_, i) => (
+                        <li key={`pad-${i}`} aria-hidden />
+                      ),
+                    )}
+                    {avail.days.map((d) => (
+                      <li key={d.date}>
+                        {d.open ? (
                           <a
                             href={href({
                               barber: seat.slug,
                               service: service.id,
-                              date: day.date,
-                              time: s.time,
+                              date: d.date,
                             })}
+                            aria-label={d.label}
                             aria-current={
-                              s.time === q.time ? "time" : undefined
+                              d.date === q.date ? "date" : undefined
                             }
-                            className={`${CHIP} ${s.time === q.time ? CHIP_ON : ""}`}
+                            className={`${DAY} ${d.date === q.date ? CHIP_ON : "border-site-border text-site-text hover:border-site-primary"}`}
                           >
-                            {time12(s.time)}
+                            {Number(d.date.slice(8))}
                           </a>
-                        </li>
-                      ))}
-                    </ul>
-                  )
-                ) : null}
-              </>
+                        ) : (
+                          <span
+                            aria-label={`${d.label}, closed`}
+                            className={`${DAY} border-transparent ${MUTED} line-through opacity-50`}
+                          >
+                            {Number(d.date.slice(8))}
+                          </span>
+                        )}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+                <div data-book-times="">
+                  {!day ? (
+                    <p className={MUTED}>
+                      Pick a day to see {seat.name}&apos;s open times.
+                    </p>
+                  ) : (
+                    <>
+                      <p className="mb-3 font-semibold">{day.label}</p>
+                      {avail.slots.length === 0 ? (
+                        <p className={MUTED}>
+                          No open times left that day. Pick another day.
+                        </p>
+                      ) : (
+                        <ul
+                          className="grid grid-cols-3 gap-2 sm:grid-cols-4"
+                          aria-label={`Open times, ${day.label}`}
+                        >
+                          {avail.slots.map((s) => (
+                            <li key={s.time}>
+                              <a
+                                href={href({
+                                  barber: seat.slug,
+                                  service: service.id,
+                                  date: day.date,
+                                  time: s.time,
+                                })}
+                                aria-current={
+                                  s.time === q.time ? "time" : undefined
+                                }
+                                className={`${CHIP} w-full ${s.time === q.time ? CHIP_ON : ""}`}
+                              >
+                                {time12(s.time)}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </>
+                  )}
+                </div>
+              </div>
             )}
           </Step>
         ) : null}

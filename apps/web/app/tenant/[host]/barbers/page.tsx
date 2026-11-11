@@ -39,7 +39,7 @@ export default async function BarbersPage({ params }: Props) {
             Our barbers will be listed here soon. Call us to book.
           </p>
         ) : (
-          <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="flex flex-wrap justify-center gap-8">
             {seats.map((s) => (
               <BarberCard key={s.id} seat={s} />
             ))}

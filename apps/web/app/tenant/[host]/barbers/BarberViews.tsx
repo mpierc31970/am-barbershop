@@ -67,7 +67,7 @@ export function BookButton({
 
 export function BarberCard({ seat }: { seat: PublicSeat }) {
   return (
-    <li className="flex flex-col gap-4 border-t-2 border-site-primary bg-site-surface-raised">
+    <li className="flex w-full flex-col gap-4 sm:w-[calc((100%-2rem)/2)] lg:w-[calc((100%-4rem)/3)] border-t-2 border-site-primary bg-site-surface-raised">
       <a href={`/barbers/${seat.slug}`} className="block no-underline">
         <Portrait seat={seat} />
       </a>

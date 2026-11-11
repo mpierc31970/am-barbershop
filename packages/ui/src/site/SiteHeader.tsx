@@ -66,7 +66,7 @@ export function SiteHeader({
       data-site-header=""
       className="border-b border-site-border bg-site-surface text-site-text"
     >
-      <div className="mx-auto max-w-[1120px] px-6">
+      <div className="mx-auto max-w-[1120px] px-6 md:px-8">
         <NavDisclosure
           brand={<Brand name={brand.name} logo={brand.logo} />}
           entries={nav.entries}
