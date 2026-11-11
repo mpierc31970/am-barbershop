@@ -1,5 +1,5 @@
 /*
- * A&M Barber Studio: site-scoped finish (hexagons + red/blue neon). Everything here is
+ * A&M Barber Studio: site-scoped finish (hexagon badges + red/blue neon; pictures stay square). Everything here is
  * scoped to [data-site="am-barber"] (SiteThemeScope's site key), so the hub and theme
  * previews never pick it up. Colours come from the theme tokens (the am-barber theme);
  * the only literals are the two neon tubes and the deep button red.
@@ -15,17 +15,7 @@
   --am-blue-glow: #2f6bff;
   --am-red-fill: #c8161d;
   --am-red-fill-hover: #a80f15;
-  --am-cut: 22px;
   --am-hex: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
-  /* Wide hexagon for media and cards: pointed left and right ends. */
-  --am-hex-wide: polygon(
-    var(--am-cut) 0,
-    calc(100% - var(--am-cut)) 0,
-    100% 50%,
-    calc(100% - var(--am-cut)) 100%,
-    var(--am-cut) 100%,
-    0 50%
-  );
   --site-radius-button: 0px;
   --site-radius-media: 0px;
   --site-focus: var(--am-blue-glow);
@@ -231,21 +221,17 @@
   }
 }
 
-/* ---- Photo rows (the service rows): photo fills its half, cut to the hexagon frame ----
- * Any columns block whose column holds just one image: the image fills a fixed-size,
- * plain regular hexagon (no border), and the text beside it centres on it. Stacks on phones
- * (photo first) with the platform grid. */
+/* ---- Photo rows: a column holding just one image ----
+ * The image is a plain square-cornered rectangle (no frame, no cut; owner rule: pictures
+ * stay square), and the text beside it centres on it. Stacks on phones with the grid. */
 [data-site="am-barber"] main .grid:has(> [data-column] > img:only-child) {
   align-items: center;
   column-gap: clamp(24px, 4vw, 56px);
 }
 [data-site="am-barber"] main [data-column] > img.rounded-site-media:only-child {
-  /* Own polygon: --am-hex-wide resolves --am-cut on the site root, not here. */
-  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
-  /* A regular pointy-top hexagon like the hero's: width:height = sqrt(3):2, fixed size. */
   width: min(100%, 360px);
   max-width: none;
-  aspect-ratio: 0.866;
+  aspect-ratio: 4 / 5;
   margin-inline: auto;
   object-fit: cover;
   object-position: center;
@@ -260,16 +246,6 @@
   aspect-ratio: 16 / 9;
   object-fit: cover;
   object-position: center;
-}
-
-/* ---- Media, team photos, cards: hexagon cuts ---- */
-[data-site="am-barber"] main img.rounded-site-media,
-[data-site="am-barber"] main li.rounded-site-media,
-[data-site="am-barber"] [data-cds-consent-frame] > div {
-  clip-path: var(--am-hex-wide);
-}
-[data-site="am-barber"] main li.rounded-site-media {
-  border-top: 2px solid var(--site-primary);
 }
 
 /* ---- Buttons: deep red fill, light label, red glow ---- */
