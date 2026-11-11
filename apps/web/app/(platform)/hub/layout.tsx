@@ -80,7 +80,8 @@ import { getNeedsYou } from "../../../lib/needs-you";
 import { PATH_HEADER } from "../../../lib/path-header";
 import * as hubSession from "../../../lib/session";
 import { DeclinedNotice } from "./DeclinedNotice";
-import { HubShell, roleLabel } from "./HubShell";
+import { HubShell } from "./HubShell";
+import { roleLabel } from "./role-label";
 import { RestoredToast } from "./RestoredToast";
 import { buildJumpIndex } from "./jump-index";
 import {

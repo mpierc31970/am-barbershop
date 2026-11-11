@@ -39,6 +39,7 @@ import {
 import {
   BadgeCheck,
   Bell,
+  CalendarClock,
   ChartColumn,
   CircleHelp,
   ExternalLink,
@@ -99,6 +100,7 @@ const NAV_ICONS: Readonly<Record<NavIconKey, IconComponent>> = {
   CircleHelp,
   LifeBuoy,
   Bell,
+  CalendarClock,
 };
 
 function iconFor(key: string): IconComponent | null {
@@ -107,20 +109,6 @@ function iconFor(key: string): IconComponent | null {
 
 /** The content landmark the skip link targets. */
 export const HUB_MAIN_ID = "hub-main";
-
-/** Role names as the switcher and profile head show them. */
-const ROLE_LABEL: Readonly<Record<string, string>> = {
-  owner: "Owner",
-  admin: "Admin",
-  editor: "Editor",
-  viewer: "Viewer",
-  staff: "Staff",
-  renter: "Renter",
-};
-
-export function roleLabel(role: string): string {
-  return Object.hasOwn(ROLE_LABEL, role) ? (ROLE_LABEL[role] ?? role) : role;
-}
 
 /**
  * How the content area is framed. The page builder uses the full width (UI-SPEC "Hub
