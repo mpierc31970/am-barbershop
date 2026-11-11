@@ -68,8 +68,8 @@ fork; they work against this PocketBase but are rarely needed here.
 
 | Piece | Value |
 |---|---|
-| Coolify | project `A&M Barbershop`, app `am-barbershop-web`, builds `main` from GitHub with the repo `Dockerfile` |
-| PocketBase | container `pocketbase-ambarber`, pinned 0.39.11, `/root/pocketbase-ambarber/` on the data VPS `31.220.21.126` |
+| Coolify | project `A&M Barbershop` (`sd4qjlj1iejgscgqpuwip2sq`), app `am-barbershop-web` (`nimbbo698focxngxsvbxiqoi`), builds `main` from the public GitHub repo with the repo `Dockerfile`; 1g / 1 CPU; env names mirror `.env.local` |
+| PocketBase | container `pocketbase-ambarber`, pinned 0.39.11, loopback `127.0.0.1:8095`, `/root/pocketbase-ambarber/` on the data VPS `31.220.21.126`; superuser in `.env.local` `PB_SUPERUSER_*`, backup bot `PB_BOT_*` |
 | Backups | `/root/pocketbase-ambarber/backup.sh`, cron 04:30, 14 days local + `wasabi:am-barbershop/db` |
 | DNS | Hostinger zone `needtobeedgy.com`: `barber`, `admin.barber` → 82.180.132.176; `api.barber` → 31.220.21.126 |
 | Proxy | `/root/edge-caddy/Caddyfile` on the data VPS (`api.barber` route) |
