@@ -65,11 +65,9 @@
   filter: drop-shadow(0 0 6px var(--am-blue-glow));
 }
 
-/* ---- Header: a blue tube along the bottom edge ---- */
+/* ---- Header: a quiet light-gray rule along the bottom edge ---- */
 [data-site="am-barber"] [data-site-header] {
-  border-bottom-color: var(--am-blue-glow);
-  box-shadow: 0 1px 14px -2px
-    color-mix(in srgb, var(--am-blue-glow) 55%, transparent);
+  border-bottom-color: color-mix(in srgb, var(--site-text) 22%, transparent);
   position: relative;
   z-index: 1;
 }
