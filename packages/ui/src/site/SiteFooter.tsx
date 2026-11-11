@@ -37,6 +37,8 @@ export interface SiteFooterProps {
   /** 09-22: which tenant policy pages are published (both hidden when absent). */
   policyLinks?: { privacy: boolean; terms: boolean };
   layout?: ChromeLayout;
+  /** A&M fork: a small lock icon to the owner hub sign-in, last in the bottom row. */
+  ownerSignInHref?: string;
 }
 
 const FOCUS =
@@ -97,6 +99,7 @@ export function SiteFooter({
   cookieChoices,
   policyLinks,
   layout = "auto",
+  ownerSignInHref,
 }: SiteFooterProps) {
   const name = text(footer.name);
   const phoneHref = telHref(footer.phone);
@@ -232,6 +235,31 @@ export function SiteFooter({
           >
             {REPORT_LABEL}
           </a>
+          {ownerSignInHref ? (
+            <a
+              href={ownerSignInHref}
+              rel="nofollow"
+              aria-label="Owner sign in"
+              title="Owner sign in"
+              className={`inline-flex min-h-11 min-w-11 items-center justify-center text-site-text-muted opacity-60 transition-opacity duration-150 hover:text-site-text hover:opacity-100 focus-visible:opacity-100 ${FOCUS}`}
+            >
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <rect x="5" y="11" width="14" height="10" rx="1" />
+                <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+              </svg>
+            </a>
+          ) : null}
         </div>
       </div>
     </footer>
