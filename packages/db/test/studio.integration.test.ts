@@ -24,6 +24,12 @@ import {
   listSeats,
   mySeatId,
   createPublicBooking,
+  getLease,
+  listLeases,
+  markLeasePaid,
+  runLeaseOverdue,
+  saveLease,
+  undoLeasePayment,
   listBookings,
   publicAvailability,
   removeSeat,
@@ -314,6 +320,53 @@ describe("Studio Booking seat isolation", () => {
     expect((await pb.collection("studio_bookings").getOne(id)).status).toBe(
       "completed",
     );
+  });
+
+  it("chair rent: the owner keeps it, a barber only reads their own", async (t) => {
+    if (!inst) return t.skip();
+    const lease = {
+      rentCents: 25000,
+      cadence: "weekly",
+      nextDue: "2030-01-07",
+    };
+    await saveLease(seed.ctxA, seat1, lease);
+    await expect(saveLease(barber1, seat1, lease)).rejects.toThrow(Forbidden);
+    await expect(markLeasePaid(barber1, seat1)).rejects.toThrow(Forbidden);
+    await expect(listLeases(barber1)).rejects.toThrow(Forbidden);
+    expect((await getLease(barber1, seat1))?.rentCents).toBe(25000);
+    await expect(getLease(barber2, seat1)).rejects.toThrow(NotFound);
+
+    await markLeasePaid(seed.ctxA, seat1, { paidOn: "2030-01-06" });
+    const paid = await getLease(
+      seed.ctxA,
+      seat1,
+      Date.parse("2030-01-08T18:00:00Z"),
+    );
+    expect(paid?.nextDue).toBe("2030-01-14");
+    expect(paid?.payments.map((p) => p.periodDue)).toEqual(["2030-01-07"]);
+    expect(paid?.daysLate).toBe(0);
+    await expect(
+      undoLeasePayment(barber1, seat1, paid!.payments[0]!.id),
+    ).rejects.toThrow(Forbidden);
+    await undoLeasePayment(seed.ctxA, seat1, paid!.payments[0]!.id);
+    expect((await getLease(seed.ctxA, seat1))?.nextDue).toBe("2030-01-07");
+
+    // Three days late on the shop's clock: one owner alert, once.
+    const now = Date.parse("2030-01-10T18:00:00Z");
+    expect((await getLease(seed.ctxA, seat1, now))?.daysLate).toBe(3);
+    const first = await runLeaseOverdue(now);
+    expect(first.alerted).toBeGreaterThanOrEqual(1);
+    expect((await runLeaseOverdue(now)).alerted).toBe(0);
+    const alerts = await pb.collection("alerts").getFullList({
+      filter: pb.filter(
+        "organization = {:o} && type = 'studio-booking.lease_overdue'",
+        {
+          o: seed.A.org,
+        },
+      ),
+    });
+    expect(alerts.map((a) => a.user)).toContain(seed.A.owner);
+    expect(alerts.map((a) => a.user)).not.toContain(barber1.actor);
   });
 
   it("removing a barber closes their sign-in", async (t) => {

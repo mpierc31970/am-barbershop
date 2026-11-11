@@ -46,6 +46,17 @@ export default defineAddon({
       section: "addon:studio-booking",
       defaultChannels: { email: true, push: true },
     },
+    {
+      type: "studio-booking.lease_overdue",
+      level: "normal",
+      label: "Chair rent late",
+      example: "A chair renter's rent is past due",
+      feature: "addon:studio-booking",
+      access: "write",
+      ownerOnly: true,
+      section: "addon:studio-booking",
+      defaultChannels: { email: true, push: true },
+    },
   ],
   privacyClauses: [
     {

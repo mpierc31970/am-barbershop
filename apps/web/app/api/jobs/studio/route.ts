@@ -1,5 +1,5 @@
-// POST /api/jobs/studio: the every-15-minutes Studio Booking job (booking reminders; step 3
-// adds overdue chair rent). A copy of the alerts-job route. The standalone image has no scripts, so
+// POST /api/jobs/studio: the every-15-minutes Studio Booking job: booking reminders and
+// overdue chair rent alerts. A copy of the alerts-job route. The standalone image has no scripts, so
 // production runs the job through this route from a Coolify scheduled task (`*/15 * * * *`)
 // inside the app container:
 //   wget -q -O- --post-data= --header "Authorization: Bearer $CDS_JOB_TOKEN" http://127.0.0.1:3000/api/jobs/studio
@@ -12,7 +12,7 @@
 import { createHash, timingSafeEqual } from "node:crypto";
 // Add-ons register at load, so the job runs with the same add-on set as the app.
 import "@cds/addon-registry/server";
-import { runStudioReminders } from "@cds/db";
+import { runLeaseOverdue, runStudioReminders } from "@cds/db";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -40,7 +40,9 @@ function notFound(): Response {
 export async function POST(req: Request): Promise<Response> {
   if (!authorized(req)) return notFound();
   try {
-    return Response.json(await runStudioReminders(), { headers: NO_STORE });
+    const reminders = await runStudioReminders();
+    const rent = await runLeaseOverdue();
+    return Response.json({ ...reminders, ...rent }, { headers: NO_STORE });
   } catch (err) {
     console.error(
       `[jobs/studio] run failed: ${err instanceof Error ? err.name : "Error"}`,

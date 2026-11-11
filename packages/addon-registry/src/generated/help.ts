@@ -444,6 +444,31 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
           "screen": "(automatic)",
           "action": "Every 15 minutes the shop's job runs",
           "expected": "Each client gets one reminder email about a day before their booking"
+        },
+        {
+          "screen": "`/hub/studio-booking/rent`",
+          "action": "Under a chair renter, open **Set rent**, fill **Rent ($)**, pick **How often** and **Next due**, click **Save rent**",
+          "expected": "\"Rent saved.\" The barber shows **Up to date** with the amount and next due date"
+        },
+        {
+          "screen": "Rent, one barber",
+          "action": "When they pay, check **Amount ($)** and **Paid on**, click **Mark <date> paid**",
+          "expected": "\"Payment logged.\" The payment is listed and **Next due** moves on one period"
+        },
+        {
+          "screen": "Rent, the latest payment",
+          "action": "Click **Undo**",
+          "expected": "\"Payment removed.\" **Next due** goes back to that date"
+        },
+        {
+          "screen": "(automatic)",
+          "action": "A due date passes without a payment",
+          "expected": "The barber shows **N days late**, a warning lists who is late, and the owner gets one hub alert (bell and email) per missed date"
+        },
+        {
+          "screen": "Barber's own sign-in, **My rent**",
+          "action": "Open the tab",
+          "expected": "Their rent, next due date and payments, read-only"
         }
       ]
     },

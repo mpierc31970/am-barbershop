@@ -700,6 +700,35 @@ Restore mode: replace.
 
 Restore mode: replace.
 
+## studio_lease_payments
+
+- `id`
+- `organization`
+- `seat`
+- `amount_cents`
+- `paid_on`
+- `period_due`
+- `note`
+- `created`
+- `updated`
+
+Restore mode: replace.
+
+## studio_leases
+
+- `id`
+- `organization`
+- `seat`
+- `rent_cents`
+- `cadence`
+- `next_due`
+- `active`
+- `overdue_alerted`
+- `created`
+- `updated`
+
+Restore mode: replace.
+
 ## studio_seats
 
 - `id`

@@ -7,13 +7,16 @@ import {
   addTimeOff,
   createSeat,
   inviteSeat,
+  markLeasePaid,
   removeSeat,
   removeSeatPhoto,
   removeSeatService,
   removeTimeOff,
   saveHours,
+  saveLease,
   saveSeatService,
   setBookingStatus,
+  undoLeasePayment,
   updateSeat,
 } from "@cds/db";
 import { revalidatePath } from "next/cache";
@@ -211,4 +214,37 @@ export async function bookingStatusAction(form: FormData): Promise<void> {
       await setBookingStatus(ctx, idField(form, "bookingId"), status);
     },
   );
+}
+
+// ---------------------------------------------------------------- step 3: chair rent
+
+export async function saveLeaseAction(form: FormData): Promise<void> {
+  await act(`${STUDIO_BASE}/rent`, "Rent saved.", async ({ ctx }) => {
+    await saveLease(ctx, idField(form, "seatId"), {
+      rentCents: cents(field(form, "rent")),
+      cadence: field(form, "cadence"),
+      nextDue: field(form, "nextDue"),
+      active: field(form, "active") === "on",
+    });
+  });
+}
+
+export async function markPaidAction(form: FormData): Promise<void> {
+  await act(`${STUDIO_BASE}/rent`, "Payment logged.", async ({ ctx }) => {
+    await markLeasePaid(ctx, idField(form, "seatId"), {
+      amountCents: cents(field(form, "amount")),
+      paidOn: field(form, "paidOn"),
+      note: field(form, "note"),
+    });
+  });
+}
+
+export async function undoPaymentAction(form: FormData): Promise<void> {
+  await act(`${STUDIO_BASE}/rent`, "Payment removed.", async ({ ctx }) => {
+    await undoLeasePayment(
+      ctx,
+      idField(form, "seatId"),
+      idField(form, "paymentId"),
+    );
+  });
 }

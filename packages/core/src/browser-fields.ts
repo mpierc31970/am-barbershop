@@ -351,6 +351,29 @@ export const BROWSER_FIELDS: Readonly<Record<string, BrowserFieldSpec>> = {
     ],
     serverOnly: [],
   },
+  studio_leases: {
+    allow: [
+      "organization",
+      "seat",
+      "rent_cents",
+      "cadence",
+      "next_due",
+      "active",
+      "overdue_alerted",
+    ],
+    serverOnly: [],
+  },
+  studio_lease_payments: {
+    allow: [
+      "organization",
+      "seat",
+      "amount_cents",
+      "paid_on",
+      "period_due",
+      "note",
+    ],
+    serverOnly: [],
+  },
   studio_services: {
     allow: [
       "organization",

@@ -34,6 +34,11 @@ Studio Booking gives every barber a seat: their own public page at `/barbers/<na
 | 12 | `/hub/studio-booking/bookings` | Open **Bookings** (a barber sees **My bookings**) | Upcoming bookings by day. The owner can filter by barber |
 | 13 | Bookings, one booking | Click **Done**, **No-show** or **Cancel and email client** | The badge changes. Cancel emails the client that the shop cancelled |
 | 14 | (automatic) | Every 15 minutes the shop's job runs | Each client gets one reminder email about a day before their booking |
+| 15 | `/hub/studio-booking/rent` | Under a chair renter, open **Set rent**, fill **Rent ($)**, pick **How often** and **Next due**, click **Save rent** | "Rent saved." The barber shows **Up to date** with the amount and next due date |
+| 16 | Rent, one barber | When they pay, check **Amount ($)** and **Paid on**, click **Mark <date> paid** | "Payment logged." The payment is listed and **Next due** moves on one period |
+| 17 | Rent, the latest payment | Click **Undo** | "Payment removed." **Next due** goes back to that date |
+| 18 | (automatic) | A due date passes without a payment | The barber shows **N days late**, a warning lists who is late, and the owner gets one hub alert (bell and email) per missed date |
+| 19 | Barber's own sign-in, **My rent** | Open the tab | Their rent, next due date and payments, read-only |
 
 ## Decisions
 
@@ -44,4 +49,5 @@ Studio Booking gives every barber a seat: their own public page at `/barbers/<na
 - Booking times: one working range per day per barber, 15-minute steps, no booking within 1 hour of now, up to 30 days ahead (the page shows 14). Two clients can't take the same time: the slot is re-checked under a lock.
 - Clients pay in the shop (no payment processor). No client self-cancel link: the confirmation says to call the shop.
 - Reminders and new-booking alerts use the existing email transport (SMTP in production, the logged stand-in elsewhere). Job: `POST /api/jobs/studio` with the `CDS_JOB_TOKEN` bearer, a Coolify scheduled task every 15 minutes.
-- Removing a barber removes their bookings and time off too.
+- Removing a barber removes their bookings, time off, lease and payment log too.
+- Chair rent is a fixed amount per chair (D162's "fixed rent" fee only): weekly, every two weeks or monthly; payments are logged by hand ("Mark paid"), no payment processor. Only chair renter seats have rent; employees don't.

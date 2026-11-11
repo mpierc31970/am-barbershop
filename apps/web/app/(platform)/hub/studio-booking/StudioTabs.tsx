@@ -3,7 +3,7 @@
 import { TabLinks } from "@cds/ui/hub";
 import { STUDIO_BASE } from "../../../../lib/studio";
 
-export type StudioTab = "barbers" | "bookings";
+export type StudioTab = "barbers" | "bookings" | "rent";
 
 export function StudioTabs({
   active,
@@ -22,6 +22,11 @@ export function StudioTabs({
       id: "bookings",
       label: manager ? "Bookings" : "My bookings",
       href: `${STUDIO_BASE}/bookings`,
+    },
+    {
+      id: "rent",
+      label: manager ? "Rent" : "My rent",
+      href: `${STUDIO_BASE}/rent`,
     },
   ];
   return <TabLinks tabs={tabs} activeId={active} label="Studio Booking" />;

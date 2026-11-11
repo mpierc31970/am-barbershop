@@ -59,6 +59,9 @@ export type OrgSeed = {
   /** Studio Booking step 2: a day off and a booking on the seat. */
   studioTimeOff: string;
   studioBooking: string;
+  /** Studio Booking step 3: the seat's lease and one logged payment. */
+  studioLease: string;
+  studioLeasePayment: string;
   /** P6 intake rows (06-05; ONB-01, ONB-04, ONB-09, ONB-13, EMAIL-01). */
   businessProfile: string;
   media: string;
@@ -243,6 +246,25 @@ async function seedOrg(pb: PocketBase, key: "a" | "b"): Promise<OrgSeed> {
       status: "confirmed",
     })
   ).id;
+  const studioLease = (
+    await pb.collection("studio_leases").create({
+      organization: org,
+      seat: studioSeat,
+      rent_cents: 25000,
+      cadence: "weekly",
+      next_due: "2030-01-07",
+      active: true,
+    })
+  ).id;
+  const studioLeasePayment = (
+    await pb.collection("studio_lease_payments").create({
+      organization: org,
+      seat: studioSeat,
+      amount_cents: 25000,
+      paid_on: "2029-12-31",
+      period_due: "2029-12-31",
+    })
+  ).id;
   const businessProfile = (
     await pb.collection("business_profile").create({
       organization: org,
@@ -399,6 +421,8 @@ async function seedOrg(pb: PocketBase, key: "a" | "b"): Promise<OrgSeed> {
     studioService,
     studioTimeOff,
     studioBooking,
+    studioLease,
+    studioLeasePayment,
     businessProfile,
     media,
     teamMember,

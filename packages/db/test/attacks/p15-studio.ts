@@ -6,7 +6,12 @@ import { NotFound } from "@cds/core";
 import { expect } from "vitest";
 import {
   addTimeOff,
+  getLease,
   getSchedule,
+  listLeases,
+  markLeasePaid,
+  saveLease,
+  undoLeasePayment,
   getSeat,
   listBookings,
   removeTimeOff,
@@ -27,6 +32,28 @@ export function attacks(env: AttackEnv): AttackMap {
     studio_services: readOnlyAttack(env, "studio_services"),
     studio_time_off: readOnlyAttack(env, "studio_time_off"),
     studio_bookings: readOnlyAttack(env, "studio_bookings"),
+    studio_leases: readOnlyAttack(env, "studio_leases"),
+    studio_lease_payments: readOnlyAttack(env, "studio_lease_payments"),
+    "studio_leases:module": async () => {
+      const { A, ctxB } = env.seed();
+      await expect(getLease(ctxB, A.studioSeat)).rejects.toThrow(NotFound);
+      const rows = await listLeases(ctxB);
+      expect(rows.map((r) => r.seatId)).not.toContain(A.studioSeat);
+      await expect(
+        saveLease(ctxB, A.studioSeat, {
+          rentCents: 1,
+          cadence: "weekly",
+          nextDue: "2030-01-01",
+        }),
+      ).rejects.toThrow();
+      await expect(markLeasePaid(ctxB, A.studioSeat)).rejects.toThrow();
+    },
+    "studio_lease_payments:module": async () => {
+      const { A, ctxB } = env.seed();
+      await expect(
+        undoLeasePayment(ctxB, A.studioSeat, A.studioLeasePayment),
+      ).rejects.toThrow();
+    },
     "studio_time_off:module": async () => {
       const { A, ctxB } = env.seed();
       await expect(getSchedule(ctxB, A.studioSeat)).rejects.toThrow(NotFound);
