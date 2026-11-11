@@ -16,6 +16,34 @@ export type PublicSeatService = {
   priceCents: number;
 };
 
+export type SeatSocial = {
+  platform: "instagram" | "tiktok" | "facebook" | "youtube" | "x" | "other";
+  url: string;
+};
+
+const SOCIAL_KEYS: ReadonlySet<string> = new Set([
+  "instagram",
+  "tiktok",
+  "facebook",
+  "youtube",
+  "x",
+  "other",
+]);
+
+/** Stored social links, re-checked on read (known platform, http(s) URL only). */
+export function readSocials(v: unknown): SeatSocial[] {
+  if (!Array.isArray(v)) return [];
+  const out: SeatSocial[] = [];
+  for (const x of v) {
+    if (typeof x !== "object" || x === null) continue;
+    const { platform, url } = x as { platform?: unknown; url?: unknown };
+    if (typeof platform !== "string" || !SOCIAL_KEYS.has(platform)) continue;
+    if (typeof url !== "string" || !/^https?:\/\/\S+$/i.test(url)) continue;
+    out.push({ platform: platform as SeatSocial["platform"], url });
+  }
+  return out;
+}
+
 export type PublicSeat = {
   id: string;
   slug: string;
@@ -25,6 +53,11 @@ export type PublicSeat = {
   /** Media asset ids, served at /_media/<id>/web. */
   photo: string;
   gallery: string[];
+  brandName: string;
+  /** Media asset id of the barber's own logo ("" = none). */
+  logo: string;
+  socials: SeatSocial[];
+  licenseNumber: string;
   services: PublicSeatService[];
 };
 
@@ -39,6 +72,10 @@ function toPublic(r: RecordModel, services: RecordModel[]): PublicSeat {
     gallery: Array.isArray(r.gallery)
       ? r.gallery.filter((g): g is string => typeof g === "string")
       : [],
+    brandName: str(r.brand_name),
+    logo: str(r.logo),
+    socials: readSocials(r.socials),
+    licenseNumber: str(r.license_number),
     services: services
       .filter((s) => s.seat === r.id)
       .map((s) => ({
@@ -98,8 +135,8 @@ export async function getPublicSeat(
 }
 
 /**
- * A published barber's photo for visitors: only an image that is the portrait or a gallery
- * photo of a published seat of this site's org; anything else is NotFound.
+ * A published barber's photo for visitors: only an image that is the portrait, logo or a
+ * gallery photo of a published seat of this site's org; anything else is NotFound.
  */
 export async function readPublicSeatPhoto(
   site: SiteContext,
@@ -116,7 +153,12 @@ export async function readPublicSeatPhoto(
   const row = await studioRead(async (pb) => {
     const seats = await publishedSeats(pb, site.orgId);
     if (
-      !seats.some((s) => s.photo === mediaId || s.gallery.includes(mediaId))
+      !seats.some(
+        (s) =>
+          s.photo === mediaId ||
+          s.logo === mediaId ||
+          s.gallery.includes(mediaId),
+      )
     ) {
       throw new NotFound();
     }

@@ -15,6 +15,7 @@ import {
   saveHours,
   saveLease,
   saveSeatService,
+  SEAT_SOCIALS,
   setBookingStatus,
   undoLeasePayment,
   updateSeat,
@@ -91,6 +92,11 @@ export async function updateSeatAction(form: FormData): Promise<void> {
       name: field(form, "name"),
       headline: field(form, "headline"),
       bio: field(form, "bio"),
+      brandName: field(form, "brandName"),
+      licenseNumber: field(form, "licenseNumber"),
+      socials: Object.fromEntries(
+        SEAT_SOCIALS.map((p) => [p, field(form, `social_${p}`)]),
+      ),
       ...(form.has("email")
         ? {
             email: field(form, "email"),

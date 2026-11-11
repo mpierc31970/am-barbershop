@@ -116,13 +116,13 @@ export const HOWTO_STEPS: Readonly<Record<string, readonly HowToStep[]>> = Objec
       },
       {
         "screen": "`/hub/studio-booking/seats/<id>`",
-        "action": "Fill **Headline** and **Bio**, tick **Show this barber on the site** and click **Save**",
+        "action": "Fill **Headline** and **Bio** (optional: **Shop or chair name**, **Texas barber license number** and **Social links**, a link or an @handle each), tick **Show this barber on the site** and click **Save**",
         "expected": "\"Saved.\" shows and the badge reads **On the site**"
       },
       {
         "screen": "Seat screen, **Photos**",
         "action": "Under **Add a portrait** pick a photo and click **Upload**",
-        "expected": "\"Photo added.\" shows with the portrait. Gallery photos work the same way (up to 8)"
+        "expected": "\"Photo added.\" shows with the portrait. A **Logo** (the barber's own brand) and gallery photos (up to 8) work the same way. Shop name, logo, socials and license show on that barber's page only"
       },
       {
         "screen": "Seat screen, **Services and prices**",

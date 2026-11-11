@@ -1,7 +1,8 @@
 // Studio Booking seats (D144, D145, D152): each barber's seat, its public page fields, its
 // own service menu and photos. See shared.ts for who may touch what.
 //   - Owner/Admin: add, edit (every field), remove and invite.
-//   - The barber: edit their own seat's page fields (name, headline, bio, photos) and menu.
+//   - The barber: edit their own seat's page fields (name, headline, bio, shop name, logo,
+//     social links, license number, photos) and menu.
 //     Email, kind, address (slug) and "Show on site" stay the owner's.
 import { InvalidInput, NotFound } from "@cds/core";
 import type PocketBase from "pocketbase";
@@ -9,7 +10,7 @@ import type { RecordModel } from "pocketbase";
 import { mintOrgContext, type OrgContext } from "../context";
 import { commit, type Op } from "../content/shared";
 import { readVariantOfRow, removeMedia, uploadImage } from "../media/assets";
-import { mediaRow } from "./public";
+import { mediaRow, readSocials, type SeatSocial } from "./public";
 import { createInvite, type InviteDeps } from "../people/invites";
 import { newRecordId } from "../repository";
 import {
@@ -50,6 +51,13 @@ export type SeatView = {
   bio: string;
   photo: string;
   gallery: string[];
+  /** The barber's own shop/chair name, shown only on their page. */
+  brandName: string;
+  /** Media asset id of their own logo, shown only on their page. */
+  logo: string;
+  socials: SeatSocial[];
+  /** TDLR license number, shown on their page. */
+  licenseNumber: string;
   isPublished: boolean;
   /** True once the barber has signed in (the seat is linked to their account). */
   linked: boolean;
@@ -90,6 +98,10 @@ function toView(
     bio: str(r.bio),
     photo: str(r.photo),
     gallery: ids(r.gallery),
+    brandName: str(r.brand_name),
+    logo: str(r.logo),
+    socials: readSocials(r.socials),
+    licenseNumber: str(r.license_number),
     isPublished: r.is_published === true,
     linked: str(r.user) !== "",
     canManage: isManager(ctx),
@@ -123,6 +135,83 @@ function text(
   if (required && s === "") throw new InvalidInput(`${label} is empty.`);
   if (s.length > max) {
     throw new InvalidInput(`${label} is longer than ${max} characters.`);
+  }
+  return s;
+}
+
+/** Platforms a barber can link, in form order ("other" = their own website). */
+export const SEAT_SOCIALS = [
+  "instagram",
+  "tiktok",
+  "facebook",
+  "youtube",
+  "x",
+  "other",
+] as const;
+
+const HANDLE_URL: Partial<Record<SeatSocial["platform"], string>> = {
+  instagram: "https://www.instagram.com/",
+  tiktok: "https://www.tiktok.com/@",
+  x: "https://x.com/",
+};
+
+/** The platform as a person reads it ("other" is their website). */
+export function socialName(p: SeatSocial["platform"]): string {
+  const names: Record<SeatSocial["platform"], string> = {
+    instagram: "Instagram",
+    tiktok: "TikTok",
+    facebook: "Facebook",
+    youtube: "YouTube",
+    x: "X",
+    other: "Website",
+  };
+  return names[p];
+}
+
+/**
+ * One link per platform: a full URL, a bare domain ("instagram.com/me") or an @handle
+ * (Instagram, TikTok, X). Blank = no link. Only http(s) URLs are kept.
+ */
+export function cleanSocials(
+  input: Partial<Record<SeatSocial["platform"], unknown>>,
+): SeatSocial[] {
+  const out: SeatSocial[] = [];
+  for (const platform of SEAT_SOCIALS) {
+    let v = str(input[platform]).trim();
+    if (v === "") continue;
+    const handle = /^@?([A-Za-z0-9._]{1,30})$/.exec(v);
+    const base = HANDLE_URL[platform];
+    if (handle && base && (v.startsWith("@") || !v.includes("."))) {
+      v = base + handle[1];
+    } else if (!/^https?:\/\//i.test(v)) {
+      v = `https://${v}`;
+    }
+    const bad = new InvalidInput(
+      `That ${socialName(platform)} link isn't a web address.`,
+    );
+    let url: URL;
+    try {
+      url = new URL(v);
+    } catch {
+      throw bad;
+    }
+    if (
+      (url.protocol !== "https:" && url.protocol !== "http:") ||
+      !url.hostname.includes(".") ||
+      url.href.length > 300
+    ) {
+      throw bad;
+    }
+    out.push({ platform, url: url.href });
+  }
+  return out;
+}
+
+/** A TDLR license number: letters, digits and dashes, up to 20. Blank allowed. */
+export function cleanLicense(v: unknown): string {
+  const s = str(v).trim().toUpperCase();
+  if (s !== "" && !/^[A-Z0-9-]{1,20}$/.test(s)) {
+    throw new InvalidInput("License number: letters, numbers and dashes only.");
   }
   return s;
 }
@@ -269,6 +358,10 @@ export async function createSeat(
       bio: "",
       photo: "",
       gallery: [],
+      brand_name: "",
+      logo: "",
+      socials: [],
+      license_number: "",
       is_published: false,
       sort_order: num(last.items[0]?.sort_order) + 1,
     };
@@ -290,6 +383,10 @@ export type SeatUpdate = {
   name?: unknown;
   headline?: unknown;
   bio?: unknown;
+  brandName?: unknown;
+  /** Keyed by SEAT_SOCIALS platform. */
+  socials?: Partial<Record<SeatSocial["platform"], unknown>>;
+  licenseNumber?: unknown;
   /** Owner only. */
   email?: unknown;
   kind?: unknown;
@@ -313,6 +410,13 @@ export async function updateSeat(
     body.headline = text(input.headline, "Headline", 120);
   }
   if (input.bio !== undefined) body.bio = text(input.bio, "Bio", 2000);
+  if (input.brandName !== undefined) {
+    body.brand_name = text(input.brandName, "Shop or chair name", 80);
+  }
+  if (input.socials !== undefined) body.socials = cleanSocials(input.socials);
+  if (input.licenseNumber !== undefined) {
+    body.license_number = cleanLicense(input.licenseNumber);
+  }
   const manager = isManager(ctx);
   if (manager && input.email !== undefined)
     body.email = cleanEmail(input.email);
@@ -536,7 +640,7 @@ export async function uploadSeatPhoto(
   ctx: OrgContext,
   seatId: string,
   bytes: Uint8Array,
-  target: "photo" | "gallery",
+  target: "photo" | "gallery" | "logo",
   opts: { filename?: string } = {},
 ): Promise<{ mediaId: string }> {
   requireStudio(ctx, "write");
@@ -547,19 +651,19 @@ export async function uploadSeatPhoto(
     );
   }
   const { asset } = await uploadImage(asShop(ctx), bytes, "team", {
-    alt: `${str(seat.name)}${target === "photo" ? "" : ", work by"} at the shop`.slice(
-      0,
-      250,
-    ),
+    alt: (target === "logo"
+      ? `${str(seat.brand_name) || str(seat.name)} logo`
+      : `${str(seat.name)}${target === "photo" ? "" : ", work by"} at the shop`
+    ).slice(0, 250),
     ...(opts.filename ? { filename: opts.filename } : {}),
   });
   let replaced = "";
   await studioWrite(ctx, async (pb) => {
     const fresh = await seatFor(pb, ctx, seatId);
     const body: Record<string, unknown> = {};
-    if (target === "photo") {
-      replaced = str(fresh.photo);
-      body.photo = asset.id;
+    if (target === "photo" || target === "logo") {
+      replaced = str(fresh[target]);
+      body[target] = asset.id;
     } else {
       const gallery = ids(fresh.gallery);
       if (gallery.length >= GALLERY_MAX) {
@@ -597,6 +701,7 @@ export async function removeSeatPhoto(
     const gallery = ids(seat.gallery);
     const body: Record<string, unknown> = {};
     if (str(seat.photo) === mediaId) body.photo = "";
+    if (str(seat.logo) === mediaId) body.logo = "";
     if (gallery.includes(mediaId))
       body.gallery = gallery.filter((g) => g !== mediaId);
     if (Object.keys(body).length === 0) throw new NotFound();
@@ -625,7 +730,11 @@ export async function readSeatPhoto(
   requireStudio(ctx, "read");
   const row = await studioRead(async (pb) => {
     const seat = await seatFor(pb, ctx, seatId);
-    if (str(seat.photo) !== mediaId && !ids(seat.gallery).includes(mediaId)) {
+    if (
+      str(seat.photo) !== mediaId &&
+      str(seat.logo) !== mediaId &&
+      !ids(seat.gallery).includes(mediaId)
+    ) {
       throw new NotFound();
     }
     return mediaRow(pb, ctx.orgId, mediaId);

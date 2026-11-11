@@ -21,8 +21,8 @@ Studio Booking gives every barber a seat: their own public page at `/barbers/<na
 | # | Screen / route | Action | Expected result |
 |---|---|---|---|
 | 1 | `/hub/studio-booking` | Under **Add a barber**, type the **Name** and **Email**, pick **Seat** (Chair renter or Employee) and click **Add barber** | The barber's seat screen opens and reads "Barber added. Fill in their page, then send the invite." |
-| 2 | `/hub/studio-booking/seats/<id>` | Fill **Headline** and **Bio**, tick **Show this barber on the site** and click **Save** | "Saved." shows and the badge reads **On the site** |
-| 3 | Seat screen, **Photos** | Under **Add a portrait** pick a photo and click **Upload** | "Photo added." shows with the portrait. Gallery photos work the same way (up to 8) |
+| 2 | `/hub/studio-booking/seats/<id>` | Fill **Headline** and **Bio** (optional: **Shop or chair name**, **Texas barber license number** and **Social links**, a link or an @handle each), tick **Show this barber on the site** and click **Save** | "Saved." shows and the badge reads **On the site** |
+| 3 | Seat screen, **Photos** | Under **Add a portrait** pick a photo and click **Upload** | "Photo added." shows with the portrait. A **Logo** (the barber's own brand) and gallery photos (up to 8) work the same way. Shop name, logo, socials and license show on that barber's page only |
 | 4 | Seat screen, **Services and prices** | Fill **New service**, **Minutes** and **Price ($)** (blank shows "Ask"), click **Add service** | "Service saved." shows and the service is listed with its length and price |
 | 5 | Seat screen, **Sign-in and removal** | Click **Send invite** | "Invite sent. The link works for 7 days." The barber gets an email; after joining, their badge reads **Signed in** |
 | 6 | Barber's own sign-in, `/hub/studio-booking` | The barber signs in on the hub and clicks **Barbers** | Their own seat opens. They can edit their page, photos and menu, nothing else |

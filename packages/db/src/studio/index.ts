@@ -2,6 +2,9 @@
 export {
   GALLERY_MAX,
   SEAT_KINDS,
+  SEAT_SOCIALS,
+  cleanLicense,
+  cleanSocials,
   cleanDuration,
   cleanPrice,
   createSeat,
@@ -15,6 +18,7 @@ export {
   removeSeatService,
   saveSeatService,
   slugify,
+  socialName,
   updateSeat,
   uploadSeatPhoto,
 } from "./seats";
@@ -27,7 +31,7 @@ export type {
   ServiceInput,
 } from "./seats";
 export { getPublicSeat, listPublicSeats, readPublicSeatPhoto } from "./public";
-export type { PublicSeat, PublicSeatService } from "./public";
+export type { PublicSeat, PublicSeatService, SeatSocial } from "./public";
 export { isManager as isStudioManager, STUDIO_SLUG } from "./shared";
 export { addTimeOff, getSchedule, removeTimeOff, saveHours } from "./schedule";
 export type { ScheduleView, TimeOffView } from "./schedule";

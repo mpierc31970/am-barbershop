@@ -1,10 +1,13 @@
 // /hub/studio-booking/seats/<id>: one barber's seat. The owner edits everything; the barber
-// edits their own page (name, headline, bio, photos, menu). getSeat (@cds/db) answers
-// NotFound for another barber's seat, so a barber can never open one by changing the URL.
+// edits their own page (name, headline, bio, shop name, logo, socials, license, photos,
+// menu). getSeat (@cds/db) answers NotFound for another barber's seat, so a barber can
+// never open one by changing the URL.
 import {
   getSchedule,
   getSeat,
   GALLERY_MAX,
+  SEAT_SOCIALS,
+  socialName,
   type ScheduleView,
   type SeatView,
 } from "@cds/db";
@@ -64,7 +67,7 @@ function UploadForm({
   label,
 }: {
   seat: SeatView;
-  target: "photo" | "gallery";
+  target: "photo" | "gallery" | "logo";
   label: string;
 }) {
   return (
@@ -188,6 +191,41 @@ export default async function SeatPage({ params }: Props) {
             defaultValue={seat.bio}
             maxLength={2000}
           />
+          <TextField
+            id="s-brand"
+            name="brandName"
+            label="Shop or chair name"
+            helper="Your own brand, if you have one. Shows on your page only."
+            defaultValue={seat.brandName}
+            maxLength={80}
+          />
+          <TextField
+            id="s-license"
+            name="licenseNumber"
+            label="Texas barber license number"
+            helper="Optional. Shows on your page so clients can look you up with TDLR."
+            defaultValue={seat.licenseNumber}
+            maxLength={20}
+          />
+          <fieldset className="flex flex-col gap-3">
+            <legend className="mb-1 font-semibold">Social links</legend>
+            <p className="text-sm text-hub-ink-muted">
+              A link or an @handle. Leave blank to hide. Shows on your page
+              only.
+            </p>
+            {SEAT_SOCIALS.map((p) => (
+              <TextField
+                key={p}
+                id={`s-social-${p}`}
+                name={`social_${p}`}
+                label={socialName(p)}
+                defaultValue={
+                  seat.socials.find((s) => s.platform === p)?.url ?? ""
+                }
+                maxLength={300}
+              />
+            ))}
+          </fieldset>
           {seat.canManage ? (
             <>
               <TextField
@@ -261,6 +299,29 @@ export default async function SeatPage({ params }: Props) {
             seat={seat}
             target="photo"
             label={seat.photo ? "Replace portrait" : "Add a portrait"}
+          />
+          <h3 className="font-semibold">Logo</h3>
+          {seat.logo ? (
+            <div className="flex items-end gap-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={photoSrc(seat, seat.logo)}
+                alt=""
+                width={120}
+                height={120}
+                className="h-[120px] w-[120px] object-contain"
+              />
+              <RemovePhoto seat={seat} mediaId={seat.logo} />
+            </div>
+          ) : (
+            <p className="text-hub-ink-muted">
+              Your own shop or chair logo, shown on your page only.
+            </p>
+          )}
+          <UploadForm
+            seat={seat}
+            target="logo"
+            label={seat.logo ? "Replace logo" : "Add a logo"}
           />
           <h3 className="font-semibold">
             Gallery ({seat.gallery.length} of {GALLERY_MAX})

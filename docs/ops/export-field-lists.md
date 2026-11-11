@@ -742,6 +742,10 @@ Restore mode: replace.
 - `bio`
 - `photo`
 - `gallery`
+- `brand_name`
+- `logo`
+- `socials`
+- `license_number`
 - `hours`
 - `slot_minutes`
 - `is_published`

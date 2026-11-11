@@ -1,4 +1,4 @@
-// POST /hub/api/studio/photo: a barber's portrait or gallery photo, from a plain multipart
+// POST /hub/api/studio/photo: a barber's portrait, logo or gallery photo, from a plain multipart
 // form on the seat screen (works without JS). Same order as /hub/api/media: same origin ->
 // session -> Content-Length cap -> formData -> real size -> uploadSeatPhoto, which proves the
 // seat is the caller's (a barber only their own) before the media pipeline runs.
@@ -73,7 +73,8 @@ export async function POST(req: Request): Promise<Response> {
   if (!ID.test(seatId))
     return back(req, STUDIO_BASE, "error", UPLOAD_COPY.failed);
   const to = `${seatHref(seatId)}#photos`;
-  const target = form.get("target") === "gallery" ? "gallery" : "photo";
+  const raw = form.get("target");
+  const target = raw === "gallery" || raw === "logo" ? raw : "photo";
   const file = form.get("file");
   if (!(file instanceof Blob) || file.size === 0) {
     return back(req, to, "error", UPLOAD_COPY.type);

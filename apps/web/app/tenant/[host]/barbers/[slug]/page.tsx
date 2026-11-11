@@ -1,7 +1,10 @@
 // /barbers/<slug> on tenant hosts: one published barber's page (Studio Booking): portrait,
-// bio, gallery, services with prices and a Book button. Unknown or hidden barber = 404.
-import { getPublicSeat, type PublicSeat } from "@cds/db";
-import { HEADING_CLASSES } from "@cds/ui/site";
+// bio, gallery, services with prices and a Book button. Their own shop name, logo, social
+// links and license number show here only (never in the site chrome). Unknown or hidden
+// barber = 404.
+import { getPublicSeat, socialName, type PublicSeat } from "@cds/db";
+import { BrandIcon, brandForPlatform, HEADING_CLASSES } from "@cds/ui/site";
+import { Globe } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { siteForRequest } from "../../../../../lib/tenant";
@@ -33,7 +36,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const seat = await load(host, slug);
   if (!seat) return { title: "Barber not found" };
   return {
-    title: `${seat.name}, barber`,
+    title: seat.brandName
+      ? `${seat.name}, ${seat.brandName}`
+      : `${seat.name}, barber`,
     description: seat.headline || `Book with ${seat.name}.`,
   };
 }
@@ -54,6 +59,25 @@ export default async function BarberPage({ params }: Props) {
           <Portrait seat={seat} eager />
         </div>
         <div className="flex flex-col gap-6">
+          {seat.logo || seat.brandName ? (
+            <div className="flex items-center gap-4">
+              {seat.logo ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={photoUrl(seat.logo, "thumb")}
+                  alt={`${seat.brandName || seat.name} logo`}
+                  width={80}
+                  height={80}
+                  className="h-20 w-20 object-contain"
+                />
+              ) : null}
+              {seat.brandName ? (
+                <p className="font-semibold tracking-wide uppercase">
+                  {seat.brandName}
+                </p>
+              ) : null}
+            </div>
+          ) : null}
           <h1 className={HEADING_CLASSES[1] + " text-balance"}>{seat.name}</h1>
           {seat.headline ? (
             <p className="text-[length:var(--site-text-h3)]">{seat.headline}</p>
@@ -64,6 +88,30 @@ export default async function BarberPage({ params }: Props) {
                 <p key={i}>{p}</p>
               ))}
             </div>
+          ) : null}
+          {seat.socials.length ? (
+            <ul className="flex flex-wrap gap-2" aria-label="Social links">
+              {seat.socials.map((s) => {
+                const brand = brandForPlatform(s.platform);
+                return (
+                  <li key={s.platform}>
+                    <a
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${seat.name} on ${socialName(s.platform)}`}
+                      className="inline-flex size-11 items-center justify-center rounded-site-button text-site-text transition-colors duration-150 hover:text-site-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--site-focus)]"
+                    >
+                      {brand ? (
+                        <BrandIcon id={brand} size={24} />
+                      ) : (
+                        <Globe size={24} aria-hidden="true" focusable="false" />
+                      )}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
           ) : null}
           <div>
             <BookButton seat={seat} label={`Book with ${seat.name}`} />
@@ -94,6 +142,19 @@ export default async function BarberPage({ params }: Props) {
                 ))}
               </ul>
             </section>
+          ) : null}
+          {seat.licenseNumber ? (
+            <p className={`text-sm ${MUTED}`}>
+              Texas barber license {seat.licenseNumber}.{" "}
+              <a
+                href="https://www.tdlr.texas.gov/LicenseSearch/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-4"
+              >
+                Look it up with TDLR
+              </a>
+            </p>
           ) : null}
         </div>
       </div>

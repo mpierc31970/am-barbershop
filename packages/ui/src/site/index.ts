@@ -69,3 +69,6 @@ export { publicFormOf } from "./items/public-form";
 // 09-22: tenant /privacy and /terms body (AGR-08, D217).
 export { PolicyPage, POLICY_DRAFT_TEXT } from "./PolicyPage";
 export type { PolicyPageProps } from "./PolicyPage";
+// A&M fork: barber pages reuse the footer's social brand icons.
+export { BrandIcon } from "./icons/BrandIcon";
+export { brandForPlatform } from "./icons/brands";
