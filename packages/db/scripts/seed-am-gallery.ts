@@ -29,6 +29,7 @@ import {
   deleteSection,
   listSections,
   saveSection,
+  setSectionHidden,
 } from "../src/content/sections";
 import { mintOrgContext } from "../src/context";
 import { listMedia } from "../src/media/assets";
@@ -146,8 +147,9 @@ async function main(): Promise<void> {
           text: "<p>Our latest videos.</p>",
         },
       });
-  if (!have.some((s) => s.section_type === "columns")) {
-    await saveSection(ctx, sections, {
+  const tiktokRow =
+    have.find((s) => s.section_type === "columns") ??
+    (await saveSection(ctx, sections, {
       afterId: headRow.id,
       pageId: page.id,
       section_type: "columns",
@@ -155,8 +157,14 @@ async function main(): Promise<void> {
       content: {
         columns: [1, 2, 3, 4].map((n) => ({ id: ID(n), items: [] })),
       },
-    });
-  }
+    }));
+  // "On TikTok" stays hidden until the row holds a video; the owner shows both blocks in
+  // the builder (or re-runs this) once they add one.
+  const noVideos = !JSON.stringify(tiktokRow.content).includes(
+    '"kind":"video"',
+  );
+  await setSectionHidden(ctx, headRow.id, noVideos);
+  await setSectionHidden(ctx, tiktokRow.id, noVideos);
   await updatePage(ctx, page.id, {
     seo: {
       meta_title: "Gallery | A&M Barber Studio, Grand Prairie, TX",
