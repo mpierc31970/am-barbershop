@@ -17,6 +17,7 @@ import {
   NotFoundExtras,
   PageRenderer,
   PageTitleHeader,
+  SiteButton,
   type PopularLink,
 } from "@cds/ui/site";
 import type { PublishedPage } from "@cds/core/content";
@@ -48,11 +49,23 @@ function DefaultNotFound({ children }: { children?: ReactNode }) {
   return (
     <main id="content" tabIndex={-1} className="outline-none" data-not-found="">
       <NotFoundMarker />
+      {/* A&M fork: the logo and a way home on every missing page. */}
+      <div className="mx-auto max-w-[1120px] px-6 pt-12 md:px-8">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/am-barber/logo.png"
+          alt="A&M Barber Studio"
+          width={647}
+          height={472}
+          className="h-auto w-[200px]"
+        />
+      </div>
       <PageTitleHeader title={NOT_FOUND_COPY.title} />
-      <div className="mx-auto max-w-[1120px] px-6 pb-8 md:px-8">
+      <div className="mx-auto flex max-w-[1120px] flex-col items-start gap-6 px-6 pb-8 md:px-8">
         <p className="max-w-[720px] text-[length:var(--site-text-body)] leading-[1.6] text-site-text-muted">
           {NOT_FOUND_COPY.body}
         </p>
+        <SiteButton text="Back to the homepage" style="primary" href="/" />
       </div>
       {children}
     </main>

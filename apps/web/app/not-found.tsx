@@ -1,20 +1,15 @@
-// Root not-found (15-28; carry-over from 15-13 and 15-22). An unmatched URL on the platform
-// host used to get Next's default 404; it now gets the marketing not-found (MK_COPY.NOT_FOUND)
-// in the marketing frame (header, footer, hub marker), with Next's 404 status and noindex.
+// Root not-found. A&M fork: a missing admin-area page (/hub, /staff, /sign-in, ...) gets the
+// site's sign-in frame (logo, night look) with a link home; the CDS marketing not-found is gone.
 //
 // Tenant hosts keep their own 404: the middleware rewrites every tenant request to
-// /tenant/<host>/â€¦, whose notFound() renders app/tenant/[host]/not-found.tsx. Next still
+// /tenant/<host>/…, whose notFound() renders app/tenant/[host]/not-found.tsx. Next still
 // renders this root boundary into every response's RSC payload, so on a tenant request
 // (TENANT_HOST_HEADER, set only by the middleware) it returns the neutral tenant default
-// words instead: no CDS marketing chrome ever ships inside a tenant page, and an unknown
-// tenant host shows the same plain line as before.
-// A catch-all page in (marketing) was tried first and dropped: it made every internal <a href>
-// in the app match a page for @next/next/no-html-link-for-pages.
+// words instead.
 import { TENANT_HOST_HEADER } from "@cds/core";
 import { NOT_FOUND_COPY } from "@cds/ui/site";
 import { headers } from "next/headers";
-import MarketingLayout from "./(platform)/(marketing)/layout";
-import MarketingNotFound from "./(platform)/(marketing)/not-found";
+import { AmSignInFrame } from "./(platform)/sign-in/AmSignInFrame";
 
 export default async function RootNotFound() {
   if ((await headers()).get(TENANT_HOST_HEADER)) {
@@ -25,9 +20,18 @@ export default async function RootNotFound() {
       </main>
     );
   }
+  // A&M fork: no CDS marketing site here; the admin area's missing pages get the site's
+  // sign-in frame (logo, night look) and a way home.
   return (
-    <MarketingLayout>
-      <MarketingNotFound />
-    </MarketingLayout>
+    <AmSignInFrame title="Page not found">
+      <p className="mb-6 text-hub-ink-muted">{NOT_FOUND_COPY.body}</p>
+      {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+      <a
+        href="/"
+        className="inline-flex min-h-11 w-full items-center justify-center bg-hub-accent px-4 font-semibold no-underline"
+      >
+        Back to the homepage
+      </a>
+    </AmSignInFrame>
   );
 }
