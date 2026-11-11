@@ -38,3 +38,7 @@
   background-color: #0a0a0c;
   color: var(--hub-ink);
 }
+/* The primary button writes its label in the surface colour (dark here): white instead. */
+.am-signin .bg-hub-accent {
+  color: #ffffff;
+}

@@ -203,8 +203,15 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
       c.kind,
     );
   }
+  // Next renders a Server Action's redirect with an internal fetch on localhost: those admin
+  // paths are the same platform pages (an outside "Host: localhost" sees nothing else).
   const onSiteAdmin =
-    c.kind === "tenant" && c.host === adminHost && isSiteAdminPath(pathname);
+    c.kind === "tenant" &&
+    adminHost !== null &&
+    (c.host === adminHost ||
+      c.host === "localhost" ||
+      c.host === "127.0.0.1") &&
+    isSiteAdminPath(pathname);
   if (c.kind === "platform" || onSiteAdmin) {
     // Second layer: the tenant page also 404s without the header.
     if (pathname === "/tenant" || pathname.startsWith("/tenant/")) {

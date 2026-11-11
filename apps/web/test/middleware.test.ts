@@ -1062,6 +1062,12 @@ describe("A&M fork: the admin area on the site's own host (SITE_ADMIN_HOST)", ()
     }
   });
 
+  it("serves admin paths on the internal localhost fetch (Server Action redirects)", async () => {
+    const mw = await load();
+    const res = await mw(req("http://localhost:3000/hub", "localhost:3000"));
+    expect(res.headers.get("x-middleware-rewrite")).toBeNull();
+  });
+
   it("keeps every other path on the public site", async () => {
     const mw = await load();
     const res = await mw(req(`http://${SITE}/about`, SITE));
