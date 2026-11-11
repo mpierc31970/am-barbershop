@@ -743,6 +743,7 @@ Restore mode: replace.
 - `photo`
 - `gallery`
 - `hours`
+- `slot_minutes`
 - `is_published`
 - `sort_order`
 - `created`
@@ -773,6 +774,8 @@ Restore mode: replace.
 - `seat`
 - `start_date`
 - `end_date`
+- `start_time`
+- `end_time`
 - `note`
 - `created`
 - `updated`

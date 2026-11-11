@@ -37,6 +37,7 @@ import {
   isDate,
   isTime,
   openSlots,
+  slotMinutesOf,
   utcToZoned,
   type Busy,
   type Slot,
@@ -172,9 +173,14 @@ async function timeOffOf(pb: PocketBase, orgId: string, seatId: string) {
       org: orgId,
       s: seatId,
     }),
-    fields: "start_date,end_date",
+    fields: "start_date,end_date,start_time,end_time",
   });
-  return rows.map((r) => ({ start: str(r.start_date), end: str(r.end_date) }));
+  return rows.map((r) => ({
+    start: str(r.start_date),
+    end: str(r.end_date),
+    from: str(r.start_time),
+    to: str(r.end_time),
+  }));
 }
 
 // ---------------------------------------------------------------- visitors
@@ -261,6 +267,7 @@ export async function publicAvailability(
         durationMin: num(svc.duration_minutes),
         tz,
         now,
+        stepMin: slotMinutesOf(seat.slot_minutes),
       });
     const days: PublicDay[] = [];
     for (let i = 0; i < Math.min(input.days ?? 14, 30); i++) {
@@ -351,6 +358,7 @@ export async function createPublicBooking(
         durationMin: num(svc.duration_minutes),
         tz: shop.tz,
         now,
+        stepMin: slotMinutesOf(seat.slot_minutes),
       }).find((s) => s.time === input.time);
       if (!slot) throw new InvalidInput(SLOT_TAKEN_COPY);
       const id = newRecordId();

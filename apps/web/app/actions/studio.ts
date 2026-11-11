@@ -173,16 +173,23 @@ export async function saveHoursAction(form: FormData): Promise<void> {
     };
   }
   await act(seatHref(seatId) + "#hours", "Hours saved.", async ({ ctx }) => {
-    await saveHours(ctx, seatId, hours);
+    await saveHours(
+      ctx,
+      seatId,
+      hours,
+      field(form, "slotMinutes") || undefined,
+    );
   });
 }
 
 export async function addTimeOffAction(form: FormData): Promise<void> {
   const seatId = idField(form, "seatId");
-  await act(seatHref(seatId) + "#hours", "Time off added.", async ({ ctx }) => {
+  await act(seatHref(seatId) + "#hours", "Time blocked.", async ({ ctx }) => {
     await addTimeOff(ctx, seatId, {
       start: field(form, "start"),
       end: field(form, "end"),
+      from: field(form, "from"),
+      to: field(form, "to"),
       note: field(form, "note"),
     });
   });

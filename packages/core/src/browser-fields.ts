@@ -322,13 +322,22 @@ export const BROWSER_FIELDS: Readonly<Record<string, BrowserFieldSpec>> = {
       "photo",
       "gallery",
       "hours",
+      "slot_minutes",
       "is_published",
       "sort_order",
     ],
     serverOnly: [],
   },
   studio_time_off: {
-    allow: ["organization", "seat", "start_date", "end_date", "note"],
+    allow: [
+      "organization",
+      "seat",
+      "start_date",
+      "end_date",
+      "start_time",
+      "end_time",
+      "note",
+    ],
     serverOnly: [],
   },
   studio_bookings: {

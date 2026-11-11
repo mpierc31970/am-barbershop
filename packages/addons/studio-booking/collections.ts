@@ -31,6 +31,7 @@ export const STUDIO_BOOKING_COLLECTIONS = {
       "photo",
       "gallery",
       "hours",
+      "slot_minutes",
       "is_published",
       "sort_order",
       "created",
@@ -57,7 +58,7 @@ export const STUDIO_BOOKING_COLLECTIONS = {
     ],
     filterable: ["id", "seat", "sort_order"],
   },
-  // Step 2: whole days off per seat.
+  // Step 2: days off per seat; start_time/end_time block part of each day.
   studio_time_off: {
     kind: "base",
     feature: FEATURE,
@@ -69,6 +70,8 @@ export const STUDIO_BOOKING_COLLECTIONS = {
       "seat",
       "start_date",
       "end_date",
+      "start_time",
+      "end_time",
       "note",
       "created",
       "updated",

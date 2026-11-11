@@ -1,5 +1,6 @@
 // The seat screen's Hours and Time off (Studio Booking step 2). Plain forms (no JS needed):
-// one working range per day (15-minute steps), and whole days off. Server component.
+// one working range per day (15-minute steps), the booking interval, and blocked time (whole
+// days, or From/To on each of those days). Server component.
 import { DAYS, DAY_LABELS } from "@cds/core/intake";
 import type { ScheduleView } from "@cds/db";
 import { Button, TextField } from "@cds/ui/hub";
@@ -13,6 +14,21 @@ const CARD =
   "flex flex-col gap-4 rounded border border-hub-border bg-hub-surface p-4";
 const INPUT =
   "h-10 rounded border border-hub-border-strong bg-hub-surface px-2 font-hub text-base text-hub-ink";
+
+const INTERVALS = [
+  [15, "15 minutes"],
+  [30, "30 minutes"],
+  [45, "45 minutes"],
+  [60, "1 hour"],
+  [90, "1 1/2 hours"],
+  [120, "2 hours"],
+] as const;
+
+/** "14:30" -> "2:30 pm". */
+function time12(t: string): string {
+  const h = Number(t.slice(0, 2));
+  return `${h % 12 === 0 ? 12 : h % 12}:${t.slice(3, 5)} ${h < 12 ? "am" : "pm"}`;
+}
 
 function dateLabel(d: string): string {
   return new Intl.DateTimeFormat("en-US", {
@@ -101,6 +117,23 @@ export function ScheduleSection({
             })}
           </tbody>
         </table>
+        <label className="flex flex-wrap items-center gap-3">
+          <span className="font-semibold">Booking interval</span>
+          <select
+            name="slotMinutes"
+            defaultValue={String(schedule.slotMinutes)}
+            className={INPUT}
+          >
+            {INTERVALS.map(([m, label]) => (
+              <option key={m} value={m}>
+                {label}
+              </option>
+            ))}
+          </select>
+          <span className="text-sm text-hub-ink-muted">
+            Time between the start times clients can pick.
+          </span>
+        </label>
         <div>
           <Button type="submit" variant="primary">
             Save hours
@@ -109,9 +142,13 @@ export function ScheduleSection({
       </form>
 
       <div className={CARD}>
-        <h3 className="font-semibold">Time off</h3>
+        <h3 className="font-semibold">Blocked time</h3>
+        <p className="text-sm text-hub-ink-muted">
+          Clients can&apos;t book these times. Leave From and To blank to block
+          whole days.
+        </p>
         {schedule.timeOff.length === 0 ? (
-          <p className="text-hub-ink-muted">No days off planned.</p>
+          <p className="text-hub-ink-muted">Nothing blocked.</p>
         ) : (
           <ul className="flex flex-col gap-2">
             {schedule.timeOff.map((t) => (
@@ -119,6 +156,9 @@ export function ScheduleSection({
                 <span>
                   {dateLabel(t.start)}
                   {t.end !== t.start ? ` to ${dateLabel(t.end)}` : ""}
+                  {t.from && t.to
+                    ? `, ${time12(t.from)} to ${time12(t.to)}`
+                    : ", all day"}
                   {t.note ? ` · ${t.note}` : ""}
                 </span>
                 <form action={removeTimeOffAction}>
@@ -138,16 +178,25 @@ export function ScheduleSection({
             id="off-start"
             name="start"
             type="date"
-            label="First day off"
+            label="First day"
             required
           />
           <TextField
             id="off-end"
             name="end"
             type="date"
-            label="Last day off"
+            label="Last day"
             helper="Blank: one day"
           />
+          <TextField
+            id="off-from"
+            name="from"
+            type="time"
+            step={900}
+            label="From"
+            helper="Blank: all day"
+          />
+          <TextField id="off-to" name="to" type="time" step={900} label="To" />
           <TextField
             id="off-note"
             name="note"
@@ -155,7 +204,7 @@ export function ScheduleSection({
             maxLength={120}
           />
           <div>
-            <Button type="submit">Add time off</Button>
+            <Button type="submit">Block time</Button>
           </div>
         </form>
       </div>

@@ -15,11 +15,19 @@ import {
   studioRead,
   studioWrite,
 } from "./shared";
-import { isDate, type TimeOff } from "./slots";
+import {
+  isDate,
+  isTime,
+  SLOT_CHOICES,
+  slotMinutesOf,
+  type TimeOff,
+} from "./slots";
 
 export type TimeOffView = TimeOff & { id: string; note: string };
 export type ScheduleView = {
   hours: WeeklyHours | null;
+  /** Minutes between bookable start times (default 60). */
+  slotMinutes: number;
   timeOff: TimeOffView[];
 };
 
@@ -36,6 +44,8 @@ function toTimeOff(r: RecordModel): TimeOffView {
     id: r.id,
     start: str(r.start_date),
     end: str(r.end_date),
+    from: str(r.start_time),
+    to: str(r.end_time),
     note: str(r.note),
   };
 }
@@ -54,7 +64,11 @@ export async function getSchedule(
       }),
       sort: "start_date",
     });
-    return { hours: hoursOf(seat), timeOff: off.map(toTimeOff) };
+    return {
+      hours: hoursOf(seat),
+      slotMinutes: slotMinutesOf(seat.slot_minutes),
+      timeOff: off.map(toTimeOff),
+    };
   });
 }
 
@@ -62,9 +76,17 @@ export async function saveHours(
   ctx: OrgContext,
   seatId: string,
   raw: unknown,
+  slotMinutes?: unknown,
 ): Promise<void> {
   requireStudio(ctx, "write");
   const hours = validateHours(raw);
+  const slot = slotMinutes === undefined ? undefined : Number(slotMinutes);
+  if (
+    slot !== undefined &&
+    !(SLOT_CHOICES as readonly number[]).includes(slot)
+  ) {
+    throw new InvalidInput("Pick a booking interval from the list.");
+  }
   await studioWrite(ctx, async (pb) => {
     const seat = await seatFor(pb, ctx, seatId);
     await commit(
@@ -75,7 +97,7 @@ export async function saveHours(
           collection: "studio_seats",
           op: "update",
           id: seat.id,
-          body: { hours },
+          body: slot === undefined ? { hours } : { hours, slot_minutes: slot },
         },
       ],
       {
@@ -90,7 +112,13 @@ export async function saveHours(
 export async function addTimeOff(
   ctx: OrgContext,
   seatId: string,
-  input: { start: unknown; end: unknown; note?: unknown },
+  input: {
+    start: unknown;
+    end: unknown;
+    from?: unknown;
+    to?: unknown;
+    note?: unknown;
+  },
 ): Promise<{ id: string }> {
   requireStudio(ctx, "write");
   const start = input?.start;
@@ -100,6 +128,16 @@ export async function addTimeOff(
   }
   if (end < start) {
     throw new InvalidInput("The last day off is before the first.");
+  }
+  const from = str(input?.from);
+  const to = str(input?.to);
+  if (from !== "" || to !== "") {
+    if (!isTime(from) || !isTime(to)) {
+      throw new InvalidInput(
+        "Fill both From and To, or leave both blank for the whole day.",
+      );
+    }
+    if (to <= from) throw new InvalidInput("To must be after From.");
   }
   const note = str(input?.note).trim();
   if (note.length > 120) {
@@ -121,6 +159,8 @@ export async function addTimeOff(
             seat: seat.id,
             start_date: start,
             end_date: end,
+            start_time: from,
+            end_time: to,
             note,
           },
         },

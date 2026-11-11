@@ -151,13 +151,13 @@ export const HOWTO_STEPS: Readonly<Record<string, readonly HowToStep[]>> = Objec
       },
       {
         "screen": "Seat screen, **Hours and time off**",
-        "action": "Tick **Working** for each day, set **From** and **To** (15-minute steps) and click **Save hours**",
-        "expected": "\"Hours saved.\" Clients can now book this barber inside those hours"
+        "action": "Tick **Working** for each day, set **From** and **To** (15-minute steps), pick **Booking interval** (default 1 hour) and click **Save hours**",
+        "expected": "\"Hours saved.\" Clients can now book this barber inside those hours, one start time per interval"
       },
       {
-        "screen": "Seat screen, **Time off**",
-        "action": "Pick **First day off** (and **Last day off** for more than one day), click **Add time off**",
-        "expected": "\"Time off added.\" Those days show no open times on the site"
+        "screen": "Seat screen, **Blocked time**",
+        "action": "Pick **First day** (and **Last day** for more than one day). To block part of the day fill **From** and **To**; leave them blank for the whole day. Click **Block time**",
+        "expected": "\"Time blocked.\" Those times (or days) show no open times on the site"
       },
       {
         "screen": "Your site, `/book`",

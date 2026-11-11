@@ -1,6 +1,12 @@
 import { emptyWeeklyHours } from "@cds/core/intake";
 import { describe, expect, it } from "vitest";
-import { addDays, openSlots, utcToZoned, zonedToUtc } from "./slots";
+import {
+  addDays,
+  openSlots,
+  slotMinutesOf,
+  utcToZoned,
+  zonedToUtc,
+} from "./slots";
 
 const TZ = "America/Chicago";
 const hours = emptyWeeklyHours();
@@ -31,6 +37,7 @@ describe("openSlots", () => {
       durationMin: 45,
       tz: TZ,
       now: NOW,
+      stepMin: 15,
     });
     expect(s[0]?.time).toBe("09:00");
     expect(s.at(-1)?.time).toBe("11:15");
@@ -52,6 +59,7 @@ describe("openSlots", () => {
       durationMin: 30,
       tz: TZ,
       now: NOW,
+      stepMin: 15,
     });
     expect(s.map((x) => x.time)).not.toContain("10:00");
     expect(s.map((x) => x.time)).not.toContain("09:45");
@@ -66,6 +74,7 @@ describe("openSlots", () => {
         durationMin: 30,
         tz: TZ,
         now: NOW,
+        stepMin: 15,
       }),
     ).toEqual([]);
     expect(
@@ -77,6 +86,7 @@ describe("openSlots", () => {
         durationMin: 30,
         tz: TZ,
         now: NOW,
+        stepMin: 15,
       }),
     ).toEqual([]);
     const late = Date.parse("2026-11-11T16:30:00Z"); // 10:30 local: earliest 11:30
@@ -89,6 +99,7 @@ describe("openSlots", () => {
         durationMin: 30,
         tz: TZ,
         now: late,
+        stepMin: 15,
       }).map((x) => x.time),
     ).toEqual(["11:30"]);
     expect(
@@ -100,6 +111,7 @@ describe("openSlots", () => {
         durationMin: 30,
         tz: TZ,
         now: NOW,
+        stepMin: 15,
       }),
     ).toEqual([]);
     expect(
@@ -111,7 +123,39 @@ describe("openSlots", () => {
         durationMin: 30,
         tz: TZ,
         now: NOW,
+        stepMin: 15,
       }),
     ).toEqual([]);
+  });
+});
+
+describe("interval and blocked time", () => {
+  const base = {
+    date: "2026-11-11",
+    hours,
+    busy: [],
+    durationMin: 30,
+    tz: TZ,
+    now: NOW,
+  };
+
+  it("defaults to one start time per hour", () => {
+    const s = openSlots({ ...base, timeOff: [] });
+    expect(s.map((x) => x.time)).toEqual(["09:00", "10:00", "11:00"]);
+    expect(slotMinutesOf(undefined)).toBe(60);
+    expect(slotMinutesOf(0)).toBe(60);
+    expect(slotMinutesOf(7)).toBe(60);
+    expect(slotMinutesOf(30)).toBe(30);
+  });
+
+  it("blocks only From-To on each blocked day; blank times block the day", () => {
+    const part = [
+      { start: "2026-11-11", end: "2026-11-11", from: "10:00", to: "11:00" },
+    ];
+    expect(
+      openSlots({ ...base, timeOff: part, stepMin: 30 }).map((x) => x.time),
+    ).toEqual(["09:00", "09:30", "11:00", "11:30"]);
+    const day = [{ start: "2026-11-11", end: "2026-11-11", from: "", to: "" }];
+    expect(openSlots({ ...base, timeOff: day })).toEqual([]);
   });
 });
