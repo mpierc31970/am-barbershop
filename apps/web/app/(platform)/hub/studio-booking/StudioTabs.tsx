@@ -1,5 +1,5 @@
 // The Studio Booking tab bar. The owner (and Admins): Barbers, Social, Bookings, Services &
-// Pricing, Rent. A barber: My page, My Social, My bookings, Services & Pricing, My rent, all
+// Pricing, Rent. A barber: My page, My Social, My bookings, Services & Pricing, My Rent, all
 // for their own seat. Each tab is its own route.
 import { TabLinks } from "@cds/ui/hub";
 import { STUDIO_BASE } from "../../../../lib/studio";
@@ -36,7 +36,7 @@ export function StudioTabs({
     },
     {
       id: "rent",
-      label: manager ? "Rent" : "My rent",
+      label: manager ? "Rent" : "My Rent",
       href: `${STUDIO_BASE}/rent`,
     },
   ];

@@ -157,6 +157,7 @@ const MARKETING = {
 };
 
 const TODAY = { href: "/hub/today", label: "Today", iconKey: "House" };
+const ALERTS = { href: "/hub/profile#alerts", label: "Alerts", iconKey: "Bell" };
 const REPORTS = {
   href: "/hub/reports",
   label: "Reports",
@@ -198,6 +199,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
     });
     expect(nav.items).toEqual([
       TODAY,
+      ALERTS,
       INBOX,
       WEBSITE,
       MARKETING,
@@ -231,6 +233,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
     });
     expect(nav.items).toEqual([
       TODAY,
+      ALERTS,
       INBOX,
       WEBSITE,
       MARKETING,
@@ -249,6 +252,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
     });
     expect(editor.items).toEqual([
       TODAY,
+      ALERTS,
       INBOX,
       WEBSITE,
       MARKETING,
@@ -262,7 +266,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
       active: [],
       registry,
     });
-    expect(viewer.items).toEqual([TODAY, INBOX, WEBSITE, MARKETING, REPORTS]);
+    expect(viewer.items).toEqual([TODAY, ALERTS, INBOX, WEBSITE, MARKETING, REPORTS]);
     expect(viewer.items.map((i) => i.href)).not.toContain("/hub/settings");
     expect(viewer.pinned).toEqual([HELP]);
   });
@@ -274,7 +278,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
       active: ["fixture-quote"],
       registry,
     });
-    expect(nav.items).toEqual([TODAY, WEBSITE]);
+    expect(nav.items).toEqual([TODAY, ALERTS, WEBSITE]);
     expect(nav.pinned).toEqual([HELP]);
     const off = composeHubNav({
       role: "staff",
@@ -282,7 +286,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
       active: [],
       registry,
     });
-    expect(off.items).toEqual([TODAY]);
+    expect(off.items).toEqual([TODAY, ALERTS]);
   });
 
   it("an active sidebar add-on sits between Website and Marketing; an inactive one is absent", () => {
@@ -294,6 +298,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
     });
     expect(on.items).toEqual([
       TODAY,
+      ALERTS,
       INBOX,
       WEBSITE,
       { href: "/hub/fixture-side", label: "Side", iconKey: "BadgeCheck" },
@@ -334,6 +339,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
     });
     expect(n.items.map((i) => i.href)).toEqual([
       "/hub/today",
+      "/hub/profile#alerts",
       "/hub/inbox",
       "/hub/website",
       "/hub/side-early",
@@ -353,6 +359,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
     });
     expect(nav.items.map((i) => i.href)).toEqual([
       "/hub/today",
+      "/hub/profile#alerts",
       "/hub/inbox",
       "/hub/website",
       "/hub/marketing",
@@ -378,6 +385,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
     // A&M fork: a sidebar add-on adds no empty Website item, and a seat gets no Marketing.
     expect(withGrant.items.map((i) => i.href)).toEqual([
       "/hub/today",
+      "/hub/profile#alerts",
       "/hub/fixture-side",
     ]);
   });
@@ -446,6 +454,7 @@ describe("composeHubNav: setup stages (06-18, D312; 11-14 Pitfall 2)", () => {
     });
     expect(n.items.map((i) => i.href)).toEqual([
       "/hub/today",
+      "/hub/profile#alerts",
       "/hub/inbox",
       "/hub/website",
       "/hub/marketing",
@@ -458,6 +467,7 @@ describe("composeHubNav: setup stages (06-18, D312; 11-14 Pitfall 2)", () => {
     expect(n.items.map((i) => i.href)).toEqual([
       "/hub/setup",
       "/hub/today",
+      "/hub/profile#alerts",
       "/hub/inbox",
       "/hub/website",
       "/hub/marketing",
@@ -564,11 +574,11 @@ describe("composeHubNav: badges from Needs you (DASH-27)", () => {
 
   it("the Inbox badge shows only for a count above zero", () => {
     const four = composeHubNav({ ...base, inboxUnread: 4 });
-    expect(four.items[1]).toEqual({ ...INBOX, badge: 4 });
+    expect(four.items[2]).toEqual({ ...INBOX, badge: 4 });
     for (const inboxUnread of [0, -2, Number.NaN, undefined]) {
       const n = composeHubNav({ ...base, inboxUnread });
-      expect(n.items[1]).toEqual(INBOX);
-      expect(n.items[1]).not.toHaveProperty("badge");
+      expect(n.items[2]).toEqual(INBOX);
+      expect(n.items[2]).not.toHaveProperty("badge");
     }
   });
 

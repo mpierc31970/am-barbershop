@@ -53,6 +53,13 @@ export const TODAY_NAV: HubNavItem = Object.freeze({
   iconKey: "House",
 });
 
+/** A&M fork: the person's alert settings (also in the profile menu). */
+export const ALERTS_NAV: HubNavItem = Object.freeze({
+  href: "/hub/profile#alerts",
+  label: "Alerts",
+  iconKey: "Bell",
+});
+
 export const WEBSITE_NAV: HubNavItem = Object.freeze({
   href: "/hub/website",
   label: "Website",
@@ -260,7 +267,7 @@ export function composeHubNav(input: {
   if (inSetup(input.stage) && readsBusiness) {
     items.push(withBadge(SETUP_NAV, Math.max(0, input.stillNeededCount ?? 0)));
   }
-  items.push({ ...TODAY_NAV });
+  items.push({ ...TODAY_NAV }, { ...ALERTS_NAV });
   if (readsContent) {
     const unread = input.inboxUnread;
     const inboxFailed =

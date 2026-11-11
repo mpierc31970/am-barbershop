@@ -38,7 +38,7 @@ Studio Booking gives every barber a seat: their own public page at `/barbers/<na
 | 16 | Rent, one barber | When they pay, check **Amount ($)** and **Paid on**, click **Mark <date> paid** | "Payment logged." The payment is listed and **Next due** moves on one period |
 | 17 | Rent, the latest payment | Click **Undo** | "Payment removed." **Next due** goes back to that date |
 | 18 | (automatic) | A due date passes without a payment | The barber shows **N days late**, a warning lists who is late, and the owner gets one hub alert (bell and email) per missed date |
-| 19 | Barber's own sign-in, **My rent** | Open the tab | Their rent, next due date and payments, read-only |
+| 19 | Barber's own sign-in, **My Rent** | Open the tab | Their rent, next due date and payments, read-only |
 
 ## Decisions
 

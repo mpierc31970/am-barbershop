@@ -31,6 +31,7 @@ import {
   redirectResponse,
 } from "./lib/redirect-host";
 import { securityHeaders } from "./lib/security-headers";
+import { STUDIO_NOTE_COOKIE } from "./lib/studio";
 import { suspendedResponse } from "./lib/suspended-page";
 
 // Parsed on first request, not at import, so `next build` never evaluates it. In
@@ -255,6 +256,11 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
       NextResponse.next({ request: { headers } }),
       "platform",
     );
+    // A&M fork: the hub's one-time save note is shown by this GET, then dropped so the next
+    // screen doesn't repeat it (the render still reads it from the request).
+    if (req.method === "GET" && req.cookies.has(STUDIO_NOTE_COOKIE)) {
+      res.cookies.delete({ name: STUDIO_NOTE_COOKIE, path: "/hub" });
+    }
     // 13-25 (P13-P33, T-13-25-02): the staff console is never indexed. Set here, on platform
     // hosts only, so a tenant's own /staff page keeps its normal indexing.
     // 15 WR-A02: /report is never indexed either. It is crawlable (not in robots.txt) so a

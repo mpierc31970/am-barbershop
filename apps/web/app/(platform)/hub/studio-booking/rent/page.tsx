@@ -102,7 +102,7 @@ export default async function RentPage() {
     return (
       <div className="flex w-full max-w-[880px] flex-col gap-8 font-hub text-hub-ink">
         <ScreenHeader
-          title="My rent"
+          title="My Rent"
           helpId="addon-studio-booking"
           LinkComponent={GuardedLink}
         />

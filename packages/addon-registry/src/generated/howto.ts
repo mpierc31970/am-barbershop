@@ -200,7 +200,7 @@ export const HOWTO_STEPS: Readonly<Record<string, readonly HowToStep[]>> = Objec
         "expected": "The barber shows **N days late**, a warning lists who is late, and the owner gets one hub alert (bell and email) per missed date"
       },
       {
-        "screen": "Barber's own sign-in, **My rent**",
+        "screen": "Barber's own sign-in, **My Rent**",
         "action": "Open the tab",
         "expected": "Their rent, next due date and payments, read-only"
       }
