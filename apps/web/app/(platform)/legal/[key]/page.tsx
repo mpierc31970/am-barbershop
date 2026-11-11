@@ -18,7 +18,7 @@ export function generateStaticParams(): { key: string }[] {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const page = resolveLegalPage((await params).key);
   if (!page) return {};
-  return { title: `${page.policy.title} · Connections Design Studios` };
+  return { title: `${page.policy.title} · A&M Barber Studio` };
 }
 
 export default async function LegalPolicyPage({ params }: Props) {

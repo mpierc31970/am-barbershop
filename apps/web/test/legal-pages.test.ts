@@ -23,7 +23,9 @@ const FIXTURE: PolicySet = {
   policies: [
     tos(1, "2026-10-01"),
     tos(2, "2027-01-01"),
-    ...POLICY_SET.policies.filter((p) => p.key !== "terms-of-service"),
+    ...POLICY_SET.policies.filter(
+      (p) => p.key !== "terms-of-service" && p.version === 1,
+    ),
   ],
   consents: POLICY_SET.consents,
 };

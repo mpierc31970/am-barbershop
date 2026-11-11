@@ -12,7 +12,7 @@ export function LegalFrame({ children }: { children: ReactNode }) {
       <header className="h-16 border-b border-hub-border">
         <div className="mx-auto flex h-full max-w-[1120px] items-center justify-between gap-4 px-4 md:px-8">
           <Link href="/" className="text-base font-semibold">
-            Connections Design Studios
+            A&M Barber Studio
           </Link>
           <Link
             href="/sign-in"
@@ -40,7 +40,7 @@ export function LegalFrame({ children }: { children: ReactNode }) {
             ))}
           </ul>
         </nav>
-        <p>Connections Design Studios</p>
+        <p>A&M Barber Studio</p>
       </footer>
     </div>
   );

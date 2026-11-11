@@ -34,7 +34,8 @@ import { POLICY_SET } from "./policies.generated";
 import { retentionTableMarkdown } from "./retention";
 import type { PolicySet, PolicyVersion } from "./types";
 
-const BANNER =
+const BANNER = "**DRAFT: not yet reviewed by a lawyer.** This text may change.";
+const LEGACY_BANNER =
   "**DRAFT: not yet reviewed by a lawyer.** This text will change before CDS launches.";
 const sha = (s: string) => createHash("sha256").update(s, "utf8").digest("hex");
 
@@ -349,32 +350,34 @@ describe("committed policies.lock.json (CR-B01)", () => {
       ),
     ) as Record<string, string>;
     expect(lock).toEqual(lockEntries(POLICY_SET, SITE_POLICY_TEMPLATES));
-    expect(Object.keys(lock)).toHaveLength(8);
+    expect(Object.keys(lock)).toHaveLength(16);
   });
 });
 
 describe("committed POLICY_SET (09-05 Task 2)", () => {
   it("every entry recomputes to its sha256", () => {
     const all = [...POLICY_SET.policies, ...POLICY_SET.consents];
-    expect(all.length).toBe(6);
+    expect(all.length).toBe(12);
     for (const e of all)
       expect(e.sha256, `${e.key} v${e.version}`).toBe(sha(e.bodyMd));
   });
 
-  it("five active policies in D216 order, all v1 drafts", () => {
+  it("five active policies in D216 order, all v2 drafts", () => {
     const a = activePolicyVersions();
     expect(a.map((p) => p.key)).toEqual([...POLICY_KEYS]);
     for (const p of a) {
-      expect(p.version).toBe(1);
+      expect(p.version).toBe(2);
       expect(p.draft).toBe(true);
     }
-    expect(activeConsent()?.version).toBe(1);
+    expect(activeConsent()?.version).toBe(2);
   });
 
   it("html carries no clause markers; summaries are 3 short bullets", () => {
     for (const e of [...POLICY_SET.policies, ...POLICY_SET.consents]) {
       expect(e.bodyHtml).not.toContain("<!-- clause:");
-      expect(e.bodyMd.startsWith(BANNER)).toBe(true);
+      expect(
+        e.bodyMd.startsWith(e.version === 1 ? LEGACY_BANNER : BANNER),
+      ).toBe(true);
     }
     for (const p of POLICY_SET.policies) {
       expect(p.summary).toHaveLength(3);

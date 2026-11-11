@@ -35,7 +35,7 @@ describe("required clauses", () => {
     const tos = active("terms-of-service");
     const v2: PolicyVersion = {
       ...tos,
-      version: 2,
+      version: tos.version + 1,
       changes: "Dropped a clause.",
       bodyMd: tos.bodyMd.replace("<!-- clause:dmca-agent -->\n", ""),
     };

@@ -201,7 +201,7 @@ describe("StripeConnectPanel", () => {
     expect(dash?.getAttribute("rel")).toContain("noopener");
     expect(dash?.textContent).toMatch(/opens Stripe in a new tab/);
     expect(body()).toContain(
-      "To disconnect, remove Connections Design Studios under Settings › Connected accounts",
+      "To disconnect, remove A&M Barber Studio under Settings › Connected accounts",
     );
     click(button(document, "Check again"));
     expect(onCheckAgain).toHaveBeenCalledTimes(1);

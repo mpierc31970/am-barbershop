@@ -23,7 +23,8 @@ export const AUP_CATEGORIES: readonly AupCategory[] = Object.freeze([
   // Never hosted
   {
     name: "Illegal content or activity",
-    examples: "Anything illegal where CDS or the business operates",
+    examples:
+      "Anything illegal where A&M Barber Studio or the business operates",
     verdict: "never",
     keywords: [AUP_TEST_TERMS.blocked, "illegal", "black market"],
   },

@@ -59,17 +59,19 @@ function facts(over: Partial<SitePolicyFacts> = {}): SitePolicyFacts {
 }
 
 describe("committed SITE_POLICY_TEMPLATES", () => {
-  it("lists privacy and terms v1 drafts whose sha256 recomputes", () => {
+  it("lists privacy and terms v1 and v2 drafts whose sha256 recomputes", () => {
     expect(SITE_POLICY_TEMPLATES.map((t) => `${t.page}@${t.version}`)).toEqual([
       "privacy@1",
       "terms@1",
+      "privacy@2",
+      "terms@2",
     ]);
     for (const t of SITE_POLICY_TEMPLATES) {
       expect(t.draft).toBe(true);
-      expect(t.changes).toBeNull();
+      expect(t.changes === null).toBe(t.version === 1);
       expect(t.sha256).toBe(sha(t.bodyMd));
     }
-    expect(latestSitePolicyVersion()).toBe(1);
+    expect(latestSitePolicyVersion()).toBe(2);
     expect(sitePolicyChanges(1)).toBeNull();
   });
 
@@ -254,7 +256,7 @@ describe("renderSitePolicy privacy", () => {
 });
 
 describe("renderSitePolicy versions (CONTEXT A5-Q4)", () => {
-  const v1 = SITE_POLICY_TEMPLATES;
+  const v1 = SITE_POLICY_TEMPLATES.filter((t) => t.version === 1);
   const v2: SitePolicyTemplate[] = [
     ...v1,
     {

@@ -76,7 +76,7 @@ export const CONNECT_STEPS: readonly HowToStepView[] = Object.freeze([
   {
     screen: "Your Stripe dashboard",
     action:
-      "To disconnect, remove Connections Design Studios under Settings › Connected accounts",
+      "To disconnect, remove A&M Barber Studio under Settings › Connected accounts",
     expected:
       "Online payments on your site stop straight away. There is no Disconnect button in the hub; the tab shows the Not connected state",
   },

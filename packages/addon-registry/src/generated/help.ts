@@ -3050,7 +3050,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         },
         {
           "screen": "Your Stripe dashboard",
-          "action": "To disconnect, remove Connections Design Studios under Settings › Connected accounts",
+          "action": "To disconnect, remove A&M Barber Studio under Settings › Connected accounts",
           "expected": "Online payments on your site stop straight away. There is no Disconnect button in the hub; the tab shows the Not connected state"
         },
         {

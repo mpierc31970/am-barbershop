@@ -31,7 +31,7 @@ export const CONNECT_COPY = {
   disconnected:
     "Your Stripe account was disconnected, so online payments are off. Customers can still book and pay in person. Connect it again to turn payments back on.",
   disconnectHelp:
-    "To disconnect, remove Connections Design Studios under Settings › Connected accounts in your Stripe dashboard. Online payments on your site stop straight away.",
+    "To disconnect, remove A&M Barber Studio under Settings › Connected accounts in your Stripe dashboard. Online payments on your site stop straight away.",
   impersonating:
     "You're viewing as support staff, so Stripe changes are turned off. Only the owner can connect Stripe.",
   adminOnly: "Only the site owner can connect or change Stripe.",

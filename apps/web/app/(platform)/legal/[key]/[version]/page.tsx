@@ -30,7 +30,7 @@ async function pageFor(params: Props["params"]) {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const page = await pageFor(params);
   if (!page) return {};
-  const title = `${page.policy.title} · Connections Design Studios`;
+  const title = `${page.policy.title} · A&M Barber Studio`;
   return page.isCurrent
     ? { title }
     : { title, robots: { index: false, follow: true } };
