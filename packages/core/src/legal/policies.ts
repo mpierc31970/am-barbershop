@@ -57,7 +57,7 @@ export const REQUIRED_CLAUSES: Readonly<Record<PolicyKey, readonly string[]>> =
       "dmca-counter-notice",
       "dmca-restore-10-14",
       "repeat-infringer",
-      "report-link-unremovable",
+      "report-contact",
     ]),
     "subscription-terms": Object.freeze([
       "lapse-disables",

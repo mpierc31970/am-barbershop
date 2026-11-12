@@ -63,11 +63,13 @@ describe("texts drawn from code, never copied", () => {
     for (const c of AUP_CATEGORIES) expect(aup.bodyMd).toContain(c.name);
   });
 
-  it("ToS states the DMCA restore window and the Report link", () => {
+  it("ToS states the DMCA restore window and the report email, no Report link", () => {
     const html = active("terms-of-service").bodyHtml;
     expect(html).toContain("10");
     expect(html).toContain("14 business days");
-    expect(html).toContain("Report");
+    expect(html).toContain("report abuse or illegal content");
+    expect(html).toContain("pierce1970+BarberOwner@gmail.com");
+    expect(html).not.toContain("Report link");
   });
 
   it("the Service Agreement names the tenant merchant of record", () => {

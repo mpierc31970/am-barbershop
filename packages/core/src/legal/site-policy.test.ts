@@ -59,19 +59,21 @@ function facts(over: Partial<SitePolicyFacts> = {}): SitePolicyFacts {
 }
 
 describe("committed SITE_POLICY_TEMPLATES", () => {
-  it("lists privacy and terms v1 and v2 drafts whose sha256 recomputes", () => {
+  it("lists privacy and terms v1 to v3 drafts whose sha256 recomputes", () => {
     expect(SITE_POLICY_TEMPLATES.map((t) => `${t.page}@${t.version}`)).toEqual([
       "privacy@1",
       "terms@1",
       "privacy@2",
       "terms@2",
+      "privacy@3",
+      "terms@3",
     ]);
     for (const t of SITE_POLICY_TEMPLATES) {
       expect(t.draft).toBe(true);
       expect(t.changes === null).toBe(t.version === 1);
       expect(t.sha256).toBe(sha(t.bodyMd));
     }
-    expect(latestSitePolicyVersion()).toBe(2);
+    expect(latestSitePolicyVersion()).toBe(3);
     expect(sitePolicyChanges(1)).toBeNull();
   });
 
@@ -306,6 +308,9 @@ describe("renderSitePolicy terms", () => {
     expect(r.html).toContain("Bloom Studio");
     expect(r.html).toContain("Texas, United States");
     expect(r.html).toMatch(/Report link[^.]*anyone[^.]*report/i);
+    const v3 = renderSitePolicy("terms", facts(), 3);
+    expect(v3.html).not.toContain("Report link");
+    expect(v3.html).toContain("mailto:pierce1970+BarberOwner@gmail.com");
     expect(r.html).not.toContain("<script");
     expect(r.html).not.toMatch(/<h[14-6][\s>]/);
   });

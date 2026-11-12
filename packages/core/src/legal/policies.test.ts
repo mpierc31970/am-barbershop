@@ -350,23 +350,24 @@ describe("committed policies.lock.json (CR-B01)", () => {
       ),
     ) as Record<string, string>;
     expect(lock).toEqual(lockEntries(POLICY_SET, SITE_POLICY_TEMPLATES));
-    expect(Object.keys(lock)).toHaveLength(16);
+    expect(Object.keys(lock)).toHaveLength(21);
   });
 });
 
 describe("committed POLICY_SET (09-05 Task 2)", () => {
   it("every entry recomputes to its sha256", () => {
     const all = [...POLICY_SET.policies, ...POLICY_SET.consents];
-    expect(all.length).toBe(12);
+    expect(all.length).toBe(15);
     for (const e of all)
       expect(e.sha256, `${e.key} v${e.version}`).toBe(sha(e.bodyMd));
   });
 
-  it("five active policies in D216 order, all v2 drafts", () => {
+  it("five active policies in D216 order, all drafts (ToS, AUP, SA at v3)", () => {
     const a = activePolicyVersions();
     expect(a.map((p) => p.key)).toEqual([...POLICY_KEYS]);
+    const v3 = ["terms-of-service", "acceptable-use", "service-agreement"];
     for (const p of a) {
-      expect(p.version).toBe(2);
+      expect(p.version).toBe(v3.includes(p.key) ? 3 : 2);
       expect(p.draft).toBe(true);
     }
     expect(activeConsent()?.version).toBe(2);
