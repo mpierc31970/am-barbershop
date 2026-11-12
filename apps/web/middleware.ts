@@ -209,6 +209,24 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
       c.kind,
     );
   }
+  // A&M fork: phones capitalise typed addresses (/Sign-in). An admin path in the wrong case
+  // 301s to its lowercase form instead of falling through to the public site's 404.
+  if (
+    c.kind === "tenant" &&
+    adminHost !== null &&
+    c.host === adminHost &&
+    (req.method === "GET" || req.method === "HEAD") &&
+    pathname !== pathname.toLowerCase() &&
+    isSiteAdminPath(pathname.toLowerCase())
+  ) {
+    return secured(
+      NextResponse.redirect(
+        new URL(pathname.toLowerCase() + req.nextUrl.search, req.nextUrl),
+        301,
+      ),
+      c.kind,
+    );
+  }
   // Next renders a Server Action's redirect with an internal fetch on localhost: those admin
   // paths are the same platform pages (an outside "Host: localhost" sees nothing else).
   const onSiteAdmin =
