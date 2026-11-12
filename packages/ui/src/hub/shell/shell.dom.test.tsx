@@ -240,7 +240,11 @@ describe("ProfileMenu", () => {
     ].map((a) => a.textContent);
     expect(links).toEqual(["My page", "Alerts"]);
     expect(menu.textContent).not.toContain("Your profile and alerts");
-    const form = menu.querySelector("form")!;
+    // The form lives outside the popover so a closing menu can't drop the picked photo.
+    const form = mounted.container.querySelector("form")!;
+    expect(menu.contains(form)).toBe(false);
+    click(button(menu, "Take a photo")!);
+    expect(mounted.container.querySelector("form")).toBe(form);
     expect(form.getAttribute("action")).toBe("/hub/api/studio/photo");
     const file = form.querySelector<HTMLInputElement>('input[type="file"]')!;
     expect(file.getAttribute("accept")).toBe("image/*");
@@ -251,8 +255,6 @@ describe("ProfileMenu", () => {
     expect(
       form.querySelector<HTMLInputElement>('input[name="seatId"]')!.value,
     ).toBe("s1");
-    expect(button(menu, "Take a photo")).not.toBeNull();
-    expect(button(menu, "Sign out")).not.toBeNull();
   });
 
   it("Esc closes and returns focus", () => {
