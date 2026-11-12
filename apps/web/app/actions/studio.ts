@@ -56,18 +56,25 @@ async function note(kind: "ok" | "error", text: string): Promise<void> {
   });
 }
 
-/** Run one write, leave a note, refresh and go back to `back` (or where the write says). */
+/**
+ * Run one write, leave a note, refresh and go back to `back` (or where the write says).
+ * `back: null` stays on the posting screen: Next re-renders it in this same response, so
+ * the fresh rows and the note show at once. (A redirect renders the target in a separate
+ * internal request that never sees the note cookie set here.)
+ */
 async function act(
-  back: string,
+  back: string | null,
   ok: string,
   fn: Parameters<typeof runAction<string | void>>[0],
-): Promise<never> {
+): Promise<void> {
   const res = await runAction(fn);
   if (res.ok) await note("ok", ok);
   else if (res.code === "signed_out") redirect("/sign-in");
   else await note("error", res.message);
   revalidatePath(STUDIO_BASE, "layout");
-  redirect(res.ok && typeof res.data === "string" ? res.data : back);
+  revalidatePath("/hub/alerts"); // its cards show booking status
+  const to = res.ok && typeof res.data === "string" ? res.data : back;
+  if (to) redirect(to);
 }
 
 export async function addSeatAction(form: FormData): Promise<void> {
@@ -243,11 +250,11 @@ const STATUS_DONE: Record<string, string> = {
 
 export async function bookingStatusAction(form: FormData): Promise<void> {
   const status = field(form, "status");
-  // The Alerts screen acts in place; only that one other screen is a valid way back.
+  // The Alerts screen acts in place (no redirect: it re-renders with the new status and
+  // the note); only that one other screen is a valid way back.
+  const onAlerts = field(form, "back") === "/hub/alerts";
   await act(
-    field(form, "back") === "/hub/alerts"
-      ? "/hub/alerts"
-      : `${STUDIO_BASE}/bookings`,
+    onAlerts ? null : `${STUDIO_BASE}/bookings`,
     STATUS_DONE[status] ?? "Saved.",
     async ({ ctx }) => {
       await setBookingStatus(ctx, idField(form, "bookingId"), status);

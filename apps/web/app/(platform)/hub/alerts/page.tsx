@@ -1,7 +1,7 @@
 // /hub/alerts (A&M fork): the first screen after sign-in, for everyone. The person's own
 // alerts (the bell's rows), newest first. A booking alert acts in place: Email, Call or Text
 // the client, and Approve / Decline while the booking is a request (bookingStatusAction,
-// which comes back here). Other alerts link to where they happened. Opening the screen
+// which re-renders this screen in place with the new status and a note). Other alerts link to where they happened. Opening the screen
 // marks the person's alerts read (markAllRead: org + actor only).
 import { DEFAULT_TIME_ZONE } from "@cds/core/today";
 import {
@@ -14,7 +14,7 @@ import {
   type BookingView,
   type MissedView,
 } from "@cds/db";
-import { Badge, Button, EmptyState, InlineAlert } from "@cds/ui/hub";
+import { Badge, EmptyState, InlineAlert } from "@cds/ui/hub";
 import { ScreenHeader } from "@cds/ui/hub/shell";
 import { Mail, MessageSquare, Phone } from "lucide-react";
 import type { Metadata } from "next";
@@ -27,6 +27,7 @@ import { ClearAppBadge } from "../app-badge";
 import { GuardedLink } from "../GuardedLink";
 import { ALL_NEEDS_YOU_FAILED } from "../nav";
 import { alertActions, type ContactLink } from "./alert-actions";
+import { DecideButton } from "./DecideButton";
 
 export const metadata: Metadata = { title: "Alerts" };
 export const dynamic = "force-dynamic";
@@ -51,18 +52,23 @@ const STATUS: Partial<Record<BookingView["status"], string>> = {
   cancelled: "Cancelled",
 };
 
-function Decide({ id, to, label }: { id: string; to: string; label: string }) {
+function Decide({
+  id,
+  to,
+  label,
+  busyLabel,
+}: {
+  id: string;
+  to: string;
+  label: string;
+  busyLabel: string;
+}) {
   return (
     <form action={bookingStatusAction}>
       <input type="hidden" name="bookingId" value={id} />
       <input type="hidden" name="status" value={to} />
       <input type="hidden" name="back" value="/hub/alerts" />
-      <Button
-        type="submit"
-        variant={to === "confirmed" ? "primary" : "secondary"}
-      >
-        {label}
-      </Button>
+      <DecideButton to={to} label={label} busyLabel={busyLabel} />
     </form>
   );
 }
@@ -183,8 +189,18 @@ export default async function AlertsPage() {
                 <div className="flex flex-wrap gap-2">
                   {act.decide && b ? (
                     <>
-                      <Decide id={b.id} to="confirmed" label="Approve" />
-                      <Decide id={b.id} to="declined" label="Decline" />
+                      <Decide
+                        id={b.id}
+                        to="confirmed"
+                        label="Approve"
+                        busyLabel="Approving…"
+                      />
+                      <Decide
+                        id={b.id}
+                        to="declined"
+                        label="Decline"
+                        busyLabel="Declining…"
+                      />
                     </>
                   ) : null}
                   {act.contact.map((c) => {
