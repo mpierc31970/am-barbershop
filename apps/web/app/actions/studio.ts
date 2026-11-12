@@ -6,6 +6,7 @@
 import {
   addTimeOff,
   createSeat,
+  decideGalleryPhoto,
   inviteSeat,
   markLeasePaid,
   removeSeat,
@@ -24,6 +25,7 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { runAction } from "../../lib/action";
+import { contentDeps } from "../../lib/content";
 import { STUDIO_BASE, STUDIO_NOTE_COOKIE, seatHref } from "../../lib/studio";
 
 const ID = /^[a-z0-9]{15}$/;
@@ -258,6 +260,24 @@ export async function bookingStatusAction(form: FormData): Promise<void> {
     STATUS_DONE[status] ?? "Saved.",
     async ({ ctx }) => {
       await setBookingStatus(ctx, idField(form, "bookingId"), status);
+    },
+  );
+}
+
+/** Alerts: a barber's new photo -> Add to Gallery (publishes /gallery) or Skip, in place. */
+export async function galleryPhotoAction(form: FormData): Promise<void> {
+  const add = field(form, "decision") === "add";
+  await act(
+    null,
+    add ? "Added to the Gallery." : "Skipped.",
+    async ({ ctx }) => {
+      await decideGalleryPhoto(
+        ctx,
+        idField(form, "seatId"),
+        idField(form, "mediaId"),
+        add,
+        contentDeps(),
+      );
     },
   );
 }

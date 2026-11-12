@@ -10,6 +10,7 @@ import type { RecordModel } from "pocketbase";
 import { mintOrgContext, type OrgContext } from "../context";
 import { commit, type Op } from "../content/shared";
 import { readVariantOfRow, removeMedia, uploadImage } from "../media/assets";
+import { raiseGalleryOffer } from "./gallery";
 import { mediaRow, readSocials, type SeatSocial } from "./public";
 import { createInvite, type InviteDeps } from "../people/invites";
 import { newRecordId } from "../repository";
@@ -685,6 +686,9 @@ export async function uploadSeatPhoto(
     );
   });
   if (replaced) await retire(ctx, replaced);
+  if (target === "gallery") {
+    await raiseGalleryOffer(ctx.orgId, seatId, asset.id, str(seat.name));
+  }
   return { mediaId: asset.id };
 }
 

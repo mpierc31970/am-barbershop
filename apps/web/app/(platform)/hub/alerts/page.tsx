@@ -2,9 +2,13 @@
 // alerts (the bell's rows), newest first. A booking alert acts in place: Email, Call or Text
 // the client, and Approve / Decline while the booking is a request (bookingStatusAction,
 // which re-renders this screen in place with the new status and a note). Other alerts link to where they happened. Opening the screen
-// marks the person's alerts read (markAllRead: org + actor only).
+// marks the person's alerts read (markAllRead: org + actor only). A barber's new gallery
+// photo ("gallery:<seat>:<media>") shows its thumbnail and, for the owner/admins, Add to
+// Gallery / Skip (galleryPhotoAction, in place like Approve / Decline).
 import { DEFAULT_TIME_ZONE } from "@cds/core/today";
 import {
+  galleryOfferOf,
+  isStudioManager,
   listBell,
   listBookings,
   listMissedBookings,
@@ -18,7 +22,10 @@ import { Badge, EmptyState, InlineAlert } from "@cds/ui/hub";
 import { ScreenHeader } from "@cds/ui/hub/shell";
 import { Mail, MessageSquare, Phone } from "lucide-react";
 import type { Metadata } from "next";
-import { bookingStatusAction } from "../../../actions/studio";
+import {
+  bookingStatusAction,
+  galleryPhotoAction,
+} from "../../../actions/studio";
 import { bellKeysFrom } from "../../../../lib/bell";
 import { getNeedsYou } from "../../../../lib/needs-you";
 import { requireHubSession } from "../../../../lib/session";
@@ -70,6 +77,37 @@ function Decide({
       <input type="hidden" name="back" value="/hub/alerts" />
       <DecideButton to={to} label={label} busyLabel={busyLabel} />
     </form>
+  );
+}
+
+const OFFER_STATUS = {
+  pending: "Waiting for you",
+  added: "Added to the Gallery",
+  skipped: "Skipped",
+} as const;
+
+function GalleryDecide({
+  seatId,
+  mediaId,
+}: {
+  seatId: string;
+  mediaId: string;
+}) {
+  return (
+    <>
+      {(["add", "skip"] as const).map((d) => (
+        <form key={d} action={galleryPhotoAction}>
+          <input type="hidden" name="seatId" value={seatId} />
+          <input type="hidden" name="mediaId" value={mediaId} />
+          <input type="hidden" name="decision" value={d} />
+          <DecideButton
+            to={d === "add" ? "confirmed" : "skipped"}
+            label={d === "add" ? "Add to Gallery" : "Skip"}
+            busyLabel={d === "add" ? "Adding…" : "Skipping…"}
+          />
+        </form>
+      ))}
+    </>
   );
 }
 
@@ -158,7 +196,15 @@ export default async function AlertsPage() {
           {rows.map((a) => {
             const act = alertActions(a.sourceKey, byId, missedById);
             const b = act.booking;
-            const status = b ? STATUS[b.status] : undefined;
+            const offer = galleryOfferOf(a.sourceKey);
+            const status = b
+              ? STATUS[b.status]
+              : offer
+                ? OFFER_STATUS[offer.state]
+                : undefined;
+            const waiting = b
+              ? b.status === "requested"
+              : offer?.state === "pending";
             return (
               <li
                 key={a.id}
@@ -172,11 +218,7 @@ export default async function AlertsPage() {
                     <Badge tone="unread">New</Badge>
                   ) : null}
                   {status ? (
-                    <Badge
-                      tone={b?.status === "requested" ? "waiting" : "draft"}
-                    >
-                      {status}
-                    </Badge>
+                    <Badge tone={waiting ? "waiting" : "draft"}>{status}</Badge>
                   ) : null}
                 </div>
                 <p className="text-sm text-hub-ink-muted">
@@ -186,6 +228,14 @@ export default async function AlertsPage() {
                     : ""}
                 </p>
                 {b?.note ? <p className="text-sm">“{b.note}”</p> : null}
+                {offer ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- private hub route
+                  <img
+                    src={`/hub/api/studio/photo/${offer.seatId}/${offer.mediaId}`}
+                    alt="The new photo"
+                    className="h-32 w-32 rounded border border-hub-border object-cover"
+                  />
+                ) : null}
                 <div className="flex flex-wrap gap-2">
                   {act.decide && b ? (
                     <>
@@ -212,6 +262,12 @@ export default async function AlertsPage() {
                       </a>
                     );
                   })}
+                  {offer?.state === "pending" && isStudioManager(ctx) ? (
+                    <GalleryDecide
+                      seatId={offer.seatId}
+                      mediaId={offer.mediaId}
+                    />
+                  ) : null}
                   {!act.client && a.href && a.href !== "/hub/alerts" ? (
                     <GuardedLink href={a.href} className={LINK}>
                       Open

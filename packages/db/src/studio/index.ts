@@ -30,6 +30,12 @@ export type {
   SeatView,
   ServiceInput,
 } from "./seats";
+export {
+  decideGalleryPhoto,
+  GALLERY_REMOVED_COPY,
+  galleryOfferOf,
+} from "./gallery";
+export type { GalleryOffer } from "./gallery";
 export { getPublicSeat, listPublicSeats, readPublicSeatPhoto } from "./public";
 export type { PublicSeat, PublicSeatService, SeatSocial } from "./public";
 export { isManager as isStudioManager, STUDIO_SLUG } from "./shared";

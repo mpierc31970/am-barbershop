@@ -72,6 +72,17 @@ export default defineAddon({
       collapse: false,
     },
     {
+      type: "studio-booking.gallery_photo",
+      level: "normal",
+      label: "New barber photo",
+      example: "A barber added a photo (add it to the main Gallery or skip)",
+      feature: "addon:studio-booking",
+      access: "write",
+      section: "addon:studio-booking",
+      defaultChannels: { email: false, push: true },
+      collapse: false,
+    },
+    {
       type: "studio-booking.lease_overdue",
       level: "normal",
       label: "Chair rent late",

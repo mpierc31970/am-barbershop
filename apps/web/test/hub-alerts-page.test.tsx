@@ -3,6 +3,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const db = vi.hoisted(() => ({
+  galleryOfferOf: () => null,
+  isStudioManager: () => false,
   listBell: vi.fn(),
   listBookings: vi.fn(),
   listMissedBookings: vi.fn(async () => []),
@@ -10,7 +12,10 @@ const db = vi.hoisted(() => ({
   statsTimeZone: vi.fn(),
 }));
 vi.mock("@cds/db", () => db);
-vi.mock("../app/actions/studio", () => ({ bookingStatusAction: vi.fn() }));
+vi.mock("../app/actions/studio", () => ({
+  bookingStatusAction: vi.fn(),
+  galleryPhotoAction: vi.fn(),
+}));
 vi.mock("../lib/needs-you", () => ({
   getNeedsYou: async () => ({ items: [], failed: [] }),
 }));
