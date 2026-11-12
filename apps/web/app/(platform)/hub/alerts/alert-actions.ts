@@ -54,7 +54,10 @@ export function alertActions(
       decide: false,
     };
   }
-  const id = sourceKey.startsWith("booking:") ? sourceKey.slice(8) : "";
+  // "cancelled:<id>": the client cancelled online (same booking, its own alert key).
+  const id = /^(booking|cancelled):/.test(sourceKey)
+    ? sourceKey.slice(sourceKey.indexOf(":") + 1)
+    : "";
   const booking = (id && bookings.get(id)) || null;
   if (!booking) return NONE;
   return {

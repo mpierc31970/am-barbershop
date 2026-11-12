@@ -507,7 +507,7 @@ export const HELP_ARTICLES: Readonly<Record<string, HelpArticleData>> = Object.f
         {
           "screen": "Your site, `/book`",
           "action": "Pick a barber, a service, a day and a time, fill **Your name** and **Email**, click **Book it**",
-          "expected": "\"You're booked\" with the booking number. The client gets a confirmation email; the barber and the owner get a hub alert (bell and email). If someone else just took that time, the client sees \"Sorry — someone just booked…\" with that day's other open times, and the barber and the owner get a **Missed booking** alert (pushed at once) with **Email**, **Call** and **Text** to reach the client; no booking is made"
+          "expected": "\"You're booked\" with the booking number. The client gets a confirmation email; the barber and the owner get a hub alert (bell and email). If someone else just took that time, the client sees \"Sorry — someone just booked…\" with that day's other open times, and the barber and the owner get a **Missed booking** alert (pushed at once) with **Email**, **Call** and **Text** to reach the client; no booking is made. A client who clicks **Cancel this appointment** in their email and then **Cancel appointment** frees the time; the barber and the owner get a **Client cancelled** alert (pushed at once) with **Email**, **Call** and **Text**"
         },
         {
           "screen": "`/hub/studio-booking/bookings`",

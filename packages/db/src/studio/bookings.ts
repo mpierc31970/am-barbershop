@@ -8,6 +8,7 @@
 //   - The hub lists bookings: the owner every barber's, a barber only their own.
 //   - runStudioReminders (jobs route) emails each client once, about a day ahead.
 // No payments here (CDS never processes tenant payments, D146): price is shown, paid in shop.
+import { createHmac, timingSafeEqual } from "node:crypto";
 import { InvalidInput, NotFound, RateLimited } from "@cds/core";
 import { isEmail } from "@cds/core/email";
 import type PocketBase from "pocketbase";
@@ -19,6 +20,7 @@ import { assertSiteContext, type SiteContext } from "../content/site-context";
 import { withOrgLock } from "../content/lock";
 import { commit } from "../content/shared";
 import { mintSystemContext, type OrgContext } from "../context";
+import { linkSecret, platformUrl } from "../email/env";
 import { sendEmail } from "../email/send";
 import type { EmailTransport } from "../email/transport";
 import { SlidingWindowLimiter } from "../rate-limit";
@@ -501,6 +503,7 @@ export async function createPublicBooking(
       lead: `Thanks, ${name}. Your request at ${made.shop.name} is in. ${barber || "Your barber"} will confirm it, and we'll email you when they do.`,
       facts,
       why: `You're getting this because you asked to book online at ${made.shop.name}.${contactLine("Questions?", barber, made.shop, made.replyTo.length > 0)}`,
+      ...cancelButton(made.id),
     },
     { transport: deps.transport, replyTo: made.replyTo },
   ).catch((err: unknown) =>
@@ -746,6 +749,7 @@ export async function setBookingStatus(
         ["Booking", str(row.r.reference)],
       ],
       why: `You're getting this because you booked at ${row.shop.name}.${contactLine("Questions?", str(row.seat.name), row.shop, replyTo.length > 0)}`,
+      ...(to === "confirmed" ? cancelButton(row.r.id) : {}),
     },
     { transport: deps.transport, replyTo },
   ).catch(() => console.error(`[studio] ${to} email not sent`));
@@ -805,6 +809,7 @@ export async function runStudioReminders(
             ["Booking", str(r.reference)],
           ],
           why: `You're getting this because you booked at ${facts.shop.name}.${contactLine("Can't make it?", facts.seat, facts.shop, facts.replyTo.length > 0)}`,
+          ...cancelButton(r.id),
         },
         { transport: deps.transport, replyTo: facts.replyTo },
       );
@@ -814,4 +819,198 @@ export async function runStudioReminders(
     }
   }
   return { reminded };
+}
+
+// ---------------------------------------------------------------- client self-cancel
+
+/** A client may cancel online up to this long before the start; after that, call the shop. */
+export const CANCEL_CUTOFF_MS = 2 * 60 * 60_000;
+const BOOKING_ID_RE = /^[a-z0-9]{15}$/;
+const CANCEL_TOKEN_RE = /^v1\.([a-z0-9]{15})\.([A-Za-z0-9_-]{43})$/;
+/** Per visitor IP: cancel attempts per hour (tokens are unguessable; this caps hammering). */
+const cancelLimiter = new SlidingWindowLimiter(10, 3_600_000);
+
+function cancelMac(id: string): Buffer {
+  return createHmac("sha256", linkSecret())
+    .update(`booking-cancel.v1.${id}`)
+    .digest();
+}
+
+/** "v1.<bookingId>.<mac>": the unguessable cancel token in the client's emails (no PII). */
+export function bookingCancelToken(id: string): string {
+  if (!BOOKING_ID_RE.test(id)) throw new InvalidInput("invalid booking id");
+  return `v1.${id}.${cancelMac(id).toString("base64url")}`;
+}
+
+/** The booking id a cancel token stands for; null when malformed or tampered. Never throws. */
+export function verifyCancelToken(token: unknown): string | null {
+  if (typeof token !== "string") return null;
+  const m = CANCEL_TOKEN_RE.exec(token);
+  if (!m) return null;
+  try {
+    const got = Buffer.from(m[2]!, "base64url");
+    const want = cancelMac(m[1]!);
+    return got.length === want.length && timingSafeEqual(got, want)
+      ? m[1]!
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+/** The email button; nothing when the link can't be built (logged, never blocks the mail). */
+function cancelButton(id: string): {
+  button?: { label: string; href: string };
+} {
+  try {
+    const t = encodeURIComponent(bookingCancelToken(id));
+    return {
+      button: {
+        label: "Cancel this appointment",
+        href: platformUrl(`/book/cancel?t=${t}`),
+      },
+    };
+  } catch {
+    console.error("[studio] cancel link not built");
+    return {};
+  }
+}
+
+/** A request or a confirmed booking may be cancelled by its client until the cutoff. */
+export function clientCanCancel(
+  st: BookingStatus,
+  startsAtMs: number,
+  now: number,
+): "ok" | "late" | "closed" {
+  if (st !== "requested" && st !== "confirmed") return "closed";
+  return startsAtMs - now > CANCEL_CUTOFF_MS ? "ok" : "late";
+}
+
+export type CancelView =
+  | { state: "notfound" }
+  | {
+      /** ok: can cancel; cancelled: is cancelled; late: inside the cutoff; closed: declined, done, no-show. */
+      state: "ok" | "cancelled" | "late" | "closed";
+      barber: string;
+      service: string;
+      when: string;
+      reference: string;
+      shopName: string;
+      shopPhone: string;
+    };
+
+type CancelTarget = { r: RecordModel; seat: RecordModel; shop: Shop };
+
+async function cancelTarget(
+  pb: PocketBase,
+  orgId: string,
+  token: unknown,
+): Promise<CancelTarget | null> {
+  const id = verifyCancelToken(token);
+  if (!id) return null;
+  const r = await pb
+    .collection("studio_bookings")
+    .getFirstListItem(
+      pb.filter("id = {:id} && organization = {:org}", { id, org: orgId }),
+    )
+    .catch(() => null);
+  if (!r) return null;
+  const seat = await pb
+    .collection("studio_seats")
+    .getOne(str(r.seat), { fields: "id,name,user" });
+  return { r, seat, shop: await shopOf(pb, orgId) };
+}
+
+function cancelView(t: CancelTarget, now: number): CancelView {
+  const st = status(t.r.status);
+  const at = Date.parse(str(t.r.starts_at));
+  return {
+    state: st === "cancelled" ? "cancelled" : clientCanCancel(st, at, now),
+    barber: str(t.seat.name),
+    service: str(t.r.service_name),
+    when: whenLabel(at, t.shop.tz),
+    reference: str(t.r.reference),
+    shopName: t.shop.name,
+    shopPhone: t.shop.phone,
+  };
+}
+
+/** What the client's cancel link shows. A GET never changes anything (mail scanners prefetch). */
+export async function publicCancelView(
+  site: SiteContext,
+  token: unknown,
+  now = Date.now(),
+): Promise<CancelView> {
+  assertSiteContext(site);
+  const t = await withSuperuser((pb) => cancelTarget(pb, site.orgId, token));
+  return t ? cancelView(t, now) : { state: "notfound" };
+}
+
+/**
+ * The client cancels their own request or confirmed booking (the POST behind the link), up
+ * to CANCEL_CUTOFF_MS before it starts. The time frees at once; the client gets the
+ * cancellation email; their barber and the owners get `studio-booking.client_cancelled`.
+ */
+export async function cancelPublicBooking(
+  site: SiteContext,
+  token: unknown,
+  ip: string,
+  deps: BookingDeps = {},
+): Promise<CancelView> {
+  assertSiteContext(site);
+  if (cancelLimiter.take(`${site.orgId}:${ip || "?"}`) === null) {
+    throw new RateLimited("too many tries from here; call the shop");
+  }
+  const now = deps.now ?? Date.now();
+  const done = await withOrgLock(`studio:${site.orgId}`, () =>
+    withSuperuser(async (pb) => {
+      const t = await cancelTarget(pb, site.orgId, token);
+      if (!t) return null;
+      const view = cancelView(t, now);
+      if (view.state !== "ok") return { t, view, replyTo: null };
+      await pb
+        .collection("studio_bookings")
+        .update(t.r.id, { status: "cancelled" });
+      const replyTo = await bookingReplyTo(pb, site.orgId, str(t.seat.user));
+      return { t, view: { ...view, state: "cancelled" as const }, replyTo };
+    }),
+  );
+  if (!done) return { state: "notfound" };
+  if (done.replyTo === null) return done.view;
+  const { t, view, replyTo } = done;
+  await sendEmail(
+    { kind: "org", ctx: JOB, orgId: site.orgId },
+    "booking.notice",
+    str(t.r.client_email),
+    {
+      subject: `Cancelled: ${view.barber}, ${view.when}`,
+      lead: `You cancelled your booking at ${view.shopName} on ${view.when}. Book again any time online.`,
+      facts: [
+        ["Barber", view.barber],
+        ["Service", view.service],
+        ["When", view.when],
+        ["Booking", view.reference],
+      ],
+      why: `You're getting this because you cancelled online at ${view.shopName}.${contactLine("Questions?", view.barber, t.shop, replyTo.length > 0)}`,
+    },
+    { transport: deps.transport, replyTo },
+  ).catch(() => console.error("[studio] client cancel email not sent"));
+  const barberUser = str(t.seat.user);
+  await raiseAlert(
+    { orgId: site.orgId, as: JOB },
+    {
+      type: "studio-booking.client_cancelled",
+      sourceKey: `cancelled:${t.r.id}`,
+      title: `Cancelled by client: ${str(t.r.client_name)} with ${view.barber}, ${view.when} (${view.service})`,
+      safeTitle: `Booking cancelled with ${view.barber}, ${view.when}`,
+      href: "/hub/alerts",
+      actionLabel: "Open",
+      audience: {
+        users: barberUser ? [barberUser] : [],
+        roles: ["owner", "admin"],
+      },
+    },
+    deps.transport ? { transport: deps.transport } : {},
+  ).catch(() => console.error("[studio] client cancel alert failed"));
+  return view;
 }

@@ -38,6 +38,12 @@ export type { ScheduleView, TimeOffView } from "./schedule";
 export {
   BOOKING_STATUSES,
   bookingTransition,
+  bookingCancelToken,
+  cancelPublicBooking,
+  CANCEL_CUTOFF_MS,
+  clientCanCancel,
+  publicCancelView,
+  verifyCancelToken,
   SLOT_TAKEN_COPY,
   createPublicBooking,
   listBookings,
@@ -50,6 +56,7 @@ export type {
   BookingInput,
   BookingStatus,
   BookingView,
+  CancelView,
   MissedView,
   PublicDay,
 } from "./bookings";

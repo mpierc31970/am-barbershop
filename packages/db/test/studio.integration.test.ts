@@ -32,6 +32,10 @@ import {
   undoLeasePayment,
   listBookings,
   listMissedBookings,
+  bookingCancelToken,
+  cancelPublicBooking,
+  publicCancelView,
+  verifyCancelToken,
   publicAvailability,
   removeSeat,
   runStudioReminders,
@@ -376,6 +380,60 @@ describe("Studio Booking seat isolation", () => {
     expect((await pb.collection("studio_bookings").getOne(id)).status).toBe(
       "completed",
     );
+
+    // Client self-cancel: the request-received mail carries the link; tampered = not found,
+    // inside 2 hours = call the shop; otherwise cancelled, the time reopens, Ana is alerted.
+    const cmail = captureTransport();
+    const c = await createPublicBooking(
+      site,
+      { ...input, time: "11:00", email: "three@cds.test" },
+      "203.0.113.4",
+      { now, transport: cmail },
+    );
+    const notice = cmail.sent.find((m) => m.to === "three@cds.test");
+    expect(JSON.stringify(notice)).toContain("/book/cancel?t=v1.");
+    const cid = (
+      await pb
+        .collection("studio_bookings")
+        .getFirstListItem(pb.filter("reference = {:r}", { r: c.reference }))
+    ).id;
+    const token = bookingCancelToken(cid);
+    expect(verifyCancelToken(token)).toBe(cid);
+    expect(
+      (await publicCancelView(site, token.slice(0, -2) + "xx")).state,
+    ).toBe("notfound");
+    const late = await cancelPublicBooking(site, token, "203.0.113.4", {
+      now: Date.parse("2030-01-08T16:30:00Z"),
+    });
+    expect(late.state).toBe("late");
+    const cancelled = await cancelPublicBooking(site, token, "203.0.113.4", {
+      now,
+      transport: cmail,
+    });
+    expect(cancelled.state).toBe("cancelled");
+    expect((await pb.collection("studio_bookings").getOne(cid)).status).toBe(
+      "cancelled",
+    );
+    expect(
+      (
+        await publicAvailability(
+          site,
+          { barber: "ana", service: svc, date: "2030-01-08" },
+          now,
+        )
+      ).slots.map((s) => s.time),
+    ).toContain("11:00");
+    const cAlerts = await pb.collection("alerts").getFullList({
+      filter: pb.filter("source_key = {:k}", { k: `cancelled:${cid}` }),
+      expand: "user",
+    });
+    const cWho = cAlerts.map((r) => String(r.expand?.user?.email));
+    expect(cWho).toContain("ana@cds.test");
+    expect(cWho).not.toContain("beto@cds.test");
+    expect(cAlerts[0]?.type).toBe("studio-booking.client_cancelled");
+    expect(
+      (await cancelPublicBooking(site, token, "203.0.113.4", { now })).state,
+    ).toBe("cancelled");
   });
 
   it("chair rent: the owner keeps it, a barber only reads their own", async (t) => {

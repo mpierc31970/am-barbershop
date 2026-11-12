@@ -60,6 +60,18 @@ export default defineAddon({
       collapse: false,
     },
     {
+      type: "studio-booking.client_cancelled",
+      level: "normal",
+      label: "Client cancelled",
+      example:
+        "A client cancelled their booking online (the time is open again)",
+      feature: "addon:studio-booking",
+      access: "read",
+      section: "addon:studio-booking",
+      defaultChannels: { email: true, push: true },
+      collapse: false,
+    },
+    {
       type: "studio-booking.lease_overdue",
       level: "normal",
       label: "Chair rent late",

@@ -60,6 +60,14 @@ describe("alertActions", () => {
     ]);
   });
 
+  it("a client cancellation (cancelled:<id>) joins the same booking", () => {
+    const gone = booking({ status: "cancelled" });
+    const a = alertActions(`cancelled:${gone.id}`, new Map([[gone.id, gone]]));
+    expect(a.booking?.status).toBe("cancelled");
+    expect(a.decide).toBe(false);
+    expect(a.contact).toHaveLength(3);
+  });
+
   it("an approved booking keeps the contact links, no decision", () => {
     const done = booking({ status: "confirmed" });
     const a = alertActions(`booking:${done.id}`, new Map([[done.id, done]]));
