@@ -28,7 +28,7 @@ export default async function SignInPage({
 }) {
   const sp: SearchParams = (await searchParams) ?? {};
   const next = safeSignInNext(sp.next);
-  if (await getHubSession()) redirect(next ?? "/hub/website");
+  if (await getHubSession()) redirect(next ?? "/hub");
   return (
     <AmSignInFrame title="Sign in">
       <SignInForm
