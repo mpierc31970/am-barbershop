@@ -5,6 +5,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const db = vi.hoisted(() => ({
   listBell: vi.fn(),
   listBookings: vi.fn(),
+  listMissedBookings: vi.fn(async () => []),
   markAllRead: vi.fn(),
   statsTimeZone: vi.fn(),
 }));

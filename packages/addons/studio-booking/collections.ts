@@ -110,6 +110,26 @@ export const STUDIO_BOOKING_COLLECTIONS = {
     ],
     filterable: ["id", "seat", "status", "starts_at"],
   },
+  // A client who tried a time someone had just taken (no booking row; client PII).
+  studio_missed: {
+    kind: "base",
+    feature: FEATURE,
+    writes: "custom",
+    restore: "replace",
+    export: [
+      "id",
+      "organization",
+      "seat",
+      "service_name",
+      "starts_at",
+      "client_name",
+      "client_email",
+      "client_phone",
+      "created",
+      "updated",
+    ],
+    filterable: ["id", "seat"],
+  },
   // Step 3: one lease per chair and the owner's payment log (barbers read their own only).
   studio_leases: {
     kind: "base",

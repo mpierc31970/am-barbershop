@@ -14,6 +14,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { siteForRequest } from "../../../../lib/tenant";
 import { MUTED, minutes, money, Portrait } from "../barbers/BarberViews";
+import { FocusAlert } from "./FocusAlert";
 
 export const dynamic = "force-dynamic";
 
@@ -80,6 +81,8 @@ function monthLabel(days: { date: string }[]): string {
     : `${f(first, { month: "long" })} – ${f(last, { month: "long" })} ${year}`;
 }
 
+const ALERT = "border border-site-primary px-4 py-3 outline-none";
+
 const FIELD =
   "w-full border border-site-border bg-site-surface px-3 py-2 text-site-text";
 
@@ -113,7 +116,9 @@ export default async function BookPage({ params, searchParams }: Props) {
     time: one(sp.time),
   };
   const booked = one(sp.booked);
-  const error = ERRORS[one(sp.error)] ?? "";
+  const errorCode = one(sp.error);
+  const error = ERRORS[errorCode] ?? "";
+  const lost = one(sp.at);
 
   if (booked) {
     return (
@@ -161,6 +166,11 @@ export default async function BookPage({ params, searchParams }: Props) {
   }
   const slot = avail?.slots.find((s) => s.time === q.time) ?? null;
   const day = avail?.days.find((d) => d.date === q.date) ?? null;
+  // Someone else just took the time: name it, then the same day's open times below.
+  const taken =
+    errorCode === "taken" && seat && day && /^\d{2}:\d{2}$/.test(lost)
+      ? `Sorry — someone just booked ${time12(lost)} on ${day.label} with ${seat.name}. Please choose a different time.`
+      : "";
 
   return (
     <main id="content" tabIndex={-1} className="outline-none" data-book-page="">
@@ -168,10 +178,8 @@ export default async function BookPage({ params, searchParams }: Props) {
         title={seat ? `Book with ${seat.name}` : "Book a chair"}
       />
       <div className="mx-auto flex max-w-[1120px] flex-col gap-10 px-6 pb-16 md:px-8">
-        {error ? (
-          <p role="alert" className="border border-site-primary px-4 py-3">
-            {error}
-          </p>
+        {error && !taken ? (
+          <FocusAlert className={ALERT}>{error}</FocusAlert>
         ) : null}
 
         <Step n={1} title={seat ? "Your barber" : "Pick your barber"}>
@@ -247,6 +255,7 @@ export default async function BookPage({ params, searchParams }: Props) {
 
         {seat && service ? (
           <Step n={3} title="Pick a day and time">
+            {taken ? <FocusAlert className={ALERT}>{taken}</FocusAlert> : null}
             {!avail ? (
               <p className={MUTED}>
                 Times couldn&apos;t load. Refresh, or call the shop.

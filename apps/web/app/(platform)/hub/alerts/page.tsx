@@ -7,10 +7,12 @@ import { DEFAULT_TIME_ZONE } from "@cds/core/today";
 import {
   listBell,
   listBookings,
+  listMissedBookings,
   markAllRead,
   statsTimeZone,
   type BellAlert,
   type BookingView,
+  type MissedView,
 } from "@cds/db";
 import { Badge, Button, EmptyState, InlineAlert } from "@cds/ui/hub";
 import { ScreenHeader } from "@cds/ui/hub/shell";
@@ -100,15 +102,17 @@ async function loadAlerts(
 
 export default async function AlertsPage() {
   const { ctx } = await requireHubSession();
-  const [{ rows, tz, failed }, bookings, note] = await Promise.all([
+  const [{ rows, tz, failed }, bookings, missed, note] = await Promise.all([
     loadAlerts(ctx),
     // Only the bookings this person may see (a barber their own); none without the add-on.
     listBookings(ctx)
       .then((r) => r.bookings)
       .catch(() => [] as BookingView[]),
+    listMissedBookings(ctx).catch(() => [] as MissedView[]),
     readStudioNote(),
   ]);
   const byId = new Map(bookings.map((b) => [b.id, b]));
+  const missedById = new Map(missed.map((m) => [m.id, m]));
   // Seen here = read: the bell count clears (rows above keep their "New" for this view).
   if (!failed && rows.some((a) => !a.read)) {
     await markAllRead(ctx).catch((err: unknown) =>
@@ -146,7 +150,7 @@ export default async function AlertsPage() {
       ) : (
         <ul className="flex flex-col gap-3">
           {rows.map((a) => {
-            const act = alertActions(a.sourceKey, byId);
+            const act = alertActions(a.sourceKey, byId, missedById);
             const b = act.booking;
             const status = b ? STATUS[b.status] : undefined;
             return (
@@ -171,8 +175,8 @@ export default async function AlertsPage() {
                 </div>
                 <p className="text-sm text-hub-ink-muted">
                   {whenOf(a.createdAt, tz)}
-                  {b
-                    ? ` · ${b.clientName}${b.clientPhone ? ` · ${b.clientPhone}` : ""}`
+                  {act.client
+                    ? ` · ${act.client.name}${act.client.phone ? ` · ${act.client.phone}` : ""}`
                     : ""}
                 </p>
                 {b?.note ? <p className="text-sm">“{b.note}”</p> : null}
@@ -192,7 +196,7 @@ export default async function AlertsPage() {
                       </a>
                     );
                   })}
-                  {!b && a.href && a.href !== "/hub/alerts" ? (
+                  {!act.client && a.href && a.href !== "/hub/alerts" ? (
                     <GuardedLink href={a.href} className={LINK}>
                       Open
                     </GuardedLink>

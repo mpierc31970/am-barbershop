@@ -48,6 +48,18 @@ export default defineAddon({
       collapse: false,
     },
     {
+      type: "studio-booking.missed",
+      level: "normal",
+      label: "Missed booking",
+      example:
+        "A client wanted a time someone had just booked (reach out to them)",
+      feature: "addon:studio-booking",
+      access: "read",
+      section: "addon:studio-booking",
+      defaultChannels: { email: true, push: true },
+      collapse: false,
+    },
+    {
       type: "studio-booking.lease_overdue",
       level: "normal",
       label: "Chair rent late",

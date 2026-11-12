@@ -32,6 +32,7 @@ export function attacks(env: AttackEnv): AttackMap {
     studio_services: readOnlyAttack(env, "studio_services"),
     studio_time_off: readOnlyAttack(env, "studio_time_off"),
     studio_bookings: readOnlyAttack(env, "studio_bookings"),
+    studio_missed: readOnlyAttack(env, "studio_missed"),
     studio_leases: readOnlyAttack(env, "studio_leases"),
     studio_lease_payments: readOnlyAttack(env, "studio_lease_payments"),
     "studio_leases:module": async () => {

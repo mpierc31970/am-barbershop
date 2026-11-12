@@ -59,6 +59,7 @@ export type OrgSeed = {
   /** Studio Booking step 2: a day off and a booking on the seat. */
   studioTimeOff: string;
   studioBooking: string;
+  studioMissed: string;
   /** Studio Booking step 3: the seat's lease and one logged payment. */
   studioLease: string;
   studioLeasePayment: string;
@@ -246,6 +247,16 @@ async function seedOrg(pb: PocketBase, key: "a" | "b"): Promise<OrgSeed> {
       status: "confirmed",
     })
   ).id;
+  const studioMissed = (
+    await pb.collection("studio_missed").create({
+      organization: org,
+      seat: studioSeat,
+      service_name: "Cut",
+      starts_at: "2030-01-03T15:00:00.000Z",
+      client_name: `Missed ${key.toUpperCase()}`,
+      client_email: `missed-${key}@cds.test`,
+    })
+  ).id;
   const studioLease = (
     await pb.collection("studio_leases").create({
       organization: org,
@@ -421,6 +432,7 @@ async function seedOrg(pb: PocketBase, key: "a" | "b"): Promise<OrgSeed> {
     studioService,
     studioTimeOff,
     studioBooking,
+    studioMissed,
     studioLease,
     studioLeasePayment,
     businessProfile,

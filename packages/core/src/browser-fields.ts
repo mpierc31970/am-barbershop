@@ -364,6 +364,18 @@ export const BROWSER_FIELDS: Readonly<Record<string, BrowserFieldSpec>> = {
     ],
     serverOnly: [],
   },
+  studio_missed: {
+    allow: [
+      "organization",
+      "seat",
+      "service_name",
+      "starts_at",
+      "client_name",
+      "client_email",
+      "client_phone",
+    ],
+    serverOnly: [],
+  },
   studio_leases: {
     allow: [
       "organization",

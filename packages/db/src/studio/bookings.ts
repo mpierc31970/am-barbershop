@@ -74,6 +74,9 @@ const JOB = mintSystemContext({ job: "studio-booking" });
 const REF_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 /** Per visitor IP: bookings per hour (spam guard; a real client books once or twice). */
 const bookLimiter = new SlidingWindowLimiter(6, 3_600_000);
+/** A missed-booking alert: once per client + time per 10 minutes, at most 20 per barber an hour. */
+const missedLimiter = new SlidingWindowLimiter(1, 600_000);
+const missedSeatLimiter = new SlidingWindowLimiter(20, 3_600_000);
 
 export type BookingView = {
   id: string;
@@ -403,17 +406,43 @@ export async function createPublicBooking(
       const svc = await seatService(pb, site.orgId, seat, input.service);
       const shop = await shopOf(pb, site.orgId);
       const date = input.date as string;
-      const slot = openSlots({
-        date,
-        hours: hoursOf(seat),
-        timeOff: await timeOffOf(pb, site.orgId, seat.id),
-        busy: await confirmedBusy(pb, site.orgId, seat.id, date),
-        durationMin: num(svc.duration_minutes),
-        tz: shop.tz,
-        now,
-        stepMin: slotMinutesOf(seat.slot_minutes),
-      }).find((s) => s.time === input.time);
-      if (!slot) throw new InvalidInput(SLOT_TAKEN_COPY);
+      const slotsWith = async (busy: Busy[]) =>
+        openSlots({
+          date,
+          hours: hoursOf(seat),
+          timeOff: await timeOffOf(pb, site.orgId, seat.id),
+          busy,
+          durationMin: num(svc.duration_minutes),
+          tz: shop.tz,
+          now,
+          stepMin: slotMinutesOf(seat.slot_minutes),
+        }).find((s) => s.time === input.time);
+      const slot = await slotsWith(
+        await confirmedBusy(pb, site.orgId, seat.id, date),
+      );
+      if (!slot) {
+        // Open but for another client's booking: a missed booking the barber can follow up.
+        const free = await slotsWith([]);
+        if (
+          free &&
+          missedLimiter.take(`${seat.id}:${free.startsAt}:${email}`) !== null &&
+          missedSeatLimiter.take(seat.id) !== null
+        ) {
+          const id = newRecordId();
+          await pb.collection("studio_missed").create({
+            id,
+            organization: site.orgId,
+            seat: seat.id,
+            service_name: str(svc.name),
+            starts_at: new Date(free.startsAt).toISOString(),
+            client_name: name,
+            client_email: email,
+            client_phone: phone,
+          });
+          return { missed: { id, seat, shop, slot: free } } as const;
+        }
+        return { missed: null } as const;
+      }
       const id = newRecordId();
       const reference = newReference();
       await pb.collection("studio_bookings").create({
@@ -435,9 +464,22 @@ export async function createPublicBooking(
         reminder_sent: false,
       });
       const replyTo = await bookingReplyTo(pb, site.orgId, str(seat.user));
-      return { id, reference, seat, svc, shop, slot, replyTo };
+      return {
+        missed: undefined,
+        id,
+        reference,
+        seat,
+        svc,
+        shop,
+        slot,
+        replyTo,
+      };
     }),
   );
+  if (made.missed !== undefined) {
+    if (made.missed) await raiseMissed(site.orgId, made.missed, name, deps);
+    throw new InvalidInput(SLOT_TAKEN_COPY);
+  }
 
   const when = whenLabel(made.slot.startsAt, made.shop.tz);
   const barber = str(made.seat.name);
@@ -484,6 +526,73 @@ export async function createPublicBooking(
     deps.transport ? { transport: deps.transport } : {},
   );
   return { reference: made.reference, barber, service, when };
+}
+
+/** The barber's (and owners') alert for a client who lost the time to someone else. */
+async function raiseMissed(
+  orgId: string,
+  m: { id: string; seat: RecordModel; shop: Shop; slot: Slot },
+  name: string,
+  deps: BookingDeps,
+): Promise<void> {
+  const [day, time] = whenLabel(m.slot.startsAt, m.shop.tz).split(" at ");
+  const barber = str(m.seat.name);
+  const barberUser = str(m.seat.user);
+  await raiseAlert(
+    { orgId, as: JOB },
+    {
+      type: "studio-booking.missed",
+      sourceKey: `missed:${m.id}`,
+      title: `Missed booking: ${name} wanted ${time} ${day} with ${barber}`,
+      safeTitle: `Missed booking with ${barber}, ${time} ${day}`,
+      href: "/hub/alerts",
+      actionLabel: "Reach out",
+      audience: {
+        users: barberUser ? [barberUser] : [],
+        roles: ["owner", "admin"],
+      },
+    },
+    deps.transport ? { transport: deps.transport } : {},
+  ).catch((err: unknown) =>
+    console.error(
+      `[studio] missed alert failed: ${err instanceof Error ? err.name : "error"}`,
+    ),
+  );
+}
+
+export type MissedView = {
+  id: string;
+  clientName: string;
+  clientEmail: string;
+  clientPhone: string;
+};
+
+/** Missed bookings of the last 30 days this person may see (a barber their own seat). */
+export async function listMissedBookings(
+  ctx: OrgContext,
+  now = Date.now(),
+): Promise<MissedView[]> {
+  requireStudio(ctx, "read");
+  return studioRead(async (pb) => {
+    const visible = await visibleSeatIds(pb, ctx);
+    if (visible !== "all" && visible.length === 0) return [];
+    const rows = await pb.collection("studio_missed").getFullList({
+      filter: pb.filter("organization = {:org} && created >= {:from}", {
+        org: ctx.orgId,
+        from: new Date(now - 30 * 86_400_000).toISOString().replace("T", " "),
+      }),
+      fields: "id,seat,client_name,client_email,client_phone",
+    });
+    const keep = visible === "all" ? null : new Set(visible);
+    return rows
+      .filter((r) => !keep || keep.has(str(r.seat)))
+      .map((r) => ({
+        id: r.id,
+        clientName: str(r.client_name),
+        clientEmail: str(r.client_email),
+        clientPhone: str(r.client_phone),
+      }));
+  });
 }
 
 // ---------------------------------------------------------------- hub

@@ -260,6 +260,11 @@ function seedRecordFor(name: string): Seeded {
       b: seed.B.studioBooking,
       create: {},
     }),
+    studio_missed: () => ({
+      a: seed.A.studioMissed,
+      b: seed.B.studioMissed,
+      create: {},
+    }),
     studio_leases: () => ({
       a: seed.A.studioLease,
       b: seed.B.studioLease,

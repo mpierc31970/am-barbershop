@@ -41,6 +41,7 @@ export {
   SLOT_TAKEN_COPY,
   createPublicBooking,
   listBookings,
+  listMissedBookings,
   publicAvailability,
   runStudioReminders,
   setBookingStatus,
@@ -49,6 +50,7 @@ export type {
   BookingInput,
   BookingStatus,
   BookingView,
+  MissedView,
   PublicDay,
 } from "./bookings";
 export {

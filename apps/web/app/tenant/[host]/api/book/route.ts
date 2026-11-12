@@ -19,7 +19,7 @@ function back(_req: Request, q: Record<string, string>): Response {
   return new Response(null, {
     status: 303,
     headers: {
-      Location: `/book?${new URLSearchParams(q)}${q.booked ? "" : "#step-3"}`,
+      Location: `/book?${new URLSearchParams(q)}${q.booked ? "" : q.error ? "#book-error" : "#step-3"}`,
     },
   });
 }
@@ -62,10 +62,11 @@ export async function POST(
     if (err instanceof RateLimited)
       return back(req, { ...pick, error: "rate" });
     if (err instanceof InvalidInput) {
-      return back(req, {
-        ...pick,
-        error: err.message === SLOT_TAKEN_COPY ? "taken" : "input",
-      });
+      // The time they lost goes back so the page can name it (the page re-validates it).
+      if (err.message === SLOT_TAKEN_COPY) {
+        return back(req, { ...pick, error: "taken", at: f("time") });
+      }
+      return back(req, { ...pick, error: "input" });
     }
     if (!(err instanceof CdsError)) {
       console.error(

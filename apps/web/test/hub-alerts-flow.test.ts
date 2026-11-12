@@ -70,10 +70,27 @@ describe("alertActions", () => {
   it("anything else (or a booking this person can't see) has no actions", () => {
     expect(alertActions("form:abc", map)).toEqual({
       booking: null,
+      client: null,
       contact: [],
       decide: false,
     });
     expect(alertActions("booking:zzzzzzzzzzzzzzz", map).booking).toBeNull();
+  });
+
+  it("a missed booking: Email, Call, Text the client; no decision; unseen = nothing", () => {
+    const m = {
+      id: "m1",
+      clientName: "Missed Test",
+      clientEmail: "m@example.com",
+      clientPhone: "555-0110",
+    };
+    const missed = new Map([[m.id, m]]);
+    const a = alertActions("missed:m1", map, missed);
+    expect(a.booking).toBeNull();
+    expect(a.decide).toBe(false);
+    expect(a.client).toEqual({ name: "Missed Test", phone: "555-0110" });
+    expect(a.contact.map((c) => c.kind)).toEqual(["email", "call", "text"]);
+    expect(alertActions("missed:other", map, missed).contact).toEqual([]);
   });
 
   it("no phone: email only; junk phone is not dialable", () => {

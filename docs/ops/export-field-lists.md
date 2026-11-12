@@ -729,6 +729,21 @@ Restore mode: replace.
 
 Restore mode: replace.
 
+## studio_missed
+
+- `id`
+- `organization`
+- `seat`
+- `service_name`
+- `starts_at`
+- `client_name`
+- `client_email`
+- `client_phone`
+- `created`
+- `updated`
+
+Restore mode: replace.
+
 ## studio_seats
 
 - `id`

@@ -31,6 +31,7 @@ import {
   saveLease,
   undoLeasePayment,
   listBookings,
+  listMissedBookings,
   publicAvailability,
   removeSeat,
   runStudioReminders,
@@ -286,6 +287,48 @@ describe("Studio Booking seat isolation", () => {
         { now },
       ),
     ).rejects.toThrow(SLOT_TAKEN_COPY);
+    // The loser: no booking row, one missed row and an alert for Ana + the owner (not Beto).
+    const missedRows = await pb.collection("studio_missed").getFullList({
+      filter: pb.filter("organization = {:o}", { o: seed.A.org }),
+    });
+    const lost = missedRows.find((r) => r.client_email === "two@cds.test");
+    expect(lost?.seat).toBe(seat1);
+    expect(
+      await pb.collection("studio_bookings").getFullList({
+        filter: "client_email = 'two@cds.test'",
+      }),
+    ).toHaveLength(0);
+    const missedAlerts = await pb.collection("alerts").getFullList({
+      filter: pb.filter("type = 'studio-booking.missed' && source_key = {:k}", {
+        k: `missed:${lost?.id}`,
+      }),
+      expand: "user",
+    });
+    const who = missedAlerts.map((r) => String(r.expand?.user?.email));
+    expect(who).toContain("ana@cds.test");
+    expect(who).not.toContain("beto@cds.test");
+    expect(who.length).toBeGreaterThanOrEqual(2);
+    // The same client again within 10 minutes: no second row or alert.
+    await expect(
+      createPublicBooking(
+        site,
+        { ...input, email: "two@cds.test" },
+        "203.0.113.3",
+        { now },
+      ),
+    ).rejects.toThrow(SLOT_TAKEN_COPY);
+    expect(
+      (
+        await pb.collection("studio_missed").getFullList({
+          filter: "client_email = 'two@cds.test'",
+        })
+      ).length,
+    ).toBe(1);
+    const seen = new Map(
+      (await listMissedBookings(barber1)).map((m) => [m.id, m]),
+    );
+    expect(seen.get(lost!.id)?.clientEmail).toBe("two@cds.test");
+    expect(await listMissedBookings(barber2)).toHaveLength(0);
     const after = await publicAvailability(
       site,
       { barber: "ana", service: svc, date: "2030-01-08" },
