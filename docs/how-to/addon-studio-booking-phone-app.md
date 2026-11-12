@@ -31,11 +31,6 @@ Put the hub on your phone like an app and get a buzz when a client books with yo
 | 5 | No buzz on iPhone | Open **Settings** › **Notifications** › **A&M Barber Studio** and turn **Allow Notifications** on | Alerts arrive |
 | 6 | No buzz on Android | Open **Settings** › **Apps** › **Chrome** (or the A&M app) › **Notifications** and turn them on | Alerts arrive |
 | 7 | Good to know | Each phone turns alerts on once. You only get alerts for your own bookings. Removing the icon turns alerts off | Nothing else to set |
-
-## Change your password
-
-| # | Screen / route | Action | Expected result |
-|---|---|---|---|
-| 1 | Any hub screen | Tap your profile button (top right), then **Alerts**, then **Alert settings** (or go to `/hub/profile`) | Your profile opens |
-| 2 | `/hub/profile` › **Change your password** | Enter your current password, then your new password twice (10 or more characters) and tap **Change password** | "Your password is changed." shows and you stay signed in |
-| 3 | Sign-in email | To change the email you sign in with, ask the shop owner | The owner updates it for you |
+| 8 | Change your password | Tap your profile button (top right), then **Alerts**, then **Alert settings** (or go to `/hub/profile`) | Your profile opens |
+| 9 | `/hub/profile` › **Change your password** | Enter your current password, then your new password twice (10 or more characters) and tap **Change password** | "Your password is changed." shows and you stay signed in |
+| 10 | Sign-in email | To change the email you sign in with, ask the shop owner | The owner updates it for you |

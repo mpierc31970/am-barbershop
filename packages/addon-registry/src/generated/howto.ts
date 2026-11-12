@@ -143,6 +143,21 @@ export const HOWTO_STEPS: Readonly<Record<string, readonly HowToStep[]>> = Objec
         "screen": "Good to know",
         "action": "Each phone turns alerts on once. You only get alerts for your own bookings. Removing the icon turns alerts off",
         "expected": "Nothing else to set"
+      },
+      {
+        "screen": "Change your password",
+        "action": "Tap your profile button (top right), then **Alerts**, then **Alert settings** (or go to `/hub/profile`)",
+        "expected": "Your profile opens"
+      },
+      {
+        "screen": "`/hub/profile` › **Change your password**",
+        "action": "Enter your current password, then your new password twice (10 or more characters) and tap **Change password**",
+        "expected": "\"Your password is changed.\" shows and you stay signed in"
+      },
+      {
+        "screen": "Sign-in email",
+        "action": "To change the email you sign in with, ask the shop owner",
+        "expected": "The owner updates it for you"
       }
     ],
     "docs/how-to/addon-studio-booking.md": [
