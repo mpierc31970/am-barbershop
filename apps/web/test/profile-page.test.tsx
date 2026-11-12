@@ -164,13 +164,11 @@ describe("/hub/profile", () => {
       "To change your sign-in email, ask the shop owner.",
     );
     expect(rowTypes(c)).toEqual(
-      expect.arrayContaining([
-        "billing.card_failed",
-        "payments.payouts_paused",
-        "form.message",
-        "reports.monthly",
-      ]),
+      expect.arrayContaining(["form.message", "reports.monthly"]),
     );
+    // A&M fork: payment is in store only; no payout or billing alerts.
+    expect(rowTypes(c)).not.toContain("billing.card_failed");
+    expect(rowTypes(c)).not.toContain("payments.payouts_paused");
     const email = c.querySelector<HTMLInputElement>(
       'tr[data-alert-type="form.message"] input[id$="-email"]',
     )!;

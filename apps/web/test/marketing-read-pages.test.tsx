@@ -234,7 +234,7 @@ describe("/privacy", () => {
     expect(html).toContain('dateTime="2026-10-18"');
     expect(html).toContain("October 18, 2026");
     expect(html).toContain("<h2>");
-    expect(html).toContain('href="mailto:hello@connectionsdesignstudios.com"');
+    expect(html).toContain('href="mailto:matthew@metaphysicalevents.com"');
     expect(html).not.toMatch(/<script/i);
   });
 });

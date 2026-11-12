@@ -231,7 +231,7 @@ describe("/hub/support frame (COMM-05, D311)", () => {
     db.supportEmail.mockReturnValue(null);
     const c = await render();
     expect(c.querySelector("[data-support-email]")?.textContent).toBe(
-      "support@connectionsdesignstudios.com",
+      "matthew@metaphysicalevents.com",
     );
   });
 

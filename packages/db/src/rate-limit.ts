@@ -630,7 +630,7 @@ const contactLimiter = new SlidingWindowLimiter(
 
 /** 15-UI-SPEC Contact rate-limit error (verbatim). */
 export const CONTACT_RATE_COPY =
-  "Too many messages from this connection. Try again in an hour, or email hello@connectionsdesignstudios.com.";
+  "Too many messages from this connection. Try again in an hour, or email matthew@metaphysicalevents.com.";
 
 /** Record one contact message for this IP; throws RateLimited (CONTACT_RATE_COPY) when full. */
 export function beginContactAction(ip: string): void {

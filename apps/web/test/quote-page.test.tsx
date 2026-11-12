@@ -144,12 +144,12 @@ beforeEach(() => {
 });
 
 describe("quote page", () => {
-  it("owner, sent quote: back link, Billing tab active, scope, price, unticked accept", async () => {
+  it("owner, sent quote: back link, scope, price, unticked accept", async () => {
     const html = await render();
     expect(html).toContain('href="/hub/settings?tab=billing"');
     expect(html).toContain("Billing");
-    expect(html).toContain("Billing · 1");
-    expect(html).toContain('aria-current="page"');
+    // A&M fork: the Billing tab is hidden (the route itself 404s in middleware).
+    expect(html).not.toContain("Billing · 1");
     expect(html).toContain("Homepage design polish");
     expect(html).toContain("<p>Tighten the hero.</p>");
     expect(html).toContain("Design polish, 3-hour block");

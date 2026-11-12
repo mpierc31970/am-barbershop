@@ -1,6 +1,5 @@
 // 07-25 Task 2: SiteFooter SSR (CONT-13; D249, D-UI-P7-30; 07-25 choices 14, 15).
 import {
-  REPORT_ARIA_LABEL,
   resolveFooter,
   validateFooter,
   type FooterBusinessInput,
@@ -50,12 +49,8 @@ function footer(over: Record<string, unknown> = {}): ResolvedFooter {
   );
 }
 
-const REPORT = "https://cds.test/report?site=rivera.test";
-
 describe("SiteFooter", () => {
-  const html = renderToStaticMarkup(
-    <SiteFooter footer={footer()} reportHref={REPORT} />,
-  );
+  const html = renderToStaticMarkup(<SiteFooter footer={footer()} />);
 
   it("renders three columns headed by h2 and no h1", () => {
     expect(html.match(/<footer/g)).toHaveLength(1);
@@ -83,25 +78,21 @@ describe("SiteFooter", () => {
     expect(html).not.toContain("Sun");
   });
 
-  it("bottom row: copyright, cookie choices slot, Report in the same tab", () => {
+  it("bottom row: copyright, cookie choices slot, the credit and no Report link", () => {
     const out = renderToStaticMarkup(
       <SiteFooter
         footer={footer()}
-        reportHref={REPORT}
         cookieChoices={<button type="button">Cookie choices</button>}
       />,
     );
     expect(out).toContain("© 2026 Rivera Bakery");
     expect(out).toContain("Cookie choices");
-    const report = out.match(
-      /<a [^>]*aria-label="Report this site to Support"[^>]*>Report<\/a>/,
-    );
-    expect(report).not.toBeNull();
-    expect(report![0]).toContain(`href="${REPORT}"`);
-    expect(report![0]).not.toContain("target=");
+    expect(out).not.toContain(">Report<");
+    expect(out.match(/Website by/g)).toHaveLength(1);
+    expect(out).toContain('href="https://connectionsdesignstudios.com"');
   });
 
-  it("keeps the Report link with every switch off, no business and no links", () => {
+  it("keeps the credit with every switch off, no business and no links", () => {
     const bare = resolveFooter(
       {
         show_address: false,
@@ -117,19 +108,16 @@ describe("SiteFooter", () => {
         year: 2026,
       },
     );
-    const out = renderToStaticMarkup(
-      <SiteFooter footer={bare} reportHref={REPORT} />,
-    );
+    const out = renderToStaticMarkup(<SiteFooter footer={bare} />);
     expect(out).not.toContain("<h2");
-    expect(out).toContain(`aria-label="${REPORT_ARIA_LABEL}"`);
+    expect(out).not.toContain("Report");
+    expect(out.match(/Website by/g)).toHaveLength(1);
+    expect(out).toContain("Connections Design Studios</a>");
   });
 
   it("hidden parts collapse", () => {
     const out = renderToStaticMarkup(
-      <SiteFooter
-        footer={footer({ show_hours: false, extra_links: [] })}
-        reportHref={REPORT}
-      />,
+      <SiteFooter footer={footer({ show_hours: false, extra_links: [] })} />,
     );
     expect(out.match(/<h2/g)).toHaveLength(1);
     expect(out).not.toContain("Hours");
@@ -140,13 +128,12 @@ describe("SiteFooter", () => {
 describe("SiteFooter policy links", () => {
   const plain = footer({ extra_links: [] });
   const REPORT_RE =
-    /<a [^>]*aria-label="Report this site to Support"[^>]*>Report<\/a>/;
+    /<p data-site-credit="">Website by <a [^>]*>Connections Design Studios<\/a><\/p>/;
 
   it("renders copyright, Privacy, Terms, then Report, in order", () => {
     const out = renderToStaticMarkup(
       <SiteFooter
         footer={plain}
-        reportHref={REPORT}
         policyLinks={{ privacy: true, terms: true }}
       />,
     );
@@ -166,13 +153,12 @@ describe("SiteFooter policy links", () => {
     const out = renderToStaticMarkup(
       <SiteFooter
         footer={plain}
-        reportHref={REPORT}
         policyLinks={{ privacy: true, terms: true }}
       />,
     );
     const cls = (re: RegExp) => out.match(re)?.[1];
     const report = cls(
-      /aria-label="Report this site to Support" class="([^"]*)"/,
+      /href="https:\/\/connectionsdesignstudios\.com"[^>]*class="([^"]*)"/,
     );
     const privacy = cls(/<a [^>]*href="\/privacy"[^>]*class="([^"]*)"/);
     expect(privacy).toBeDefined();
@@ -185,7 +171,6 @@ describe("SiteFooter policy links", () => {
     const out = renderToStaticMarkup(
       <SiteFooter
         footer={plain}
-        reportHref={REPORT}
         policyLinks={{ privacy: false, terms: true }}
       />,
     );
@@ -195,13 +180,10 @@ describe("SiteFooter policy links", () => {
   });
 
   it("without policy links (or both false) the bottom row is unchanged and Report stays", () => {
-    const before = renderToStaticMarkup(
-      <SiteFooter footer={plain} reportHref={REPORT} />,
-    );
+    const before = renderToStaticMarkup(<SiteFooter footer={plain} />);
     const off = renderToStaticMarkup(
       <SiteFooter
         footer={plain}
-        reportHref={REPORT}
         policyLinks={{ privacy: false, terms: false }}
       />,
     );

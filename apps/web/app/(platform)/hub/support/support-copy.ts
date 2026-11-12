@@ -6,7 +6,7 @@
 import { CARE_PLAN_MINUTES } from "@cds/core/payments";
 
 /** Dev default until CDS_SUPPORT_EMAIL is set (GO-LIVE), same as the hub layout. */
-export const DEFAULT_SUPPORT_EMAIL = "support@connectionsdesignstudios.com";
+export const DEFAULT_SUPPORT_EMAIL = "matthew@metaphysicalevents.com";
 
 export const BILLING_HREF = "/hub/settings?tab=billing";
 /**

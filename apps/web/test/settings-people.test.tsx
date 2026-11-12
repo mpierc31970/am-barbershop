@@ -234,7 +234,11 @@ describe("People & roles tab (one source, DASH-25)", () => {
       HUB_SECTIONS.settings
         .tabs({ role, grants: [], registry: reg, active: [] } as never)
         .map((t) => t.id);
-    expect(tabs("owner")).toEqual(SETTINGS_TABS.map((t) => t.id));
+    expect(tabs("owner")).toEqual(
+      SETTINGS_TABS.map((t) => t.id).filter(
+        (id) => id !== "payments" && id !== "billing",
+      ),
+    );
     expect(tabs("admin")).toContain("people");
     expect(tabs("editor")).not.toContain("people");
   });

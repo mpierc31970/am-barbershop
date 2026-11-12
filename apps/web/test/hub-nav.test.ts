@@ -994,7 +994,11 @@ describe("HUB_SECTIONS: one tab source (11-14 DASH-25, DASH-26)", () => {
   it("Settings tab ids equal SETTINGS_TABS ids for an Owner (one source)", () => {
     expect(
       HUB_SECTIONS.settings.tabs({ ...owner, active: [] }).map((t) => t.id),
-    ).toEqual(SETTINGS_TABS.map((t) => t.id));
+    ).toEqual(
+      SETTINGS_TABS.map((t) => t.id).filter(
+        (id) => id !== "payments" && id !== "billing",
+      ),
+    );
   });
 
   it("Settings tabs follow the page's role filter; a Viewer gets none", () => {
@@ -1084,8 +1088,8 @@ describe("HUB_SECTIONS: one tab source (11-14 DASH-25, DASH-26)", () => {
 
   it("tab counts equal groupCounts().byTab; add-on tabs count their own section", () => {
     const items = [
-      item("billing:fix_card", "settings", { tab: "billing" }),
-      item("billing:quote:1", "settings", { tab: "billing" }),
+      item("legal:a", "settings", { tab: "legal" }),
+      item("legal:b", "settings", { tab: "legal" }),
       item("email:r1", "settings", { tab: "email" }),
       item("today-fixture:a", "addon:today-fixture"),
     ];
@@ -1095,7 +1099,8 @@ describe("HUB_SECTIONS: one tab source (11-14 DASH-25, DASH-26)", () => {
       needsYou: { items, failed: [] },
     });
     const byId = Object.fromEntries(settings.map((t) => [t.id, t.count]));
-    expect(byId).toMatchObject({ billing: 2, email: 1 });
+    expect(byId).toMatchObject({ legal: 2, email: 1 });
+    expect(byId.billing).toBeUndefined();
     expect(byId.business).toBeUndefined();
     const marketing = HUB_SECTIONS.marketing.tabs({
       ...owner,

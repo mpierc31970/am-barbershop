@@ -5,7 +5,6 @@
 // profile, the hidden add-on pages and the logo, each in its own try/catch: any one failing
 // still returns usable chrome (logo failure -> wordmark; business failure -> the host as the
 // name, no address/hours/socials). Media URLs are resolved per call and never cached.
-// reportHref builds the D249 Report link; it never throws, so the link is never missing.
 // 09-22 (AGR-08; choice 2): policyLinks comes from policyLinksFor, the same cached read as the
 // /privacy and /terms routes, so a link never points at a 404; any failure hides both links,
 // and fallbackChrome sets none (fail closed).
@@ -18,12 +17,7 @@ import {
   type ResolvedNav,
   type SiteManifest,
 } from "@cds/core/content";
-import {
-  mailDomain,
-  platformUrl,
-  resolvePublicMedia,
-  type SiteContext,
-} from "@cds/db";
+import { resolvePublicMedia, type SiteContext } from "@cds/db";
 import type { ResolvedMedia } from "@cds/ui/site";
 import {
   getAddonSiteState,
@@ -41,26 +35,9 @@ export type SiteChrome = {
     nav: ResolvedNav;
   };
   footer: ResolvedFooter;
-  reportHref: string;
   /** 09-22: published tenant policy pages (footer Privacy · Terms). */
   policyLinks: PolicyLinks;
 };
-
-/** The CDS hub report URL with the site pre-filled; a mail fallback if the URL is misconfigured. */
-export function reportHref(host: string): string {
-  const site = encodeURIComponent(host);
-  try {
-    return `${platformUrl("/report")}?site=${site}`;
-  } catch {
-    let domain = "connectionsdesignstudios.com";
-    try {
-      domain = mailDomain();
-    } catch {
-      // keep the default
-    }
-    return `mailto:abuse@${domain}?subject=${encodeURIComponent(`Report ${host}`)}`;
-  }
-}
 
 /** Same rule as the tenant page route: "home" is "/", any other slug "/<slug>". */
 export function manifestPages(
@@ -140,12 +117,11 @@ export async function loadSiteChrome(
       hiddenPageIds,
       year: input.now.getUTCFullYear(),
     }),
-    reportHref: reportHref(site.host),
     policyLinks,
   };
 }
 
-/** The never-fail fallback: host wordmark, empty menu, bottom row only (Report kept). */
+/** The never-fail fallback: host wordmark, empty menu, bottom row only. */
 export function fallbackChrome(host: string, now: Date): SiteChrome {
   return {
     header: {
@@ -167,7 +143,6 @@ export function fallbackChrome(host: string, now: Date): SiteChrome {
         year: now.getUTCFullYear(),
       },
     ),
-    reportHref: reportHref(host),
     policyLinks: NO_POLICY_LINKS,
   };
 }

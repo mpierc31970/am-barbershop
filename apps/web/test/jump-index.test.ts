@@ -31,7 +31,7 @@ function indexFor(
 }
 
 describe("buildJumpIndex (DASH-28)", () => {
-  it("Owner: screens in sidebar order with their tabs; includes Settings › Billing", () => {
+  it("Owner: screens in sidebar order with their tabs; no Settings › Billing", () => {
     const idx = indexFor("owner");
     expect(idx[0]).toEqual({
       group: "Screens",
@@ -40,12 +40,9 @@ describe("buildJumpIndex (DASH-28)", () => {
       keywords: "",
       path: "Today",
     });
-    const billing = idx.find((e) => e.path === "Settings › Billing");
-    expect(billing).toMatchObject({
-      group: "Screens",
-      label: "Billing",
-      href: "/hub/settings?tab=billing",
-    });
+    // A&M fork: payment is in store only; no Billing or Payments screen.
+    expect(idx.find((e) => e.path === "Settings › Billing")).toBeUndefined();
+    expect(idx.find((e) => e.path === "Settings › Payments")).toBeUndefined();
     expect(idx.some((e) => e.path === "Website › Pages")).toBe(true);
     expect(idx.some((e) => e.href === "/hub/add-ons")).toBe(true);
     expect(idx.some((e) => e.label === "Support")).toBe(true);

@@ -12,9 +12,14 @@ copied once on 2026-11-10 and owned here from now on. CDS changes are **not** sy
 - The multi-tenant engine is kept as-is. A&M is the **only** organization in the database
   (Studio path, Builder Pro installed), seeded once.
 - CDS-only surfaces are off: the marketing hub (`/`, `/pricing`, `/studio`, `/add-ons`, ...),
-  the `/start` signup and quote flow, and CDS billing (`/hub/checkout`,
-  `/hub/settings/billing`) answer **404 on platform hosts** (`isCdsOnlyPath` in
-  `apps/web/middleware.ts`). `/report`, `/privacy`, `/unsubscribe` stay.
+  the `/start` signup and quote flow, CDS billing (`/hub/checkout`, `/hub/settings/billing`),
+  Stripe Connect (`/hub/settings/connect`) and the abuse `/report` page answer **404**
+  (`isCdsOnlyPath` in `apps/web/middleware.ts`). `/privacy`, `/unsubscribe` stay.
+- Branding: the public footer has no Report link; its one CDS mention is the "Website by
+  Connections Design Studios" credit. Everything else users see says A&M Barber Studio.
+- Payment is **in store only**: Settings › Payments and Billing tabs, their help articles and
+  the payout/billing alert types are hidden (`HIDDEN_SETTINGS_TABS`, `HELP_HIDDEN`,
+  `alertTypesFor`).
 - CDS staff jobs (fit review, decline, prices, demo reset, indexing) are not scheduled.
 - Sign-ins (`npm run am:roles`, passwords in `.env.local` `AM_*`): website admin
   matthew@metaphysicalevents.com = staff super_admin (`/staff/sign-in`, password + emailed

@@ -70,8 +70,7 @@ const {
   getSiteIndex,
   getSiteAnalytics,
 } = await import("../lib/site-cache");
-const { loadSiteChrome, reportHref, fallbackChrome } =
-  await import("../lib/site-chrome");
+const { loadSiteChrome, fallbackChrome } = await import("../lib/site-chrome");
 const { nextInvalidator } = await import("../lib/invalidator");
 const { resolveSlug, siteForRequest } = await import("../lib/tenant");
 const { SECTION_REGISTRY } = await import("../lib/section-registry");
@@ -257,17 +256,6 @@ describe("site chrome (07-25, D249, D253)", () => {
     });
   });
 
-  it("reportHref builds the hub URL and falls back to mail", () => {
-    process.env.CDS_PLATFORM_URL = "https://cds.test";
-    expect(reportHref("rivera.test")).toBe(
-      "https://cds.test/report?site=rivera.test",
-    );
-    process.env.CDS_PLATFORM_URL = "not a url";
-    expect(reportHref("rivera.test")).toMatch(
-      /^mailto:abuse@[^?]+\?subject=Report%20rivera\.test$/,
-    );
-  });
-
   it("loadSiteChrome resolves the menu, logo and footer", async () => {
     db.readPublicBusiness.mockResolvedValue({
       name: "Rivera Bakery",
@@ -328,7 +316,6 @@ describe("site chrome (07-25, D249, D253)", () => {
     log.mockRestore();
     const f = fallbackChrome("a.example.com", new Date());
     expect(f.header.nav.entries).toEqual([]);
-    expect(f.reportHref).toContain("a.example.com");
   });
 });
 

@@ -239,7 +239,8 @@ describe("hub layout: help in Jump to (11-46; DASH-28)", () => {
     const help = jump.filter((e) => e.group === "Help articles");
     expect(help.length).toBeGreaterThan(40);
     expect(help.every((e) => e.href.startsWith("/hub/help/"))).toBe(true);
-    expect(help.some((e) => e.href === "/hub/help/billing")).toBe(true);
+    expect(help.some((e) => e.href === "/hub/help/people-roles")).toBe(true);
+    expect(help.some((e) => e.href === "/hub/help/billing")).toBe(false);
     // Live site: no "Getting set up" articles.
     expect(help.some((e) => e.href === "/hub/help/checkout")).toBe(false);
     expect(jump.findIndex((e) => e.group === "Help articles")).toBeGreaterThan(

@@ -28,7 +28,7 @@ export const FOOTER_COPYRIGHT_MAX = 120;
 export const FOOTER_COPY = Object.freeze({
   saved: "Footer saved. It's live on your site.",
   reportNote:
-    "Every footer has a small Report link that lets visitors tell Support about a problem. It can't be removed.",
+    'Every footer ends with a small "Website by Connections Design Studios" credit. It can\'t be removed.',
   copyrightHelp: "The year updates itself when you use {year}.",
   linksLimit: "Footers hold up to 6 extra links.",
   held: "Your footer is waiting for a quick review. Until then your site shows the standard copyright line and no extra links.",

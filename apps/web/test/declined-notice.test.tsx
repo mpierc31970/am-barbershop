@@ -143,7 +143,7 @@ describe("declined notice frame (BILL-09, D214)", () => {
       expect(html).toContain("View invoices");
       expect(html).toContain("Support-0001");
       expect(html).toMatch(
-        /<a href="mailto:support@connectionsdesignstudios.com"[^>]*>Contact Support<\/a>/,
+        /<a href="mailto:matthew@metaphysicalevents.com"[^>]*>Contact Support<\/a>/,
       );
       expect(html).toContain("Sign out");
       // The page under the layout never renders, nor does the hub nav.

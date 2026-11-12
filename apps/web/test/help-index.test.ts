@@ -15,6 +15,7 @@ import { composeSectionTabs } from "../app/(platform)/hub/sections";
 import {
   HELP_ALIASES,
   HELP_EXTRAS,
+  HELP_HIDDEN,
   buildHelpIndex,
   findHelpEntry,
   helpLinkFor,
@@ -29,15 +30,9 @@ const who = (role: OrgRole, grants: string[] = []) => ({ role, grants });
 const ids = (role: OrgRole, active: string[] = [], grants: string[] = []) =>
   buildHelpIndex(who(role, grants), active).map((e) => e.id);
 
-const OWNER_ONLY = [
-  "billing",
-  "care-plan",
-  "add-pages",
-  "download-data",
-  "media-storage",
-  "quotes",
-];
-const OWNER_ADMIN = ["people-roles", "payments", "get-add-ons", "legal-copy"];
+// A&M fork: payment is in store only, so the billing, buying and Stripe articles are hidden.
+const OWNER_ONLY = ["add-pages", "download-data"];
+const OWNER_ADMIN = ["people-roles", "get-add-ons", "legal-copy"];
 
 describe("buildHelpIndex (DASH-17, D285)", () => {
   it("Owner sees billing, add pages, download my data and people & roles", () => {
@@ -45,6 +40,7 @@ describe("buildHelpIndex (DASH-17, D285)", () => {
     for (const id of [...OWNER_ONLY, ...OWNER_ADMIN]) {
       expect(owner).toContain(id);
     }
+    for (const id of HELP_HIDDEN) expect(owner).not.toContain(id);
   });
 
   it("Admin sees people and payments, never billing or buying articles", () => {

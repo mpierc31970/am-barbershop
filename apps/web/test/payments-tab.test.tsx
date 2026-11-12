@@ -308,7 +308,8 @@ function tabTexts(c: ParentNode): string[] {
 
 // ---------------------------------------------------------------------------------------
 
-describe("Settings › Payments tab visibility (D311, D-UI-P10-10)", () => {
+// A&M fork: payment is in store only; this tab is hidden (HIDDEN_SETTINGS_TABS).
+describe.skip("Settings › Payments tab visibility (D311, D-UI-P10-10)", () => {
   it("Owner and Admin see Payments before Legal (Billing is Owner only, 10-29)", async () => {
     for (const role of ["owner", "admin"]) {
       signIn({ ...OWNER, role });
@@ -367,7 +368,8 @@ describe("Settings › Payments tab visibility (D311, D-UI-P10-10)", () => {
   });
 });
 
-describe("Settings › Payments panel (BILL-06, PAY-03)", () => {
+// A&M fork: payment is in store only; this tab is hidden (HIDDEN_SETTINGS_TABS).
+describe.skip("Settings › Payments panel (BILL-06, PAY-03)", () => {
   it("Owner, not connected: Connect your Stripe account opens Stripe's onboarding", async () => {
     const go = vi.spyOn(navigation, "go").mockImplementation(() => {});
     let resolve!: (v: unknown) => void;
@@ -527,7 +529,8 @@ describe("Settings › Payments panel (BILL-06, PAY-03)", () => {
   });
 });
 
-describe("PAY-10: the fee disclosure and help link on every connect screen (D296)", () => {
+// A&M fork: payment is in store only; this tab is hidden (HIDDEN_SETTINGS_TABS).
+describe.skip("PAY-10: the fee disclosure and help link on every connect screen (D296)", () => {
   const viewers: [string, Ctx][] = [
     ["owner", OWNER],
     ["admin", { ...OWNER, role: "admin" }],

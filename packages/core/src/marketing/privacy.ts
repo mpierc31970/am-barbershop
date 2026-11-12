@@ -21,7 +21,7 @@ export type HubPrivacyNotice = {
 };
 
 const MARKDOWN = [
-  "This notice covers the Connections Design Studios website at connectionsdesignstudios.com: the pages that describe CDS, the contact form and the report form. Sites we host for our customers have their own privacy pages.",
+  "This notice covers the A&M Barber Studio website and its contact form.",
   "## What we collect on the contact form",
   "When you send the contact form, we keep:",
   // One list: items joined by single newlines (a blank line would start a new <ul>).
@@ -36,19 +36,17 @@ const MARKDOWN = [
   "## Why we keep it",
   "We use it to reply to you. We don't add you to a mailing list, and we don't sell or share it.",
   "## Where it is kept",
-  "Your message is stored in the CDS platform database. A copy goes to the CDS team's inbox so a person can reply.",
+  "Your message is stored in the A&M Barber Studio website database. A copy goes to our inbox so a person can reply.",
   "## How long we keep it",
   "We delete contact form messages **2 years** after you send them.",
   "## Stopping abuse",
-  "To limit how many messages one connection can send, our server counts the messages from your internet address for one hour, in its memory only. Your address is not saved with your message or anywhere else by the contact form. The contact form and the report form also use Cloudflare Turnstile, a check that you're a person and not a bot.",
+  "To limit how many messages one connection can send, our server counts the messages from your internet address for one hour, in its memory only. Your address is not saved with your message or anywhere else by the contact form. The contact form also uses Cloudflare Turnstile, a check that you're a person and not a bot.",
   "## Cookies",
   "This website uses no analytics or advertising cookies.",
-  "## The report form",
-  "When you report content on a site we host, we keep what you tell us (the site, the page address, what's wrong, your name and email, and, for a copyright notice, your original work and signature) so a person at CDS can review the report. We may tell the site owner what was reported.",
   "## Your choices",
-  "You can ask us to see, correct or delete what we hold about you. Email [hello@connectionsdesignstudios.com](mailto:hello@connectionsdesignstudios.com) and we'll reply by email.",
+  "You can ask us to see, correct or delete what we hold about you. Email [matthew@metaphysicalevents.com](mailto:matthew@metaphysicalevents.com) and we'll reply by email.",
   "## Contact",
-  "Questions about this notice: [hello@connectionsdesignstudios.com](mailto:hello@connectionsdesignstudios.com).",
+  "Questions about this notice: [matthew@metaphysicalevents.com](mailto:matthew@metaphysicalevents.com).",
 ].join("\n\n");
 
 export const HUB_PRIVACY: HubPrivacyNotice = Object.freeze({

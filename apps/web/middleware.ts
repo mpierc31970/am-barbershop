@@ -68,10 +68,16 @@ function isMarketingPath(pathname: string): boolean {
   );
 }
 
-// A&M fork (single-site): CDS marketing, signup and billing answer 404. /report, /privacy and
-// /unsubscribe stay (tenant footer and email links point at them).
-const CDS_ONLY_KEEP = new Set(["/report", "/privacy", "/unsubscribe"]);
-const CDS_ONLY_EXTRA = ["/start", "/hub/checkout", "/hub/settings/billing"];
+// A&M fork (single-site): CDS marketing, signup, billing and the abuse /report page answer 404.
+// /privacy and /unsubscribe stay (email links point at them).
+const CDS_ONLY_KEEP = new Set(["/privacy", "/unsubscribe"]);
+const CDS_ONLY_EXTRA = [
+  "/start",
+  "/hub/checkout",
+  "/hub/settings/billing",
+  "/hub/settings/connect",
+  "/hub/settings/quotes",
+];
 function isCdsOnlyPath(pathname: string): boolean {
   const under = (p: string) => pathname === p || pathname.startsWith(`${p}/`);
   if ([...CDS_ONLY_KEEP].some(under)) return false;
@@ -79,8 +85,8 @@ function isCdsOnlyPath(pathname: string): boolean {
 }
 
 // A&M fork: the admin area lives on the site's own host. On SITE_ADMIN_HOST these paths are
-// served by the platform route group (sign-in, owner hub, staff console, invites, CDS legal
-// and report pages) instead of the tenant site; every other path stays the public site. A
+// served by the platform route group (sign-in, owner hub, staff console, invites, legal
+// pages) instead of the tenant site; every other path stays the public site. A
 // platform host (admin.<site>) then 301s its pages there (GET only; /api/* stays put for
 // webhooks and email links already sent).
 const SITE_ADMIN_PATHS = [
@@ -89,7 +95,6 @@ const SITE_ADMIN_PATHS = [
   "/staff",
   "/invite",
   "/legal",
-  "/report",
   "/unsubscribe",
   "/download-expired",
   "/support-file-expired",
@@ -263,15 +268,7 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
     }
     // 13-25 (P13-P33, T-13-25-02): the staff console is never indexed. Set here, on platform
     // hosts only, so a tenant's own /staff page keeps its normal indexing.
-    // 15 WR-A02: /report is never indexed either. It is crawlable (not in robots.txt) so a
-    // crawler following the tenant-footer links actually sees this header and the page's
-    // noindex, instead of indexing it as a URL-only result.
-    if (
-      pathname === "/staff" ||
-      pathname.startsWith("/staff/") ||
-      pathname === "/report" ||
-      pathname.startsWith("/report/")
-    ) {
+    if (pathname === "/staff" || pathname.startsWith("/staff/")) {
       res.headers.set("X-Robots-Tag", "noindex, nofollow");
     }
     // 15-22 (A3-Q4, P15-P4): outside production the hub is never indexed (defence in depth beside

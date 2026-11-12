@@ -23,9 +23,7 @@ describe("HUB_PRIVACY", () => {
     // The contact-form fields are one list of six items, not six lists.
     expect(html.match(/<ul>/g)).toHaveLength(1);
     expect(html.match(/<li>/g)).toHaveLength(6);
-    expect(html).toContain(
-      '<a href="mailto:hello@connectionsdesignstudios.com">',
-    );
+    expect(html).toContain('<a href="mailto:matthew@metaphysicalevents.com">');
   });
 
   it("states the facts of the shipped contact form (P15-P14)", () => {
@@ -39,7 +37,6 @@ describe("HUB_PRIVACY", () => {
       "2 years",
       "Cloudflare Turnstile",
       "no analytics or advertising cookies",
-      "report",
     ]) {
       expect(md).toContain(fact);
     }
@@ -52,5 +49,6 @@ describe("HUB_PRIVACY", () => {
     // The old claims were false: an unsalted IPv4 hash is reversible, and it was never read.
     expect(md).not.toMatch(/scrambled code/i);
     expect(md).not.toMatch(/can't be turned back/i);
+    expect(md).not.toMatch(/Connections Design|CDS|report/);
   });
 });

@@ -83,8 +83,19 @@ export const HELP_AUDIENCE: Readonly<Record<string, HelpAudience>> =
     "what-support-includes": "all",
   });
 
-/** Core training entries kept out of Help: CDS staff features with no tenant screen. */
-export const HELP_HIDDEN: ReadonlySet<string> = new Set(["theming"]);
+/**
+ * Entries kept out of Help: CDS staff features with no tenant screen, and (A&M fork: payment
+ * is in store only) the Stripe, CDS billing and buying how-tos.
+ */
+export const HELP_HIDDEN: ReadonlySet<string> = new Set([
+  "theming",
+  "payments",
+  "billing",
+  "checkout",
+  "quotes",
+  "care-plan",
+  "media-storage",
+]);
 
 type HelpExtra = {
   id: string;
@@ -238,8 +249,6 @@ export const HELP_ALIASES: Readonly<Record<string, string>> = Object.freeze({
   "settings.team-hours": "team-hours",
   "settings.email": "email-routing",
   "settings.people": "people-roles",
-  "settings.payments": "payments",
-  "settings.billing": "billing",
   "settings.legal": "legal-copy",
   "add-ons": "get-add-ons",
   // 12-33: CDS Support. The tabs carry their own P12 ids (sections.ts); this covers the
@@ -368,7 +377,7 @@ export function buildHelpIndex(
   if (seatOnly) return addons.sort(byTitle);
   const core: readonly { id: string; title: string; howTo: string }[] = [
     ...CORE_TRAINING.filter((t: TrainingEntry) => !HELP_HIDDEN.has(t.id)),
-    ...HELP_EXTRAS,
+    ...HELP_EXTRAS.filter((e) => !HELP_HIDDEN.has(e.id)),
   ];
   for (const e of core) {
     push(entryFor(e, SETUP_IDS.has(e.id) ? "setup" : "site"));

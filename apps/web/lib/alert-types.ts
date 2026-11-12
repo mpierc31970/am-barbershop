@@ -33,5 +33,11 @@ export async function alertTypesFor(
     (m) => active.includes(m.slug) && !paused.includes(m.slug),
   );
   const subject = { role: ctx.role, grants: ctx.grants };
-  return composeAlertTypes(manifests).filter((t) => eligibleFor(subject, t));
+  // A&M fork: payment is in store only, so Stripe payout and CDS billing alerts are not offered.
+  return composeAlertTypes(manifests).filter(
+    (t) =>
+      !t.type.startsWith("payments.") &&
+      !t.type.startsWith("billing.") &&
+      eligibleFor(subject, t),
+  );
 }

@@ -318,7 +318,7 @@ describe("Website shell tabs (07-03, D-UI-P7-2)", () => {
     expect(db.addonRepo).not.toHaveBeenCalled();
   });
 
-  it("?tab=footer renders the footer editor with the Report link in the preview", async () => {
+  it("?tab=footer renders the footer editor with the credit in the preview", async () => {
     signIn();
     db.activeAddons.mockResolvedValue([]);
     chromeMocks();
@@ -327,7 +327,8 @@ describe("Website shell tabs (07-03, D-UI-P7-2)", () => {
     const html = await renderWebsite("footer");
     expect(html).toMatch(/<h2[^>]*>Footer<\/h2>/);
     expect(html).toContain("<footer");
-    expect(html).toContain('aria-label="Report this site to Support"');
+    expect(html).toContain("Website by");
+    expect(html).not.toContain(">Report<");
     expect(html).toContain("Save footer");
     expect(html).toContain("© ");
     expect(html).not.toContain(SHELL_PANEL_BODY.replace("'", "&#x27;"));

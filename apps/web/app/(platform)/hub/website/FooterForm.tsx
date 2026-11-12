@@ -162,7 +162,7 @@ export function FooterForm({
               }
             >
               <SiteThemeScope theme={theme} inert className="bg-site-surface">
-                <SiteFooter footer={preview} reportHref="#" layout={mode} />
+                <SiteFooter footer={preview} layout={mode} />
               </SiteThemeScope>
             </div>
           </div>

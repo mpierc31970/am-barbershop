@@ -392,6 +392,9 @@ describe("SETTINGS_TABS (one array)", () => {
     expect(resolveSettingsTab(["email", "x"])).toBe("email");
     expect(resolveSettingsTab("team-hours")).toBe("team-hours");
     expect(settingsTabHref("email")).toBe("/hub/settings?tab=email");
+    // A&M fork: payment is in store only.
+    expect(resolveSettingsTab("payments")).toBe("business");
+    expect(resolveSettingsTab("billing")).toBe("business");
   });
 
   it("the Email label carries the bouncing count", () => {
@@ -402,7 +405,7 @@ describe("SETTINGS_TABS (one array)", () => {
 });
 
 describe("/hub/settings", () => {
-  it("no tab: H1 Settings, AutosaveStatus under it, nine tabs with Business info current (14-31 Domain, 14-32 Integrations)", async () => {
+  it("no tab: H1 Settings, AutosaveStatus under it, seven tabs with Business info current (14-31 Domain, 14-32 Integrations)", async () => {
     load();
     const { container: c } = await openSettings();
     expect(c.querySelector("h1")?.textContent).toBe("Settings");
@@ -422,8 +425,6 @@ describe("/hub/settings", () => {
       { href: "?tab=email", text: "Email", current: false },
       { href: "?tab=domain", text: "Domain", current: false },
       { href: "?tab=people", text: "People & roles", current: false },
-      { href: "?tab=payments", text: "Payments", current: false },
-      { href: "?tab=billing", text: "Billing", current: false },
       { href: "?tab=integrations", text: "Integrations", current: false },
       { href: "?tab=legal", text: "Legal", current: false },
     ]);
@@ -667,8 +668,6 @@ describe("/hub/settings", () => {
       "Email",
       "Domain",
       "People & roles",
-      "Payments",
-      "Billing",
       "Integrations",
       "Legal",
     ]);
@@ -727,7 +726,7 @@ describe("/hub/settings", () => {
     expect(dl?.getAttribute("href")).toBe(
       "/hub/agreement/download/aaaaaaaaaa11111",
     );
-    expect(tabLinks(c)[8]).toEqual({
+    expect(tabLinks(c)[6]).toEqual({
       href: "?tab=legal",
       text: "Legal",
       current: true,
@@ -901,7 +900,8 @@ function loadBilling(account: unknown = PAID_ACCOUNT, care = false) {
   ]);
 }
 
-describe("Settings › Billing (10-29)", () => {
+// A&M fork: payment is in store only; this tab is hidden (HIDDEN_SETTINGS_TABS).
+describe.skip("Settings › Billing (10-29)", () => {
   it("Owner sees Billing between Payments and Legal; Admin does not, and ?tab=billing is Business info", async () => {
     load();
     loadBilling();
@@ -912,8 +912,6 @@ describe("Settings › Billing (10-29)", () => {
       "Email",
       "Domain",
       "People & roles",
-      "Payments",
-      "Billing",
       "Integrations",
       "Legal",
     ]);

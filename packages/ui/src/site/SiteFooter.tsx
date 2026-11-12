@@ -1,9 +1,7 @@
 // Site footer (CONT-13; D249, D253, D-UI-P7-30; 07-25 choices 7, 12, 14, 15; UI-SPEC
 // "SiteFooter").
 //
-// D249: the Report link cannot be removed: no prop, setting or payload hides it. It always
-// renders from `reportHref`, visible text "Report", accessible name "Report this site to
-// CDS", same tab, theme-muted.
+// A&M fork: no Report link; the bottom row ends with the one "Website by" credit.
 // 09-22 (AGR-08, AGR-09; D217): once published, "Privacy" (/privacy) and "Terms" (/terms) sit
 // in the bottom row before Report, with Report's class; hidden until published (policyLinks).
 //
@@ -15,8 +13,6 @@
 // grouped here ("Mon–Fri 9:00 am to 5:00 pm"; closed days omitted; choice 14).
 import {
   hoursRows,
-  REPORT_ARIA_LABEL,
-  REPORT_LABEL,
   socialLinkLabel,
   type HoursRow,
   type ResolvedFooter,
@@ -32,7 +28,6 @@ import { telHref, text } from "./urls";
 
 export interface SiteFooterProps {
   footer: ResolvedFooter;
-  reportHref: string;
   /** 07-14's CookieChoicesLink, only on sites that show a cookie notice. */
   cookieChoices?: ReactNode;
   /** 09-22: which tenant policy pages are published (both hidden when absent). */
@@ -49,7 +44,7 @@ const FOCUS =
 const COL_HEADING = "text-[length:var(--site-text-body)] font-semibold";
 const LINK = `inline-flex min-h-11 items-center text-site-primary underline-offset-4 hover:underline ${FOCUS}`;
 const PLAIN_LINK = `inline-flex min-h-11 items-center text-site-text no-underline underline-offset-4 hover:underline ${FOCUS}`;
-/** Bottom-row links: Report and the 09-22 policy links share it (44px targets, muted). */
+/** Bottom-row links: the credit and the 09-22 policy links share it (44px targets, muted). */
 const ROW_LINK = `inline-flex min-h-11 items-center text-site-text-muted underline-offset-4 hover:underline ${FOCUS}`;
 
 /** Fixed date: the footer never marks "today", so SSR and the preview always agree. */
@@ -98,7 +93,6 @@ function gridClass(layout: ChromeLayout, cols: number): string {
 
 export function SiteFooter({
   footer,
-  reportHref,
   cookieChoices,
   policyLinks,
   layout = "auto",
@@ -249,13 +243,17 @@ export function SiteFooter({
               Terms
             </a>
           ) : null}
-          <a
-            href={reportHref}
-            aria-label={REPORT_ARIA_LABEL}
-            className={ROW_LINK}
-          >
-            {REPORT_LABEL}
-          </a>
+          <p data-site-credit="">
+            Website by{" "}
+            <a
+              href="https://connectionsdesignstudios.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={ROW_LINK}
+            >
+              Connections Design Studios
+            </a>
+          </p>
           {ownerSignInHref ? (
             <a
               href={ownerSignInHref}

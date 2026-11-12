@@ -337,7 +337,6 @@ export default async function TenantLayout({ children, params }: Props) {
         {children}
         <SiteFooter
           footer={chrome.footer}
-          reportHref={chrome.reportHref}
           policyLinks={chrome.policyLinks}
           cookieChoices={needs.needed ? <CookieChoicesLink /> : null}
           ownerSignInHref={AM_OWNER_SIGN_IN}

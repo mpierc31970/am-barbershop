@@ -673,7 +673,7 @@ describe("beginContactAction (15-03, A3-Q2)", () => {
   it("allows 5 messages per IP per hour, then throws the UI-SPEC rate-limit copy", () => {
     expect(CONTACT_PER_IP).toBe(5);
     expect(CONTACT_RATE_COPY).toBe(
-      "Too many messages from this connection. Try again in an hour, or email hello@connectionsdesignstudios.com.",
+      "Too many messages from this connection. Try again in an hour, or email matthew@metaphysicalevents.com.",
     );
     for (let i = 0; i < CONTACT_PER_IP; i++) {
       expect(() => beginContactAction("203.0.113.9")).not.toThrow();

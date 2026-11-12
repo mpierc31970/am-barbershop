@@ -22,9 +22,17 @@ export const SETTINGS_TABS = [
 
 export type SettingsTabId = (typeof SETTINGS_TABS)[number]["id"];
 
+/** A&M fork: the shop takes payment in store only, so Stripe Payments and CDS Billing are off. */
+export const HIDDEN_SETTINGS_TABS: ReadonlySet<SettingsTabId> = new Set([
+  "payments",
+  "billing",
+]);
+
 export function resolveSettingsTab(raw: unknown): SettingsTabId {
   const value = Array.isArray(raw) ? (raw as unknown[])[0] : raw;
-  const hit = SETTINGS_TABS.find((t) => t.id === value);
+  const hit = SETTINGS_TABS.find(
+    (t) => t.id === value && !HIDDEN_SETTINGS_TABS.has(t.id),
+  );
   return hit ? hit.id : "business";
 }
 

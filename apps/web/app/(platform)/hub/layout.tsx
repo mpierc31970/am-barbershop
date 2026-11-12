@@ -111,7 +111,7 @@ export const viewport: Viewport = { themeColor: HUB_THEME_COLOR };
 export const dynamic = "force-dynamic";
 
 /** Dev default until CDS_SUPPORT_EMAIL is set (GO-LIVE), same as the submit screen. */
-const DEFAULT_SUPPORT_EMAIL = "support@connectionsdesignstudios.com";
+const DEFAULT_SUPPORT_EMAIL = "matthew@metaphysicalevents.com";
 
 export const DECLINED_LOAD_FAILED =
   "We couldn't load the details right now. Reload the page, or contact Support.";

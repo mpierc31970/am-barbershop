@@ -33,7 +33,7 @@ import {
 } from "./nav";
 import { REPORTS_TABS } from "./reports/tabs";
 import { HELP_ALIASES } from "../../../lib/help-index";
-import { SETTINGS_TABS } from "./settings/tabs";
+import { HIDDEN_SETTINGS_TABS, SETTINGS_TABS } from "./settings/tabs";
 import { WEBSITE_TABS, composeWebsiteTabs } from "./website/tabs";
 
 export type HubSectionKey =
@@ -142,6 +142,7 @@ function settingsTabs(input: SectionTabsInput): SectionTab[] {
   if (!can(subject, "business", "read")) return [];
   const visible = SETTINGS_TABS.filter(
     (t) =>
+      !HIDDEN_SETTINGS_TABS.has(t.id) &&
       (t.id !== "legal" || can(subject, "agreements", "read")) &&
       (t.id !== "people" || can(subject, "members", "read")) &&
       (t.id !== "payments" || can(subject, "connect", "read")) &&

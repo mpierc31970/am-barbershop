@@ -850,7 +850,7 @@ describe("old URLs on platform hosts (15-22, HUB-03)", () => {
   });
 
   it("hub pages that exist pass through (no redirect)", async () => {
-    for (const path of ["/privacy", "/unsubscribe", "/report"]) {
+    for (const path of ["/privacy", "/unsubscribe"]) {
       const res = await hub(path);
       expect(res.status, path).toBe(200);
       expect(res.headers.get("x-middleware-next"), path).toBe("1");
@@ -867,6 +867,10 @@ describe("old URLs on platform hosts (15-22, HUB-03)", () => {
       "/start",
       "/hub/checkout",
       "/hub/settings/billing",
+      "/hub/settings/connect/refresh",
+      "/hub/settings/quotes/abc",
+      "/report",
+      "/report?site=acme-yoga.com",
     ]) {
       expect((await hub(path)).status, path).toBe(404);
     }
@@ -912,7 +916,7 @@ describe("marketing noindex header (15-22, A3-Q4)", () => {
 
   it("outside production every marketing path carries noindex, nofollow", async () => {
     vi.stubEnv("CDS_ENV", "dev");
-    for (const path of ["/privacy", "/report"]) {
+    for (const path of ["/privacy"]) {
       expect(await robots(path), path).toBe("noindex, nofollow");
     }
     expect(await robots("/sign-in")).toBeNull();
@@ -932,17 +936,6 @@ describe("marketing noindex header (15-22, A3-Q4)", () => {
       vi.stubEnv("CDS_ENV", env);
       expect(await robots("/staff"), env).toBe("noindex, nofollow");
       expect(await robots("/staff/pipeline"), env).toBe("noindex, nofollow");
-    }
-  });
-
-  it("WR-A02: /report carries noindex, nofollow in every environment", async () => {
-    for (const env of ["dev", "production"]) {
-      vi.stubEnv("CDS_ENV", env);
-      expect(await robots("/report"), env).toBe("noindex, nofollow");
-      expect(await robots("/report?site=acme-yoga.com"), env).toBe(
-        "noindex, nofollow",
-      );
-      expect(await robots("/reports"), env).toBeNull();
     }
   });
 

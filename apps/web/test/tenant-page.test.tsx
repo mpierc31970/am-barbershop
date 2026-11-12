@@ -657,7 +657,7 @@ describe("tenant layout (CONT-11, 03-UI-SPEC site rendering contract)", () => {
       expect([...order].sort((a, b) => a - b)).toEqual(order);
       expect(out).toContain('<nav aria-label="Main">');
       expect(out).toMatch(
-        /aria-label="Report this site to Support"[^>]*>Report<\/a>/,
+        /<p data-site-credit="">Website by <a [^>]*>Connections Design Studios<\/a><\/p>/,
       );
       expect(out).toContain(">shop.example.com</span>");
       expect(out).not.toContain("Cookie choices");
@@ -679,7 +679,7 @@ describe("tenant layout (CONT-11, 03-UI-SPEC site rendering contract)", () => {
       );
     });
 
-    it("a failing chrome read still renders the header and the Report link", async () => {
+    it("a failing chrome read still renders the header and the credit", async () => {
       resolved();
       const log = vi.spyOn(console, "error").mockImplementation(() => {});
       db.readPublicBusiness.mockRejectedValue(new Error("pb down"));
@@ -687,7 +687,8 @@ describe("tenant layout (CONT-11, 03-UI-SPEC site rendering contract)", () => {
       db.readAddonSiteState.mockRejectedValue(new Error("pb down"));
       const out = await render();
       expect(out).toContain("<header");
-      expect(out).toContain('aria-label="Report this site to Support"');
+      expect(out).toContain("Website by");
+      expect(out).not.toContain(">Report<");
       log.mockRestore();
     });
   });

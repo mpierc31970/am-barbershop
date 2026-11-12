@@ -73,13 +73,11 @@ describe("site chrome policy links", () => {
     });
     err.mockRestore();
     expect(c.policyLinks).toEqual({ privacy: false, terms: false });
-    expect(c.reportHref).not.toBe("");
   });
 
-  it("fallbackChrome sets no policy links (fail closed), Report kept", () => {
+  it("fallbackChrome sets no policy links (fail closed)", () => {
     const c = fallbackChrome("rivera.test", NOW);
     expect(c.policyLinks).toEqual({ privacy: false, terms: false });
-    expect(c.reportHref).not.toBe("");
   });
 });
 

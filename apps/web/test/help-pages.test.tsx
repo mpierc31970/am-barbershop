@@ -73,12 +73,13 @@ afterEach(() => {
 });
 
 describe("/hub/help (DASH-17)", () => {
-  it("Owner, live site: Your site with billing; no Getting set up", async () => {
+  it("Owner, live site: Your site, no billing; no Getting set up", async () => {
     const html = await center();
     expect(html).toContain(">Help</h1>");
     expect(html).toContain("Your site");
     expect(html).not.toContain("Getting set up");
-    expect(html).toContain('href="/hub/help/billing"');
+    expect(html).toContain('href="/hub/help/people-roles"');
+    expect(html).not.toContain('href="/hub/help/billing"');
     expect(html).not.toContain("Your add-ons");
   });
 
@@ -119,9 +120,9 @@ describe("/hub/help/<id> (DASH-17)", () => {
   });
 
   it("resolves a screen help id and offers the screen", async () => {
-    const html = await article("settings.billing");
-    expect(html).toContain(">Billing and invoices</h1>");
-    expect(html).toContain("Go to Settings › Billing");
+    const html = await article("settings.people");
+    expect(html).toContain(">People &amp; roles</h1>");
+    expect(html).toContain("Go to Settings › People &amp; roles");
   });
 
   it("a Viewer opening download-data gets 404", async () => {
