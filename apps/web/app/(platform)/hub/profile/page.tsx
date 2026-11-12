@@ -24,6 +24,7 @@ import type { Metadata } from "next";
 import { alertTypesFor } from "../../../../lib/alert-types";
 import { requireHubSession } from "../../../../lib/session";
 import { GuardedLink } from "../GuardedLink";
+import { PasswordForm } from "./PasswordForm";
 import { ProfilePanels } from "./ProfilePanels";
 
 export const metadata: Metadata = { title: "Your profile and alerts" };
@@ -80,6 +81,7 @@ export default async function ProfilePage() {
         <p className="text-base">{roleLine(org.name, ctx.role)}</p>
         <p className="text-sm text-hub-ink-muted">{PROFILE_COPY.signinHelp}</p>
       </section>
+      {impersonating ? null : <PasswordForm />}
       <ProfilePanels
         types={types}
         alertChannels={prefs.alertChannels}

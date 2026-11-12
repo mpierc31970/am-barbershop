@@ -96,6 +96,13 @@ export const HELP_NAV: HubNavItem = Object.freeze({
   iconKey: "CircleHelp",
 });
 
+/** A&M fork: the phone setup guide, in everyone's side menu. */
+export const PHONE_APP_NAV: HubNavItem = Object.freeze({
+  href: "/hub/help/phone-app",
+  label: "Phone app setup",
+  iconKey: "Smartphone",
+});
+
 export const SUPPORT_NAV: HubNavItem = Object.freeze({
   href: "/hub/support",
   label: "Support",
@@ -323,6 +330,7 @@ export function composeHubNav(input: {
   }
   const pinned: HubNavItem[] = [];
   if (can(subject, "addons", "read")) pinned.push({ ...GET_ADDONS });
+  pinned.push({ ...PHONE_APP_NAV });
   pinned.push({ ...HELP_NAV });
   if (!seatOnly) pinned.push({ ...SUPPORT_NAV });
   return { items, pinned };

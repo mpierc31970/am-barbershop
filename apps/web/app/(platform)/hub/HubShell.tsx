@@ -53,6 +53,7 @@ import {
   MessageSquareQuote,
   PackagePlus,
   Settings,
+  Smartphone,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -101,6 +102,7 @@ const NAV_ICONS: Readonly<Record<NavIconKey, IconComponent>> = {
   LifeBuoy,
   Bell,
   CalendarClock,
+  Smartphone,
 };
 
 function iconFor(key: string): IconComponent | null {

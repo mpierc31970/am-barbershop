@@ -163,6 +163,11 @@ const REPORTS = {
   label: "Reports",
   iconKey: "ChartColumn",
 };
+const PHONE = {
+  href: "/hub/help/phone-app",
+  label: "Phone app setup",
+  iconKey: "Smartphone",
+};
 const HELP = { href: "/hub/help", label: "Help", iconKey: "CircleHelp" };
 const SUPPORT = {
   href: "/hub/support",
@@ -206,7 +211,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
       REPORTS,
       SETTINGS,
     ]);
-    expect(nav.pinned).toEqual([GET_ADDONS, HELP, SUPPORT]);
+    expect(nav.pinned).toEqual([GET_ADDONS, PHONE, HELP, SUPPORT]);
     expect(GET_ADDONS).toEqual({
       href: "/hub/add-ons",
       label: "Get add-ons",
@@ -240,7 +245,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
       REPORTS,
       SETTINGS,
     ]);
-    expect(nav.pinned).toEqual([GET_ADDONS, HELP, SUPPORT]);
+    expect(nav.pinned).toEqual([GET_ADDONS, PHONE, HELP, SUPPORT]);
   });
 
   it("editor and viewer: no Get add-ons; only the editor sees Settings; both see Marketing (Social, 11-37) and Reports (D310)", () => {
@@ -259,7 +264,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
       REPORTS,
       SETTINGS,
     ]);
-    expect(editor.pinned).toEqual([HELP, SUPPORT]);
+    expect(editor.pinned).toEqual([PHONE, HELP, SUPPORT]);
     const viewer = composeHubNav({
       role: "viewer",
       grants: [],
@@ -275,7 +280,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
       REPORTS,
     ]);
     expect(viewer.items.map((i) => i.href)).not.toContain("/hub/settings");
-    expect(viewer.pinned).toEqual([HELP, SUPPORT]);
+    expect(viewer.pinned).toEqual([PHONE, HELP, SUPPORT]);
   });
 
   it("a grant-only staff member: Today, Website for an active granted add-on; no Marketing (A&M: seats see their setup only), no Reports", () => {
@@ -286,7 +291,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
       registry,
     });
     expect(nav.items).toEqual([TODAY, ALERTS, WEBSITE]);
-    expect(nav.pinned).toEqual([HELP]);
+    expect(nav.pinned).toEqual([PHONE, HELP]);
     const off = composeHubNav({
       role: "staff",
       grants: ["fixture-quote"],

@@ -193,8 +193,9 @@ describe("help helpers", () => {
       help,
     });
     expect(idx.length).toBeLessThan(JUMP_INDEX_MAX);
+    // The phone guide is also a side-menu item, so Jump to lists it once (as the nav row).
     expect(idx.filter((e) => e.group === "Help articles").length).toBe(
-      help.length,
+      help.length - 1,
     );
   });
 

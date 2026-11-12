@@ -33,6 +33,7 @@ export const NAV_ICON_KEYS = [
   "LifeBuoy",
   "Bell",
   "CalendarClock",
+  "Smartphone",
 ] as const;
 export type NavIconKey = (typeof NAV_ICON_KEYS)[number];
 

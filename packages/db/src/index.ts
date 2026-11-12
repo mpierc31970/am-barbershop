@@ -25,6 +25,8 @@ export {
 } from "./auth";
 export type { StaffSignInStarted } from "./auth";
 export {
+  changeMemberPassword,
+  MEMBER_PASSWORD_MIN,
   declinedMemberContext,
   forgetPushDeviceForSession,
   listMemberOrganizations,

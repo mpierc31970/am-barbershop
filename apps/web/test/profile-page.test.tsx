@@ -153,6 +153,7 @@ describe("/hub/profile", () => {
       Array.from(c.querySelectorAll("h2")).map((h) => h.textContent),
     ).toEqual([
       "You",
+      "Change your password",
       "Alerts",
       "Quiet hours",
       "Phones and computers",

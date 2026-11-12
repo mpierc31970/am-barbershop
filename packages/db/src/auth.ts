@@ -490,3 +490,39 @@ export async function forgetPushDeviceForSession(
   const record = await refreshUser(token);
   return withSuperuser((pb) => removeEndpointRows(pb, record.id, e));
 }
+
+/** Shortest password a member may set on the profile page. */
+export const MEMBER_PASSWORD_MIN = 10;
+
+/**
+ * A&M fork: a member changes their own password from the profile page. The current
+ * password is checked through signInMember (same rate limits); PB rotates tokenKey on a
+ * password change, so a fresh token for the new password is returned to re-set the cookie.
+ */
+export async function changeMemberPassword(
+  token: string,
+  current: string,
+  next: string,
+  ip?: string,
+): Promise<{ token: string }> {
+  const record = await refreshUser(token);
+  if (record.staff_role)
+    throw new Forbidden("staff change passwords elsewhere");
+  if (
+    typeof next !== "string" ||
+    next.length < MEMBER_PASSWORD_MIN ||
+    next.length > 72
+  ) {
+    throw new InvalidInput(
+      `password must be ${MEMBER_PASSWORD_MIN} to 72 characters`,
+    );
+  }
+  const email = String(record.email);
+  await signInMember(email, current, ip);
+  await withSuperuser((pb) =>
+    pb
+      .collection("users")
+      .update(record.id, { password: next, passwordConfirm: next }),
+  );
+  return signInMember(email, next, ip);
+}
