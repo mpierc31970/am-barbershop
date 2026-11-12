@@ -853,7 +853,7 @@ describe("raiseAlert audience, renotify and CDS Support email (12-05)", () => {
     const m = transport.sent[0]!;
     expect(m.type).toBe("support.notify");
     expect(m.to).toBe(o.emails[o.editor]);
-    expect(m.fromName).toBe("CDS Support");
+    expect(m.fromName).toBe("A&M Barber Studio Support");
     expect(m.fromAddress.startsWith("no-reply@")).toBe(true);
     expect(m.replyTo).toBeNull();
     expect(m.orgId).toBeNull();
