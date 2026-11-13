@@ -339,3 +339,32 @@
   max-width: 100%;
   overflow-wrap: anywhere;
 }
+
+/* Phone menu rows: a soft gradient instead of the focus box; the current page gets a red
+ * hexagon instead of the underline. */
+[data-site="am-barber"] dialog[data-site-menu] nav a {
+  margin-inline: -0.75rem;
+  padding-inline: 0.75rem;
+  text-decoration: none;
+}
+[data-site="am-barber"] dialog[data-site-menu] nav a:hover,
+[data-site="am-barber"] dialog[data-site-menu] nav a:focus-visible {
+  outline: none;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--site-text) 16%, transparent),
+    transparent
+  );
+}
+[data-site="am-barber"]
+  dialog[data-site-menu]
+  nav
+  a[aria-current="page"]::before {
+  content: "";
+  flex: none;
+  width: 0.6em;
+  height: 0.6em;
+  margin-right: 0.6em;
+  background: var(--am-red-glow);
+  clip-path: var(--am-hex);
+}
