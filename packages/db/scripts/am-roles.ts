@@ -74,7 +74,7 @@ async function main(): Promise<void> {
   let rows = await memberships();
   const currentOwner = rows.find((m) => m.role === "owner");
   if (!currentOwner) throw new Error("the shop has no owner");
-  if (currentOwner.user !== ownerId) {
+  if (!rows.some((m) => m.role === "owner" && m.user === ownerId)) {
     let target = rows.find((m) => m.user === ownerId);
     if (!target) {
       await addMember(ctxFor(String(currentOwner.user)), {
@@ -86,6 +86,43 @@ async function main(): Promise<void> {
     await transferOwnership(ctxFor(String(currentOwner.user)), target.id);
     console.log("PASS shop ownership moved to the shop owner");
   } else console.log("PASS shop owner unchanged");
+
+  // A&M: an optional second owner (AM_COOWNER_EMAIL / _PASSWORD / _NAME, e.g. Mike), with
+  // the same owner role; no seat of their own.
+  const coEmail = process.env.AM_COOWNER_EMAIL?.trim().toLowerCase() || "";
+  if (coEmail !== "") {
+    const coPassword = env("AM_COOWNER_PASSWORD");
+    const coName = process.env.AM_COOWNER_NAME?.trim() || "Co-owner";
+    await withSuperuser(async (pb) => {
+      const body = {
+        name: coName,
+        password: coPassword,
+        passwordConfirm: coPassword,
+        verified: true,
+      };
+      const found = (
+        await pb.collection("users").getList(1, 1, {
+          filter: pb.filter("email = {:e}", { e: coEmail }),
+        })
+      ).items[0];
+      const userId = found
+        ? (await pb.collection("users").update(found.id, body)).id
+        : (await pb.collection("users").create({ email: coEmail, ...body })).id;
+      const row = (await memberships()).find((m) => m.user === userId);
+      if (row) {
+        if (row.role !== "owner")
+          await pb.collection("memberships").update(row.id, { role: "owner" });
+      } else {
+        await pb.collection("memberships").create({
+          organization: orgId,
+          user: userId,
+          role: "owner",
+          addon_grants: [],
+        });
+      }
+    });
+    console.log(`PASS ${coName}: second shop owner (${coEmail})`);
+  }
 
   // The admin leaves the shop, then becomes staff super_admin.
   rows = await memberships();
