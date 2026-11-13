@@ -14,7 +14,7 @@ import { ScreenHeader } from "@cds/ui/hub/shell";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { addSeatAction } from "../../../actions/studio";
+import { addSeatAction, setSeatShownAction } from "../../../actions/studio";
 import { requireHubSession } from "../../../../lib/session";
 import { readStudioNote, seatHref } from "../../../../lib/studio";
 import { GuardedLink } from "../GuardedLink";
@@ -87,6 +87,17 @@ export default async function StudioBookingPage() {
                     <Badge tone={s.isPublished ? "published" : "draft"}>
                       {s.isPublished ? "On the site" : "Hidden"}
                     </Badge>
+                    <form action={setSeatShownAction}>
+                      <input type="hidden" name="seatId" value={s.id} />
+                      <input
+                        type="hidden"
+                        name="show"
+                        value={s.isPublished ? "0" : "1"}
+                      />
+                      <Button type="submit" size="sm" variant="secondary">
+                        {s.isPublished ? "Hide" : "Show"}
+                      </Button>
+                    </form>
                     <Badge tone={s.linked ? "done" : "needed"}>
                       {s.linked ? "Signed in" : "Not signed in yet"}
                     </Badge>

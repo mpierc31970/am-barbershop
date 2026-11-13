@@ -285,6 +285,18 @@ export async function galleryPhotoAction(form: FormData): Promise<void> {
   );
 }
 
+/** Owner/admin: show or hide one barber on the public site, from the Barbers list. */
+export async function setSeatShownAction(form: FormData): Promise<void> {
+  const show = field(form, "show") === "1";
+  await act(
+    null,
+    show ? "On the site." : "Hidden from the site.",
+    async ({ ctx }) => {
+      await updateSeat(ctx, idField(form, "seatId"), { isPublished: show });
+    },
+  );
+}
+
 export async function editGalleryPhotoAction(form: FormData): Promise<void> {
   await act(null, "Description saved.", async ({ ctx }) => {
     await editMainGalleryPhoto(
