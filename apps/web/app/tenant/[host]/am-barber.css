@@ -348,7 +348,8 @@
   text-decoration: none;
 }
 [data-site="am-barber"] dialog[data-site-menu] nav a:hover,
-[data-site="am-barber"] dialog[data-site-menu] nav a:focus-visible {
+[data-site="am-barber"] dialog[data-site-menu] nav a:focus-visible,
+[data-site="am-barber"] dialog[data-site-menu] nav a[aria-current="page"] {
   outline: none;
   background: linear-gradient(
     90deg,
