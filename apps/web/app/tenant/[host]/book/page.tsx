@@ -9,6 +9,7 @@ import {
   PageTitleHeader,
   siteButtonClasses,
 } from "@cds/ui/site";
+import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -174,6 +175,17 @@ export default async function BookPage({ params, searchParams }: Props) {
 
   return (
     <main id="content" tabIndex={-1} className="outline-none" data-book-page="">
+      {seat ? (
+        <div className="mx-auto max-w-[1120px] px-6 pt-8 md:px-8">
+          <Link
+            href="/barbers"
+            className="inline-flex min-h-11 items-center gap-2 font-semibold underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--site-focus)]"
+          >
+            <ArrowLeft size={20} aria-hidden="true" focusable="false" />
+            Back to list
+          </Link>
+        </div>
+      ) : null}
       <PageTitleHeader
         title={seat ? `Book with ${seat.name}` : "Book a chair"}
       />
@@ -192,11 +204,14 @@ export default async function BookPage({ params, searchParams }: Props) {
                 <Portrait seat={seat} />
                 <p className="px-2 py-2 font-semibold">{seat.name}</p>
               </div>
-              {seats.length > 1 ? (
-                <a href="/book" className="text-site-text underline">
-                  Pick a different barber
-                </a>
-              ) : null}
+              <div>
+                <Link
+                  href={`/barbers/${seat.slug}`}
+                  className={siteButtonClasses("secondary")}
+                >
+                  View {seat.name}&apos;s profile
+                </Link>
+              </div>
             </div>
           ) : seats.length === 0 ? (
             <p className={MUTED}>
