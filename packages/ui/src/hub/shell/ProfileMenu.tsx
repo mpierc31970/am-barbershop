@@ -45,8 +45,6 @@ export function ProfileMenu({
 }: ProfileMenuProps) {
   const { open, setOpen, close, anchorRef } = usePopover();
   const menuRef = useRef<HTMLDivElement | null>(null);
-  const fileRef = useRef<HTMLInputElement | null>(null);
-  const formRef = useRef<HTMLFormElement | null>(null);
   const Link = LinkComponent ?? "a";
 
   const items = () =>
@@ -93,30 +91,6 @@ export function ProfileMenu({
 
   return (
     <div ref={anchorRef} className="relative">
-      {photoSeatId ? (
-        // Outside the popover: the menu closes while the camera is open, and an unmounted
-        // input would drop the picked photo.
-        <form
-          ref={formRef}
-          method="post"
-          action="/hub/api/studio/photo"
-          encType="multipart/form-data"
-          hidden
-        >
-          <input type="hidden" name="seatId" value={photoSeatId} />
-          <input type="hidden" name="target" value="gallery" />
-          <input
-            ref={fileRef}
-            type="file"
-            name="file"
-            accept="image/*"
-            capture="environment"
-            onChange={(e) => {
-              if (e.currentTarget.files?.length) formRef.current?.submit();
-            }}
-          />
-        </form>
-      ) : null}
       <IconButton
         label={SHELL_COPY.profileButton}
         hideTooltip={open}
@@ -163,19 +137,16 @@ export function ProfileMenu({
               </Link>
             ))}
             {photoSeatId ? (
-              <button
-                type="button"
+              <Link
                 role="menuitem"
                 tabIndex={-1}
+                href="/hub/photo"
                 className={ITEM}
-                onClick={() => {
-                  fileRef.current?.click();
-                  close(false);
-                }}
+                onClick={() => close(false)}
               >
                 <Camera aria-hidden="true" size={16} strokeWidth={2} />
                 Take a photo
-              </button>
+              </Link>
             ) : null}
             <button
               type="button"
