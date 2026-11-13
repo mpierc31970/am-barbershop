@@ -53,15 +53,15 @@ describe("/hub/alerts marks read on view", () => {
 
   it("an unread alert: marked read for this person (org + actor context)", async () => {
     db.listBell.mockResolvedValue([row(false)]);
-    await AlertsPage();
+    await AlertsPage({ searchParams: Promise.resolve({}) });
     expect(db.markAllRead).toHaveBeenCalledWith(ctx);
   });
 
   it("nothing unread, or the list failed: no write", async () => {
     db.listBell.mockResolvedValue([row(true)]);
-    await AlertsPage();
+    await AlertsPage({ searchParams: Promise.resolve({}) });
     db.listBell.mockRejectedValue(new Error("down"));
-    await AlertsPage();
+    await AlertsPage({ searchParams: Promise.resolve({}) });
     expect(db.markAllRead).not.toHaveBeenCalled();
   });
 });

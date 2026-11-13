@@ -180,12 +180,12 @@ function TeamList({ rows, tz }: { rows: TeamAlert[]; tz: string }) {
 export default async function AlertsPage({
   searchParams,
 }: {
-  searchParams?: Promise<{ tab?: string }>;
-} = {}) {
+  searchParams: Promise<{ tab?: string }>;
+}) {
   const { ctx } = await requireHubSession();
   // A&M fork: owners and admins get two tabs: their own alerts and their barbers' (Team).
   const manager = ctx.role === "owner" || ctx.role === "admin";
-  const team = manager && (await searchParams)?.tab === "team";
+  const team = manager && (await searchParams).tab === "team";
   const teamRows = team
     ? await listTeamAlerts(ctx).catch(() => [] as TeamAlert[])
     : [];
