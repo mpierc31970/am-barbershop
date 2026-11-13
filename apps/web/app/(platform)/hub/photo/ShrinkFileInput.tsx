@@ -109,7 +109,14 @@ export async function sendPhotoForm(form: HTMLFormElement): Promise<string> {
       text?: string;
     };
     if (data.ok && data.to) {
-      window.location.assign(data.to);
+      // Same page with only a new #hash doesn't reload, so the spinner would stay: reload.
+      const next = new URL(data.to, window.location.href);
+      if (next.pathname === window.location.pathname) {
+        window.history.replaceState(null, "", next.href);
+        window.location.reload();
+      } else {
+        window.location.assign(next.href);
+      }
       return new Promise<string>(() => {});
     }
     return data.text || SEND_FAILED;
