@@ -18,6 +18,8 @@ import {
   TextField,
 } from "@cds/ui/hub";
 import { ScreenHeader } from "@cds/ui/hub/shell";
+import { EmailForm } from "../../../profile/EmailForm";
+import { PasswordForm } from "../../../profile/PasswordForm";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -67,7 +69,7 @@ function RemovePhoto({ seat, mediaId }: { seat: SeatView; mediaId: string }) {
 
 export default async function SeatPage({ params }: Props) {
   const { id } = await params;
-  const { ctx, org } = await requireHubSession();
+  const { ctx, org, email } = await requireHubSession();
   let seat: SeatView;
   let schedule: ScheduleView;
   try {
@@ -81,6 +83,11 @@ export default async function SeatPage({ params }: Props) {
   const note = await readStudioNote();
   const site = org.primaryHost ? `https://${org.primaryHost}` : "";
   const owner = ctx.role === "owner";
+  // Your own seat: your sign-in email and password come first, so everything about you is here.
+  const mine =
+    !ctx.impersonator &&
+    seat.email !== "" &&
+    seat.email.toLowerCase() === email.toLowerCase();
 
   return (
     <div className="flex w-full max-w-[1120px] flex-col gap-8 font-hub text-hub-ink">
@@ -119,6 +126,16 @@ export default async function SeatPage({ params }: Props) {
             {org.primaryHost}/barbers/{seat.slug}
           </a>
         </p>
+      ) : null}
+
+      {mine ? (
+        <div className="grid grid-cols-1 items-start gap-8 rounded border border-hub-border bg-hub-surface p-4 md:grid-cols-2">
+          <EmailForm email={email} />
+          <PasswordForm />
+          <Link href="/hub/profile#alerts" className="text-sm underline">
+            Alert settings
+          </Link>
+        </div>
       ) : null}
 
       {/* A&M fork: info on the left, the profile picture on the right (stacked on phones). */}

@@ -35,6 +35,7 @@ export const NAV_ICON_KEYS = [
   "CalendarClock",
   "Smartphone",
   "Images",
+  "UserRound",
 ] as const;
 export type NavIconKey = (typeof NAV_ICON_KEYS)[number];
 

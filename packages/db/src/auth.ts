@@ -499,6 +499,45 @@ export const MEMBER_PASSWORD_MIN = 10;
  * password is checked through signInMember (same rate limits); PB rotates tokenKey on a
  * password change, so a fresh token for the new password is returned to re-set the cookie.
  */
+/**
+ * A&M fork: a signed-in member changes their own sign-in email (current password required).
+ * Their own barber seat keeps matching it. Returns a fresh session for the new email.
+ */
+export async function changeMemberEmail(
+  token: string,
+  current: string,
+  nextEmail: string,
+  ip?: string,
+): Promise<{ token: string }> {
+  const record = await refreshUser(token);
+  if (record.staff_role) throw new Forbidden("staff change email elsewhere");
+  const next = String(nextEmail ?? "")
+    .trim()
+    .toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(next) || next.length > 254) {
+    throw new InvalidInput("Enter a valid email address.");
+  }
+  const email = String(record.email);
+  if (next === email.toLowerCase()) return signInMember(email, current, ip);
+  await signInMember(email, current, ip);
+  await withSuperuser(async (pb) => {
+    const taken = await pb.collection("users").getList(1, 1, {
+      filter: pb.filter("email = {:e}", { e: next }),
+      fields: "id",
+    });
+    if (taken.items.length > 0)
+      throw new InvalidInput("That email is already in use.");
+    await pb.collection("users").update(record.id, { email: next });
+    const seats = await pb.collection("studio_seats").getFullList({
+      filter: pb.filter("user = {:u}", { u: record.id }),
+      fields: "id",
+    });
+    for (const s of seats)
+      await pb.collection("studio_seats").update(s.id, { email: next });
+  });
+  return signInMember(next, current, ip);
+}
+
 export async function changeMemberPassword(
   token: string,
   current: string,

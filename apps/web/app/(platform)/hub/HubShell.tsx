@@ -55,6 +55,7 @@ import {
   Settings,
   Smartphone,
   Images,
+  UserRound,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -105,6 +106,7 @@ const NAV_ICONS: Readonly<Record<NavIconKey, IconComponent>> = {
   CalendarClock,
   Smartphone,
   Images,
+  UserRound,
 };
 
 function iconFor(key: string): IconComponent | null {

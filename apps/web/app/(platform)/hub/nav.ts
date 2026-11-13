@@ -344,6 +344,26 @@ export function composeHubNav(input: {
   return { items, pinned };
 }
 
+/**
+ * A&M fork: anyone with their own seat (the owners, the barbers) gets "My profile" right
+ * after Today: their seat page, which also holds their sign-in email and password. A barber's
+ * Studio Booking item (already labelled "My profile") moves there instead of repeating.
+ */
+export function withMyProfile(
+  items: HubNavItem[],
+  seatId: string | null,
+): HubNavItem[] {
+  if (!seatId) return items;
+  const rest = items.filter((i) => i.label !== "My profile");
+  const at = rest.findIndex((i) => i.href === TODAY_NAV.href) + 1;
+  const mine: HubNavItem = {
+    href: `/hub/studio-booking/seats/${seatId}`,
+    label: "My profile",
+    iconKey: "UserRound",
+  };
+  return [...rest.slice(0, at), mine, ...rest.slice(at)];
+}
+
 /** The Help article on putting the hub on a phone (studio-booking training "phone-app"). */
 export const PHONE_APP_HELP_HREF = "/hub/help/phone-app";
 

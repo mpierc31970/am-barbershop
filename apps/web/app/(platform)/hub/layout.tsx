@@ -91,6 +91,7 @@ import {
   composeHubNav,
   inSetup,
   profileMenuLinks,
+  withMyProfile,
   type HubNeedsYou,
 } from "./nav";
 import { composeSectionTabs } from "./sections";
@@ -386,7 +387,7 @@ export default async function HubLayout({ children }: { children: ReactNode }) {
         siteUrl={profileUrl ?? (host ? `https://${host}` : null)}
         siteLabel={profileUrl ? "Visit profile" : undefined}
         email={session.email}
-        nav={nav.items}
+        nav={withMyProfile(nav.items, ownSeatId)}
         pinned={nav.pinned}
         orgs={orgs}
         currentOrgId={session.org.id}
