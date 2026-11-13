@@ -175,17 +175,6 @@ export default async function BookPage({ params, searchParams }: Props) {
 
   return (
     <main id="content" tabIndex={-1} className="outline-none" data-book-page="">
-      {seat ? (
-        <div className="mx-auto max-w-[1120px] px-6 pt-8 md:px-8">
-          <Link
-            href="/barbers"
-            className="inline-flex min-h-11 items-center gap-2 font-semibold underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--site-focus)]"
-          >
-            <ArrowLeft size={20} aria-hidden="true" focusable="false" />
-            Back to list
-          </Link>
-        </div>
-      ) : null}
       <PageTitleHeader
         title={seat ? `Book with ${seat.name}` : "Book a chair"}
       />
@@ -197,6 +186,15 @@ export default async function BookPage({ params, searchParams }: Props) {
         <Step n={1} title={seat ? "Your barber" : "Pick your barber"}>
           {seat ? (
             <div className="flex flex-col gap-3">
+              <div>
+                <Link
+                  href="/barbers"
+                  className="inline-flex min-h-11 items-center gap-2 font-semibold underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--site-focus)]"
+                >
+                  <ArrowLeft size={20} aria-hidden="true" focusable="false" />
+                  Back to list
+                </Link>
+              </div>
               <div
                 className="w-40 border-2 border-site-primary"
                 data-chosen-barber=""
