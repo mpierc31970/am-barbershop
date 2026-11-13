@@ -35,9 +35,11 @@ type Props = Omit<
   onReady?: (input: HTMLInputElement) => void;
   /** Shows the error elsewhere instead of right after the input. */
   onError?: (message: string) => void;
+  /** A photo was picked and is being prepared. */
+  onStart?: () => void;
 };
 
-export function ShrinkFileInput({ onReady, onError, ...rest }: Props) {
+export function ShrinkFileInput({ onReady, onError, onStart, ...rest }: Props) {
   const [own, setOwn] = useState("");
   const setError = onError ?? setOwn;
   const error = onError ? "" : own;
@@ -49,8 +51,9 @@ export function ShrinkFileInput({ onReady, onError, ...rest }: Props) {
         onChange={async (e) => {
           const input = e.currentTarget;
           const file = input.files?.[0];
-          setError("");
+          setOwn("");
           if (!file) return;
+          onStart?.();
           let out = file;
           try {
             out = await shrink(file);

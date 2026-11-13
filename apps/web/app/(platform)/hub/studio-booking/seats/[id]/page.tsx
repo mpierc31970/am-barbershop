@@ -32,7 +32,7 @@ import { readStudioNote, STUDIO_BASE } from "../../../../../../lib/studio";
 import { GuardedLink } from "../../../GuardedLink";
 import { PHONE_APP_HELP_HREF } from "../../../nav";
 import { StudioTabs } from "../../StudioTabs";
-import { ShrinkFileInput } from "../../../photo/ShrinkFileInput";
+import { SeatUploadForm } from "../../../photo/SeatUploadForm";
 import { ScheduleSection } from "./ScheduleSection";
 
 export const metadata: Metadata = { title: "Barber" };
@@ -51,40 +51,6 @@ const CARD =
 
 function photoSrc(seat: SeatView, id: string): string {
   return `/hub/api/studio/photo/${seat.id}/${id}`;
-}
-
-function UploadForm({
-  seat,
-  target,
-  label,
-}: {
-  seat: SeatView;
-  target: "photo" | "gallery" | "logo";
-  label: string;
-}) {
-  return (
-    <form
-      method="post"
-      action="/hub/api/studio/photo"
-      encType="multipart/form-data"
-      className="flex flex-wrap items-end gap-3"
-    >
-      <input type="hidden" name="seatId" value={seat.id} />
-      <input type="hidden" name="target" value={target} />
-      <label className="flex flex-col gap-2 text-sm font-semibold">
-        {label}
-        <ShrinkFileInput
-          name="file"
-          required
-          accept="image/jpeg,image/png,image/webp,image/heic"
-          className="text-base font-normal"
-        />
-      </label>
-      <Button type="submit" size="sm">
-        Upload
-      </Button>
-    </form>
-  );
 }
 
 function RemovePhoto({ seat, mediaId }: { seat: SeatView; mediaId: string }) {
@@ -270,8 +236,8 @@ export default async function SeatPage({ params }: Props) {
             ) : (
               <p className="text-hub-ink-muted">No profile picture yet.</p>
             )}
-            <UploadForm
-              seat={seat}
+            <SeatUploadForm
+              seatId={seat.id}
               target="photo"
               label={
                 seat.photo ? "Replace profile picture" : "Add a profile picture"
@@ -308,8 +274,8 @@ export default async function SeatPage({ params }: Props) {
               Your own shop or chair logo, shown on your page only.
             </p>
           )}
-          <UploadForm
-            seat={seat}
+          <SeatUploadForm
+            seatId={seat.id}
             target="logo"
             label={seat.logo ? "Replace logo" : "Add a logo"}
           />
@@ -336,8 +302,8 @@ export default async function SeatPage({ params }: Props) {
             <p className="text-hub-ink-muted">Show your best cuts here.</p>
           )}
           {seat.gallery.length < GALLERY_MAX ? (
-            <UploadForm
-              seat={seat}
+            <SeatUploadForm
+              seatId={seat.id}
               target="gallery"
               label="Add a gallery photo"
             />
