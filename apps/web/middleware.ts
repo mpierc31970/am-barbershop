@@ -31,7 +31,7 @@ import {
   redirectResponse,
 } from "./lib/redirect-host";
 import { securityHeaders } from "./lib/security-headers";
-import { STUDIO_NOTE_COOKIE } from "./lib/studio";
+import { STUDIO_NOTE_COOKIE, STUDIO_NOTE_HEADER } from "./lib/studio";
 import { suspendedResponse } from "./lib/suspended-page";
 
 // Parsed on first request, not at import, so `next build` never evaluates it. In
@@ -275,12 +275,18 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
     }
     const path = pathname + req.nextUrl.search;
     if (path.length <= MAX_PATH_HEADER) headers.set(PATH_HEADER, path);
+    // A&M fork: deleting the note cookie below also hides it from this render, so hand the
+    // note to the page in a request header first.
+    const note = req.cookies.get(STUDIO_NOTE_COOKIE)?.value;
+    if (req.method === "GET" && note)
+      headers.set(STUDIO_NOTE_HEADER, note.slice(0, 600));
+    else headers.delete(STUDIO_NOTE_HEADER);
     const res = secured(
       NextResponse.next({ request: { headers } }),
       "platform",
     );
-    // A&M fork: the hub's one-time save note is shown by this GET, then dropped so the next
-    // screen doesn't repeat it (the render still reads it from the request).
+    // A&M fork: the hub's one-time save note is shown by this GET (via the header above),
+    // then dropped so the next screen doesn't repeat it.
     if (req.method === "GET" && req.cookies.has(STUDIO_NOTE_COOKIE)) {
       res.cookies.delete({ name: STUDIO_NOTE_COOKIE, path: "/hub" });
     }

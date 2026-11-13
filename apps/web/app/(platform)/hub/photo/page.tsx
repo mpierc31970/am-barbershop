@@ -3,8 +3,10 @@
 // to the barber's own gallery through /hub/api/studio/photo.
 import { mySeatId } from "@cds/db";
 import { InlineAlert } from "@cds/ui/hub";
+import { ScreenHeader } from "@cds/ui/hub/shell";
 import type { Metadata } from "next";
 import { requireHubSession } from "../../../../lib/session";
+import { GuardedLink } from "../GuardedLink";
 import { PhotoPicker } from "./PhotoPicker";
 
 export const metadata: Metadata = { title: "Take a photo" };
@@ -14,7 +16,11 @@ export default async function PhotoPage() {
   const seatId = await mySeatId(ctx).catch(() => null);
   return (
     <div className="flex w-full max-w-[560px] flex-col gap-6 font-hub text-hub-ink">
-      <h1 className="text-2xl font-semibold">Take a photo</h1>
+      <ScreenHeader
+        title="Take a photo"
+        helpId="phone-app"
+        LinkComponent={GuardedLink}
+      />
       {seatId ? (
         <>
           <p className="text-base">

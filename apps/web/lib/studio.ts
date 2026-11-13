@@ -1,8 +1,10 @@
 // Studio Booking hub + site helpers shared by the routes and actions. Plain module.
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 export const STUDIO_BASE = "/hub/studio-booking";
 export const STUDIO_NOTE_COOKIE = "cds_studio_note";
+/** Request header the middleware copies the note into before it drops the cookie. */
+export const STUDIO_NOTE_HEADER = "x-am-studio-note";
 
 export function seatHref(seatId: string): string {
   return `${STUDIO_BASE}/seats/${seatId}`;
@@ -13,7 +15,10 @@ export async function readStudioNote(): Promise<{
   tone: "success" | "danger";
   text: string;
 } | null> {
-  const raw = (await cookies()).get(STUDIO_NOTE_COOKIE)?.value ?? "";
+  const raw =
+    (await headers()).get(STUDIO_NOTE_HEADER) ??
+    (await cookies()).get(STUDIO_NOTE_COOKIE)?.value ??
+    "";
   const i = raw.indexOf(":");
   if (i < 1) return null;
   const kind = raw.slice(0, i);
