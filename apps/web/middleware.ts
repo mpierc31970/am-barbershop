@@ -400,6 +400,6 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
 export const config = {
   runtime: "nodejs",
   matcher: [
-    "/((?!api/health$|api/jobs/quotes$|api/jobs/media$|api/jobs/assembly$|api/jobs/retention$|api/jobs/billing$|api/jobs/alerts$|api/jobs/reports$|api/jobs/support$|api/jobs/indexing$|api/jobs/review$|api/jobs/demo$|api/monitor/status$|api/jobs/health$|api/edge/ask$|api/edge/routes$|api/jobs/domains$|api/jobs/exports$|api/jobs/studio$|_next/static/|_next/image$|favicon\\.ico$|am-barber/).*)",
+    "/((?!api/health$|api/jobs/quotes$|api/jobs/media$|api/jobs/assembly$|api/jobs/retention$|api/jobs/billing$|api/jobs/alerts$|api/jobs/reports$|api/jobs/support$|api/jobs/indexing$|api/jobs/review$|api/jobs/demo$|api/monitor/status$|api/jobs/health$|api/edge/ask$|api/edge/routes$|api/jobs/domains$|api/jobs/exports$|api/jobs/studio$|_next/static/|_next/image$|favicon\\.ico$|am-barber/|hub/api/studio/photo$|hub/api/media$).*)",
   ],
 };
