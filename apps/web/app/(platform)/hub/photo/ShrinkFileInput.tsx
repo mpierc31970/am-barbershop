@@ -83,3 +83,37 @@ export function ShrinkFileInput({ onReady, onError, onStart, ...rest }: Props) {
     </>
   );
 }
+
+const SEND_FAILED =
+  "The upload didn't finish. Check your connection and try again.";
+
+/**
+ * Posts an upload form with fetch (a plain form post of a photo gets cut off on this host)
+ * and opens the page the server names. Resolves with an error message to show, or never
+ * (the page is leaving).
+ */
+export async function sendPhotoForm(form: HTMLFormElement): Promise<string> {
+  try {
+    const res = await fetch(form.action, {
+      method: "POST",
+      body: new FormData(form),
+      headers: { "x-cds-fetch": "1" },
+    });
+    if (res.redirected && res.url.includes("/sign-in")) {
+      window.location.assign(res.url);
+      return new Promise<string>(() => {});
+    }
+    const data = (await res.json()) as {
+      ok: boolean;
+      to?: string;
+      text?: string;
+    };
+    if (data.ok && data.to) {
+      window.location.assign(data.to);
+      return new Promise<string>(() => {});
+    }
+    return data.text || SEND_FAILED;
+  } catch {
+    return SEND_FAILED;
+  }
+}

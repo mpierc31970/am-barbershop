@@ -28,6 +28,10 @@ async function back(
   kind: "ok" | "error",
   text: string,
 ) {
+  // The hub's upload forms post with fetch (x-cds-fetch: 1): answer JSON so an error shows
+  // in place; a success still leaves the "Photo added." note for the page it opens.
+  const json = req.headers.get("x-cds-fetch") === "1";
+  if (json && kind === "error") return Response.json({ ok: false, text });
   (await cookies()).set(STUDIO_NOTE_COOKIE, `${kind}:${text}`.slice(0, 600), {
     httpOnly: true,
     sameSite: "lax",
@@ -36,7 +40,7 @@ async function back(
     secure: process.env.NODE_ENV === "production",
   });
   // Relative Location: behind the proxy req.url may carry an internal host.
-  void req;
+  if (json) return Response.json({ ok: true, to });
   return new Response(null, { status: 303, headers: { Location: to } });
 }
 

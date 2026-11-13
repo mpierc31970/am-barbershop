@@ -3,7 +3,7 @@
 // (ShrinkFileInput); after Upload, the upload timer replaces the form until the page returns.
 import { Button } from "@cds/ui/hub";
 import { useState } from "react";
-import { ShrinkFileInput } from "./ShrinkFileInput";
+import { sendPhotoForm, ShrinkFileInput } from "./ShrinkFileInput";
 import { Uploading } from "./Uploading";
 
 export function SeatUploadForm({
@@ -16,13 +16,22 @@ export function SeatUploadForm({
   label: string;
 }) {
   const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
   return (
     <form
       method="post"
       action="/hub/api/studio/photo"
       encType="multipart/form-data"
       className="flex flex-wrap items-end gap-3"
-      onSubmit={() => setSending(true)}
+      onSubmit={async (e) => {
+        e.preventDefault();
+        const form = e.currentTarget;
+        setSending(true);
+        setError("");
+        const msg = await sendPhotoForm(form);
+        setSending(false);
+        setError(msg);
+      }}
     >
       <input type="hidden" name="seatId" value={seatId} />
       <input type="hidden" name="target" value={target} />
@@ -38,6 +47,11 @@ export function SeatUploadForm({
           className="text-base font-normal"
         />
       </label>
+      {error ? (
+        <p role="alert" className="w-full text-base text-hub-danger">
+          {error}
+        </p>
+      ) : null}
       {sending ? null : (
         <Button type="submit" size="sm">
           Upload

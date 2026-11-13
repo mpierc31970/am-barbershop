@@ -3,19 +3,29 @@
 // fallback if the browser doesn't fire the change. While it sends, an upload timer shows.
 import { Camera } from "lucide-react";
 import { useState } from "react";
-import { ShrinkFileInput } from "./ShrinkFileInput";
+import { sendPhotoForm, ShrinkFileInput } from "./ShrinkFileInput";
 import { Uploading } from "./Uploading";
 
 export function PhotoPicker({ seatId }: { seatId: string }) {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
+  async function send(form: HTMLFormElement) {
+    setSending(true);
+    setError("");
+    const msg = await sendPhotoForm(form);
+    setSending(false);
+    setError(msg);
+  }
   return (
     <form
       method="post"
       action="/hub/api/studio/photo"
       encType="multipart/form-data"
       className="flex flex-col gap-4"
-      onSubmit={() => setSending(true)}
+      onSubmit={(e) => {
+        e.preventDefault();
+        void send(e.currentTarget);
+      }}
     >
       <input type="hidden" name="seatId" value={seatId} />
       <input type="hidden" name="target" value="gallery" />
@@ -36,7 +46,9 @@ export function PhotoPicker({ seatId }: { seatId: string }) {
             setSending(false);
             setError(m);
           }}
-          onReady={(input) => input.form?.submit()}
+          onReady={(input) => {
+            if (input.form) void send(input.form);
+          }}
         />
       </label>
       {error ? (
