@@ -4,7 +4,8 @@
 // barber = 404.
 import { getPublicSeat, socialName, type PublicSeat } from "@cds/db";
 import { BrandIcon, brandForPlatform, HEADING_CLASSES } from "@cds/ui/site";
-import { Globe } from "lucide-react";
+import { ArrowLeft, Globe } from "lucide-react";
+import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { siteForRequest } from "../../../../../lib/tenant";
@@ -18,6 +19,9 @@ import {
 } from "../BarberViews";
 
 export const dynamic = "force-dynamic";
+
+// Launch TODO: filler boxes so "My Work" shows before barbers add photos.
+const PLACEHOLDERS = [1, 2, 3, 4, 5];
 
 type Props = { params: Promise<{ host: string; slug: string }> };
 
@@ -54,6 +58,15 @@ export default async function BarberPage({ params }: Props) {
       className="outline-none"
       data-barber-page=""
     >
+      <div className="mx-auto max-w-[1120px] px-6 pt-8 md:px-8">
+        <Link
+          href="/barbers"
+          className="inline-flex min-h-11 items-center gap-2 font-semibold underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--site-focus)]"
+        >
+          <ArrowLeft size={20} aria-hidden="true" focusable="false" />
+          Back to list
+        </Link>
+      </div>
       <div className="mx-auto grid max-w-[1120px] gap-10 px-6 py-12 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:px-8 md:py-16">
         <div className="w-full max-w-[420px]">
           <Portrait seat={seat} eager />
@@ -158,13 +171,15 @@ export default async function BarberPage({ params }: Props) {
           ) : null}
         </div>
       </div>
-      {seat.gallery.length ? (
+      {/* Launch TODO: drop PLACEHOLDERS and the always-on section (show it only when
+          seat.gallery.length) before the site goes live. */}
+      {seat.gallery.length || PLACEHOLDERS.length ? (
         <section
           aria-labelledby="work-h"
           className="mx-auto max-w-[1120px] px-6 pb-16 md:px-8"
         >
           <h2 id="work-h" className={HEADING_CLASSES[2] + " mb-6"}>
-            Work
+            My Work
           </h2>
           <ul className="grid grid-cols-2 gap-4 md:grid-cols-4">
             {seat.gallery.map((g) => (
@@ -176,6 +191,15 @@ export default async function BarberPage({ params }: Props) {
                   loading="lazy"
                   className="aspect-square w-full object-cover"
                 />
+              </li>
+            ))}
+            {PLACEHOLDERS.map((n) => (
+              <li
+                key={`ph-${n}`}
+                aria-hidden="true"
+                className="flex aspect-square w-full items-center justify-center border border-site-border text-[length:var(--site-text-h2)] font-semibold"
+              >
+                {n}
               </li>
             ))}
           </ul>
