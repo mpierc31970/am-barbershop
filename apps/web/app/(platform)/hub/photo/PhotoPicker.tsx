@@ -3,9 +3,11 @@
 // fallback if the browser doesn't fire the change.
 import { Camera } from "lucide-react";
 import { useState } from "react";
+import { ShrinkFileInput } from "./ShrinkFileInput";
 
 export function PhotoPicker({ seatId }: { seatId: string }) {
   const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
   return (
     <form
       method="post"
@@ -19,21 +21,24 @@ export function PhotoPicker({ seatId }: { seatId: string }) {
       <label className="flex min-h-16 cursor-pointer items-center justify-center gap-3 rounded bg-hub-accent px-6 text-lg font-semibold text-hub-surface">
         <Camera aria-hidden="true" size={24} strokeWidth={2} />
         {sending ? "Sending…" : "Open camera"}
-        <input
-          type="file"
+        <ShrinkFileInput
           name="file"
           accept="image/*"
           capture="environment"
           required
           className="sr-only"
-          onChange={(e) => {
-            if (e.currentTarget.files?.length) {
-              setSending(true);
-              e.currentTarget.form?.submit();
-            }
+          onError={setError}
+          onReady={(input) => {
+            setSending(true);
+            input.form?.submit();
           }}
         />
       </label>
+      {error ? (
+        <p role="alert" className="text-base text-hub-danger">
+          {error}
+        </p>
+      ) : null}
       <button
         type="submit"
         className="min-h-11 rounded border border-hub-border px-4 text-base"

@@ -32,6 +32,7 @@ import { readStudioNote, STUDIO_BASE } from "../../../../../../lib/studio";
 import { GuardedLink } from "../../../GuardedLink";
 import { PHONE_APP_HELP_HREF } from "../../../nav";
 import { StudioTabs } from "../../StudioTabs";
+import { ShrinkFileInput } from "../../../photo/ShrinkFileInput";
 import { ScheduleSection } from "./ScheduleSection";
 
 export const metadata: Metadata = { title: "Barber" };
@@ -72,8 +73,7 @@ function UploadForm({
       <input type="hidden" name="target" value={target} />
       <label className="flex flex-col gap-2 text-sm font-semibold">
         {label}
-        <input
-          type="file"
+        <ShrinkFileInput
           name="file"
           required
           accept="image/jpeg,image/png,image/webp,image/heic"
