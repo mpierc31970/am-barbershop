@@ -24,7 +24,10 @@ vi.mock("@cds/addon-registry", () => ({
     list: () => [
       {
         slug: "studio-booking",
-        alerts: [spec("studio-booking", "booking.new")],
+        alerts: [
+          spec("studio-booking", "booking.new"),
+          spec("studio-booking", "studio-booking.gallery_photo"),
+        ],
       },
       { slug: "store", alerts: [spec("store", "store.order")] },
     ],
@@ -61,5 +64,22 @@ describe("alertTypesFor (IN-C03)", () => {
     const types = (await alertTypesFor(OWNER)).map((t) => t.type);
     expect(types).not.toContain("booking.new");
     expect(types).toContain("form.message");
+  });
+
+  it("the new-photo switch is the owner's and admins', never a barber's", async () => {
+    db.activeAddons.mockResolvedValue(["studio-booking"]);
+    db.pausedAddons.mockResolvedValue([]);
+    const of = async (role: string) =>
+      (
+        await alertTypesFor({
+          ...(OWNER as object),
+          role,
+          grants: ["studio-booking"],
+        } as never)
+      ).map((t) => t.type);
+    expect(await of("owner")).toContain("studio-booking.gallery_photo");
+    expect(await of("admin")).toContain("studio-booking.gallery_photo");
+    expect(await of("renter")).not.toContain("studio-booking.gallery_photo");
+    expect(await of("staff")).not.toContain("studio-booking.gallery_photo");
   });
 });

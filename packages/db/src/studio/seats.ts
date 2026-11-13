@@ -719,7 +719,15 @@ export async function removeSeatPhoto(
         targetId: seat.id,
       },
     );
-    removed = true;
+    // The owner added it to the main Gallery: keep the media so that block still shows it.
+    const inGallery = await pb.collection("page_sections").getList(1, 1, {
+      filter: pb.filter(
+        "organization = {:o} && section_type = 'gallery' && content ~ {:m}",
+        { o: ctx.orgId, m: mediaId },
+      ),
+      fields: "id",
+    });
+    removed = inGallery.totalItems === 0;
   });
   if (removed) await retire(ctx, mediaId);
 }

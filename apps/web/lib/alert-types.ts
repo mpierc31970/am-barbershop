@@ -38,6 +38,10 @@ export async function alertTypesFor(
     (t) =>
       !t.type.startsWith("payments.") &&
       !t.type.startsWith("billing.") &&
+      // Only the owner and admins decide on a barber's new photo.
+      (t.type !== "studio-booking.gallery_photo" ||
+        ctx.role === "owner" ||
+        ctx.role === "admin") &&
       eligibleFor(subject, t),
   );
 }
