@@ -17,7 +17,7 @@ import {
 } from "../../../actions/studio";
 import { requireHubSession } from "../../../../lib/session";
 import { readStudioNote } from "../../../../lib/studio";
-import { DecideButton } from "../alerts/DecideButton";
+import { GalleryButtons } from "./GalleryButtons";
 import { GuardedLink } from "../GuardedLink";
 import { SeatUploadForm } from "../photo/SeatUploadForm";
 
@@ -67,7 +67,7 @@ export default async function GalleryPage() {
           body="Add a photo above, or add a barber's photo from Alerts."
         />
       ) : (
-        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {photos.map((p) => (
             <li
               key={p.id}
@@ -100,15 +100,7 @@ export default async function GalleryPage() {
                     className="min-h-11 rounded border border-hub-border-strong px-3 text-base font-normal"
                   />
                 </label>
-                <DecideButton to="confirmed" label="Save" busyLabel="Saving…" />
-              </form>
-              <form action={removeGalleryPhotoAction}>
-                <input type="hidden" name="id" value={p.id} />
-                <DecideButton
-                  to="removed"
-                  label="Remove"
-                  busyLabel="Removing…"
-                />
+                <GalleryButtons remove={removeGalleryPhotoAction} />
               </form>
             </li>
           ))}
