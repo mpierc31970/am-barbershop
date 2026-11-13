@@ -31,11 +31,15 @@ export type {
   ServiceInput,
 } from "./seats";
 export {
+  addMainGalleryPhoto,
   decideGalleryPhoto,
+  editMainGalleryPhoto,
   GALLERY_REMOVED_COPY,
   galleryOfferOf,
+  listMainGallery,
+  removeMainGalleryPhoto,
 } from "./gallery";
-export type { GalleryOffer } from "./gallery";
+export type { GalleryOffer, MainGalleryPhoto } from "./gallery";
 export { getPublicSeat, listPublicSeats, readPublicSeatPhoto } from "./public";
 export type { PublicSeat, PublicSeatService, SeatSocial } from "./public";
 export { isManager as isStudioManager, STUDIO_SLUG } from "./shared";

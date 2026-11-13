@@ -158,6 +158,7 @@ const MARKETING = {
 
 const TODAY = { href: "/hub/today", label: "Today", iconKey: "House" };
 const ALERTS = { href: "/hub/alerts", label: "Alerts", iconKey: "Bell" };
+const GALLERY = { href: "/hub/gallery", label: "Gallery", iconKey: "Images" };
 const REPORTS = {
   href: "/hub/reports",
   label: "Reports",
@@ -205,6 +206,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
     expect(nav.items).toEqual([
       TODAY,
       ALERTS,
+      GALLERY,
       INBOX,
       WEBSITE,
       MARKETING,
@@ -239,6 +241,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
     expect(nav.items).toEqual([
       TODAY,
       ALERTS,
+      GALLERY,
       INBOX,
       WEBSITE,
       MARKETING,
@@ -311,6 +314,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
     expect(on.items).toEqual([
       TODAY,
       ALERTS,
+      GALLERY,
       INBOX,
       WEBSITE,
       { href: "/hub/fixture-side", label: "Side", iconKey: "BadgeCheck" },
@@ -352,6 +356,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
     expect(n.items.map((i) => i.href)).toEqual([
       "/hub/today",
       "/hub/alerts",
+      "/hub/gallery",
       "/hub/inbox",
       "/hub/website",
       "/hub/side-early",
@@ -372,6 +377,7 @@ describe("composeHubNav (11-14 D311 order: Today, Inbox, Website, add-ons, Marke
     expect(nav.items.map((i) => i.href)).toEqual([
       "/hub/today",
       "/hub/alerts",
+      "/hub/gallery",
       "/hub/inbox",
       "/hub/website",
       "/hub/marketing",
@@ -586,11 +592,11 @@ describe("composeHubNav: badges from Needs you (DASH-27)", () => {
 
   it("the Inbox badge shows only for a count above zero", () => {
     const four = composeHubNav({ ...base, inboxUnread: 4 });
-    expect(four.items[2]).toEqual({ ...INBOX, badge: 4 });
+    expect(four.items[3]).toEqual({ ...INBOX, badge: 4 });
     for (const inboxUnread of [0, -2, Number.NaN, undefined]) {
       const n = composeHubNav({ ...base, inboxUnread });
-      expect(n.items[2]).toEqual(INBOX);
-      expect(n.items[2]).not.toHaveProperty("badge");
+      expect(n.items[3]).toEqual(INBOX);
+      expect(n.items[3]).not.toHaveProperty("badge");
     }
   });
 

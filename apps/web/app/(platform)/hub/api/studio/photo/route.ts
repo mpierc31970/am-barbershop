@@ -3,7 +3,15 @@
 // session -> Content-Length cap -> formData -> real size -> uploadSeatPhoto, which proves the
 // seat is the caller's (a barber only their own) before the media pipeline runs.
 // Always answers 303 back to the seat screen with a one-time note.
-import { MAX_UPLOAD_BYTES, UPLOAD_COPY, uploadSeatPhoto } from "@cds/db";
+import {
+  addMainGalleryPhoto,
+  isStudioManager,
+  MAX_UPLOAD_BYTES,
+  UPLOAD_COPY,
+  uploadLibraryImage,
+  uploadSeatPhoto,
+} from "@cds/db";
+import { contentDeps } from "../../../../../../lib/content";
 import { cookies } from "next/headers";
 import { toActionError } from "../../../../../../lib/action";
 import {
@@ -72,6 +80,29 @@ export async function POST(req: Request): Promise<Response> {
     form = await req.formData();
   } catch {
     return back(req, STUDIO_BASE, "error", UPLOAD_COPY.failed);
+  }
+  // target "main": the owner's own photo straight onto the Gallery page (/hub/gallery).
+  if (form.get("target") === "main") {
+    const to = "/hub/gallery";
+    if (!isStudioManager(ctx))
+      return back(req, to, "error", "Only the shop owner can do this.");
+    const file = form.get("file");
+    if (!(file instanceof Blob) || file.size === 0)
+      return back(req, to, "error", UPLOAD_COPY.type);
+    if (file.size > MAX_UPLOAD_BYTES)
+      return back(req, to, "error", UPLOAD_COPY.tooBig(file.size));
+    try {
+      const alt = String(form.get("alt") ?? "").trim() || "A&M Barber Studio";
+      const { asset } = await uploadLibraryImage(
+        ctx,
+        new Uint8Array(await file.arrayBuffer()),
+        { alt, ...(file instanceof File ? { filename: file.name } : {}) },
+      );
+      await addMainGalleryPhoto(ctx, asset.id, alt, contentDeps());
+      return back(req, to, "ok", "Photo added to the Gallery.");
+    } catch (err) {
+      return back(req, to, "error", toActionError(err).message);
+    }
   }
   const seatId = String(form.get("seatId") ?? "");
   if (!ID.test(seatId))

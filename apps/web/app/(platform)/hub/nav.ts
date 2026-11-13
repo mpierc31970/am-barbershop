@@ -60,6 +60,13 @@ export const ALERTS_NAV: HubNavItem = Object.freeze({
   iconKey: "Bell",
 });
 
+/** A&M fork: the owner's Gallery page editor (add, describe, remove photos). */
+export const GALLERY_NAV: HubNavItem = Object.freeze({
+  href: "/hub/gallery",
+  label: "Gallery",
+  iconKey: "Images",
+});
+
 export const WEBSITE_NAV: HubNavItem = Object.freeze({
   href: "/hub/website",
   label: "Website",
@@ -276,6 +283,7 @@ export function composeHubNav(input: {
     items.push(withBadge(SETUP_NAV, Math.max(0, input.stillNeededCount ?? 0)));
   }
   items.push({ ...TODAY_NAV }, { ...ALERTS_NAV });
+  if (role === "owner" || role === "admin") items.push({ ...GALLERY_NAV });
   if (readsContent) {
     const unread = input.inboxUnread;
     const inboxFailed =

@@ -11,8 +11,9 @@ export function SeatUploadForm({
   target,
   label,
 }: {
-  seatId: string;
-  target: "photo" | "gallery" | "logo";
+  /** Absent for target "main" (the Gallery page). */
+  seatId?: string;
+  target: "photo" | "gallery" | "logo" | "main";
   label: string;
 }) {
   const [sending, setSending] = useState(false);
@@ -33,7 +34,7 @@ export function SeatUploadForm({
         setError(msg);
       }}
     >
-      <input type="hidden" name="seatId" value={seatId} />
+      {seatId ? <input type="hidden" name="seatId" value={seatId} /> : null}
       <input type="hidden" name="target" value={target} />
       {sending ? <Uploading /> : null}
       <label

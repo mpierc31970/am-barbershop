@@ -7,6 +7,8 @@ import {
   addTimeOff,
   createSeat,
   decideGalleryPhoto,
+  editMainGalleryPhoto,
+  removeMainGalleryPhoto,
   inviteSeat,
   markLeasePaid,
   removeSeat,
@@ -75,6 +77,7 @@ async function act(
   else await note("error", res.message);
   revalidatePath(STUDIO_BASE, "layout");
   revalidatePath("/hub/alerts"); // its cards show booking status
+  revalidatePath("/hub/gallery");
   const to = res.ok && typeof res.data === "string" ? res.data : back;
   if (to) redirect(to);
 }
@@ -280,6 +283,23 @@ export async function galleryPhotoAction(form: FormData): Promise<void> {
       );
     },
   );
+}
+
+export async function editGalleryPhotoAction(form: FormData): Promise<void> {
+  await act(null, "Description saved.", async ({ ctx }) => {
+    await editMainGalleryPhoto(
+      ctx,
+      field(form, "id"),
+      field(form, "alt"),
+      contentDeps(),
+    );
+  });
+}
+
+export async function removeGalleryPhotoAction(form: FormData): Promise<void> {
+  await act(null, "Removed from the Gallery.", async ({ ctx }) => {
+    await removeMainGalleryPhoto(ctx, field(form, "id"), contentDeps());
+  });
 }
 
 // ---------------------------------------------------------------- step 3: chair rent
