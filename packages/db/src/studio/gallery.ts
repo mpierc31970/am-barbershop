@@ -56,7 +56,8 @@ export async function raiseGalleryOffer(
 
 /**
  * Owner/admin only. Add: append the photo to the Gallery page's gallery block and publish
- * the page (a retry after a held publish does not add it twice). Skip: nothing but the mark.
+ * the page (a retry after a held publish does not add it twice). Skip: the alert is deleted,
+ * so it leaves every recipient's list.
  */
 export async function decideGalleryPhoto(
   ctx: OrgContext,
@@ -123,8 +124,11 @@ export async function decideGalleryPhoto(
     });
     if (rows.length === 0) return;
     const batch = pb.createBatch();
-    for (const r of rows)
-      batch.collection("alerts").update(r.id, { source_key: done });
+    // A skipped photo leaves the owner's list; an added one keeps its "Added" card.
+    for (const r of rows) {
+      if (add) batch.collection("alerts").update(r.id, { source_key: done });
+      else batch.collection("alerts").delete(r.id);
+    }
     await batch.send();
   });
 }
