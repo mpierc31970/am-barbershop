@@ -15,7 +15,7 @@ import { withSuperuser } from "../src/client";
 import { setStaffRole } from "../src/auth";
 import { mintOrgContext, mintPlatformContext } from "../src/context";
 import { addMember, removeMember, transferOwnership } from "../src/members";
-import { updateSeat } from "../src/studio/seats";
+import { createSeat, updateSeat } from "../src/studio/seats";
 
 const SLUG = "am-barber";
 const IP = "am-roles";
@@ -90,10 +90,11 @@ async function main(): Promise<void> {
   // A&M: an optional second owner (AM_COOWNER_EMAIL / _PASSWORD / _NAME, e.g. Mike), with
   // the same owner role; no seat of their own.
   const coEmail = process.env.AM_COOWNER_EMAIL?.trim().toLowerCase() || "";
+  const coName = process.env.AM_COOWNER_NAME?.trim() || "Co-owner";
+  let coUserId = "";
   if (coEmail !== "") {
     const coPassword = env("AM_COOWNER_PASSWORD");
-    const coName = process.env.AM_COOWNER_NAME?.trim() || "Co-owner";
-    await withSuperuser(async (pb) => {
+    coUserId = await withSuperuser(async (pb) => {
       const body = {
         name: coName,
         password: coPassword,
@@ -120,6 +121,7 @@ async function main(): Promise<void> {
           addon_grants: [],
         });
       }
+      return userId;
     });
     console.log(`PASS ${coName}: second shop owner (${coEmail})`);
   }
@@ -157,8 +159,31 @@ async function main(): Promise<void> {
   );
   const owner = ctxFor(ownerId);
   let n = 0;
+  // The second owner's own Employee seat (created unpublished; they fill it in and publish).
+  if (coUserId !== "") {
+    const seatId =
+      seats.find((x) => String(x.name).toLowerCase() === coName.toLowerCase())
+        ?.id ??
+      (
+        await createSeat(ctxFor(ownerId), {
+          name: coName,
+          email: coEmail,
+          kind: "staff",
+        })
+      ).id;
+    await withSuperuser((pb) =>
+      pb.collection("studio_seats").update(seatId, {
+        user: coUserId,
+        email: coEmail,
+        kind: "staff",
+      }),
+    );
+    console.log(`PASS ${coName}: the second owner's own seat (${coEmail})`);
+  }
   for (const seat of seats) {
     const name = String(seat.name);
+    if (coUserId !== "" && name.toLowerCase() === coName.toLowerCase())
+      continue;
     if (ownerSeat !== "" && name.toLowerCase() === ownerSeat) {
       await updateSeat(owner, seat.id, { email: ownerEmail, kind: "staff" });
       await withSuperuser(async (pb) => {
