@@ -32,7 +32,15 @@ export function Portrait({
 }) {
   if (!seat.photo) {
     return (
-      <div aria-hidden className="aspect-[2/3] w-full bg-site-surface-raised" />
+      <div
+        role="img"
+        aria-label={`${seat.name}: picture coming soon`}
+        className="flex aspect-[2/3] w-full items-center justify-center border border-site-border bg-site-surface-raised p-4 text-center text-site-text-muted"
+      >
+        <span className="text-lg font-semibold uppercase tracking-wide">
+          Picture coming soon
+        </span>
+      </div>
     );
   }
   return (
