@@ -12,13 +12,15 @@ import {
   listBell,
   listBookings,
   listMissedBookings,
+  listTeamAlerts,
   markAllRead,
   statsTimeZone,
   type BellAlert,
   type BookingView,
   type MissedView,
+  type TeamAlert,
 } from "@cds/db";
-import { Badge, EmptyState, InlineAlert } from "@cds/ui/hub";
+import { Badge, EmptyState, InlineAlert, TabLinks } from "@cds/ui/hub";
 import { ScreenHeader } from "@cds/ui/hub/shell";
 import { Mail, MessageSquare, Phone } from "lucide-react";
 import type { Metadata } from "next";
@@ -144,8 +146,49 @@ async function loadAlerts(
   }
 }
 
-export default async function AlertsPage() {
+function TeamList({ rows, tz }: { rows: TeamAlert[]; tz: string }) {
+  if (rows.length === 0) {
+    return (
+      <EmptyState
+        heading="No team alerts"
+        body="Alerts sent to your barbers show here."
+      />
+    );
+  }
+  return (
+    <ul className="flex flex-col gap-3">
+      {rows.map((a) => (
+        <li
+          key={a.id}
+          className="flex flex-col gap-1 rounded border border-hub-border bg-hub-surface p-4"
+        >
+          <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <p className="min-w-0 flex-1 text-base font-semibold">{a.title}</p>
+            <Badge tone={a.read ? "draft" : "unread"}>
+              {a.read ? "Seen" : "Not seen yet"}
+            </Badge>
+          </div>
+          <p className="text-sm text-hub-ink-muted">
+            To {a.recipient} · {whenOf(a.createdAt, tz)}
+          </p>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export default async function AlertsPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ tab?: string }>;
+} = {}) {
   const { ctx } = await requireHubSession();
+  // A&M fork: owners and admins get two tabs: their own alerts and their barbers' (Team).
+  const manager = ctx.role === "owner" || ctx.role === "admin";
+  const team = manager && (await searchParams)?.tab === "team";
+  const teamRows = team
+    ? await listTeamAlerts(ctx).catch(() => [] as TeamAlert[])
+    : [];
   const [{ rows, tz, failed }, bookings, missed, note] = await Promise.all([
     loadAlerts(ctx),
     // Only the bookings this person may see (a barber their own); none without the add-on.
@@ -158,7 +201,7 @@ export default async function AlertsPage() {
   const byId = new Map(bookings.map((b) => [b.id, b]));
   const missedById = new Map(missed.map((m) => [m.id, m]));
   // Seen here = read: the bell count clears (rows above keep their "New" for this view).
-  if (!failed && rows.some((a) => !a.read)) {
+  if (!team && !failed && rows.some((a) => !a.read)) {
     await markAllRead(ctx).catch((err: unknown) =>
       console.error(
         `[alerts] mark read failed ${err instanceof Error ? err.name : typeof err}`,
@@ -182,7 +225,19 @@ export default async function AlertsPage() {
           {note.text}
         </InlineAlert>
       ) : null}
-      {failed ? (
+      {manager ? (
+        <TabLinks
+          label="Alerts"
+          activeId={team ? "team" : "mine"}
+          tabs={[
+            { id: "mine", label: "My alerts", href: "/hub/alerts" },
+            { id: "team", label: "Team alerts", href: "/hub/alerts?tab=team" },
+          ]}
+        />
+      ) : null}
+      {team ? (
+        <TeamList rows={teamRows} tz={tz} />
+      ) : failed ? (
         <InlineAlert tone="error">
           We couldn&apos;t load your alerts. Refresh to try again.
         </InlineAlert>

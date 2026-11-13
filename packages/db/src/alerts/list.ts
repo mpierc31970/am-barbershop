@@ -256,3 +256,52 @@ export async function markAllRead(
     return { marked: res.items.length };
   });
 }
+
+export type TeamAlert = BellAlert & { recipient: string };
+
+/**
+ * A&M fork: the barbers' alerts (members whose role is renter or staff), newest first, for
+ * the owners and admins' "Team" tab. Read-only: nothing is marked read.
+ */
+export async function listTeamAlerts(
+  ctx: OrgContext,
+  opts: { limit?: number; now?: Date } = {},
+): Promise<TeamAlert[]> {
+  assertOrgContext(ctx);
+  if (ctx.role !== "owner" && ctx.role !== "admin") return [];
+  const limit = Math.min(Math.max(Math.trunc(opts.limit ?? 100), 1), MAX_LIMIT);
+  const now = opts.now ?? new Date();
+  return withSuperuser(async (pb) => {
+    const members = await pb.collection("memberships").getFullList({
+      filter: pb.filter(
+        "organization = {:o} && (role = 'renter' || role = 'staff')",
+        { o: ctx.orgId },
+      ),
+      fields: "user",
+    });
+    const users = members.map((m) => str(m.user)).filter(Boolean);
+    if (users.length === 0) return [];
+    const names = new Map<string, string>();
+    const seats = await pb.collection("studio_seats").getFullList({
+      filter: pb.filter("organization = {:o}", { o: ctx.orgId }),
+      fields: "user,name",
+    });
+    for (const s of seats) if (str(s.user)) names.set(str(s.user), str(s.name));
+    const inUsers = users.map((_, i) => `user = {:u${i}}`).join(" || ");
+    const params: Record<string, unknown> = { o: ctx.orgId, since: since(now) };
+    users.forEach((u, i) => (params[`u${i}`] = u));
+    const res = await pb.collection(COLLECTION).getList(1, limit, {
+      filter: pb.filter(
+        `organization = {:o} && created >= {:since} && (${inUsers})`,
+        params,
+      ),
+      sort: "-created,-id",
+      fields:
+        "id,user,type,level,title,href,section,source_key,read_at,created",
+    });
+    return res.items.map((r) => ({
+      ...toBell(r, new Set()),
+      recipient: names.get(str(r.user)) || "A barber",
+    }));
+  });
+}
