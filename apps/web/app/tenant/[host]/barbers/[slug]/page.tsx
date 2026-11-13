@@ -174,7 +174,7 @@ export default async function BarberPage({ params }: Props) {
                   src={photoUrl(g)}
                   alt={`A cut by ${seat.name}`}
                   loading="lazy"
-                  className="aspect-[4/5] w-full object-cover"
+                  className="aspect-square w-full object-cover"
                 />
               </li>
             ))}

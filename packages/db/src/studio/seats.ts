@@ -654,7 +654,9 @@ export async function uploadSeatPhoto(
   const { asset } = await uploadImage(asShop(ctx), bytes, "team", {
     alt: (target === "logo"
       ? `${str(seat.brand_name) || str(seat.name)} logo`
-      : `${str(seat.name)}${target === "photo" ? "" : ", work by"} at the shop`
+      : target === "photo"
+        ? `${str(seat.name)} at the shop`
+        : `Haircut by ${str(seat.name)}`
     ).slice(0, 250),
     ...(opts.filename ? { filename: opts.filename } : {}),
   });

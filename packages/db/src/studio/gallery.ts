@@ -97,10 +97,7 @@ export async function decideGalleryPhoto(
             {
               id: randomUUID(),
               asset: mediaId,
-              alt: `Work by ${str(seat?.name)} at A&M Barber Studio`.slice(
-                0,
-                250,
-              ),
+              alt: `Haircut by ${str(seat?.name)}`.slice(0, 250),
               alt_reviewed: true,
               caption: "",
             },
