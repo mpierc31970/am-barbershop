@@ -6,9 +6,10 @@
 // in the bottom row before Report, with Report's class; hidden until published (policyLinks).
 //
 // Server component: hook-free, async-free, no next/* imports (the hub preview renders it).
-// Band surface-raised, 1px top border, 48px padding-y, container 1120px. Up to three columns
-// (business, Hours, Links), each headed by an <h2> at body size 600; hidden parts collapse
-// the grid; stacked below 768px. Socials reuse 07-24's BrandIcon / brandForPlatform and core
+// Band surface-raised, 1px top border, 48px padding-y, container 1120px. A&M fork: three
+// columns: shop info (with hours) | Links (footer links, then socials) | Privacy, Terms,
+// copyright, credit, owner sign-in. An empty first or second column collapses; stacked
+// below 768px. Socials reuse 07-24's BrandIcon / brandForPlatform and core
 // socialLinkLabel (choice 15); hours reuse core hoursRows, with consecutive identical days
 // grouped here ("Mon–Fri 9:00 am to 5:00 pm"; closed days omitted; choice 14).
 import {
@@ -114,12 +115,10 @@ export function SiteFooter({
     footer.addressLines.length > 0 ||
     phoneHref !== "" ||
     email !== "" ||
-    footer.socials.length > 0;
-  const columns = [
-    hasBusiness,
-    hours.length > 0,
-    footer.links.length > 0,
-  ].filter(Boolean).length;
+    hours.length > 0;
+  const hasLinks = footer.links.length > 0 || footer.socials.length > 0;
+  // A&M fork: shop info | links + socials | privacy, terms, credit (always present).
+  const columns = [hasBusiness, hasLinks, true].filter(Boolean).length;
 
   return (
     <footer
@@ -127,88 +126,57 @@ export function SiteFooter({
       className={`border-t border-site-border bg-site-surface-raised py-12 text-site-text ${BODY_CLASS}`}
     >
       <div className="mx-auto max-w-[1120px] px-6 md:px-8">
-        {columns > 0 ? (
-          <div className={gridClass(layout, columns)}>
-            {hasBusiness ? (
-              <div className="flex flex-col gap-2">
-                {logo && logoSrc !== "" ? (
-                  <a href="/" className={`mb-2 inline-flex w-fit ${FOCUS}`}>
-                    <img
-                      src={logoSrc}
-                      {...(logoSrcSet !== ""
-                        ? { srcSet: logoSrcSet, sizes: "200px" }
-                        : {})}
-                      {...(logo.width ? { width: logo.width } : {})}
-                      {...(logo.height ? { height: logo.height } : {})}
-                      alt={logo.alt}
-                      loading="lazy"
-                      className="block h-auto max-h-20 w-auto max-w-[200px] object-contain"
-                    />
-                  </a>
-                ) : null}
-                {name !== "" ? <h2 className={COL_HEADING}>{name}</h2> : null}
-                {footer.addressLines.length > 0 ? (
-                  <address className="not-italic">
-                    {footer.addressLines.map((line, i) => (
-                      <span key={i} className="block">
-                        {line}
-                      </span>
-                    ))}
-                  </address>
-                ) : null}
-                {phoneHref !== "" ? (
-                  <a href={phoneHref} className={LINK}>
-                    {footer.phone}
-                  </a>
-                ) : null}
-                {email !== "" ? (
-                  <a href={`mailto:${email}`} className={LINK}>
-                    {email}
-                  </a>
-                ) : null}
-                {footer.socials.length > 0 ? (
-                  <ul className="flex flex-wrap gap-2">
-                    {footer.socials.map((s, i) => {
-                      const brand = brandForPlatform(s.platform);
-                      return (
-                        <li key={`${s.platform}-${i}`}>
-                          <a
-                            href={s.url}
-                            target="_blank"
-                            rel="me noopener noreferrer"
-                            aria-label={socialLinkLabel(name, s)}
-                            className={`inline-flex size-11 items-center justify-center rounded-site-button text-site-text transition-colors duration-150 hover:text-site-primary ${FOCUS}`}
-                          >
-                            {brand ? (
-                              <BrandIcon id={brand} size={24} />
-                            ) : (
-                              <Globe
-                                size={24}
-                                aria-hidden="true"
-                                focusable="false"
-                              />
-                            )}
-                          </a>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                ) : null}
-              </div>
-            ) : null}
-            {hours.length > 0 ? (
-              <div className="flex flex-col gap-2">
-                <h2 className={COL_HEADING}>Hours</h2>
-                <ul>
+        <div className={gridClass(layout, columns)}>
+          {hasBusiness ? (
+            <div className="flex flex-col gap-2">
+              {logo && logoSrc !== "" ? (
+                <a href="/" className={`mb-2 inline-flex w-fit ${FOCUS}`}>
+                  <img
+                    src={logoSrc}
+                    {...(logoSrcSet !== ""
+                      ? { srcSet: logoSrcSet, sizes: "200px" }
+                      : {})}
+                    {...(logo.width ? { width: logo.width } : {})}
+                    {...(logo.height ? { height: logo.height } : {})}
+                    alt={logo.alt}
+                    loading="lazy"
+                    className="block h-auto max-h-20 w-auto max-w-[200px] object-contain"
+                  />
+                </a>
+              ) : null}
+              {name !== "" ? <h2 className={COL_HEADING}>{name}</h2> : null}
+              {footer.addressLines.length > 0 ? (
+                <address className="not-italic">
+                  {footer.addressLines.map((line, i) => (
+                    <span key={i} className="block">
+                      {line}
+                    </span>
+                  ))}
+                </address>
+              ) : null}
+              {phoneHref !== "" ? (
+                <a href={phoneHref} className={LINK}>
+                  {footer.phone}
+                </a>
+              ) : null}
+              {email !== "" ? (
+                <a href={`mailto:${email}`} className={LINK}>
+                  {email}
+                </a>
+              ) : null}
+              {hours.length > 0 ? (
+                <ul className="mt-2">
                   {hours.map((line) => (
                     <li key={line}>{line}</li>
                   ))}
                 </ul>
-              </div>
-            ) : null}
-            {footer.links.length > 0 ? (
-              <div className="flex flex-col gap-2">
-                <h2 className={COL_HEADING}>Links</h2>
+              ) : null}
+            </div>
+          ) : null}
+          {hasLinks ? (
+            <div className="flex flex-col gap-2">
+              <h2 className={COL_HEADING}>Links</h2>
+              {footer.links.length > 0 ? (
                 <ul>
                   {footer.links.map((l) => (
                     <li key={l.id}>
@@ -224,61 +192,87 @@ export function SiteFooter({
                     </li>
                   ))}
                 </ul>
-              </div>
+              ) : null}
+              {footer.socials.length > 0 ? (
+                <ul className="flex flex-wrap gap-2">
+                  {footer.socials.map((s, i) => {
+                    const brand = brandForPlatform(s.platform);
+                    return (
+                      <li key={`${s.platform}-${i}`}>
+                        <a
+                          href={s.url}
+                          target="_blank"
+                          rel="me noopener noreferrer"
+                          aria-label={socialLinkLabel(name, s)}
+                          className={`inline-flex size-11 items-center justify-center rounded-site-button text-site-text transition-colors duration-150 hover:text-site-primary ${FOCUS}`}
+                        >
+                          {brand ? (
+                            <BrandIcon id={brand} size={24} />
+                          ) : (
+                            <Globe
+                              size={24}
+                              aria-hidden="true"
+                              focusable="false"
+                            />
+                          )}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : null}
+            </div>
+          ) : null}
+          <div className="flex flex-col items-start gap-1 text-site-text-muted">
+            {footer.copyright !== "" ? <p>{footer.copyright}</p> : null}
+            {cookieChoices}
+            {policyLinks?.privacy ? (
+              <a href="/privacy" className={ROW_LINK}>
+                Privacy
+              </a>
+            ) : null}
+            {policyLinks?.terms ? (
+              <a href="/terms" className={ROW_LINK}>
+                Terms
+              </a>
+            ) : null}
+            <p data-site-credit="">
+              Website by{" "}
+              <a
+                href="https://connectionsdesignstudios.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={ROW_LINK}
+              >
+                Connections Design Studios
+              </a>
+            </p>
+            {ownerSignInHref ? (
+              <a
+                href={ownerSignInHref}
+                rel="nofollow"
+                aria-label="Owner sign in"
+                title="Owner sign in"
+                className={`inline-flex min-h-11 min-w-11 items-center justify-center text-site-text-muted opacity-60 transition-opacity duration-150 hover:text-site-text hover:opacity-100 focus-visible:opacity-100 ${FOCUS}`}
+              >
+                <svg
+                  aria-hidden="true"
+                  focusable="false"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect x="5" y="11" width="14" height="10" rx="1" />
+                  <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+                </svg>
+              </a>
             ) : null}
           </div>
-        ) : null}
-        <div
-          className={`${columns > 0 ? "mt-6 border-t border-site-border pt-4 " : ""}flex flex-wrap items-center gap-x-6 gap-y-2 text-site-text-muted`}
-        >
-          {footer.copyright !== "" ? <p>{footer.copyright}</p> : null}
-          {cookieChoices}
-          {policyLinks?.privacy ? (
-            <a href="/privacy" className={ROW_LINK}>
-              Privacy
-            </a>
-          ) : null}
-          {policyLinks?.terms ? (
-            <a href="/terms" className={ROW_LINK}>
-              Terms
-            </a>
-          ) : null}
-          <p data-site-credit="">
-            Website by{" "}
-            <a
-              href="https://connectionsdesignstudios.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={ROW_LINK}
-            >
-              Connections Design Studios
-            </a>
-          </p>
-          {ownerSignInHref ? (
-            <a
-              href={ownerSignInHref}
-              rel="nofollow"
-              aria-label="Owner sign in"
-              title="Owner sign in"
-              className={`inline-flex min-h-11 min-w-11 items-center justify-center text-site-text-muted opacity-60 transition-opacity duration-150 hover:text-site-text hover:opacity-100 focus-visible:opacity-100 ${FOCUS}`}
-            >
-              <svg
-                aria-hidden="true"
-                focusable="false"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <rect x="5" y="11" width="14" height="10" rx="1" />
-                <path d="M8 11V7a4 4 0 0 1 8 0v4" />
-              </svg>
-            </a>
-          ) : null}
         </div>
       </div>
     </footer>

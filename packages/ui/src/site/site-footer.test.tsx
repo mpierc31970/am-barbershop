@@ -52,11 +52,10 @@ function footer(over: Record<string, unknown> = {}): ResolvedFooter {
 describe("SiteFooter", () => {
   const html = renderToStaticMarkup(<SiteFooter footer={footer()} />);
 
-  it("renders three columns headed by h2 and no h1", () => {
+  it("renders shop info and Links headed by h2 and no h1", () => {
     expect(html.match(/<footer/g)).toHaveLength(1);
-    expect(html.match(/<h2/g)).toHaveLength(3);
+    expect(html.match(/<h2/g)).toHaveLength(2);
     expect(html).toContain(">Rivera Bakery</h2>");
-    expect(html).toContain(">Hours</h2>");
     expect(html).toContain(">Links</h2>");
     expect(html).not.toContain("<h1");
     expect(html).not.toMatch(/#[0-9a-fA-F]{3,6}\b|rgb\(/);
@@ -119,8 +118,9 @@ describe("SiteFooter", () => {
     const out = renderToStaticMarkup(
       <SiteFooter footer={footer({ show_hours: false, extra_links: [] })} />,
     );
-    expect(out.match(/<h2/g)).toHaveLength(1);
-    expect(out).not.toContain("Hours");
+    // Socials still fill the Links column.
+    expect(out.match(/<h2/g)).toHaveLength(2);
+    expect(out).not.toContain("Mon–Fri");
   });
 });
 
