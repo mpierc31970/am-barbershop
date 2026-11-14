@@ -19,7 +19,9 @@ import {
   saveLease,
   saveSeatService,
   SEAT_SOCIALS,
+  remindAlert,
   setBookingStatus,
+  transferBooking,
   undoLeasePayment,
   updateSeat,
 } from "@cds/db";
@@ -344,5 +346,27 @@ export async function undoPaymentAction(form: FormData): Promise<void> {
       idField(form, "seatId"),
       idField(form, "paymentId"),
     );
+  });
+}
+
+/** Owner/admin: hand a coming booking to another barber (Bookings screen). */
+export async function transferBookingAction(form: FormData): Promise<void> {
+  await act(
+    `${STUDIO_BASE}/bookings`,
+    "Moved. The barber and client were told.",
+    async ({ ctx }) => {
+      await transferBooking(
+        ctx,
+        idField(form, "bookingId"),
+        idField(form, "seatId"),
+      );
+    },
+  );
+}
+
+/** Owner/admin, Team alerts: remind a barber about an alert they haven't opened. */
+export async function remindAlertAction(form: FormData): Promise<void> {
+  await act(null, "Reminder sent.", async ({ ctx }) => {
+    await remindAlert(ctx, idField(form, "alertId"));
   });
 }

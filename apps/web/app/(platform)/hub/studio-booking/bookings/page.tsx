@@ -4,7 +4,10 @@ import { listBookings, listSeats, type BookingView } from "@cds/db";
 import { Badge, Button, EmptyState, InlineAlert } from "@cds/ui/hub";
 import { ScreenHeader } from "@cds/ui/hub/shell";
 import type { Metadata } from "next";
-import { bookingStatusAction } from "../../../../actions/studio";
+import {
+  bookingStatusAction,
+  transferBookingAction,
+} from "../../../../actions/studio";
 import { requireHubSession } from "../../../../../lib/session";
 import {
   dayLabel,
@@ -58,6 +61,46 @@ function StatusButton({
         }
       >
         {label}
+      </Button>
+    </form>
+  );
+}
+
+/** Owner/admin: hand the booking to another barber (double booked elsewhere). */
+function MoveForm({
+  b,
+  seats,
+}: {
+  b: BookingView;
+  seats: { id: string; name: string }[];
+}) {
+  const others = seats.filter((s) => s.id !== b.seatId);
+  if (others.length === 0) return null;
+  return (
+    <form
+      action={transferBookingAction}
+      className="flex flex-wrap items-center gap-2 text-sm"
+    >
+      <input type="hidden" name="bookingId" value={b.id} />
+      <label htmlFor={`move-${b.id}`}>Move to</label>
+      <select
+        id={`move-${b.id}`}
+        name="seatId"
+        required
+        defaultValue=""
+        className="min-h-9 rounded border border-hub-border-strong bg-hub-surface px-2"
+      >
+        <option value="" disabled>
+          Pick a barber
+        </option>
+        {others.map((s) => (
+          <option key={s.id} value={s.id}>
+            {s.name}
+          </option>
+        ))}
+      </select>
+      <Button type="submit" size="sm" variant="secondary">
+        Transfer
       </Button>
     </form>
   );
@@ -177,6 +220,10 @@ export default async function BookingsPage({ searchParams }: Props) {
                         label="Cancel and email client"
                       />
                     </div>
+                  ) : null}
+                  {manager &&
+                  (b.status === "requested" || b.status === "confirmed") ? (
+                    <MoveForm b={b} seats={seats} />
                   ) : null}
                 </li>
               ))}

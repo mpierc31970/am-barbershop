@@ -287,18 +287,20 @@ export async function listTeamAlerts(
       fields: "user,name",
     });
     for (const s of seats) if (str(s.user)) names.set(str(s.user), str(s.name));
-    const inUsers = users.map((_, i) => `user = {:u${i}}`).join(" || ");
-    const params: Record<string, unknown> = { o: ctx.orgId, since: since(now) };
-    users.forEach((u, i) => (params[`u${i}`] = u));
-    const res = await pb.collection(COLLECTION).getList(1, limit, {
-      filter: pb.filter(
-        `organization = {:o} && created >= {:since} && (${inUsers})`,
-        params,
-      ),
+    const team = new Set(users);
+    // ponytail: reads the org's last 30 days then keeps the barbers'; fine for one shop.
+    const rows = await pb.collection(COLLECTION).getFullList({
+      filter: pb.filter("organization = {:o} && created >= {:since}", {
+        o: ctx.orgId,
+        since: since(now),
+      }),
       sort: "-created,-id",
       fields:
         "id,user,type,level,title,href,section,source_key,read_at,created",
     });
+    const res = {
+      items: rows.filter((r) => team.has(str(r.user))).slice(0, limit),
+    };
     return res.items.map((r) => ({
       ...toBell(r, new Set()),
       recipient: names.get(str(r.user)) || "A barber",

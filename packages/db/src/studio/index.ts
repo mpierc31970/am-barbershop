@@ -61,6 +61,7 @@ export {
   publicAvailability,
   runStudioReminders,
   setBookingStatus,
+  transferBooking,
 } from "./bookings";
 export type {
   BookingInput,

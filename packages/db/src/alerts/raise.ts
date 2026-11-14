@@ -35,7 +35,15 @@ import {
   type AlertTypeSpec,
   type QuietHours,
 } from "@cds/core/alerts";
-import { ORG_ROLES, type OrgRole } from "@cds/core";
+import {
+  Forbidden,
+  InvalidInput,
+  NotFound,
+  ORG_ROLES,
+  RateLimited,
+  type OrgRole,
+} from "@cds/core";
+import { SlidingWindowLimiter } from "../rate-limit";
 import type PocketBase from "pocketbase";
 import type { RecordModel } from "pocketbase";
 import { withSuperuser } from "../client";
@@ -704,4 +712,63 @@ export async function raiseAlert(
     console.error(`[alerts] raise failed ${errName(err)}`);
     return { recipients: 0 };
   }
+}
+
+/** Owner reminders: one per alert per 10 minutes (each sends the barber another email). */
+const remindLimiter = new SlidingWindowLimiter(1, 600_000);
+
+/**
+ * A&M fork: the owner (or an admin) nudges a barber about an alert they have not opened yet:
+ * the same alert comes back unread as "Reminder: ...", emailed and pushed again. Only a
+ * renter's or staff member's unread alert, of this org.
+ */
+export async function remindAlert(
+  ctx: OrgContext,
+  alertId: string,
+): Promise<void> {
+  if (ctx.role !== "owner" && ctx.role !== "admin") {
+    throw new Forbidden("only the shop owner can do this");
+  }
+  if (!/^[a-z0-9]{15}$/.test(alertId)) throw new NotFound();
+  const row = await withSuperuser(async (pb) => {
+    const r = await pb
+      .collection("alerts")
+      .getFirstListItem(
+        pb.filter("id = {:id} && organization = {:o}", {
+          id: alertId,
+          o: ctx.orgId,
+        }),
+      )
+      .catch(() => null);
+    if (!r) return null;
+    const m = await pb
+      .collection("memberships")
+      .getFirstListItem(
+        pb.filter(
+          "organization = {:o} && user = {:u} && (role = 'renter' || role = 'staff')",
+          { o: ctx.orgId, u: str(r.user) },
+        ),
+      )
+      .catch(() => null);
+    return m ? r : null;
+  });
+  if (!row) throw new NotFound();
+  if (row.read_at) throw new InvalidInput("They've already seen it.");
+  if (remindLimiter.take(alertId) === null) {
+    throw new RateLimited("reminded a few minutes ago");
+  }
+  const title = `Reminder: ${str(row.title).replace(/^Reminder: /, "")}`;
+  await raiseAlert(
+    ctx,
+    {
+      type: str(row.type),
+      sourceKey: str(row.source_key),
+      title,
+      safeTitle: "Reminder from the shop",
+      href: str(row.href) || "/hub/alerts",
+      ...(str(row.section) ? { section: str(row.section) } : {}),
+      audience: { users: [str(row.user)] },
+    },
+    { renotify: true },
+  );
 }

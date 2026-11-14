@@ -27,6 +27,7 @@ import type { Metadata } from "next";
 import {
   bookingStatusAction,
   galleryPhotoAction,
+  remindAlertAction,
 } from "../../../actions/studio";
 import { bellKeysFrom } from "../../../../lib/bell";
 import { getNeedsYou } from "../../../../lib/needs-you";
@@ -171,6 +172,14 @@ function TeamList({ rows, tz }: { rows: TeamAlert[]; tz: string }) {
           <p className="text-sm text-hub-ink-muted">
             To {a.recipient} · {whenOf(a.createdAt, tz)}
           </p>
+          {a.read ? null : (
+            <form action={remindAlertAction} className="pt-2">
+              <input type="hidden" name="alertId" value={a.id} />
+              <button type="submit" className={LINK}>
+                Send reminder
+              </button>
+            </form>
+          )}
         </li>
       ))}
     </ul>

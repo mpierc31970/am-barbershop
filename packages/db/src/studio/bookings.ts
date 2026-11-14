@@ -28,6 +28,7 @@ import { newRecordId } from "../repository";
 import { hoursOf } from "./schedule";
 import {
   num,
+  requireManager,
   requireStudio,
   seatFor,
   str,
@@ -753,6 +754,126 @@ export async function setBookingStatus(
     },
     { transport: deps.transport, replyTo },
   ).catch(() => console.error(`[studio] ${to} email not sent`));
+}
+
+/**
+ * A&M fork: the owner (or an admin) hands a coming booking (requested or confirmed) to another
+ * barber, e.g. when he is double booked from another platform. Same time, service and status;
+ * refused if that barber already has a booking then. The new barber gets the booking alert,
+ * the client an email naming their new barber.
+ */
+export async function transferBooking(
+  ctx: OrgContext,
+  bookingId: string,
+  toSeatId: string,
+  deps: BookingDeps = {},
+): Promise<{ barber: string }> {
+  requireManager(ctx, "write");
+  const now = deps.now ?? Date.now();
+  const done = await studioWrite(ctx, async (pb) => {
+    const r = await pb
+      .collection("studio_bookings")
+      .getFirstListItem(
+        pb.filter("id = {:id} && organization = {:org}", {
+          id: bookingId,
+          org: ctx.orgId,
+        }),
+      )
+      .catch(() => {
+        throw new NotFound();
+      });
+    const st = status(r.status);
+    if (st !== "requested" && st !== "confirmed") {
+      throw new InvalidInput("Only a coming booking can move.");
+    }
+    if (Date.parse(str(r.ends_at)) <= now) {
+      throw new InvalidInput("That booking is over.");
+    }
+    if (str(r.seat) === toSeatId) {
+      throw new InvalidInput("Pick another barber.");
+    }
+    const seat = await seatFor(pb, ctx, toSeatId);
+    const clash = await pb.collection("studio_bookings").getList(1, 1, {
+      filter: pb.filter(
+        "organization = {:org} && seat = {:s} && (status = 'confirmed' || status = 'requested') && starts_at < {:end} && ends_at > {:start}",
+        {
+          org: ctx.orgId,
+          s: seat.id,
+          start: str(r.starts_at),
+          end: str(r.ends_at),
+        },
+      ),
+      fields: "id",
+    });
+    if (clash.items[0]) {
+      throw new InvalidInput(`${str(seat.name)} already has a booking then.`);
+    }
+    await commit(
+      pb,
+      ctx,
+      [
+        {
+          collection: "studio_bookings",
+          op: "update",
+          id: r.id,
+          body: { seat: seat.id },
+        },
+      ],
+      {
+        action: "studio.booking.transfer",
+        targetCollection: "studio_bookings",
+        targetId: r.id,
+        meta: { from: str(r.seat), to: seat.id },
+      },
+    );
+    return {
+      r,
+      seat,
+      shop: await shopOf(pb, ctx.orgId),
+      replyTo: await bookingReplyTo(pb, ctx.orgId, str(seat.user)),
+    };
+  });
+  const barber = str(done.seat.name);
+  const when = whenLabel(Date.parse(str(done.r.starts_at)), done.shop.tz);
+  const name = str(done.r.client_name);
+  const service = str(done.r.service_name);
+  const barberUser = str(done.seat.user);
+  if (barberUser) {
+    await raiseAlert(
+      ctx,
+      {
+        type: "studio-booking.new",
+        sourceKey: `booking:${done.r.id}`,
+        title: `Booking moved to you: ${name}, ${when} (${service})`,
+        safeTitle: `Booking moved to you, ${when}`,
+        href: "/hub/alerts",
+        actionLabel: "Open",
+        audience: { users: [barberUser] },
+      },
+      deps.transport
+        ? { transport: deps.transport, renotify: true }
+        : { renotify: true },
+    );
+  }
+  await sendEmail(
+    { kind: "org", ctx, orgId: ctx.orgId },
+    "booking.notice",
+    str(done.r.client_email),
+    {
+      subject: `Your barber is now ${barber}, ${when}`,
+      lead: `Same time, new barber: ${barber} will take your booking at ${done.shop.name} on ${when}.`,
+      facts: [
+        ["Barber", barber],
+        ["Service", service],
+        ["When", when],
+        ["Booking", str(done.r.reference)],
+      ],
+      why: `You're getting this because you booked at ${done.shop.name}.${contactLine("Questions?", barber, done.shop, done.replyTo.length > 0)}`,
+      ...cancelButton(done.r.id),
+    },
+    { transport: deps.transport, replyTo: done.replyTo },
+  ).catch(() => console.error("[studio] transfer email not sent"));
+  return { barber };
 }
 
 // ---------------------------------------------------------------- jobs
