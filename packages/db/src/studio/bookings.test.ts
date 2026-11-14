@@ -5,6 +5,8 @@ import {
   bookingTransition,
   CANCEL_CUTOFF_MS,
   clientCanCancel,
+  isFlagged,
+  OWNER_FLAG_HOURS,
   verifyCancelToken,
 } from "./bookings";
 
@@ -75,5 +77,19 @@ describe("client self-cancel", () => {
     ] as const) {
       expect(clientCanCancel(st, start, before(86_400_000))).toBe("closed");
     }
+  });
+});
+
+describe("owner flag (A&M)", () => {
+  const start = Date.parse("2030-01-08T16:00:00.000Z");
+  const h = 3_600_000;
+  it("a request is flagged only inside OWNER_FLAG_HOURS of its start", () => {
+    expect(
+      isFlagged("requested", start, start - OWNER_FLAG_HOURS * h - 1),
+    ).toBe(false);
+    expect(isFlagged("requested", start, start - OWNER_FLAG_HOURS * h)).toBe(
+      true,
+    );
+    expect(isFlagged("confirmed", start, start - h)).toBe(false);
   });
 });

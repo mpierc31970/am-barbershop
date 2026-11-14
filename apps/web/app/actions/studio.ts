@@ -351,8 +351,9 @@ export async function undoPaymentAction(form: FormData): Promise<void> {
 
 /** Owner/admin: hand a coming booking to another barber (Bookings screen). */
 export async function transferBookingAction(form: FormData): Promise<void> {
+  const onAlerts = field(form, "back") === "/hub/alerts";
   await act(
-    `${STUDIO_BASE}/bookings`,
+    onAlerts ? null : `${STUDIO_BASE}/bookings`,
     "Moved. The barber and client were told.",
     async ({ ctx }) => {
       await transferBooking(

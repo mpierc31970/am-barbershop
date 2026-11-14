@@ -28,6 +28,7 @@ import { newRecordId } from "../repository";
 import { hoursOf } from "./schedule";
 import {
   num,
+  ownSeat,
   requireManager,
   requireStudio,
   seatFor,
@@ -98,7 +99,21 @@ export type BookingView = {
   clientPhone: string;
   note: string;
   status: BookingStatus;
+  /** A request still unanswered within OWNER_FLAG_HOURS of its start: the owner's to act on. */
+  flagged: boolean;
 };
+
+/** A&M: a request still unanswered this long before its start is flagged to the owner. */
+export const OWNER_FLAG_HOURS = 24;
+
+/** True when the barber let a request sit into the owner's window (and it hasn't ended). */
+export function isFlagged(
+  st: BookingStatus,
+  startsAtMs: number,
+  now = Date.now(),
+): boolean {
+  return st === "requested" && now >= startsAtMs - OWNER_FLAG_HOURS * 3_600_000;
+}
 
 type Shop = { tz: string; name: string; phone: string };
 
@@ -174,6 +189,7 @@ function toView(r: RecordModel, barber: string, tz: string): BookingView {
     clientPhone: str(r.client_phone),
     note: str(r.note),
     status: status(r.status),
+    flagged: isFlagged(status(r.status), at),
   };
 }
 
@@ -522,10 +538,11 @@ export async function createPublicBooking(
       safeTitle: `Booking request with ${barber}, ${when}`,
       href: "/hub/alerts",
       actionLabel: "Approve or decline",
-      audience: {
-        users: barberUser ? [barberUser] : [],
-        roles: ["owner", "admin"],
-      },
+      // The barber answers; the owner hears only if they don't (runStudioFlags). A seat no one
+      // has signed in to yet goes straight to the owner.
+      audience: barberUser
+        ? { users: [barberUser] }
+        : { roles: ["owner", "admin"] },
     },
     deps.transport ? { transport: deps.transport } : {},
   );
@@ -786,6 +803,14 @@ export async function transferBooking(
     if (st !== "requested" && st !== "confirmed") {
       throw new InvalidInput("Only a coming booking can move.");
     }
+    // Barbers answer for their own bookings: the owner moves one only once it is flagged
+    // (no answer by OWNER_FLAG_HOURS before), or one of his own chair's.
+    const mine = (await ownSeat(pb, ctx))?.id === str(r.seat);
+    if (!mine && !isFlagged(st, Date.parse(str(r.starts_at)), now)) {
+      throw new InvalidInput(
+        `The barber has until ${OWNER_FLAG_HOURS} hours before to answer.`,
+      );
+    }
     if (Date.parse(str(r.ends_at)) <= now) {
       throw new InvalidInput("That booking is over.");
     }
@@ -877,6 +902,73 @@ export async function transferBooking(
 }
 
 // ---------------------------------------------------------------- jobs
+
+/**
+ * A&M: alert the owner(s) once about each request its barber hasn't answered by
+ * OWNER_FLAG_HOURS before the start (or that was made inside that window and is still open).
+ * Once per booking: skipped when a manager already has its `booking:<id>` alert.
+ */
+export async function runStudioFlags(
+  deps: BookingDeps = {},
+): Promise<{ flagged: number }> {
+  const now = deps.now ?? Date.now();
+  const due = await withSuperuser((pb) =>
+    pb.collection("studio_bookings").getFullList({
+      filter: pb.filter(
+        "status = 'requested' && starts_at > {:now} && starts_at < {:to}",
+        {
+          now: new Date(now).toISOString(),
+          to: new Date(now + OWNER_FLAG_HOURS * 3_600_000).toISOString(),
+        },
+      ),
+    }),
+  );
+  let flagged = 0;
+  for (const r of due) {
+    const orgId = str(r.organization);
+    const key = `booking:${r.id}`;
+    const facts = await withSuperuser(async (pb) => {
+      if (!(await studioActive(pb, orgId))) return null;
+      const managers = await pb.collection("memberships").getFullList({
+        filter: pb.filter(
+          "organization = {:o} && (role = 'owner' || role = 'admin')",
+          { o: orgId },
+        ),
+        fields: "user",
+      });
+      const ids = new Set(managers.map((m) => str(m.user)));
+      const rows = await pb.collection("alerts").getFullList({
+        filter: pb.filter("organization = {:o} && source_key = {:k}", {
+          o: orgId,
+          k: key,
+        }),
+        fields: "user",
+      });
+      if (rows.some((a) => ids.has(str(a.user)))) return null;
+      const seat = await pb
+        .collection("studio_seats")
+        .getOne(str(r.seat), { fields: "name" });
+      return { barber: str(seat.name), shop: await shopOf(pb, orgId) };
+    }).catch(() => null);
+    if (!facts) continue;
+    const when = whenLabel(Date.parse(str(r.starts_at)), facts.shop.tz);
+    const res = await raiseAlert(
+      { orgId, as: JOB },
+      {
+        type: "studio-booking.new",
+        sourceKey: key,
+        title: `No answer from ${facts.barber}: ${str(r.client_name)}, ${when} (${str(r.service_name)})`,
+        safeTitle: `No answer from ${facts.barber}, ${when}`,
+        href: "/hub/alerts",
+        actionLabel: "Take it over",
+        audience: { roles: ["owner", "admin"] },
+      },
+      deps.transport ? { transport: deps.transport } : {},
+    );
+    if (res.recipients > 0) flagged++;
+  }
+  return { flagged };
+}
 
 /**
  * Email each confirmed client once, when their booking starts within the next 24 hours.

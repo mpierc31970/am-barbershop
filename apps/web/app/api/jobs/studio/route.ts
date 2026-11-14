@@ -12,7 +12,7 @@
 import { createHash, timingSafeEqual } from "node:crypto";
 // Add-ons register at load, so the job runs with the same add-on set as the app.
 import "@cds/addon-registry/server";
-import { runLeaseOverdue, runStudioReminders } from "@cds/db";
+import { runLeaseOverdue, runStudioFlags, runStudioReminders } from "@cds/db";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -42,7 +42,11 @@ export async function POST(req: Request): Promise<Response> {
   try {
     const reminders = await runStudioReminders();
     const rent = await runLeaseOverdue();
-    return Response.json({ ...reminders, ...rent }, { headers: NO_STORE });
+    const flags = await runStudioFlags();
+    return Response.json(
+      { ...reminders, ...rent, ...flags },
+      { headers: NO_STORE },
+    );
   } catch (err) {
     console.error(
       `[jobs/studio] run failed: ${err instanceof Error ? err.name : "Error"}`,

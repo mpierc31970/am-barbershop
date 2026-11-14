@@ -33,6 +33,7 @@ function booking(over: Partial<BookingView> = {}): BookingView {
     clientPhone: "(512) 555-0100",
     note: "",
     status: "requested",
+    flagged: false,
     ...over,
   };
 }

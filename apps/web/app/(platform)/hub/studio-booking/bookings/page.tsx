@@ -1,13 +1,11 @@
 // /hub/studio-booking/bookings: upcoming bookings. The owner sees every barber (filter by
 // one with ?seat=); a barber sees only their own (listBookings in @cds/db decides).
-import { listBookings, listSeats, type BookingView } from "@cds/db";
+import { listBookings, listSeats, mySeatId, type BookingView } from "@cds/db";
 import { Badge, Button, EmptyState, InlineAlert } from "@cds/ui/hub";
 import { ScreenHeader } from "@cds/ui/hub/shell";
 import type { Metadata } from "next";
-import {
-  bookingStatusAction,
-  transferBookingAction,
-} from "../../../../actions/studio";
+import { bookingStatusAction } from "../../../../actions/studio";
+import { MoveForm } from "../MoveForm";
 import { requireHubSession } from "../../../../../lib/session";
 import {
   dayLabel,
@@ -66,46 +64,6 @@ function StatusButton({
   );
 }
 
-/** Owner/admin: hand the booking to another barber (double booked elsewhere). */
-function MoveForm({
-  b,
-  seats,
-}: {
-  b: BookingView;
-  seats: { id: string; name: string }[];
-}) {
-  const others = seats.filter((s) => s.id !== b.seatId);
-  if (others.length === 0) return null;
-  return (
-    <form
-      action={transferBookingAction}
-      className="flex flex-wrap items-center gap-2 text-sm"
-    >
-      <input type="hidden" name="bookingId" value={b.id} />
-      <label htmlFor={`move-${b.id}`}>Move to</label>
-      <select
-        id={`move-${b.id}`}
-        name="seatId"
-        required
-        defaultValue=""
-        className="min-h-9 rounded border border-hub-border-strong bg-hub-surface px-2"
-      >
-        <option value="" disabled>
-          Pick a barber
-        </option>
-        {others.map((s) => (
-          <option key={s.id} value={s.id}>
-            {s.name}
-          </option>
-        ))}
-      </select>
-      <Button type="submit" size="sm" variant="secondary">
-        Transfer
-      </Button>
-    </form>
-  );
-}
-
 export default async function BookingsPage({ searchParams }: Props) {
   const { ctx } = await requireHubSession();
   const manager = ctx.role === "owner" || ctx.role === "admin";
@@ -114,9 +72,10 @@ export default async function BookingsPage({ searchParams }: Props) {
     typeof sp.seat === "string" && /^[a-z0-9]{15}$/.test(sp.seat)
       ? sp.seat
       : "";
-  const [seats, list] = await Promise.all([
+  const [seats, list, ownId] = await Promise.all([
     listSeats(ctx),
     listBookings(ctx, seatParam ? { seatId: seatParam } : {}),
+    mySeatId(ctx).catch(() => null),
   ]);
   const note = await readStudioNote();
   const byDay = new Map<string, BookingView[]>();
@@ -187,6 +146,7 @@ export default async function BookingsPage({ searchParams }: Props) {
                     >
                       {STATUS_LABEL[b.status]}
                     </Badge>
+                    {b.flagged ? <Badge tone="waiting">No answer</Badge> : null}
                   </div>
                   <p className="text-sm text-hub-ink-muted">
                     <a className="underline" href={`mailto:${b.clientEmail}`}>
@@ -222,7 +182,10 @@ export default async function BookingsPage({ searchParams }: Props) {
                     </div>
                   ) : null}
                   {manager &&
-                  (b.status === "requested" || b.status === "confirmed") ? (
+                  (b.flagged ||
+                    (b.seatId === ownId &&
+                      (b.status === "requested" ||
+                        b.status === "confirmed"))) ? (
                     <MoveForm b={b} seats={seats} />
                   ) : null}
                 </li>

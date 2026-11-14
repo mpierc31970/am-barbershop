@@ -12,6 +12,7 @@ import {
   listBell,
   listBookings,
   listMissedBookings,
+  listSeats,
   listTeamAlerts,
   markAllRead,
   statsTimeZone,
@@ -37,6 +38,7 @@ import { ClearAppBadge } from "../app-badge";
 import { GuardedLink } from "../GuardedLink";
 import { ALL_NEEDS_YOU_FAILED } from "../nav";
 import { alertActions, type ContactLink } from "./alert-actions";
+import { MoveForm } from "../studio-booking/MoveForm";
 import { DecideButton } from "./DecideButton";
 
 export const metadata: Metadata = { title: "Alerts" };
@@ -198,15 +200,17 @@ export default async function AlertsPage({
   const teamRows = team
     ? await listTeamAlerts(ctx).catch(() => [] as TeamAlert[])
     : [];
-  const [{ rows, tz, failed }, bookings, missed, note] = await Promise.all([
-    loadAlerts(ctx),
-    // Only the bookings this person may see (a barber their own); none without the add-on.
-    listBookings(ctx)
-      .then((r) => r.bookings)
-      .catch(() => [] as BookingView[]),
-    listMissedBookings(ctx).catch(() => [] as MissedView[]),
-    readStudioNote(),
-  ]);
+  const [{ rows, tz, failed }, bookings, missed, note, seats] =
+    await Promise.all([
+      loadAlerts(ctx),
+      // Only the bookings this person may see (a barber their own); none without the add-on.
+      listBookings(ctx)
+        .then((r) => r.bookings)
+        .catch(() => [] as BookingView[]),
+      listMissedBookings(ctx).catch(() => [] as MissedView[]),
+      readStudioNote(),
+      manager ? listSeats(ctx).catch(() => []) : Promise.resolve([]),
+    ]);
   const byId = new Map(bookings.map((b) => [b.id, b]));
   const missedById = new Map(missed.map((m) => [m.id, m]));
   // Seen here = read: the bell count clears (rows above keep their "New" for this view).
@@ -331,6 +335,9 @@ export default async function AlertsPage({
                       seatId={offer.seatId}
                       mediaId={offer.mediaId}
                     />
+                  ) : null}
+                  {manager && b?.flagged ? (
+                    <MoveForm b={b} seats={seats} back="/hub/alerts" />
                   ) : null}
                   {!act.client && a.href && a.href !== "/hub/alerts" ? (
                     <GuardedLink href={a.href} className={LINK}>
